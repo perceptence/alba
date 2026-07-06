@@ -1,8 +1,9 @@
-import { useRef } from "react";
+import { useId } from "react";
 
 /* Generative SVG avatar. Pass a config from AV (see lib/data). */
 export function Avatar({ cfg, size = 40 }) {
-  const uid = useRef("av" + Math.random().toString(36).slice(2, 7)).current;
+  // SSR-safe stable id for the gradient (colons stripped so it's valid in url(#…)).
+  const uid = "av" + useId().replace(/:/g, "");
   const c = cfg;
   return (
     <span className="avr" style={{ width: size, height: size }}>
