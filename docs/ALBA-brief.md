@@ -77,9 +77,14 @@ Encoded in the app's CSS (`app/alba.css`); summary:
   crashes.
 - Systematic design system over per-screen values — change once at the token.
 
-## Lineage (context, do not reuse the earlier looks)
+## Design direction — LOCKED
+
+The **light quiet-luxury** system in the code (alabaster + warm ink + clay +
+sage, Fraunces) is **locked in**. Do not revisit or reintroduce any dark /
+obsidian / champagne-gold ("Maison") direction — it is off the table.
+
+### Lineage (context only, do not reuse the earlier looks)
 
 **Estate** (operational, rejected as a wireframe) → **Maison** (obsidian +
-champagne-gold dark glass) → **ALBA** (light quiet-luxury: alabaster + clay +
-Fraunces). Keep the concierge / luxury thesis; the current aesthetic is the
-**light editorial** system in the code — *not* the dark Maison palette.
+champagne-gold dark glass, superseded) → **ALBA** (light quiet-luxury). Keep the
+concierge / luxury thesis; the aesthetic is the light editorial system, final.
