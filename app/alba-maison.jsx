@@ -24,7 +24,7 @@ import { Rent, Payments } from "@/screens/Rent";
 import { PauseSheet, TurnOnSheet, MethodSheet, PayDetailSheet } from "@/screens/RentSheets";
 import { Concierge, PastRequests } from "@/screens/Concierge";
 import { Composer, ReqDetail } from "@/screens/ConciergeSheets";
-import { Alerts } from "@/screens/Notices";
+import { NoticesSheet } from "@/screens/Notices";
 import { Residence } from "@/screens/Residence";
 import { Profile } from "@/screens/Profile";
 
@@ -33,7 +33,7 @@ export default function App(){
   const [resView,setResView]=useState(false);
   const [compose,setCompose]=useState(null);
   const [detail,setDetail]=useState(null);
-  const [account,setAccount]=useState(false);
+  const [noticesOpen,setNoticesOpen]=useState(false);
   const [apSheet,setApSheet]=useState(null);
   const [payView,setPayView]=useState(false);
   const [pastView,setPastView]=useState(false);
@@ -43,7 +43,7 @@ export default function App(){
   const ap=useAp();
   const cxUnread=cx.unreadCount()>0;
   const go=(t)=>{setResView(false);setTab(t);};
-  const NAV=[["home",I.home,"Home"],["rent",I.card,"Rent"],["concierge",I.concierge,"Concierge"],["alerts",I.bell,"Notices"]];
+  const NAV=[["home",I.home,"Home"],["rent",I.card,"Rent"],["concierge",I.concierge,"Concierge"],["profile",I.person,"Account"]];
   return (
     <div className="am">
       <div className="stage">
@@ -51,22 +51,22 @@ export default function App(){
           <div className="island"/>
           <div className="scroll">
             <PhoneBar/>
-            {account?<Profile onBack={()=>setAccount(false)}/>
-            :payView?<Payments onBack={()=>setPayView(false)} onOpenPayment={(id)=>setPaySheet(id)}/>
+            {payView?<Payments onBack={()=>setPayView(false)} onOpenPayment={(id)=>setPaySheet(id)}/>
             :pastView?<PastRequests onBack={()=>setPastView(false)} onOpen={setDetail}/>
             :resView?<Residence onBack={()=>setResView(false)} go={go}/>
-            :tab==="home"?<Home go={go} openRes={()=>setResView(true)} openRent={()=>setTab("rent")} openAccount={()=>setAccount(true)}/>
+            :tab==="home"?<Home go={go} openRes={()=>setResView(true)} openRent={()=>setTab("rent")} openNotices={()=>setNoticesOpen(true)}/>
             :tab==="rent"?<Rent push={push} onOpenPayments={()=>setPayView(true)} onOpenPayment={(id)=>setPaySheet(id)} onAutopay={(on)=>setApSheet(on?"pause":"on")} onChangeMethod={()=>setApSheet("method")}/>
             :tab==="concierge"?<Concierge onCompose={setCompose} onOpen={setDetail} onOpenPast={()=>setPastView(true)}/>
-            :<Alerts/>}
+            :<Profile onBack={()=>go("home")}/>}
           </div>
-          {!resView&&!account&&!payView&&!pastView&&<nav className="nav">
+          {!resView&&!payView&&!pastView&&<nav className="nav">
             {NAV.map(([k,Ico,label])=>(
               <button key={k} className={tab===k?"on":""} onClick={()=>go(k)}>
                 <span className="und"/><Ico/><span className="nl">{label}</span>
                 {k==="concierge"&&cxUnread&&<span className="ndot"/>}
               </button>))}
           </nav>}
+          {noticesOpen&&<NoticesSheet onClose={()=>setNoticesOpen(false)}/>}
           {paySheet&&<PayDetailSheet id={paySheet} onClose={()=>setPaySheet(null)}/>}
           {compose&&<Composer preset={compose.preset} initialNote={compose.note} push={push} onClose={()=>setCompose(null)} onCreated={(id)=>{setCompose(null);setDetail(id);}}/>}
           {detail&&<ReqDetail id={detail} push={push} onClose={()=>setDetail(null)}/>}

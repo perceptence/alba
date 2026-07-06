@@ -12,6 +12,7 @@ const sv = (p) => ({
 
 export const I = {
   home:(p)=><svg {...sv(p)}><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/></svg>,
+  person:(p)=><svg {...sv(p)}><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg>,
   card:(p)=><svg {...sv(p)}><rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M3 10h18"/></svg>,
   concierge:(p)=><svg {...sv(p)}><path d="M12 4c.5 3.4 2.1 5 5.5 5.5-3.4.5-5 2.1-5.5 5.5-.5-3.4-2.1-5-5.5-5.5 3.4-.5 5-2.1 5.5-5.5z"/><path d="M18.5 15.5c.2 1.3.8 1.9 2 2.1-1.2.2-1.8.8-2 2.1-.2-1.3-.8-1.9-2-2.1 1.2-.2 1.8-.8 2-2.1z"/></svg>,
   bell:(p)=><svg {...sv(p)}><path d="M6.5 16v-5a5.5 5.5 0 0 1 11 0v5l1.5 2h-14z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/></svg>,

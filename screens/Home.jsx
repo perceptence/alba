@@ -4,7 +4,7 @@ import { money } from "@/lib/util";
 import { I } from "@/components/icons";
 import { Elevation } from "@/components/Elevation";
 
-export function Home({ go, openRes, openRent, openAccount }) {
+export function Home({ go, openRes, openRent, openNotices }) {
   const cx=useCx();
   const openReq=cx.all().find(r=>r.status==="in_progress"||r.status==="scheduled");
   const openCount=cx.all().filter(r=>r.status!=="resolved"&&r.status!=="cancelled").length;
@@ -12,9 +12,9 @@ export function Home({ go, openRes, openRent, openAccount }) {
     <div className="pc stag">
       <div className="top">
         <span className="eye">Saturday · 5 July</span>
-        <button className="icob" onClick={()=>go("alerts")} aria-label="Alerts"><I.bell/><span className="dot"/></button>
+        <button className="icob" onClick={openNotices} aria-label="Notices"><I.bell/><span className="dot"/></button>
       </div>
-      <div className="hero-greet"><span className="g1">Good evening,</span><br/><button className="name-btn" onClick={openAccount}>{ADRIEN.first}.</button></div>
+      <div className="hero-greet"><span className="g1">Good evening,</span><br/><span className="g2">{ADRIEN.first}.</span></div>
 
       <button className="respanel" onClick={openRes}>
         <Elevation h={160}/>

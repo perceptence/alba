@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { ADRIEN, RES, AV } from "@/lib/data";
 import { money } from "@/lib/util";
+import { useAp } from "@/lib/autopayStore";
 import { Avatar } from "@/components/Avatar";
 import { I } from "@/components/icons";
 
 export function Profile({ onBack }) {
   const [notif,setNotif]=useState(true);
+  const m=useAp().get().method; // single source of truth — matches Rent/autopay
   const yrs=Math.floor(ADRIEN.elapsed/12), mos=ADRIEN.elapsed%12;
   return (
     <div className="pc stag">
-      <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Account</span></div>
+      <div className="phead"><span className="eye">The resident</span><div className="ht sf">Account</div></div>
 
       <div className="prof-head">
         <span className="prof-av"><Avatar cfg={AV.adrien} size={64}/></span>
@@ -32,7 +34,7 @@ export function Profile({ onBack }) {
       </div>
 
       <div className="sect"><div className="sect-h"><span className="l">Billing</span></div>
-        <div className="prow"><span className="pk">Payment method</span><span className="pv sf">Visa ···· 4242</span></div>
+        <div className="prow"><span className="pk">Payment method</span><span className="pv sf">{m.bank} ···· {m.last4}</span></div>
         <div className="prow"><span className="pk">Deposit held</span><span className="pv sf num">{money(RES.deposit)}</span></div>
       </div>
 

@@ -3,6 +3,7 @@ import { useCx, cxStore, CX_CATS, CX_STATUS, CX_TINT } from "@/lib/conciergeStor
 import { RES, ROSA, AV } from "@/lib/data";
 import { Avatar } from "@/components/Avatar";
 import { I } from "@/components/icons";
+import { useSheet } from "@/components/useSheet";
 
 function DetailRow({ label, value, display, options, open, onToggle, onPick }) {
   return (<div className={"drow"+(open?" open":"")}>
@@ -27,13 +28,14 @@ export function Composer({ preset, initialNote, onClose, onCreated, push }) {
   const valid=note.trim().length>2;
   const ROOMS=["Kitchen","Primary bath","Living room","Bedroom","Grounds","Whole residence"];
   const tog=(k)=>setOpenF(o=>o===k?null:k);
+  const { close, scrimProps, sheetProps } = useSheet(onClose);
   const submit=()=>{if(!valid)return;const title=note.trim().split("\n")[0].slice(0,48);
     const d=isQ?{category:cat,title,note:note.trim(),photos}:{category:cat,title,room,priority:pri,access,note:note.trim(),photos};
     const id=cxStore.create(d);push({t:isQ?"Question sent":"Request sent",d:"Rosa will reply shortly"});onCreated(id);};
-  return (<div className="scrim" onClick={onClose}><div className="sheet" onClick={e=>e.stopPropagation()}>
+  return (<div {...scrimProps}><div {...sheetProps}>
     <div className="grab"/>
     <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">{isQ?"Ask Rosa":"New request"}</div><div className="sh-sub">To Rosa · {RES.short}</div></span>
-      <button className="sh-x" onClick={onClose} aria-label="Close"><I.close/></button></div>
+      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
     <div className="sh-body" style={{paddingTop:8}}>
       <div className="flab" style={{marginTop:0}}>{isQ?"Your question":"In your words"}</div>
       <div className="co-field"><textarea ref={taRef} rows={1} value={note} onChange={e=>setNote(e.target.value)} placeholder={isQ?"What would you like to ask?":"What do you need?"}/></div>
@@ -62,15 +64,16 @@ export function Composer({ preset, initialNote, onClose, onCreated, push }) {
 
 export function ReqDetail({ id, onClose, push }) {
   const cx=useCx();const r=cx.get(id);const[msg,setMsg]=useState("");
+  const { close, scrimProps, sheetProps } = useSheet(onClose);
   useEffect(()=>{cx.markRead(id);},[id]);
   if(!r)return null;
   const open=r.status!=="resolved"&&r.status!=="cancelled";
   const st=CX_STATUS[r.status];
   const send=()=>{const t=msg.trim();if(!t)return;cx.send(id,t);setMsg("");};
-  return (<div className="scrim" onClick={onClose}><div className="sheet" onClick={e=>e.stopPropagation()}>
+  return (<div {...scrimProps}><div {...sheetProps}>
     <div className="grab"/>
     <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">{r.title}</div><div className="sh-sub">{CX_CATS[r.category].tag}{r.room?" · "+r.room:""}</div></span>
-      <button className="sh-x" onClick={onClose} aria-label="Close"><I.close/></button></div>
+      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
     <div className="sh-body">
       <div className="reqst"><span className={"cxt-"+CX_TINT[r.status]}>{st.label}</span>{r.status==="scheduled"&&r.scheduledFor?" · "+r.scheduledFor:""}</div>
       <div className="tml">{r.timeline.map((ev,i)=>{const done=i<r.timeline.length-1||!open;return(
