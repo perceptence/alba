@@ -352,6 +352,36 @@
 .gcode-copy svg{width:14px;height:14px;stroke:var(--clay)}
 .ga-fine{margin-top:20px;font-size:12px;line-height:1.6;color:var(--grey-2);letter-spacing:.01em}
 .ga-foot{display:flex;flex-direction:column;gap:10px}
+
+/* book a service */
+.am .bookcta{display:flex;align-items:center;gap:14px;width:100%;margin-top:28px;padding:15px 18px;border:1px solid var(--line);border-radius:14px}
+.bookcta-ic{flex:none;width:40px;height:40px;border-radius:50%;background:var(--clay-soft);display:grid;place-items:center}
+.bookcta-ic svg{width:19px;height:19px;stroke:var(--clay)}
+.bookcta-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.bookcta-l{font-family:var(--serif);font-size:16px}
+.bookcta-d{font-size:12px;color:var(--grey-2);letter-spacing:.01em}
+.bookcta-c{flex:none}
+.bookcta-c svg{width:16px;height:16px;stroke:var(--clay)}
+.am .svc{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
+.svc-ic{flex:none;width:38px;height:38px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center}
+.svc-ic svg{width:18px;height:18px;stroke:var(--ink)}
+.svc-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.svc-l{font-family:var(--serif);font-size:16px}
+.svc-d{font-size:12px;color:var(--grey-2);letter-spacing:.01em}
+.svc-c{flex:none}
+.svc-c svg{width:16px;height:16px;stroke:var(--grey-2)}
+.am .bkrow{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
+.bkrow-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.bkrow-l{font-family:var(--serif);font-size:16px}
+.bkrow-w{font-size:13px;color:var(--grey)}
+.slots{margin-top:4px}
+.am .slot{display:flex;align-items:center;gap:12px;width:100%;padding:14px 0;border-top:1px solid var(--line)}
+.slot-l{flex:1;font-family:var(--serif);font-size:16px}
+.slot-w{flex:none;font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey)}
+/* base radio, used by picker rows outside the autopay card */
+.ap-radio{width:20px;height:20px;border-radius:50%;border:1px solid var(--grey-2);flex:none;position:relative}
+.ap-radio.on{border-color:var(--ink)}
+.ap-radio.on::after{content:"";position:absolute;top:50%;left:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--ink)}
 .dr-more{font-size:12px;font-weight:600;color:var(--grey-2)}
 .am mark{background:var(--clay-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
