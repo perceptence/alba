@@ -305,7 +305,7 @@
 .dr-sec{margin-top:24px}
 .dr-callout{padding:16px;border-radius:12px;background:var(--clay-soft)}
 .dr-callout .flab{margin-top:0;color:var(--clay)}
-.dr-callout .a-act{margin-top:12px}
+.dr-callout .a-act{margin-top:12px;white-space:nowrap;letter-spacing:.05em}
 .dr-room{margin-top:20px}
 .dr-room:first-of-type{margin-top:12px}
 .dr-room-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
@@ -437,8 +437,8 @@
   .nav button .und{top:-10px;width:18px}
   .scroll{padding-bottom:112px}
   .pc{padding:12px 44px 0}
-  .scrim{justify-content:center}
-  .sheet{max-width:600px}
+  /* bottom sheets span the full frame width, as on mobile */
+  .sheet{max-width:none}
   .elev{margin:0 -44px}
   /* notices bar bleeds edge to edge inside the frame */
   .nt-bar{margin-inline:-44px;padding-inline:44px}
