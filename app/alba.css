@@ -143,7 +143,7 @@
 .figure{margin-top:var(--sp-6)}
 .figure .fk{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .figure .fv{font-family:var(--serif);font-weight:300;font-size:64px;letter-spacing:-.03em;line-height:1;margin-top:var(--sp-3)}
-.figure .fs{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-3);letter-spacing:.02em}
+.figure .fs{font-size:14px;font-weight:500;color:var(--grey);margin-top:var(--sp-3);letter-spacing:.01em}
 .tline{margin-top:var(--sp-6)}
 .tbar{height:1px;background:var(--line);position:relative;margin:0 0 12px}
 .tfill{position:absolute;left:0;top:0;height:1px;background:var(--clay);animation:growbar 1.2s var(--e) .3s both}
@@ -443,7 +443,7 @@
 .scrim{position:absolute;inset:0;z-index:80;background:rgba(28,22,16,.42);backdrop-filter:blur(3px);display:flex;align-items:flex-end}
 .sheet{width:100%;max-height:92%;background:var(--paper);border-radius:28px 28px 0 0;display:flex;flex-direction:column;animation:sheet .34s var(--e) both;box-shadow:0 -24px 64px -20px rgba(28,20,12,.4)}
 .sheet.closing{animation:sheetOut .3s var(--e) both}
-@media (prefers-reduced-motion:reduce){.sheet,.sheet.closing{animation-duration:.01ms}.tfill,.tnow{animation-duration:.01ms;animation-delay:0ms}}
+@media (prefers-reduced-motion:reduce){.sheet,.sheet.closing{animation-duration:.01ms}.tfill,.tnow{animation-duration:.01ms;animation-delay:0ms}.tstep.now .tnode{animation:none;box-shadow:0 0 0 4px rgba(79,106,66,.16)}}
 .grab{width:36px;height:4px;border-radius:4px;background:var(--line);margin:12px auto 0;flex:none}
 .sh-head{display:flex;align-items:flex-start;gap:16px;padding:20px 28px}
 .sh-title{font-family:var(--serif);font-weight:300;font-size:24px;letter-spacing:-.01em;flex:1;line-height:1.15}
@@ -475,6 +475,8 @@
 .drow-head .drow-c svg{width:16px;height:16px;stroke:var(--grey-2);transition:transform .3s var(--e)}
 .drow.open .drow-c svg{transform:rotate(90deg)}
 .drow-opts{padding-bottom:8px}
+@keyframes reveal{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.drow-opts.rise{animation:reveal .28s var(--e) both}
 .am .drow-opt{display:flex;align-items:center;gap:12px;width:100%;padding:8px 0}
 .drow-opt .drow-ot{font-family:var(--serif);font-weight:400;font-size:16px}
 .drow-ot-t{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em}
@@ -491,6 +493,8 @@
 .kvl .kv{display:flex;align-items:baseline;justify-content:space-between;padding:16px 0;border-top:1px solid var(--line);font-size:16px}
 .kvl .k{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .kvl .v{font-family:var(--serif);font-weight:400}
+/* receipt-style line item: name reads as content (serif), not a label */
+.kvl .kv-line .k{font-family:var(--serif);font-weight:400;font-size:16px;text-transform:none;letter-spacing:-.01em;color:var(--ink)}
 .tml{margin-top:var(--sp-5)}
 .sh-body>.tml{margin-top:-16px}
 .tstep{display:flex;gap:16px;position:relative;padding-bottom:20px}
@@ -498,11 +502,13 @@
 .tnode{width:20px;height:20px;border-radius:50%;border:1px solid var(--grey-2);display:grid;place-items:center;flex:none;z-index:1;background:var(--paper)}
 .tnode svg{width:12px;height:12px;stroke:var(--paper)}
 /* connector centred under the node (node centre = 10px) */
-.tstep:not(:last-child)::before{content:"";position:absolute;left:9.5px;top:20px;bottom:0;width:0;border-left:1px solid var(--line)}
+.tstep:not(:last-child)::before{content:"";position:absolute;left:9.5px;top:20px;bottom:0;width:1px;background:var(--line)}
 .tstep.done .tnode{background:var(--sage);border-color:var(--sage)}
-.tstep.done:not(:last-child)::before{border-left-color:var(--sage)}
-.tstep.now .tnode{background:var(--sage);border-color:var(--sage);box-shadow:0 0 0 4px rgba(79,106,66,.16)}
-.tstep.now:not(:last-child)::before,.tstep.future:not(:last-child)::before{border-left-style:dotted;border-left-color:var(--grey-2)}
+.tstep.done:not(:last-child)::before{background:var(--sage)}
+/* current step: green, alive with a slow pulse */
+.tstep.now .tnode{background:var(--sage);border-color:var(--sage);animation:tpulse 2.4s var(--e) infinite}
+.tstep.now:not(:last-child)::before,.tstep.future:not(:last-child)::before{background:repeating-linear-gradient(to bottom,var(--grey-2) 0 2px,transparent 2px 8px)}
+@keyframes tpulse{0%{box-shadow:0 0 0 0 rgba(79,106,66,.4)}70%,100%{box-shadow:0 0 0 7px rgba(79,106,66,0)}}
 .tstep.future .tnode{background:var(--paper);border-color:var(--line)}
 .tstep.future .tlab{color:var(--grey-2)}
 .tstep .tlab{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.25}

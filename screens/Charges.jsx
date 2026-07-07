@@ -103,7 +103,7 @@ function StatementDetail({ id, onClose }) {
       <div className="kvl">
         <div className="kv"><span className="k">Rent</span><span className="v num">{money(s.rent)}</span></div>
         {s.extras.map(([label, amt]) => (
-          <div className="kv" key={label}><span className="k" style={{textTransform:"none",letterSpacing:".01em",fontWeight:500}}>{label}</span><span className="v num">{money(amt)}</span></div>
+          <div className="kv kv-line" key={label}><span className="k">{label}</span><span className="v num">{money(amt)}</span></div>
         ))}
         <div className="kv chg-total"><span className="k">Total</span><span className="v num">{money(stmtTotal(s))}</span></div>
       </div>

@@ -30,7 +30,7 @@ export function SettleSheet({ push, onClose }) {
       <div className="flab" style={{marginTop:0}}>Charges</div>
       <div className="kvl" style={{marginTop:0}}>
         {due.map((ch) => (
-          <div className="kv" key={ch.id}><span className="k" style={{textTransform:"none",letterSpacing:".01em",fontWeight:500}}>{ch.label}</span><span className="v num">{money(ch.amount)}</span></div>
+          <div className="kv kv-line" key={ch.id}><span className="k">{ch.label}</span><span className="v num">{money(ch.amount)}</span></div>
         ))}
         <div className="kv chg-total"><span className="k">Total</span><span className="v num">{money(total)}</span></div>
       </div>

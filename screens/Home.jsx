@@ -56,8 +56,8 @@ export function Home({ go, openRes, openRent, openNotices, onOpenRequest, openSc
           <button className="grow" onClick={openRent}>
             <span className="gm">
               <span className="gtop"><span className="gl">Rent{dueTotal>0?" & charges":""}</span></span>
-              <div className="gt sf">{money(RES.rent)}</div>
-              <div className="gs">{dueTotal>0?<><span className="st-a">{money(dueTotal)} due</span> · {dueCount} charge{dueCount>1?"s":""} to settle</>:<><span className="st-g">Settled</span> · Autopay on 1 August</>}</div>
+              <div className="gt sf">{money(RES.rent+dueTotal)}</div>
+              <div className="gs">{dueTotal>0?<>{money(RES.rent)} rent · <span className="st-a">{money(dueTotal)} in charges</span></>:<><span className="st-g">Settled</span> · Autopay on 1 August</>}</div>
             </span>
             <span className="gc"><I.chev/></span>
           </button>

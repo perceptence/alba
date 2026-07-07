@@ -32,8 +32,8 @@ export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, openCharg
         <div className="tends"><span>1 Jul · Paid</span><span>1 Aug</span></div>
       </div>
 
-      <div className={"toggle-line"+(a.on?" ap-row":"")}>
-        <span><div className="tt sf">Autopay</div><div className="td">{a.on?`From ${a.method.bank} ···· ${a.method.last4} · Runs on the ${ord(a.day)}`:"Rent won't be collected automatically"}</div></span>
+      <div className="toggle-line">
+        <span><div className="tt sf">Autopay</div><div className="td">{a.on?`Runs on the ${ord(a.day)} of each month`:"Rent won't be collected automatically"}</div></span>
         <button className={"tog"+(a.on?" on":"")} role="switch" aria-checked={a.on} onClick={()=>onAutopay(a.on)}><i/></button>
       </div>
       {a.on&&<div className={"drow"+(methodOpen?" open":"")}>
