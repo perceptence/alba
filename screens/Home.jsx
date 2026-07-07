@@ -7,7 +7,7 @@ import { Elevation } from "@/components/Elevation";
 import { TextLink } from "@/components/TextLink";
 import { Avatar } from "@/components/Avatar";
 
-export function Home({ go, openRes, openRent, openNotices }) {
+export function Home({ go, openRes, openRent, openNotices, onOpenRequest }) {
   const cx=useCx();
   const nt=useNotices();
   const openReq=cx.all().find(r=>r.status==="in_progress"||r.status==="scheduled");
@@ -70,7 +70,10 @@ export function Home({ go, openRes, openRent, openNotices }) {
         <div className="sect home-only">
           <div className="sect-h"><span className="l">Upcoming at the estate</span></div>
           {upcoming.length>0?upcoming.map(r=>(
-            <div className="urow" key={r.id}><div className="ut sf">{r.title}</div><div className="us">{r.scheduledFor}</div></div>
+            <button className="urow urow-link" key={r.id} onClick={()=>onOpenRequest(r.id)}>
+              <span className="um"><span className="ut sf">{r.title}</span><span className="us">{r.scheduledFor}</span></span>
+              <span className="uc"><I.chev/></span>
+            </button>
           )):<div className="urow"><div className="us">Nothing scheduled</div></div>}
         </div>
 
