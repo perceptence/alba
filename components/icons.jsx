@@ -39,4 +39,5 @@ export const I = {
   sun:(p)=><svg {...sv(p)}><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>,
   sort:(p)=><svg {...sv(p)}><path d="M7 4v16M4 7l3-3 3 3"/><path d="M17 20V4M14 17l3 3 3-3"/></svg>,
   search:(p)=><svg {...sv(p)}><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.3-4.3"/></svg>,
+  ext:(p)=><svg {...sv(p)}><path d="M13 5h6v6"/><path d="M19 5l-8 8"/><path d="M18 13.5V18a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18V7a1.5 1.5 0 0 1 1.5-1.5H10"/></svg>,
 };

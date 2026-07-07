@@ -33,7 +33,8 @@ export function DocReader({ doc, onClose, onAsk }) {
 
   return (<div {...scrimProps}><div {...sheetProps}>
     <div className="grab"/>
-    <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">{doc.t}</div><div className="sh-sub">{doc.tag}</div></span>
+    <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">{doc.t}</div><div className="sh-sub">{doc.tag}</div>
+      {doc.file&&<a className="dr-orig" href={doc.file} target="_blank" rel="noopener noreferrer">View original document (PDF)<I.ext/></a>}</span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
     <div className="sh-body">
       <div className="dr-search"><I.search/>
@@ -44,7 +45,7 @@ export function DocReader({ doc, onClose, onAsk }) {
       {empty && <div className="calm"><I.search/>No matches for "{q}"</div>}
 
       {sections.map((s, i) => (
-        <div key={i} className={s.callout ? "dr-callout" : undefined}>
+        <div key={i} className={"dr-sec" + (s.callout ? " dr-callout" : "")}>
           <div className="flab">{hi(s.h, q)}</div>
           {s.kv && <div className="kvl" style={{marginTop:0}}>{s.kv.map(([k, v]) => (
             <div className="kv" key={k}><span className="k">{k}</span><span className="v">{hi(v, q)}</span></div>))}</div>}
@@ -53,7 +54,7 @@ export function DocReader({ doc, onClose, onAsk }) {
         </div>
       ))}
 
-      {rooms.length > 0 && <>
+      {rooms.length > 0 && <div className="dr-sec">
         <div className="flab">Photos by room</div>
         {rooms.map((r) => (
           <div className="dr-room" key={r.name}>
@@ -65,7 +66,7 @@ export function DocReader({ doc, onClose, onAsk }) {
             </div>
           </div>
         ))}
-      </>}
+      </div>}
       <div style={{height:8}}/>
     </div>
   </div></div>);

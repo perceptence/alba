@@ -295,10 +295,15 @@
 .dr-search input{flex:1;border:none;background:none;font-family:var(--sans);font-size:14px;color:var(--ink)}
 .dr-search input::placeholder{color:var(--grey-2)}
 .dr-search input:focus{outline:none}
+.sh-body .dr-search{margin-top:-12px}
+.dr-search+.doc,.dr-search+.calm{border-top:0}
 .am .dr-clear{flex:none}
 .dr-clear svg{width:12px;height:12px;stroke:var(--grey-2)}
+.dr-orig{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--sans);font-size:13px;font-weight:500;color:var(--clay);letter-spacing:.01em}
+.dr-orig svg{width:14px;height:14px;stroke:var(--clay)}
 .dr-p{font-size:14px;line-height:1.7;color:var(--grey);letter-spacing:.01em}
-.dr-callout{margin-top:24px;padding:16px;border-radius:12px;background:var(--clay-soft)}
+.dr-sec{margin-top:24px}
+.dr-callout{padding:16px;border-radius:12px;background:var(--clay-soft)}
 .dr-callout .flab{margin-top:0;color:var(--clay)}
 .dr-callout .a-act{margin-top:12px}
 .dr-room{margin-top:20px}
