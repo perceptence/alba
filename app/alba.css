@@ -388,29 +388,31 @@
   .am.subview .nav{display:none}
 }
 
-/* tablet + desktop: dissolve the phone frame, hide the phone chrome */
-@media (min-width:768px){
-  .stage{display:block;padding:0;background:var(--paper);min-height:100vh}
-  .phone{width:100%;height:100vh;max-height:none;border:none;border-radius:0;box-shadow:none}
-  .island,.pbar{display:none}
-}
-
-/* TABLET: bottom tab bar, scaled up; wide centered content */
+/* TABLET: an iPad-style device frame on the taupe stage, scaled nav.
+   The frame height tracks the viewport (aspect 3:4) so it always fits. */
 @media (min-width:768px) and (max-width:1159px){
-  .nav{justify-content:center;gap:64px;padding:18px 40px 26px}
+  .stage{padding:40px 24px}
+  .phone{width:auto;height:min(1000px, calc(100vh - 80px));aspect-ratio:3 / 4;
+    max-width:calc(100vw - 48px);border-width:10px;border-radius:42px}
+  .island{display:none}
+  .pbar{padding:18px 34px 8px}
+  .nav{justify-content:center;gap:72px;padding:16px 40px 22px}
   .nav button svg{width:24px;height:24px}
   .nav button .nl{font-size:11px}
   .nav button .und{top:-10px;width:18px}
-  .scroll{padding-bottom:120px}
-  .pc{max-width:700px;margin:0 auto;padding:36px 40px 0}
+  .scroll{padding-bottom:112px}
+  .pc{padding:12px 44px 0}
   .scrim{justify-content:center}
   .sheet{max-width:600px}
-  .pc-home .elev{height:240px}
+  .pc-home .elev{height:230px}
 }
 
 /* DESKTOP: left sidebar rail + right-slide panels */
 @media (min-width:1160px){
-  .phone{display:grid;grid-template-columns:280px 1fr;grid-template-rows:100vh}
+  .stage{display:block;padding:0;background:var(--paper);min-height:100vh}
+  .island,.pbar{display:none}
+  .phone{width:100%;height:100vh;max-height:none;border:none;border-radius:0;box-shadow:none;
+    display:grid;grid-template-columns:280px 1fr;grid-template-rows:100vh}
   .nav{grid-column:1;grid-row:1;position:static;flex-direction:column;justify-content:flex-start;
     align-items:stretch;gap:2px;padding:34px 20px 20px;background:var(--paper-2);
     border-right:1px solid var(--line);backdrop-filter:none}
