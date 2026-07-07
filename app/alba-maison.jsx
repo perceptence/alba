@@ -18,6 +18,7 @@ import { PhoneBar } from "@/components/PhoneBar";
 import { useToasts, ToastHost } from "@/components/Toasts";
 import { useCx } from "@/lib/conciergeStore";
 import { useAp } from "@/lib/autopayStore";
+import { useNotices } from "@/lib/noticesStore";
 
 import { Home } from "@/screens/Home";
 import { Rent, Payments } from "@/screens/Rent";
@@ -43,6 +44,7 @@ export default function App(){
   const {toasts,push}=useToasts();
   const cx=useCx();
   const ap=useAp();
+  const nt=useNotices();
   const cxUnread=cx.unreadCount()>0;
   const go=(t)=>{setResView(false);setNoticesView(false);setTab(t);};
   const route=(to)=>{
@@ -76,6 +78,10 @@ export default function App(){
                 <span className="und"/><Ico/><span className="nl">{label}</span>
                 {k==="concierge"&&cxUnread&&<span className="ndot"/>}
               </button>))}
+            <button className={"nav-notices"+(noticesView?" on":"")} onClick={()=>setNoticesView(true)}>
+              <span className="und"/><I.bell/><span className="nl">Notices</span>
+              {nt.unreadCount()>0&&<span className="ncount">{nt.unreadCount()}</span>}
+            </button>
             <div className="rail-foot">
               <div className="rail-mgr">
                 <Avatar cfg={AV.rosa} size={38}/>

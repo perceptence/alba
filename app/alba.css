@@ -59,6 +59,8 @@
 .icob svg{width:20px;height:20px;stroke:var(--ink)}
 .icob:active{background:var(--paper-2)}
 .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--clay);border:1.5px solid var(--paper)}
+.ncount{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;padding:0 5px;border-radius:99px;background:var(--clay);color:var(--paper);font-size:10px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.am .icob .ncount{position:absolute;top:-2px;right:-2px;border:2px solid var(--paper)}
 .hero-greet{margin-top:var(--sp-1);line-height:1.04}
 .hero-greet .g1{font-family:var(--serif);font-weight:300;font-size:24px;letter-spacing:-.01em;color:var(--grey)}
 .prof-head{display:flex;align-items:center;gap:var(--sp-4);margin-top:var(--sp-5)}
@@ -95,6 +97,7 @@
 .deskbrief .db-by{font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .deskbrief .db-more{display:inline-flex;align-items:center;gap:6px;flex:none;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .deskbrief .db-more svg{width:12px;height:12px;stroke:var(--grey-2)}
+.am .deskbrief{display:none}  /* hidden for now — notice count carries this instead */
 
 /* home dashboard modules (Upcoming, Payments) — desktop-only */
 .home-grid{margin-top:var(--sp-6)}
@@ -383,6 +386,7 @@
 
 /* =================== responsive =================== */
 .rail-brand,.rail-foot{display:none}
+.am .nav button.nav-notices{display:none}
 @keyframes slidein{from{transform:translateX(100%)}to{transform:none}}
 @keyframes slideout{from{transform:none}to{transform:translateX(100%)}}
 
@@ -430,6 +434,9 @@
   .nav button.on .nl{color:var(--ink)}
   .nav button .und{display:none}
   .nav button .ndot{position:static;top:auto;right:auto;margin-left:auto}
+  .am .nav button.nav-notices{display:flex}
+  .nav-notices .ncount{margin-left:auto}
+  .top .icob{display:none}
   .rail-foot{display:block;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
   .rail-mgr{display:flex;align-items:center;gap:10px}
   .rail-mgr-id{min-width:0;display:flex;flex-direction:column}

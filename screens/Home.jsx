@@ -13,12 +13,12 @@ export function Home({ go, openRes, openRent, openNotices, onOpenRequest }) {
   const openReq=cx.all().find(r=>r.status==="in_progress"||r.status==="scheduled");
   const openCount=cx.all().filter(r=>r.status!=="resolved"&&r.status!=="cancelled").length;
   const upcoming=cx.all().filter(r=>(r.status==="scheduled"||r.status==="in_progress")&&r.scheduledFor);
-  const recent=PAYMENTS.slice(0,2);
+  const recent=PAYMENTS.slice(0,1);
   return (
     <div className="pc stag pc-home">
       <div className="top">
         <span className="eye">Saturday · 5 July</span>
-        <button className="icob" onClick={openNotices} aria-label="Notices"><I.bell/>{nt.unreadCount()>0&&<span className="dot"/>}</button>
+        <button className="icob" onClick={openNotices} aria-label="Notices"><I.bell/>{nt.unreadCount()>0&&<span className="ncount">{nt.unreadCount()}</span>}</button>
       </div>
       <div className="hero-greet"><span className="g1">Good evening,</span><br/><span className="g2">{ADRIEN.first}.</span></div>
 
@@ -79,8 +79,8 @@ export function Home({ go, openRes, openRent, openNotices, onOpenRequest }) {
 
         <button className="sect home-only home-paylink" onClick={openRent}>
           <div className="sect-h"><span className="l">Payments</span><span className="a">View all</span></div>
-          <div className="urow"><div className="ut sf">{money(RES.rent)}</div><div className="us">Next · 1 August · Autopay</div></div>
-          {recent.map(p=>(<div className="urow" key={p.id}><div className="ut sf">{p.month}</div><div className="us">Paid {p.paid}</div></div>))}
+          <div className="urow"><div className="ut sf">{money(RES.rent)}</div><div className="us">Upcoming · Due 1 August · Autopay</div></div>
+          {recent.map(p=>(<div className="urow" key={p.id}><div className="ut sf">{money(RES.rent)}</div><div className="us">Last paid · {p.paid}</div></div>))}
         </button>
       </div>
       <div style={{height:8}}/>
