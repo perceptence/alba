@@ -27,6 +27,7 @@ import { Composer, ReqDetail } from "@/screens/ConciergeSheets";
 import { NoticesPage } from "@/screens/Notices";
 import { Residence } from "@/screens/Residence";
 import { Profile } from "@/screens/Profile";
+import { ManagerPresence } from "@/components/ManagerPresence";
 
 export default function App(){
   const [tab,setTab]=useState("home");
@@ -50,8 +51,9 @@ export default function App(){
     else if(to.type==="rent"){setNoticesView(false);setResView(false);setTab("rent");}
   };
   const NAV=[["home",I.home,"Home"],["rent",I.card,"Rent"],["concierge",I.concierge,"Concierge"],["profile",I.person,"Account"]];
+  const subview=resView||payView||pastView||noticesView;
   return (
-    <div className="am">
+    <div className={"am"+(subview?" subview":"")}>
       <div className="stage">
         <div className="phone">
           <div className="island"/>
@@ -66,13 +68,15 @@ export default function App(){
             :tab==="concierge"?<Concierge onCompose={setCompose} onOpen={setDetail} onOpenPast={()=>setPastView(true)}/>
             :<Profile onBack={()=>go("home")}/>}
           </div>
-          {!resView&&!payView&&!pastView&&!noticesView&&<nav className="nav">
+          <nav className="nav">
+            <div className="rail-brand">ALBA</div>
             {NAV.map(([k,Ico,label])=>(
               <button key={k} className={tab===k?"on":""} onClick={()=>go(k)}>
                 <span className="und"/><Ico/><span className="nl">{label}</span>
                 {k==="concierge"&&cxUnread&&<span className="ndot"/>}
               </button>))}
-          </nav>}
+            <div className="rail-foot"><ManagerPresence/></div>
+          </nav>
           {paySheet&&<PayDetailSheet id={paySheet} onClose={()=>setPaySheet(null)}/>}
           {compose&&<Composer preset={compose.preset} initialNote={compose.note} push={push} onClose={()=>setCompose(null)} onCreated={(id)=>{setCompose(null);setDetail(id);}}/>}
           {detail&&<ReqDetail id={detail} push={push} onClose={()=>setDetail(null)}/>}
