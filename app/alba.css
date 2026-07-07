@@ -457,7 +457,7 @@
   .am .rail-foot .txtlink svg{width:12px;height:12px;stroke:var(--ink)}
 
   .scroll{grid-column:2;grid-row:1;padding-bottom:56px}
-  .pc{max-width:760px;margin:0 auto;padding:52px 56px 0}
+  .pc{max-width:1000px;margin:0 auto;padding:52px 56px 0}
 
   /* flyouts slide in from the right as panels */
   .scrim{align-items:stretch;justify-content:flex-end;padding:0}
@@ -467,7 +467,6 @@
   .toasts{bottom:32px}
 
   /* Home dashboard: grand house hero, modules in a three-up grid below */
-  .pc.pc-home{max-width:1000px}
   .elev{margin:0 auto;max-width:888px}
   .pc-home .deskbrief{max-width:680px}
   .pc-home .home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;align-items:start;margin-top:var(--sp-5)}
