@@ -32,19 +32,22 @@ export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, openCharg
         <div className="tends"><span>1 Jul · Paid</span><span>1 Aug</span></div>
       </div>
 
-      <div className="toggle-line">
-        <span><div className="tt sf">Autopay</div><div className="td">{a.on?`Runs on the ${ord(a.day)} of each month`:"Rent won't be collected automatically"}</div></span>
-        <button className={"tog"+(a.on?" on":"")} role="switch" aria-checked={a.on} onClick={()=>onAutopay(a.on)}><i/></button>
+      <div className="sect">
+        <div className="sect-h"><span className="l">Autopay</span></div>
+        <div className="toggle-line" style={{marginTop:0}}>
+          <span><div className="tt sf">Collect automatically</div><div className="td">{a.on?`On the ${ord(a.day)} of each month`:"Off · rent paid manually"}</div></span>
+          <button className={"tog"+(a.on?" on":"")} role="switch" aria-checked={a.on} onClick={()=>onAutopay(a.on)}><i/></button>
+        </div>
+        {a.on&&<div className={"drow"+(methodOpen?" open":"")}>
+          <button className="drow-head" onClick={()=>setMethodOpen(o=>!o)}>
+            <span className="drow-l sf">Payment method</span><span className="drow-v">{a.method.bank} ···· {a.method.last4}</span><span className="drow-c"><I.chev/></span>
+          </button>
+          {methodOpen&&<div className="drow-opts rise">{ap.methods().map(m=>(
+            <button key={m.id} className="drow-opt" onClick={()=>{ap.setMethod(m.id);setMethodOpen(false);}}>
+              <span className={"ap-radio"+(m.id===a.methodId?" on":"")}/><span className="drow-ot sf">{m.bank} ···· {m.last4}<span className="drow-ot-t"> · {m.type}</span></span>
+            </button>))}</div>}
+        </div>}
       </div>
-      {a.on&&<div className={"drow"+(methodOpen?" open":"")}>
-        <button className="drow-head" onClick={()=>setMethodOpen(o=>!o)}>
-          <span className="drow-l sf">Payment method</span><span className="drow-v">{a.method.bank} ···· {a.method.last4}</span><span className="drow-c"><I.chev/></span>
-        </button>
-        {methodOpen&&<div className="drow-opts rise">{ap.methods().map(m=>(
-          <button key={m.id} className="drow-opt" onClick={()=>{ap.setMethod(m.id);setMethodOpen(false);}}>
-            <span className={"ap-radio"+(m.id===a.methodId?" on":"")}/><span className="drow-ot sf">{m.bank} ···· {m.last4}<span className="drow-ot-t"> · {m.type}</span></span>
-          </button>))}</div>}
-      </div>}
 
       <div className="sect">
         <div className="sect-h"><span className="l">Standing</span></div>

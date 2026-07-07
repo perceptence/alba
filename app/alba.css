@@ -540,7 +540,7 @@
 .avr{border-radius:50%;overflow:hidden;flex:none;display:block}
 
 /* toast */
-.toasts{position:absolute;left:0;right:0;bottom:104px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:70;pointer-events:none}
+.toasts{position:absolute;left:0;right:0;bottom:104px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:110;pointer-events:none}
 .toast{display:flex;align-items:center;gap:12px;padding:12px 20px;border-radius:1000px;background:var(--ink);color:var(--paper);animation:fadeup .4s var(--e) both;box-shadow:0 12px 32px -12px rgba(28,20,12,.5)}
 .toast svg{width:16px;height:16px;stroke:var(--paper)}
 .toast .tt{font-size:12px;font-weight:600;letter-spacing:.08em}
