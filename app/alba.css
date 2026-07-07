@@ -116,6 +116,7 @@
 
 /* glance rows */
 .grow{display:flex;align-items:center;gap:16px;width:100%;text-align:left;padding:20px 0;border-top:1px solid var(--line)}
+.grow:last-child{padding-bottom:0}
 .grow .gm{flex:1;min-width:0}
 .grow .gtop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
 .grow .gl{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
