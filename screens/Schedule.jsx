@@ -1,7 +1,8 @@
 import { useCx } from "@/lib/conciergeStore";
 import { useBookings } from "@/lib/bookingStore";
 import { useGuests } from "@/lib/guestStore";
-import { weekAgenda, LATER } from "@/lib/schedule";
+import { useRenewal } from "@/lib/renewalStore";
+import { weekAgenda, laterItems } from "@/lib/schedule";
 import { I } from "@/components/icons";
 
 /* Household schedule — a week agenda gathered from the estate's service days,
@@ -21,8 +22,9 @@ function Entry({ e, onOpenRequest }) {
 }
 
 export function Schedule({ onBack, onOpenRequest }) {
-  useCx(); useBookings(); useGuests(); // re-render when any source changes
+  useCx(); useBookings(); useGuests(); useRenewal(); // re-render when any source changes
   const days = weekAgenda();
+  const later = laterItems();
   return (
     <div className="pc stag">
       <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Schedule</span></div>
@@ -40,7 +42,7 @@ export function Schedule({ onBack, onOpenRequest }) {
       </div>
 
       <div className="sect"><div className="sect-h"><span className="l">Later</span></div>
-        {LATER.map((l) => {
+        {later.map((l) => {
           const Ico = I[l.icon] || I.dots;
           return (
             <div className="sentry" key={l.title}>

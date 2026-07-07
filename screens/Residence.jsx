@@ -7,6 +7,7 @@ import { I } from "@/components/icons";
 import { norm } from "@/lib/util";
 import { DocReader } from "@/screens/DocReader";
 import { useGuests } from "@/lib/guestStore";
+import { useRenewal } from "@/lib/renewalStore";
 
 const docMatches = (d, q) => {
   if (!q) return true;
@@ -18,12 +19,16 @@ const docMatches = (d, q) => {
   return false;
 };
 
-export function Residence({ onBack, go, onAsk, openGuests }) {
+export function Residence({ onBack, go, onAsk, openGuests, openRenewal }) {
   const [open,setOpen]=useState(null);
   const [docQ,setDocQ]=useState("");
   const docs=useMemo(()=>DOCS.filter((d)=>docMatches(d,docQ)),[docQ]);
   const guests=useGuests();
   const gCount=guests.all().filter((p)=>p.status!=="revoked").length;
+  const rst=useRenewal().status();
+  const rnw=rst==="interested"?{t:"Interest registered",s:"Rosa is preparing your terms"}
+    :rst==="declined"?{t:"Not renewing",s:"Term concludes March 2027"}
+    :{t:"Review renewal",s:"Register your interest early"};
   return (<div className="pc stag">
     <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Residence</span></div>
     <div style={{marginTop:20}}><Elevation h={160}/></div>
@@ -41,6 +46,14 @@ export function Residence({ onBack, go, onAsk, openGuests }) {
       <div className="tline" style={{marginTop:0}}><div className="tbar"><span className="tfill" style={{width:"81%"}}/><span className="tnow" style={{left:"81%"}}/></div>
         <div className="tends"><span>{ADRIEN.moveIn}</span><span>{ADRIEN.leaseEnd}</span></div></div>
       <div className="lrow" style={{marginTop:16}}><span><div className="lm sf">8 months remaining</div><div className="ld">Renewal opens December 2026</div></span><span className="lv num">2027</span></div>
+      <button className="grow" onClick={openRenewal}>
+        <span className="gm">
+          <span className="gtop"><span className="gl">Renewal</span></span>
+          <div className="gt sf">{rnw.t}</div>
+          <div className="gs">{rnw.s}</div>
+        </span>
+        <span className="gc"><I.chev/></span>
+      </button>
     </div>
 
     <div className="sect"><div className="sect-h"><span className="l">Access &amp; guests</span></div>

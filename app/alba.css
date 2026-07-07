@@ -402,6 +402,27 @@
 .sentry-w{flex:none;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey);white-space:nowrap}
 .sentry-c{flex:none}
 .sentry-c svg{width:16px;height:16px;stroke:var(--grey-2)}
+
+/* lease renewal */
+.rnw-banner{display:flex;gap:12px;margin-top:20px;padding:14px 16px;border-radius:12px;background:rgba(79,106,66,.1)}
+.rnw-banner-off{background:var(--paper-2)}
+.rnw-banner-ic{flex:none;width:22px;height:22px;border-radius:50%;background:var(--sage);display:grid;place-items:center;margin-top:1px}
+.rnw-banner-off .rnw-banner-ic{background:var(--grey-2)}
+.rnw-banner-ic svg{width:13px;height:13px;stroke:var(--paper)}
+.rnw-banner-m{display:flex;flex-direction:column;gap:3px}
+.rnw-banner-t{font-family:var(--serif);font-size:15px}
+.rnw-banner-d{font-size:12px;line-height:1.55;color:var(--grey);letter-spacing:.01em}
+.rsteps{margin-top:2px}
+.rstep{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.rstep-node{flex:none;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:600;color:var(--grey)}
+.rstep-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.rstep-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.rstep-l{font-family:var(--serif);font-size:15px}
+.rstep-when{flex:none;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--grey-2);white-space:nowrap}
+.rstep-d{font-size:12px;color:var(--grey-2);line-height:1.5}
+.rnw-actions{margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.rnw-actions .cta{width:100%}
+.am .rnw-decline{font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em;text-align:center;width:100%}
 .dr-more{font-size:12px;font-weight:600;color:var(--grey-2)}
 .am mark{background:var(--clay-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
