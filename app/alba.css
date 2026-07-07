@@ -441,17 +441,17 @@
   .nav-notices .nn-txt{display:flex;flex-direction:column;min-width:0}
   .nav-notices .nn-sub{font-size:11px;font-weight:500;color:var(--clay);letter-spacing:.01em;text-transform:none;margin-top:2px}
   /* Home top — option A: greeting left, date + status right */
-  .pc-home .hometop{display:flex;justify-content:space-between;align-items:flex-start;padding-top:0}
+  .pc-home .hometop{display:flex;justify-content:space-between;align-items:baseline;padding-top:0}
   .pc-home .hometop .hero-greet{order:-1;margin-top:0}
   .pc-home .ht-meta{display:flex;flex-direction:column;align-items:flex-end}
-  .pc-home .ht-meta .settled{display:inline-flex;margin-top:8px}
+  .pc-home .ht-meta .settled{display:inline-flex;margin-top:4px}
   .pc-home .hometop .icob{display:none}
   .rail-foot{display:block;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
   .rail-mgr{display:flex;align-items:center;gap:10px}
   .rail-mgr-id{min-width:0;display:flex;flex-direction:column}
   .rail-mgr-name{font-family:var(--serif);font-weight:400;font-size:15px;color:var(--ink);line-height:1.1}
   .rail-mgr-role{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.01em;margin-top:2px}
-  .am .rail-contact{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:0;
+  .am .rail-contact{display:inline-flex;align-items:center;gap:8px;margin-top:10px;margin-left:48px;padding:0;
     font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--grey);transition:color .3s var(--e)}
   .am .rail-contact:hover{color:var(--ink)}
   .rail-contact svg{width:15px;height:15px;stroke:var(--grey)}
@@ -470,7 +470,7 @@
   .pc.pc-home{max-width:1000px}
   .pc-home .elev{height:300px}
   .pc-home .deskbrief{max-width:680px}
-  .pc-home .home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;align-items:start;margin-top:var(--sp-7)}
+  .pc-home .home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;align-items:start;margin-top:var(--sp-5)}
   .pc-home .home-only{display:block}
 
   /* notices page: roomier, and tabs + sort share one row with a divider */
