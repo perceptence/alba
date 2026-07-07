@@ -1,19 +1,20 @@
 import { useCx, CX_STATUS } from "@/lib/conciergeStore";
 import { useNotices, ntBrief } from "@/lib/noticesStore";
-import { useBookings } from "@/lib/bookingStore";
 import { useGuests } from "@/lib/guestStore";
 import { weekPreview } from "@/lib/schedule";
-import { RES, ADRIEN, AV, PAYMENTS } from "@/lib/data";
+import { RES, ADRIEN, LEASE, AV, PAYMENTS } from "@/lib/data";
 import { money } from "@/lib/util";
 import { I } from "@/components/icons";
 import { Elevation } from "@/components/Elevation";
 import { TextLink } from "@/components/TextLink";
 import { Avatar } from "@/components/Avatar";
 
-export function Home({ go, openRes, openRent, openNotices, onOpenRequest, openSchedule }) {
+export function Home({ go, openRes, openRent, openNotices, onOpenRequest, openSchedule, openGuests }) {
   const cx=useCx();
   const nt=useNotices();
-  useBookings(); useGuests();
+  const guests=useGuests();
+  const gActive=guests.all().filter(p=>p.status!=="revoked").length;
+  const nextG=guests.live().find(p=>p.status==="upcoming");
   const openReq=cx.all().find(r=>r.status==="in_progress"||r.status==="scheduled");
   const openCount=cx.all().filter(r=>r.status!=="resolved"&&r.status!=="cancelled").length;
   const week=weekPreview(3);
@@ -59,8 +60,8 @@ export function Home({ go, openRes, openRent, openNotices, onOpenRequest, openSc
           <button className="grow" onClick={openRes}>
             <span className="gm">
               <span className="gtop"><span className="gl">Lease</span></span>
-              <div className="gt sf">8 months remaining</div>
-              <div className="gs"><span className="st-g">On term</span> · Through {ADRIEN.leaseEnd}</div>
+              <div className="gt sf">{LEASE.remaining} months remaining</div>
+              <div className="gs"><span className="st-g">On term</span> · Through {LEASE.termEnd}</div>
             </span>
             <span className="gc"><I.chev/></span>
           </button>
@@ -72,9 +73,17 @@ export function Home({ go, openRes, openRent, openNotices, onOpenRequest, openSc
             </span>
             <span className="gc"><I.chev/></span>
           </button>
+          <button className="grow" onClick={openGuests}>
+            <span className="gm">
+              <span className="gtop"><span className="gl">Guests</span></span>
+              <div className="gt sf">{gActive} active pass{gActive===1?"":"es"}</div>
+              <div className="gs">{nextG?<>{nextG.name.split(" ")[0]} arrives {nextG.arrive}</>:"Grant time-boxed access"}</div>
+            </span>
+            <span className="gc"><I.chev/></span>
+          </button>
         </div>
 
-        <div className="sect home-only">
+        <div className="sect">
           <div className="sect-h"><span className="l">This week</span><button className="a" onClick={openSchedule}>Full schedule</button></div>
           {week.length>0?week.map((e,i)=>(
             <button className="urow urow-link" key={i} onClick={()=>e.to?onOpenRequest(e.to.id):openSchedule()}>

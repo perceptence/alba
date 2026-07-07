@@ -12,9 +12,10 @@ export function Charges({ onBack, push }) {
   const c = useCharges();
   const [openC, setOpenC] = useState(null);
   const [openS, setOpenS] = useState(null);
+  const [settling, setSettling] = useState(false);
   const charges = c.all();
   const dueTotal = c.dueTotal();
-  const settleAll = () => { chargeStore.settleAll(); push({ t: "Charges settled", d: money(dueTotal) + " · City National ···· 4291" }); };
+  const confirmSettle = () => { chargeStore.settleAll(); push({ t: "Charges settled", d: money(dueTotal) + " · City National ···· 4291" }); };
   return (
     <div className="pc stag">
       <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Charges &amp; statements</span></div>
@@ -23,7 +24,7 @@ export function Charges({ onBack, push }) {
       {dueTotal > 0
         ? <div className="chg-bal chg-bal-due">
             <span className="chg-bal-m"><span className="chg-bal-l">Outstanding</span><span className="chg-bal-v sf num">{money(dueTotal)}</span></span>
-            <button className="chg-settle" onClick={settleAll}>Settle now</button>
+            <button className="chg-settle" onClick={() => setSettling(true)}>Settle now</button>
           </div>
         : <div className="chg-bal">
             <span className="chg-bal-ic"><I.seal/></span>
@@ -60,10 +61,31 @@ export function Charges({ onBack, push }) {
       </div>
 
       <div style={{height:8}}/>
+      {settling && <SettleSheet due={c.due()} total={dueTotal} onClose={() => setSettling(false)} onConfirm={confirmSettle}/>}
       {openC && <ChargeDetail id={openC} push={push} onClose={() => setOpenC(null)}/>}
       {openS && <StatementDetail id={openS} onClose={() => setOpenS(null)}/>}
     </div>
   );
+}
+
+function SettleSheet({ due, total, onClose, onConfirm }) {
+  const { close, scrimProps, sheetProps } = useSheet(onClose);
+  const confirm = () => { onConfirm(); close(); };
+  return (<div {...scrimProps}><div {...sheetProps}>
+    <div className="grab"/>
+    <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">Settle charges</div><div className="sh-sub">{due.length} charge{due.length > 1 ? "s" : ""} · one payment</div></span>
+      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
+    <div className="sh-body">
+      <div className="kvl">
+        {due.map((ch) => (
+          <div className="kv" key={ch.id}><span className="k" style={{textTransform:"none",letterSpacing:".01em",fontWeight:500}}>{ch.label}</span><span className="v num">{money(ch.amount)}</span></div>
+        ))}
+        <div className="kv chg-total"><span className="k">Total</span><span className="v num">{money(total)}</span></div>
+      </div>
+      <p className="ga-fine">Settled in a single payment from City National ···· 4291.</p>
+    </div>
+    <div className="sh-foot"><button className="cta" onClick={confirm}>Pay {money(total)}</button></div>
+  </div></div>);
 }
 
 function ChargeDetail({ id, push, onClose }) {

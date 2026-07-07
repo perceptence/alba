@@ -1,5 +1,4 @@
 import { useCx } from "@/lib/conciergeStore";
-import { useBookings } from "@/lib/bookingStore";
 import { useGuests } from "@/lib/guestStore";
 import { useRenewal } from "@/lib/renewalStore";
 import { weekAgenda, laterItems } from "@/lib/schedule";
@@ -22,7 +21,7 @@ function Entry({ e, onOpenRequest }) {
 }
 
 export function Schedule({ onBack, onOpenRequest }) {
-  useCx(); useBookings(); useGuests(); useRenewal(); // re-render when any source changes
+  useCx(); useGuests(); useRenewal(); // re-render when any source changes
   const days = weekAgenda();
   const later = laterItems();
   return (

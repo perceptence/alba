@@ -7,7 +7,16 @@ import { TextLink } from "@/components/TextLink";
 
 const CX_PROMPTS=["The pool heater is acting up…","Could we have fresh linens on Thursday?","When does the gate code change?","A package needs collecting…","Could a guest have access this weekend?"];
 
-export function Concierge({ onCompose, onOpen, onOpenPast, openServices }) {
+/* Common services, offered as one-tap prompts that open the composer
+   pre-filled — so booking a service is just another thing you ask for. */
+const CX_QUICK=[
+  {l:"Fresh linens",preset:"housekeeping",note:"Could we have fresh linens this week?"},
+  {l:"Spa heating",preset:"maintenance",note:"Could the spa be warmed for this evening?"},
+  {l:"Window cleaning",preset:"housekeeping",note:"Could we schedule a window cleaning?"},
+  {l:"Cellar opening",preset:"access",note:"Could the wine cellar be opened for a delivery?"},
+];
+
+export function Concierge({ onCompose, onOpen, onOpenPast }) {
   const cx=useCx();const reqs=cx.all();const[ask,setAsk]=useState("");
   const [ph,setPh]=useState(0);
   useEffect(()=>{if(RM)return;const t=setInterval(()=>setPh(n=>(n+1)%CX_PROMPTS.length),3600);return()=>clearInterval(t);},[]);
@@ -27,15 +36,12 @@ export function Concierge({ onCompose, onOpen, onOpenPast, openServices }) {
           <input value={ask} onChange={e=>setAsk(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")send();}} placeholder={CX_PROMPTS[ph]}/>
           <button className="snd" onClick={send} aria-label="Send"><I.send/></button>
         </div>
+        <div className="cx-quick">
+          {CX_QUICK.map(q=><button key={q.l} className="cx-chip" onClick={()=>onCompose({preset:q.preset,note:q.note})}>{q.l}</button>)}
+        </div>
       </div>
 
-      <button className="bookcta" onClick={openServices}>
-        <span className="bookcta-ic"><I.cal/></span>
-        <span className="bookcta-m"><span className="bookcta-l sf">Book a service</span><span className="bookcta-d">Housekeeping, spa, cellar &amp; more — on a schedule</span></span>
-        <span className="bookcta-c"><I.arrow/></span>
-      </button>
-
-      <div className="sect" style={{marginTop:32}}>
+      <div className="sect" style={{marginTop:40}}>
         <div className="sect-h"><span className="l">In care of the estate</span></div>
         {open.length===0&&<div className="calm"><I.leaf/>Nothing in care — we're all yours.</div>}
         {open.map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}

@@ -1,13 +1,13 @@
 import { useState, useMemo } from "react";
-import { RES, DOCS, ADRIEN } from "@/lib/data";
+import { RES, DOCS, LEASE } from "@/lib/data";
 import { Elevation } from "@/components/Elevation";
 import { ManagerPresence } from "@/components/ManagerPresence";
 import { TextLink } from "@/components/TextLink";
 import { I } from "@/components/icons";
-import { norm } from "@/lib/util";
+import { norm, money } from "@/lib/util";
 import { DocReader } from "@/screens/DocReader";
 import { useGuests } from "@/lib/guestStore";
-import { useRenewal } from "@/lib/renewalStore";
+import { useRenewal, RENEWAL } from "@/lib/renewalStore";
 
 const docMatches = (d, q) => {
   if (!q) return true;
@@ -26,9 +26,9 @@ export function Residence({ onBack, go, onAsk, openGuests, openRenewal }) {
   const guests=useGuests();
   const gCount=guests.all().filter((p)=>p.status!=="revoked").length;
   const rst=useRenewal().status();
-  const rnw=rst==="interested"?{t:"Interest registered",s:"Rosa is preparing your terms"}
-    :rst==="declined"?{t:"Not renewing",s:"Term concludes March 2027"}
-    :{t:"Review renewal",s:"Register your interest early"};
+  const rnw=rst==="accepted"?{s:"Renewal accepted · new term from "+RENEWAL.newStart, pill:"g", pl:"Renewed"}
+    :rst==="declined"?{s:"Not renewing · term ends "+LEASE.termEnd, pill:"n", pl:"Ending"}
+    :{s:"Renewal offer to review · "+RENEWAL.termLength+" at "+money(RENEWAL.proposedRent)+"/mo", pill:"a", pl:"Review"};
   return (<div className="pc stag">
     <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Residence</span></div>
     <div style={{marginTop:20}}><Elevation h={160}/></div>
@@ -43,16 +43,14 @@ export function Residence({ onBack, go, onAsk, openGuests, openRenewal }) {
     </div>
 
     <div className="sect"><div className="sect-h"><span className="l">Lease</span></div>
-      <div className="tline" style={{marginTop:0}}><div className="tbar"><span className="tfill" style={{width:"81%"}}/><span className="tnow" style={{left:"81%"}}/></div>
-        <div className="tends"><span>{ADRIEN.moveIn}</span><span>{ADRIEN.leaseEnd}</span></div></div>
-      <div className="lrow" style={{marginTop:16}}><span><div className="lm sf">8 months remaining</div><div className="ld">Renewal opens December 2026</div></span><span className="lv num">2027</span></div>
-      <button className="grow" onClick={openRenewal}>
-        <span className="gm">
-          <span className="gtop"><span className="gl">Renewal</span></span>
-          <div className="gt sf">{rnw.t}</div>
-          <div className="gs">{rnw.s}</div>
+      <div className="tline" style={{marginTop:0}}><div className="tbar"><span className="tfill" style={{width:LEASE.progress+"%"}}/><span className="tnow" style={{left:LEASE.progress+"%"}}/></div>
+        <div className="tends"><span>{LEASE.termStart}</span><span>{LEASE.termEnd}</span></div></div>
+      <button className="lease-review" onClick={openRenewal}>
+        <span className="lease-review-m">
+          <div className="lm sf">{LEASE.remaining} months remaining</div>
+          <div className="ld">{rnw.s}</div>
         </span>
-        <span className="gc"><I.chev/></span>
+        <span className="lease-review-r"><span className={"gpill gpill-"+rnw.pill}>{rnw.pl}</span><I.chev/></span>
       </button>
     </div>
 
