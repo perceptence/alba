@@ -49,8 +49,8 @@ export default function App(){
       <div className="stage">
         <div className="phone">
           <div className="island"/>
+          <PhoneBar/>
           <div className="scroll">
-            <PhoneBar/>
             {payView?<Payments onBack={()=>setPayView(false)} onOpenPayment={(id)=>setPaySheet(id)}/>
             :pastView?<PastRequests onBack={()=>setPastView(false)} onOpen={setDetail}/>
             :resView?<Residence onBack={()=>setResView(false)} go={go}/>

@@ -45,7 +45,7 @@ export function Home({ go, openRes, openRent, openNotices }) {
         <button className="grow" onClick={()=>go("concierge")}>
           <span className="gm">
             <span className="gtop"><span className="gl">Concierge</span></span>
-            <div className="gt sf">{openCount} request in care</div>
+            <div className="gt sf">{openCount} request{openCount===1?"":"s"} in care</div>
             <div className="gs">{openReq?<><span className="st-a">{CX_STATUS[openReq.status].label}</span> · {openReq.title}</>:"Nothing pending"}</div>
           </span>
           <span className="gc"><I.chev/></span>

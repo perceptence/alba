@@ -26,6 +26,7 @@ export const I = {
   clock:(p)=><svg {...sv(p)}><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>,
   wrench:(p)=><svg {...sv(p)}><path d="M14.7 6.3a4 4 0 0 0-5 5L4 17l3 3 5.7-5.7a4 4 0 0 0 5-5l-2.4 2.4-2.6-.6-.6-2.6z"/></svg>,
   leaf:(p)=><svg {...sv(p)}><path d="M5 19C5 9 12 5 20 5c0 8-4 15-14 15"/><path d="M5 19c3-5 7-8 11-10"/></svg>,
+  towel:(p)=><svg {...sv(p)}><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M5 15h14"/><path d="M8.5 7.5h4"/></svg>,
   key:(p)=><svg {...sv(p)}><circle cx="8" cy="14" r="3.2"/><path d="m10.5 11.5 8-8M16 6l2.2 2.2M13.6 8.4 15.8 10.6"/></svg>,
   msg:(p)=><svg {...sv(p)}><path d="M4 6h16v10H9l-5 4z"/></svg>,
   box:(p)=><svg {...sv(p)}><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>,

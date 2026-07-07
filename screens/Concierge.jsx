@@ -21,8 +21,8 @@ export function Concierge({ onCompose, onOpen, onOpenPast }) {
     <div className="pc stag">
       <div className="phead"><span className="eye">At your service</span><div className="ht sf">Concierge</div></div>
       <div className="assist">
-        <ManagerPresence/>
         <div className="q sf">How may we help?</div>
+        <ManagerPresence/>
         <div className="ask">
           <input value={ask} onChange={e=>setAsk(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")send();}} placeholder={CX_PROMPTS[ph]}/>
           <button className="snd" onClick={send} aria-label="Send"><I.send/></button>
@@ -35,9 +35,9 @@ export function Concierge({ onCompose, onOpen, onOpenPast }) {
         {open.map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}
       </div>
 
-      {past.length>0&&<div className="sect" style={{marginTop:24}}>
-        <button className={"pastlink"+(showPast?" open":"")} onClick={()=>setShowPast(v=>!v)}>Past · {past.length}<I.chev/></button>
-        {showPast&&<div style={{marginTop:12}}>
+      {past.length>0&&<div style={{marginTop:8}}>
+        <button className={"pastlink"+(showPast?" open":"")} onClick={()=>setShowPast(v=>!v)}><span>Past requests · {past.length}</span><I.chevD/></button>
+        {showPast&&<div className="stag">
           {past.slice(0,6).map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}
           {past.length>6&&<TextLink onClick={onOpenPast}>View all {past.length} past requests</TextLink>}
         </div>}
@@ -63,15 +63,27 @@ export function PastRequests({ onBack, onOpen }) {
   </div>);
 }
 
+const CX_ICON={maintenance:"wrench",housekeeping:"towel",access:"key",delivery:"box",question:"msg",other:"dots"};
+const CX_STEP={submitted:1,acknowledged:2,scheduled:3,in_progress:4};
+
 export function ReqRow({ r, onOpen, unread }) {
   const sub=cxSub(r);
   const lead=unread?{word:"Rosa replied",tint:"a",detail:""}:sub;
+  const Ico=I[CX_ICON[r.category]]||I.dots;
+  const last=r.timeline[r.timeline.length-1];
+  const live=r.status!=="resolved"&&r.status!=="cancelled";
+  const pct=live?(CX_STEP[r.status]||1)*25-12.5:null; // centre of the current step on a 4-step journey
   return (
     <button className="rrow" onClick={()=>onOpen(r.id)}>
+      <span className="ric"><Ico/>{unread&&<span className="bnew ric-new"/>}</span>
       <span className="rrow-m">
         <div className="reye">{CX_CATS[r.category].tag}</div>
         <div className="rt sf">{r.title}</div>
         <div className="rsub"><span className={"cxt-"+lead.tint}>{lead.word}</span>{lead.detail?" · "+lead.detail:""}</div>
+        {live&&<div className="rprog">
+          <div className="tbar"><span className="tfill" style={{width:pct+"%"}}/><span className="tnow" style={{left:pct+"%"}}/></div>
+          <div className="tmark"><span style={{left:pct+"%",transform:`translateX(-${pct}%)`}}>{last.at}</span></div>
+        </div>}
       </span>
       <span className="rchev"><I.chev/></span>
     </button>);

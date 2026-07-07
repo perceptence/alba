@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;450;500;600&display=swap');
+/* Fonts (Fraunces + Inter) are loaded via <link> in app/layout.tsx —
+   a bundler @import here was silently dropped, so the app fell back to
+   Georgia / system sans. Keep the load in the document <head>. */
 :root{
   --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;--sp-7:40px;--tk-page:.2em;--tk-label:.16em;
   --paper:#F3EFE7; --paper-2:#ECE7DC; --paper-3:#E5DFD2;
@@ -17,13 +19,13 @@
 .am .sf{font-family:var(--serif);font-weight:300;letter-spacing:-.01em}
 
 .stage{min-height:100vh;background:#CFC8BB;display:grid;place-items:center;padding:48px 24px}
-.phone{width:392px;height:832px;border-radius:52px;border:6px solid #26221E;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,.2),0 40px 80px -24px rgba(38,30,22,.4)}
+.phone{width:392px;height:832px;border-radius:52px;border:6px solid #26221E;background:var(--paper);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 4px rgba(0,0,0,.2),0 40px 80px -24px rgba(38,30,22,.4)}
 .island{position:absolute;top:12px;left:52%;transform:translateX(-50%);width:112px;height:32px;border-radius:20px;background:#26221E;z-index:90}
-.pbar{display:flex;align-items:center;justify-content:space-between;padding:20px 28px 0;position:relative;z-index:5}
+.pbar{display:flex;align-items:center;justify-content:space-between;padding:20px 28px 8px;position:relative;z-index:5;flex:none}
 .pbar .tm{font-size:16px;font-weight:600}
 .pbar-r{display:flex;align-items:center;gap:8px}
 .pbar-r svg{display:block}
-.scroll{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none;padding-bottom:120px}
+.scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:120px}
 .scroll::-webkit-scrollbar{display:none}
 
 @keyframes fadeup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -111,10 +113,10 @@
 .figure .fv{font-family:var(--serif);font-weight:300;font-size:64px;letter-spacing:-.03em;line-height:1;margin-top:var(--sp-3)}
 .figure .fs{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-3);letter-spacing:.02em}
 .tline{margin-top:var(--sp-6)}
-.tline .tbar{height:1px;background:var(--line);position:relative;margin:0 0 12px}
-.tline .tfill{position:absolute;left:0;top:0;height:1px;background:var(--clay)}
-.tline .tnow{position:absolute;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--ink);border:2px solid var(--paper);transform:translateX(-50%)}
-.tline .tends{display:flex;justify-content:space-between;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey)}
+.tbar{height:1px;background:var(--line);position:relative;margin:0 0 12px}
+.tfill{position:absolute;left:0;top:0;height:1px;background:var(--clay);animation:growbar 1.2s var(--e) .3s both}
+.tnow{position:absolute;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--ink);border:2px solid var(--paper);transform:translateX(-50%);animation:fade .4s ease 1.3s both}
+.tends{display:flex;justify-content:space-between;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey)}
 .lrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;border-top:1px solid var(--line)}
 .lrow:last-child{padding-bottom:0}
 .lrow .lm{font-family:var(--serif);font-weight:400;font-size:16px}
@@ -157,7 +159,7 @@
 .mgr-sub{display:flex;align-items:center;gap:6px;margin-top:var(--sp-1);font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .mgr-dot{width:6px;height:6px;border-radius:50%;background:var(--sage);flex:none}
 .assist .q{font-family:var(--serif);font-weight:300;font-size:28px;letter-spacing:-.01em;margin:var(--sp-4) 0}
-.assist .ask{display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .3s var(--e)}
+.assist .ask{display:flex;align-items:center;gap:12px;margin-top:var(--sp-5);border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .3s var(--e)}
 .assist .ask:focus-within{border-bottom-color:var(--ink)}
 .assist input{flex:1;border:none;background:none;font-size:16px;font-family:var(--serif);font-weight:400;color:var(--ink)}
 .assist input::placeholder{color:var(--grey-2)}
@@ -179,11 +181,19 @@
 .quick{display:flex;flex-wrap:wrap;gap:8px}
 .am .qc{padding:12px 16px;border-radius:1000px;border:1px solid var(--line);font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--ink);transition:background .3s var(--e)}
 .qc:active{background:var(--paper-2)}
-.rrow{display:flex;align-items:center;gap:16px;width:100%;text-align:left;padding:16px 0}
+.rrow{display:flex;align-items:flex-start;gap:16px;width:100%;text-align:left;padding:20px 0}
+.sect>.rrow:last-child{padding-bottom:0}
+.rrow .ric{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none;position:relative}
+.rrow .ric svg{width:16px;height:16px;stroke:var(--ink)}
+.rrow .ric-new{position:absolute;top:-1px;right:-1px;border:1.5px solid var(--paper)}
 .rrow .rrow-m{flex:1;min-width:0}
-.rrow .reye{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-2)}
+.rrow .reye{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .rrow .rt{font-family:var(--serif);font-weight:400;font-size:16px;margin-top:var(--sp-1)}
 .rrow .rsub{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-1);letter-spacing:.02em}
+.rrow .rprog{display:block;margin-top:var(--sp-4)}
+.rrow .tmark{position:relative;height:12px}
+.rrow .tmark span{position:absolute;top:0;white-space:nowrap;font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--grey-2);font-variant-numeric:tabular-nums}
+@keyframes growbar{from{width:0}}
 .rrow .rchev{flex:none;align-self:center}
 .rrow .rchev svg{width:16px;height:16px;stroke:var(--grey-2)}
 .cxt-a{color:var(--clay);font-weight:600}
@@ -197,9 +207,9 @@
 .cxtile .cxi{flex:none;display:grid;place-items:center}
 .cxtile .cxi svg{width:20px;height:20px;stroke:var(--clay)}
 .cxtile .cxl{font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--ink);line-height:1.3}
-.am .pastlink{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
-.pastlink svg{width:12px;height:12px;stroke:var(--grey-2);transform:rotate(90deg);transition:transform .3s var(--e)}
-.pastlink.open svg{transform:rotate(270deg)}
+.am .pastlink{display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px 0;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
+.pastlink svg{width:16px;height:16px;stroke:var(--grey-2);transition:transform .3s var(--e)}
+.pastlink.open svg{transform:rotate(180deg)}
 
 /* alerts */
 .arow{display:flex;gap:16px;width:100%;text-align:left;padding:20px 0;border-top:1px solid var(--line);align-items:flex-start}
@@ -237,7 +247,7 @@
 .scrim{position:absolute;inset:0;z-index:80;background:rgba(28,22,16,.42);backdrop-filter:blur(3px);display:flex;align-items:flex-end}
 .sheet{width:100%;max-height:92%;background:var(--paper);border-radius:28px 28px 0 0;display:flex;flex-direction:column;animation:sheet .34s var(--e) both;box-shadow:0 -24px 64px -20px rgba(28,20,12,.4)}
 .sheet.closing{animation:sheetOut .3s var(--e) both}
-@media (prefers-reduced-motion:reduce){.sheet,.sheet.closing{animation-duration:.01ms}}
+@media (prefers-reduced-motion:reduce){.sheet,.sheet.closing{animation-duration:.01ms}.tfill,.tnow{animation-duration:.01ms;animation-delay:0ms}}
 .grab{width:36px;height:4px;border-radius:4px;background:var(--line);margin:12px auto 0;flex:none}
 .sh-head{display:flex;align-items:flex-start;gap:16px;padding:20px 28px}
 .sh-title{font-family:var(--serif);font-weight:300;font-size:28px;letter-spacing:-.01em;flex:1;line-height:1.15}
@@ -301,10 +311,13 @@
 .bw.me .bub{background:var(--ink);color:var(--paper);border-bottom-right-radius:4px}
 .bt2{font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--grey-2);margin-top:var(--sp-1)}
 .bw.me .bt2{text-align:right}
-.compose{display:flex;gap:12px;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
-.compose input{flex:1;border:none;border-bottom:1px solid var(--line);background:none;padding:0 0 8px;font-family:var(--serif);font-size:16px;color:var(--ink)}
-.compose input:focus{outline:none;border-color:var(--ink)}
-.am .compose .snd svg{width:20px;height:20px;stroke:var(--ink)}
+.compose{display:flex;gap:12px;align-items:center;margin-top:var(--sp-5);border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .3s var(--e)}
+.compose:focus-within{border-bottom-color:var(--ink)}
+.compose input{flex:1;border:none;background:none;font-family:var(--serif);font-size:16px;color:var(--ink)}
+.compose input::placeholder{color:var(--grey-2)}
+.compose input:focus{outline:none}
+.am .compose .snd{flex:none;width:34px;height:34px;border-radius:50%;background:var(--clay);display:grid;place-items:center}
+.compose .snd svg{width:18px;height:18px;stroke:var(--paper)}
 .hint{font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-2);text-align:center;margin-top:var(--sp-3)}
 
 /* avatar */

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useCx, cxStore, CX_CATS, CX_STATUS, CX_TINT } from "@/lib/conciergeStore";
-import { RES, ROSA, AV } from "@/lib/data";
-import { Avatar } from "@/components/Avatar";
+import { RES, ROSA } from "@/lib/data";
 import { I } from "@/components/icons";
 import { useSheet } from "@/components/useSheet";
 
@@ -92,7 +91,6 @@ export function ReqDetail({ id, onClose, push }) {
       <div className="flab" style={{marginTop:28}}>Correspondence</div>
       <div className="thread">{r.thread.map((m,i)=>(
         <div key={i} className={"bw "+(m.f==="r"?"me":"them")}>
-          {m.f==="m"&&<span style={{alignSelf:"flex-end"}}><Avatar cfg={AV.rosa} size={24}/></span>}
           <span><div className="bub">{m.t}</div><div className="bt2">{m.f==="m"?"Rosa · ":""}{m.at}</div></span>
         </div>))}</div>
       {open?<>
