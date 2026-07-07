@@ -31,6 +31,7 @@ import { GuestAccess } from "@/screens/GuestAccess";
 import { Services } from "@/screens/Services";
 import { Schedule } from "@/screens/Schedule";
 import { Renewal } from "@/screens/Renewal";
+import { Charges } from "@/screens/Charges";
 import { Profile } from "@/screens/Profile";
 import { Avatar } from "@/components/Avatar";
 import { TextLink } from "@/components/TextLink";
@@ -46,6 +47,7 @@ export default function App(){
   const [servicesView,setServicesView]=useState(false);
   const [scheduleView,setScheduleView]=useState(false);
   const [renewalView,setRenewalView]=useState(false);
+  const [chargesView,setChargesView]=useState(false);
   const [apSheet,setApSheet]=useState(null);
   const [payView,setPayView]=useState(false);
   const [pastView,setPastView]=useState(false);
@@ -55,7 +57,7 @@ export default function App(){
   const ap=useAp();
   const nt=useNotices();
   const cxUnread=cx.unreadCount()>0;
-  const go=(t)=>{setResView(false);setNoticesView(false);setGuestView(false);setServicesView(false);setScheduleView(false);setRenewalView(false);setTab(t);};
+  const go=(t)=>{setResView(false);setNoticesView(false);setGuestView(false);setServicesView(false);setScheduleView(false);setRenewalView(false);setChargesView(false);setTab(t);};
   const route=(to)=>{
     if(to.type==="request")setDetail(to.id);
     else if(to.type==="payment")setPaySheet(to.id);
@@ -63,7 +65,7 @@ export default function App(){
     else if(to.type==="rent"){setNoticesView(false);setResView(false);setTab("rent");}
   };
   const NAV=[["home",I.home,"Home"],["rent",I.card,"Rent"],["concierge",I.concierge,"Concierge"],["profile",I.person,"Account"]];
-  const subview=resView||payView||pastView||noticesView||guestView||servicesView||scheduleView||renewalView;
+  const subview=resView||payView||pastView||noticesView||guestView||servicesView||scheduleView||renewalView||chargesView;
   return (
     <div className={"am"+(subview?" subview":"")}>
       <div className="stage">
@@ -78,9 +80,10 @@ export default function App(){
             :servicesView?<Services onBack={()=>setServicesView(false)} push={push}/>
             :scheduleView?<Schedule onBack={()=>setScheduleView(false)} onOpenRequest={setDetail}/>
             :renewalView?<Renewal onBack={()=>setRenewalView(false)} push={push}/>
+            :chargesView?<Charges onBack={()=>setChargesView(false)} push={push}/>
             :resView?<Residence onBack={()=>setResView(false)} go={go} onAsk={(act)=>route({type:"compose",preset:act.preset,note:act.note})} openGuests={()=>setGuestView(true)} openRenewal={()=>setRenewalView(true)}/>
             :tab==="home"?<Home go={go} openRes={()=>setResView(true)} openRent={()=>setTab("rent")} openNotices={()=>setNoticesView(true)} onOpenRequest={setDetail} openSchedule={()=>setScheduleView(true)}/>
-            :tab==="rent"?<Rent push={push} onOpenPayments={()=>setPayView(true)} onOpenPayment={(id)=>setPaySheet(id)} onAutopay={(on)=>setApSheet(on?"pause":"on")} onChangeMethod={()=>setApSheet("method")}/>
+            :tab==="rent"?<Rent push={push} onOpenPayments={()=>setPayView(true)} onOpenPayment={(id)=>setPaySheet(id)} onAutopay={(on)=>setApSheet(on?"pause":"on")} onChangeMethod={()=>setApSheet("method")} openCharges={()=>setChargesView(true)}/>
             :tab==="concierge"?<Concierge onCompose={setCompose} onOpen={setDetail} onOpenPast={()=>setPastView(true)} openServices={()=>setServicesView(true)}/>
             :<Profile onBack={()=>go("home")}/>}
           </div>

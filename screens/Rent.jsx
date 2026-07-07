@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useAp } from "@/lib/autopayStore";
+import { useCharges } from "@/lib/chargeStore";
 import { RES, PAYMENTS } from "@/lib/data";
 import { money, ord } from "@/lib/util";
 import { I } from "@/components/icons";
 import { TextLink } from "@/components/TextLink";
 
-export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, onChangeMethod }) {
+export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, onChangeMethod, openCharges }) {
   const ap=useAp(); const a=ap.get();
+  const ch=useCharges(); const dueTotal=ch.dueTotal(); const dueCount=ch.due().length;
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">Residence account</span><div className="ht sf">Rent</div></div>
@@ -29,8 +31,10 @@ export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, onChangeM
 
       <div className="sect">
         <div className="sect-h"><span className="l">Standing</span></div>
-        <div className="lrow"><span><div className="lm sf">Balance due today</div></span><span className="lv st-g">None</span></div>
+        <div className="lrow"><span><div className="lm sf">Balance due today</div>{dueTotal>0&&<div className="ld">{dueCount} charge{dueCount>1?"s":""} outstanding</div>}</span>
+          {dueTotal>0?<span className="lv num" style={{color:"var(--clay)"}}>{money(dueTotal)}</span>:<span className="lv st-g">None</span>}</div>
         <div className="lrow"><span><div className="lm sf">Deposit held</div><div className="ld">In escrow</div></span><span className="lv num">{money(RES.deposit)}</span></div>
+        <TextLink onClick={openCharges}>Charges &amp; statements</TextLink>
       </div>
 
       <div className="sect">
