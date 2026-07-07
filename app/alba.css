@@ -464,4 +464,11 @@
   .pc-home .deskbrief{max-width:680px}
   .pc-home .home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;align-items:start;margin-top:var(--sp-7)}
   .pc-home .home-only{display:block}
+
+  /* notices page: roomier, and tabs + sort share one row with a divider */
+  .nt-brief{margin-top:var(--sp-6)}
+  .nt-bar{display:flex;align-items:flex-end;gap:28px;margin-top:var(--sp-7)}
+  .nt-bar .nt-tabs{flex:1;margin:0;padding:0;overflow:visible}
+  .nt-bar .nt-ctrls{margin:0;padding:0 0 14px 28px;border-left:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .nt-g{margin-top:var(--sp-6)}
 }

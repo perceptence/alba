@@ -46,14 +46,15 @@ export function NoticesPage({ onBack, route }) {
         <div className="bby">Composed by the desk · just now</div>
       </div>
 
-      <div className="nt-tabs">
-        {[["all","All"],...Object.entries(NT_CATS).map(([k,c])=>[k,c.label])].map(([k,l])=>
-          <button key={k} className={"nt-tab"+(filt===k?" on":"")} onClick={()=>setFilt(k)}>{l}</button>)}
-      </div>
-
-      <div className="nt-ctrls">
-        <button className="nt-sort" onClick={()=>setMode(m=>m==="latest"?"priority":"latest")}>
-          <I.sort/><span>{mode==="latest"?"Latest first":"Needs you first"}</span></button>
+      <div className="nt-bar">
+        <div className="nt-tabs">
+          {[["all","All"],...Object.entries(NT_CATS).map(([k,c])=>[k,c.label])].map(([k,l])=>
+            <button key={k} className={"nt-tab"+(filt===k?" on":"")} onClick={()=>setFilt(k)}>{l}</button>)}
+        </div>
+        <div className="nt-ctrls">
+          <button className="nt-sort" onClick={()=>setMode(m=>m==="latest"?"priority":"latest")}>
+            <I.sort/><span>{mode==="latest"?"Latest first":"Needs you first"}</span></button>
+        </div>
       </div>
 
       {order.filter(g=>groups[g]).map(g=>(<div key={g}>
