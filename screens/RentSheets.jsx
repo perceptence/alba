@@ -41,7 +41,7 @@ export function AutopaySheet({ push, onClose }) {
         <span><div className="tt sf">Collect automatically</div><div className="td">{on?"Drawn from your account each month":"Off · pay manually"}</div></span>
         <button className={"tog"+(on?" on":"")} role="switch" aria-checked={on} onClick={()=>setOn(v=>!v)}><i/></button>
       </div>
-      {on&&<div className="det">
+      {on&&<div className="det" style={{marginTop:0}}>
         <ApField label="Runs on the" display={ord(day)} sel={day} options={AP_DAYS.map(d=>({v:d,l:ord(d)+" of the month"}))} open={openF==="day"} onToggle={()=>tog("day")} onPick={(v)=>{setDay(v);setOpenF(null);}}/>
         <ApField label="Payment method" display={method.bank+" ···· "+method.last4} sel={methodId} options={methods.map(m=>({v:m.id,l:m.bank+" ···· "+m.last4}))} open={openF==="method"} onToggle={()=>tog("method")} onPick={(v)=>{setMethodId(v);setOpenF(null);}}/>
       </div>}
