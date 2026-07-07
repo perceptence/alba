@@ -411,7 +411,7 @@
   .pc{padding:12px 44px 0}
   .scrim{justify-content:center}
   .sheet{max-width:600px}
-  .pc-home .elev{height:230px}
+  .elev{height:230px}
 }
 
 /* DESKTOP: left sidebar rail + right-slide panels */
@@ -467,8 +467,10 @@
 
   /* notices page: roomier, and tabs + sort share one row with a divider */
   .nt-brief{margin-top:var(--sp-6)}
-  .nt-bar{display:flex;align-items:flex-end;gap:28px;margin-top:var(--sp-7)}
+  .nt-bar{display:flex;align-items:center;gap:28px;margin-top:var(--sp-7)}
   .nt-bar .nt-tabs{flex:1;margin:0;padding:0;overflow:visible}
-  .nt-bar .nt-ctrls{margin:0;padding:0 0 14px 28px;border-left:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .nt-bar .nt-ctrls{position:relative;margin:0;padding:0 0 0 28px;align-items:center}
+  .nt-bar .nt-ctrls::before{content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:1px;background:var(--line)}
   .nt-g{margin-top:var(--sp-6)}
+  .elev{height:280px}
 }
