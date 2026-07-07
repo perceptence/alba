@@ -5,10 +5,12 @@ import { RES, PAYMENTS } from "@/lib/data";
 import { money, ord } from "@/lib/util";
 import { I } from "@/components/icons";
 import { TextLink } from "@/components/TextLink";
+import { SettleSheet } from "@/screens/SettleSheet";
 
 export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, onChangeMethod, openCharges }) {
   const ap=useAp(); const a=ap.get();
   const ch=useCharges(); const dueTotal=ch.dueTotal(); const dueCount=ch.due().length;
+  const [settling,setSettling]=useState(false);
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">Residence account</span><div className="ht sf">Rent</div></div>
@@ -32,10 +34,11 @@ export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, onChangeM
       <div className="sect">
         <div className="sect-h"><span className="l">Standing</span></div>
         <div className="lrow"><span><div className="lm sf">Balance due today</div>{dueTotal>0&&<div className="ld">{dueCount} charge{dueCount>1?"s":""} outstanding</div>}</span>
-          {dueTotal>0?<span className="lv num" style={{color:"var(--clay)"}}>{money(dueTotal)}</span>:<span className="lv st-g">None</span>}</div>
+          {dueTotal>0?<button className="due-settle" onClick={()=>setSettling(true)}>Settle {money(dueTotal)}</button>:<span className="lv st-g">None</span>}</div>
         <div className="lrow"><span><div className="lm sf">Deposit held</div><div className="ld">In escrow</div></span><span className="lv num">{money(RES.deposit)}</span></div>
         <TextLink onClick={openCharges}>Charges &amp; statements</TextLink>
       </div>
+      {settling&&<SettleSheet push={push} onClose={()=>setSettling(false)}/>}
 
       <div className="sect">
         <div className="sect-h"><span className="l">Payment history</span></div>

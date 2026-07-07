@@ -29,7 +29,7 @@ export function Renewal({ onBack, push }) {
       <div className="sect"><div className="sect-h"><span className="l">The offer</span></div>
         <div className="kvl">
           <div className="kv"><span className="k">New term</span><span className="v">{RENEWAL.termLength}</span></div>
-          <div className="kv"><span className="k">Dates</span><span className="v">{RENEWAL.newStart} – {RENEWAL.newEnd}</span></div>
+          <div className="kv"><span className="k">Dates</span><span className="v">{RENEWAL.dates}</span></div>
           <div className="kv"><span className="k">Rent</span><span className="v num">{money(RENEWAL.proposedRent)} / mo</span></div>
           <div className="kv"><span className="k">Deposit</span><span className="v">{RENEWAL.deposit}</span></div>
         </div>

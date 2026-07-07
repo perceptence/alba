@@ -145,7 +145,8 @@
 .tbar{height:1px;background:var(--line);position:relative;margin:0 0 12px}
 .tfill{position:absolute;left:0;top:0;height:1px;background:var(--clay);animation:growbar 1.2s var(--e) .3s both}
 .tnow{position:absolute;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--ink);border:2px solid var(--paper);transform:translateX(-50%);animation:fade .4s ease 1.3s both}
-.tends{display:flex;justify-content:space-between;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey)}
+.tends{display:flex;justify-content:space-between;position:relative;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey)}
+.tends-now{position:absolute;transform:translateX(-50%);color:var(--clay)}
 .lrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;border-top:1px solid var(--line)}
 .lrow:last-child{padding-bottom:0}
 .lrow .lm{font-family:var(--serif);font-weight:400;font-size:16px}
@@ -229,7 +230,7 @@
 .cxt-g{color:var(--sage);font-weight:600}
 .cxt-n{color:var(--ink);font-weight:600}
 .cxt-m{color:var(--grey);font-weight:600}
-.reqst{font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.02em;margin-bottom:var(--sp-5)}
+.reqst{font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.02em;margin-top:-20px;margin-bottom:var(--sp-5)}
 .cxgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .am .cxtile{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--line);border-radius:4px;transition:background .3s var(--e)}
 .cxtile:active{background:var(--paper-2)}
@@ -350,10 +351,6 @@
 .ga-fine{margin-top:20px;font-size:12px;line-height:1.6;color:var(--grey-2);letter-spacing:.01em}
 .ga-foot{display:flex;flex-direction:column;gap:10px}
 
-/* concierge quick prompts — one-tap services that open the composer */
-.cx-quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.am .cx-chip{padding:8px 14px;border:1px solid var(--line);border-radius:1000px;font-size:13px;font-weight:500;color:var(--ink);letter-spacing:.01em}
-.cx-chip:active{background:var(--paper-2)}
 /* base radio, used by picker rows outside the autopay card */
 .ap-radio{width:20px;height:20px;border-radius:50%;border:1px solid var(--grey-2);flex:none;position:relative}
 .ap-radio.on{border-color:var(--ink)}
@@ -361,8 +358,8 @@
 
 /* household schedule */
 .sday{margin-top:28px}
-.sday-h{display:flex;align-items:baseline;gap:10px;margin-bottom:2px}
-.sday-l{font-family:var(--serif);font-size:18px;color:var(--ink)}
+.sday-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.sday-l{font-family:var(--serif);font-weight:400;font-size:18px;color:var(--ink)}
 .sday-dow{font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .sday-empty{font-size:13px;color:var(--grey-2);padding:14px 0;border-top:1px solid var(--line)}
 .am .sentry{display:flex;align-items:center;gap:14px;width:100%;padding:14px 0;border-top:1px solid var(--line)}
@@ -373,8 +370,8 @@
 .sentry-ic-booking{background:rgba(79,106,66,.12)}
 .sentry-ic-booking svg{stroke:var(--sage)}
 .sentry-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.sentry-t{font-family:var(--serif);font-size:15px}
-.sentry-s{font-size:12px;color:var(--grey-2);letter-spacing:.02em}
+.sentry .sentry-t{font-family:var(--serif);font-weight:400;font-size:15px}
+.sentry-s{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em}
 .sentry-w{flex:none;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey);white-space:nowrap}
 .sentry-c{flex:none}
 .sentry-c svg{width:16px;height:16px;stroke:var(--grey-2)}
@@ -411,6 +408,7 @@
 .chg-bal-t{font-family:var(--serif);font-size:16px}
 .chg-bal-d{font-size:12px;color:var(--grey)}
 .am .chg-settle{flex:none;padding:11px 18px;border-radius:1000px;background:var(--ink);color:var(--paper);font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase}
+.am .due-settle{flex:none;padding:9px 16px;border-radius:1000px;background:var(--clay);color:var(--paper);font-size:12px;font-weight:600;letter-spacing:.03em}
 .am .chg{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
 .chg-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .chg .chg-l{font-family:var(--serif);font-weight:400;font-size:16px}
@@ -496,7 +494,7 @@
 .tnode svg{width:12px;height:12px;stroke:var(--sage)}
 .tstep.done .tnode{background:var(--sage)}.tstep.done .tnode svg{stroke:var(--paper)}
 .tstep:not(:last-child)::before{content:"";position:absolute;left:12px;top:20px;bottom:0;width:1px;background:var(--line)}
-.tlab{font-family:var(--serif);font-weight:400;font-size:16px;padding-top:0}
+.tstep .tlab{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.25}
 .tsub{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-1);letter-spacing:.02em}
 .tstep.now .tnode{border-color:var(--clay)}
 .tdot{width:8px;height:8px;border-radius:50%;background:var(--clay)}

@@ -1,6 +1,7 @@
 import { useCx, CX_STATUS } from "@/lib/conciergeStore";
 import { useNotices, ntBrief } from "@/lib/noticesStore";
 import { useGuests } from "@/lib/guestStore";
+import { useCharges } from "@/lib/chargeStore";
 import { weekPreview } from "@/lib/schedule";
 import { RES, ADRIEN, LEASE, AV, PAYMENTS } from "@/lib/data";
 import { money } from "@/lib/util";
@@ -15,6 +16,9 @@ export function Home({ go, openRes, openRent, openNotices, onOpenRequest, openSc
   const guests=useGuests();
   const gActive=guests.all().filter(p=>p.status!=="revoked").length;
   const nextG=guests.live().find(p=>p.status==="upcoming");
+  const chg=useCharges();
+  const dueTotal=chg.dueTotal();
+  const dueCount=chg.due().length;
   const openReq=cx.all().find(r=>r.status==="in_progress"||r.status==="scheduled");
   const openCount=cx.all().filter(r=>r.status!=="resolved"&&r.status!=="cancelled").length;
   const week=weekPreview(3);
@@ -51,9 +55,9 @@ export function Home({ go, openRes, openRent, openNotices, onOpenRequest, openSc
           <div className="sect-h"><span className="l">At a glance</span></div>
           <button className="grow" onClick={openRent}>
             <span className="gm">
-              <span className="gtop"><span className="gl">Rent</span></span>
+              <span className="gtop"><span className="gl">Rent{dueTotal>0?" & charges":""}</span></span>
               <div className="gt sf">{money(RES.rent)}</div>
-              <div className="gs"><span className="st-g">Settled</span> · Autopay on 1 August</div>
+              <div className="gs">{dueTotal>0?<><span className="st-a">{money(dueTotal)} due</span> · {dueCount} charge{dueCount>1?"s":""} to settle</>:<><span className="st-g">Settled</span> · Autopay on 1 August</>}</div>
             </span>
             <span className="gc"><I.chev/></span>
           </button>

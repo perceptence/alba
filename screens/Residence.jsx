@@ -27,8 +27,8 @@ export function Residence({ onBack, go, onAsk, openGuests, openRenewal }) {
   const gCount=guests.all().filter((p)=>p.status!=="revoked").length;
   const rst=useRenewal().status();
   const rnw=rst==="accepted"?{s:"Renewal accepted · new term from "+RENEWAL.newStart, pill:"g", pl:"Renewed"}
-    :rst==="declined"?{s:"Not renewing · term ends "+LEASE.termEnd, pill:"n", pl:"Ending"}
-    :{s:"Renewal offer to review · "+RENEWAL.termLength+" at "+money(RENEWAL.proposedRent)+"/mo", pill:"a", pl:"Review"};
+    :rst==="declined"?{s:"Not renewing · ends "+LEASE.termEnd, pill:"n", pl:"Ending"}
+    :{s:"Ends "+LEASE.termEnd+" · renewal offer ready to review", pill:"a", pl:"Review"};
   return (<div className="pc stag">
     <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Residence</span></div>
     <div style={{marginTop:20}}><Elevation h={160}/></div>
@@ -44,7 +44,7 @@ export function Residence({ onBack, go, onAsk, openGuests, openRenewal }) {
 
     <div className="sect"><div className="sect-h"><span className="l">Lease</span></div>
       <div className="tline" style={{marginTop:0}}><div className="tbar"><span className="tfill" style={{width:LEASE.progress+"%"}}/><span className="tnow" style={{left:LEASE.progress+"%"}}/></div>
-        <div className="tends"><span>{LEASE.termStart}</span><span>{LEASE.termEnd}</span></div></div>
+        <div className="tends"><span>Since {LEASE.termStart}</span><span className="tends-now" style={{left:LEASE.progress+"%"}}>Now</span></div></div>
       <button className="lease-review" onClick={openRenewal}>
         <span className="lease-review-m">
           <div className="lm sf">{LEASE.remaining} months remaining</div>
