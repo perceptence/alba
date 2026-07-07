@@ -15,6 +15,7 @@ const ST = {
 };
 const first = (name) => name.split(" ")[0];
 const scopeList = (scopes) => scopes.map((s) => GUEST_SCOPES[s].label).join(" · ");
+const scopeCommas = (scopes) => scopes.map((s) => GUEST_SCOPES[s].label).join(", ");
 
 // Derive display arrival/departure from the friendly when/stay choices.
 const deriveDates = (when, stay) => {
@@ -45,10 +46,9 @@ export function GuestAccess({ onBack, push }) {
           const st = ST[p.status];
           return (
             <button key={p.id} className="gpass" onClick={() => setOpenId(p.id)}>
-              <span className="gpass-l">
+              <span className="gpass-m">
                 <span className="gpass-top"><span className="gpass-name sf">{p.name}</span><span className={"gpill gpill-" + st.tone}>{st.label}</span></span>
-                <span className="gpass-when">{p.arrive} → {p.depart}</span>
-                <span className="gpass-scopes">{scopeList(p.scopes)}</span>
+                <span className="gpass-sub">{p.arrive} → {p.depart} · {scopeCommas(p.scopes)}</span>
               </span>
               {p.status === "revoked"
                 ? <span className="gpass-c"><I.chev/></span>
@@ -111,15 +111,15 @@ export function GuestInvite({ push, onClose, onCreated }) {
     <div className="sh-body" style={{paddingTop:8}}>
       <div className="flab" style={{marginTop:0}}>Who's visiting</div>
       <div className="co-field co-field-line"><input value={name} onChange={(e) => setName(e.target.value)} placeholder="Guest's name"/></div>
+      <div className="flab">Access</div>
+      <ScopeChips value={scopes} onToggle={(k) => setScopes((s) => s.includes(k) ? s.filter((x) => x !== k) : [...s, k])}/>
       <div className="det">
         <Field label="Visiting" value={kin} options={GUEST_KIN} open={openF === "kin"} onToggle={() => tog("kin")} onPick={(v) => { setKin(v); setOpenF(null); }}/>
         <Field label="Arriving" value={when} options={Object.keys(GUEST_WHEN)} open={openF === "when"} onToggle={() => tog("when")} onPick={(v) => { setWhen(v); setOpenF(null); }}/>
         <Field label="Staying" value={stay} options={GUEST_STAY} open={openF === "stay"} onToggle={() => tog("stay")} onPick={(v) => { setStay(v); setOpenF(null); }}/>
       </div>
-      <div className="flab">Access</div>
-      <ScopeChips value={scopes} onToggle={(k) => setScopes((s) => s.includes(k) ? s.filter((x) => x !== k) : [...s, k])}/>
       <div className="flab">Note for the estate</div>
-      <div className="co-field"><textarea rows={2} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Anything Rosa should know (optional)"/></div>
+      <div className="co-field"><textarea rows={1} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Anything Rosa should know (optional)"/></div>
     </div>
     <div className="sh-foot"><button className="cta" disabled={!valid} style={!valid ? {opacity:.4} : undefined} onClick={submit}>Create pass</button></div>
   </div></div>);
@@ -132,7 +132,12 @@ export function GuestPass({ id, push, onClose }) {
   if (!p) return null;
   const st = ST[p.status];
   const revoked = p.status === "revoked";
-  const share = () => push({ t: "Pass copied", d: "Ready to send to " + first(p.name) });
+  const copy = (text) => { try { navigator.clipboard?.writeText(text)?.catch(() => {}); } catch (e) { /* clipboard unavailable */ } };
+  const copyCode = () => { copy(p.gateCode); push({ t: "Code copied", d: p.gateCode }); };
+  const share = () => {
+    copy(`You're expected at the ${RES.short}.\n${p.arrive} → ${p.depart}\nGate & door code: ${p.gateCode}\nOpens: ${scopeCommas(p.scopes)}`);
+    push({ t: "Pass copied", d: "Ready to send to " + first(p.name) });
+  };
   const revoke = () => { guestStore.revoke(id); push({ t: "Pass revoked", d: first(p.name) + "'s access has ended" }); close(); };
   return (<div {...scrimProps}><div {...sheetProps}>
     <div className="grab"/>
@@ -144,7 +149,7 @@ export function GuestPass({ id, push, onClose }) {
       {!revoked && <div className="gcode">
         <div className="gcode-l">Gate &amp; door code</div>
         <div className="gcode-v num">{p.gateCode}</div>
-        <button className="gcode-copy" onClick={share}><I.copy/>Copy</button>
+        <button className="gcode-copy" onClick={copyCode}><I.copy/>Copy</button>
       </div>}
 
       <div className="kvl">

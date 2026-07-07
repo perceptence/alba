@@ -155,7 +155,7 @@
 .lrow .lm{font-family:var(--serif);font-weight:400;font-size:16px}
 .lrow .ld{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.04em}
 .lrow .lv{font-size:16px;font-weight:600;letter-spacing:.01em}
-.toggle-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0;border-top:1px solid var(--line);margin-top:var(--sp-5)}
+.toggle-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;border-top:1px solid var(--line);margin-top:var(--sp-5)}
 .toggle-line.ap-row{padding-bottom:0}
 .toggle-line .tt{font-family:var(--serif);font-weight:400;font-size:16px}
 .toggle-line .td{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-1)}
@@ -320,12 +320,11 @@
 
 /* guests & access */
 .am .gpass{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
-.gpass-l{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.gpass-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
 .gpass-top{display:flex;align-items:center;gap:10px}
-.gpass-name{font-family:var(--serif);font-size:16px}
-.gpass-when{font-size:13px;color:var(--grey)}
-.gpass-scopes{font-size:12px;color:var(--grey-2);letter-spacing:.02em}
-.gpass-code{flex:none;font-size:17px;font-weight:500;letter-spacing:.16em;color:var(--ink)}
+.gpass .gpass-name{font-family:var(--serif);font-weight:400;font-size:16px}
+.gpass-sub{font-size:12px;font-weight:500;color:var(--grey-2);line-height:1.5;letter-spacing:.02em}
+.gpass-code{flex:none;font-size:16px;font-weight:500;letter-spacing:.14em;color:var(--ink)}
 .gpass-c{flex:none}
 .gpass-c svg{width:16px;height:16px;stroke:var(--grey-2)}
 .gpill{font-size:10px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;padding:2px 8px;border-radius:100px;white-space:nowrap}
@@ -341,7 +340,7 @@
 .gscopes{display:flex;flex-direction:column;gap:8px;margin-top:12px}
 .am .gscope{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;transition:border-color .2s var(--e),background .2s var(--e)}
 .gscope.on{border-color:var(--ink);background:var(--paper-2)}
-.gscope-check{flex:none;width:20px;height:20px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center}
+.gscope-check{flex:none;width:20px;height:20px;border-radius:5px;border:1px solid var(--grey-2);display:grid;place-items:center}
 .gscope.on .gscope-check{background:var(--ink);border-color:var(--ink)}
 .gscope-check svg{width:12px;height:12px;stroke:var(--paper)}
 .gscope-l{display:block;font-family:var(--serif);font-size:15px}
@@ -507,7 +506,7 @@
 .tstep.done:not(:last-child)::before{background:var(--sage)}
 /* current step: green, alive with a slow pulse */
 .tstep.now .tnode{background:var(--sage);border-color:var(--sage);animation:tpulse 2.4s var(--e) infinite}
-.tstep.now:not(:last-child)::before,.tstep.future:not(:last-child)::before{background:repeating-linear-gradient(to bottom,var(--grey-2) 0 2px,transparent 2px 8px)}
+.tstep.now:not(:last-child)::before,.tstep.future:not(:last-child)::before{background:repeating-linear-gradient(to bottom,var(--grey-2) 0 4px,transparent 4px 9px)}
 @keyframes tpulse{0%{box-shadow:0 0 0 0 rgba(79,106,66,.4)}70%,100%{box-shadow:0 0 0 7px rgba(79,106,66,0)}}
 .tstep.future .tnode{background:var(--paper);border-color:var(--line)}
 .tstep.future .tlab{color:var(--grey-2)}
