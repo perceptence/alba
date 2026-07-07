@@ -29,6 +29,7 @@ import { NoticesPage } from "@/screens/Notices";
 import { Residence } from "@/screens/Residence";
 import { Profile } from "@/screens/Profile";
 import { Avatar } from "@/components/Avatar";
+import { TextLink } from "@/components/TextLink";
 import { AV } from "@/lib/data";
 
 export default function App(){
@@ -79,15 +80,16 @@ export default function App(){
                 {k==="concierge"&&cxUnread&&<span className="ndot"/>}
               </button>))}
             <button className={"nav-notices"+(noticesView?" on":"")} onClick={()=>setNoticesView(true)}>
-              <span className="und"/><I.bell/>
-              <span className="nn-txt"><span className="nl">Notices</span>{nt.unreadCount()>0&&<span className="nn-sub">{nt.unreadCount()} new updates</span>}</span>
+              <span className="und"/>
+              <span className="nn-main"><I.bell/><span className="nl">Notices</span></span>
+              {nt.unreadCount()>0&&<span className="nn-sub">{nt.unreadCount()} new updates</span>}
             </button>
             <div className="rail-foot">
               <div className="rail-mgr">
                 <Avatar cfg={AV.rosa} size={38}/>
                 <span className="rail-mgr-id"><span className="rail-mgr-name sf">Rosa Ibáñez</span><span className="rail-mgr-role">Your estate manager</span></span>
               </div>
-              <button className="rail-contact" onClick={()=>go("concierge")}><I.msg/>Contact</button>
+              <TextLink onClick={()=>go("concierge")}>Contact</TextLink>
             </div>
           </nav>
           {paySheet&&<PayDetailSheet id={paySheet} onClose={()=>setPaySheet(null)}/>}
