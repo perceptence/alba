@@ -17,7 +17,7 @@ function ApField({ label, display, sel, options, open, onToggle, onPick }) {
   </div>);
 }
 
-const AP_DAYS=[1,3,5,10,15,20,25,28];
+const AP_DAYS=[1,2,3];
 
 /* One place to manage Autopay — turn it on or off, choose the day of the
    month, pick the account, and save. Opens as a bottom sheet / right panel,

@@ -157,8 +157,8 @@
 .lrow .lv{font-size:16px;font-weight:600;letter-spacing:.01em}
 .toggle-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;border-top:1px solid var(--line);margin-top:var(--sp-5)}
 .toggle-line.ap-row{padding-bottom:0}
-.toggle-line .tt{font-family:var(--serif);font-weight:400;font-size:16px}
-.toggle-line .td{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-1)}
+.toggle-line .tt{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.2}
+.toggle-line .td{font-size:12px;font-weight:500;color:var(--grey);margin-top:6px;line-height:1.4}
 .am .tog{width:44px;height:28px;border-radius:1000px;background:transparent;border:1px solid var(--grey-2);position:relative;transition:.3s var(--e);flex:none}
 .am .tog.on{background:var(--clay);border-color:var(--clay)}
 .tog i{position:absolute;top:50%;left:4px;transform:translateY(-50%);width:18px;height:18px;border-radius:50%;background:var(--grey-2);transition:.3s var(--e)}
