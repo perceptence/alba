@@ -7,17 +7,24 @@ import { I } from "@/components/icons";
 import { TextLink } from "@/components/TextLink";
 import { SettleSheet } from "@/screens/SettleSheet";
 
-export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, onChangeMethod, openCharges }) {
+export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, openCharges }) {
   const ap=useAp(); const a=ap.get();
   const ch=useCharges(); const dueTotal=ch.dueTotal(); const dueCount=ch.due().length;
   const [settling,setSettling]=useState(false);
+  const [methodOpen,setMethodOpen]=useState(false);
   return (
     <div className="pc stag">
-      <div className="phead"><span className="eye">Residence account</span><div className="ht sf">Rent</div></div>
+      <div className="phead"><span className="eye">Residence account</span><div className="ht sf">Payments</div></div>
       <div className="figure">
-        <div className="fk">Next payment</div>
-        <div className="fv sf num">{money(RES.rent)}</div>
-        <div className="fs">{a.on?`Settles 1 August · Autopay · ${a.method.bank} ···· ${a.method.last4}`:"Due 1 August · Settle manually"}</div>
+        {dueTotal>0?<>
+          <div className="fk">Rent &amp; charges</div>
+          <div className="fv sf num">{money(RES.rent+dueTotal)}</div>
+          <div className="fs">{money(RES.rent)} rent · {money(dueTotal)} in charges</div>
+        </>:<>
+          <div className="fk">Next payment</div>
+          <div className="fv sf num">{money(RES.rent)}</div>
+          <div className="fs">{a.on?`Settles 1 August · Autopay · ${a.method.bank} ···· ${a.method.last4}`:"Due 1 August · Settle manually"}</div>
+        </>}
       </div>
 
       <div className="tline">
@@ -29,7 +36,15 @@ export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, onChangeM
         <span><div className="tt sf">Autopay</div><div className="td">{a.on?`From ${a.method.bank} ···· ${a.method.last4} · Runs on the ${ord(a.day)}`:"Rent won't be collected automatically"}</div></span>
         <button className={"tog"+(a.on?" on":"")} role="switch" aria-checked={a.on} onClick={()=>onAutopay(a.on)}><i/></button>
       </div>
-      {a.on&&<TextLink onClick={onChangeMethod}>Change payment method</TextLink>}
+      {a.on&&<div className={"drow"+(methodOpen?" open":"")}>
+        <button className="drow-head" onClick={()=>setMethodOpen(o=>!o)}>
+          <span className="drow-l sf">Payment method</span><span className="drow-v">{a.method.bank} ···· {a.method.last4}</span><span className="drow-c"><I.chev/></span>
+        </button>
+        {methodOpen&&<div className="drow-opts rise">{ap.methods().map(m=>(
+          <button key={m.id} className="drow-opt" onClick={()=>{ap.setMethod(m.id);setMethodOpen(false);}}>
+            <span className={"ap-radio"+(m.id===a.methodId?" on":"")}/><span className="drow-ot sf">{m.bank} ···· {m.last4}<span className="drow-ot-t"> · {m.type}</span></span>
+          </button>))}</div>}
+      </div>}
 
       <div className="sect">
         <div className="sect-h"><span className="l">Standing</span></div>
@@ -59,7 +74,7 @@ export function Payments({ onBack, onOpenPayment }) {
   const list=PAYMENTS.filter(p=>p.year===year);
   const total=list.reduce((sum,p)=>sum+p.amount,0);
   return (<div className="pc stag">
-    <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Rent</span></div>
+    <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Payments</span></div>
     <div className="phead" style={{paddingTop:24}}><span className="eye">Residence account</span><div className="ht sf">Payment history</div></div>
     <div className="yearsw">{years.map(y=><button key={y} className={"yr"+(y===year?" on":"")} onClick={()=>setYear(y)}>{y}</button>)}</div>
     <div className="pay-sum">{list.length} payments · {money(total)} settled</div>

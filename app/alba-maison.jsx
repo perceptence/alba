@@ -22,7 +22,7 @@ import { useNotices } from "@/lib/noticesStore";
 
 import { Home } from "@/screens/Home";
 import { Rent, Payments } from "@/screens/Rent";
-import { PauseSheet, TurnOnSheet, MethodSheet, PayDetailSheet } from "@/screens/RentSheets";
+import { PauseSheet, TurnOnSheet, PayDetailSheet } from "@/screens/RentSheets";
 import { Concierge, PastRequests } from "@/screens/Concierge";
 import { Composer, ReqDetail } from "@/screens/ConciergeSheets";
 import { NoticesPage } from "@/screens/Notices";
@@ -63,7 +63,7 @@ export default function App(){
     else if(to.type==="rent"){setNoticesView(false);setResView(false);setTab("rent");}
     else if(to.type==="renewal"){setNoticesView(false);setResView(false);setRenewalView(true);}
   };
-  const NAV=[["home",I.home,"Home"],["rent",I.card,"Rent"],["concierge",I.concierge,"Concierge"],["profile",I.person,"Account"]];
+  const NAV=[["home",I.home,"Home"],["rent",I.card,"Payments"],["concierge",I.concierge,"Concierge"],["profile",I.person,"Account"]];
   const subview=resView||payView||pastView||noticesView||guestView||scheduleView||renewalView||chargesView;
   const scrollRef=useRef(null);
   // Each distinct screen gets a key; when it changes, scroll back to the top
@@ -86,7 +86,7 @@ export default function App(){
             :chargesView?<Charges onBack={()=>setChargesView(false)} push={push}/>
             :resView?<Residence onBack={()=>setResView(false)} go={go} onAsk={(act)=>route({type:"compose",preset:act.preset,note:act.note})} openGuests={()=>setGuestView(true)} openRenewal={()=>setRenewalView(true)}/>
             :tab==="home"?<Home go={go} openRes={()=>setResView(true)} openRent={()=>setTab("rent")} openNotices={()=>setNoticesView(true)} onOpenRequest={setDetail} openSchedule={()=>setScheduleView(true)} openGuests={()=>setGuestView(true)}/>
-            :tab==="rent"?<Rent push={push} onOpenPayments={()=>setPayView(true)} onOpenPayment={(id)=>setPaySheet(id)} onAutopay={(on)=>setApSheet(on?"pause":"on")} onChangeMethod={()=>setApSheet("method")} openCharges={()=>setChargesView(true)}/>
+            :tab==="rent"?<Rent push={push} onOpenPayments={()=>setPayView(true)} onOpenPayment={(id)=>setPaySheet(id)} onAutopay={(on)=>setApSheet(on?"pause":"on")} openCharges={()=>setChargesView(true)}/>
             :tab==="concierge"?<Concierge onCompose={setCompose} onOpen={setDetail} onOpenPast={()=>setPastView(true)}/>
             :<Profile onBack={()=>go("home")}/>}
           </div>
@@ -115,7 +115,6 @@ export default function App(){
           {detail&&<ReqDetail id={detail} push={push} onClose={()=>setDetail(null)}/>}
           {apSheet==="pause"&&<PauseSheet a={ap.get()} push={push} onClose={()=>setApSheet(null)}/>}
           {apSheet==="on"&&<TurnOnSheet ap={ap} push={push} onClose={()=>setApSheet(null)}/>}
-          {apSheet==="method"&&<MethodSheet ap={ap} onClose={()=>setApSheet(null)}/>}
           <ToastHost toasts={toasts}/>
         </div>
       </div>

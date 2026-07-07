@@ -61,6 +61,26 @@ export function Composer({ preset, initialNote, onClose, onCreated, push }) {
   </div></div>);
 }
 
+// The full milestone journey for a request, with each step marked done /
+// now / future so the timeline can paint the whole path.
+const JOURNEY = {
+  request: ["submitted", "acknowledged", "scheduled", "in_progress", "resolved"],
+  question: ["submitted", "acknowledged", "resolved"],
+};
+function reqMilestones(r) {
+  if (r.status === "cancelled") {
+    return r.timeline.map((ev) => ({ label: CX_STATUS[ev.s].label, detail: (ev.n ? ev.n + " · " : "") + ev.at, state: "done", icon: ev.s === "cancelled" ? "close" : "check" }));
+  }
+  const order = JOURNEY[CX_CATS[r.category].kind] || JOURNEY.request;
+  const cur = order.indexOf(r.status);
+  const resolved = r.status === "resolved";
+  return order.map((s, i) => {
+    const ev = r.timeline.find((e) => e.s === s);
+    const state = i < cur ? "done" : i === cur ? (resolved ? "done" : "now") : "future";
+    return { label: CX_STATUS[s].label, detail: ev ? (ev.n ? ev.n + " · " : "") + ev.at : "", state, icon: "check" };
+  });
+}
+
 export function ReqDetail({ id, onClose, push }) {
   const cx=useCx();const r=cx.get(id);const[msg,setMsg]=useState("");
   const { close, scrimProps, sheetProps } = useSheet(onClose);
@@ -74,12 +94,11 @@ export function ReqDetail({ id, onClose, push }) {
     <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">{r.title}</div><div className="sh-sub">{CX_CATS[r.category].tag}{r.room?" · "+r.room:""}</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
     <div className="sh-body">
-      <div className="reqst"><span className={"cxt-"+CX_TINT[r.status]}>{st.label}</span>{r.status==="scheduled"&&r.scheduledFor?" · "+r.scheduledFor:""}</div>
-      <div className="tml">{r.timeline.map((ev,i)=>{const done=i<r.timeline.length-1||!open;return(
-        <div className={"tstep"+(done?" done":"")} key={i}>
-          <span className="tnode">{ev.s==="cancelled"?<I.close/>:<I.check/>}</span>
-          <span><div className="tlab sf">{CX_STATUS[ev.s].label}</div><div className="tsub">{ev.n?ev.n+" · ":""}{ev.at}</div></span>
-        </div>);})}</div>
+      <div className="tml">{reqMilestones(r).map((m,i)=>(
+        <div className={"tstep "+m.state} key={i}>
+          <span className="tnode">{m.state==="done"?(m.icon==="close"?<I.close/>:<I.check/>):null}</span>
+          <span><div className="tlab sf">{m.label}</div>{m.detail&&<div className="tsub">{m.detail}</div>}</span>
+        </div>))}</div>
       <div className="kvl">
         {r.room&&<div className="kv"><span className="k">Where</span><span className="v">{r.room}</span></div>}
         {r.priority&&<div className="kv"><span className="k">Priority</span><span className="v">{r.priority}</span></div>}

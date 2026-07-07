@@ -39,8 +39,8 @@ export function Renewal({ onBack, push }) {
       <div className="sect"><div className="sect-h"><span className="l">How it works</span></div>
         <div className="tml">
           {RENEWAL_STEPS.map((s, i) => (
-            <div className={"tstep" + (s.state === "done" ? " done" : s.state === "now" ? " now" : "")} key={i}>
-              <span className="tnode">{s.state === "done" ? <I.check/> : s.state === "now" ? <span className="tdot"/> : null}</span>
+            <div className={"tstep " + s.state} key={i}>
+              <span className="tnode">{s.state === "done" ? <I.check/> : null}</span>
               <span><div className="tlab sf">{s.label}</div><div className="tsub">{s.when} · {s.d}</div></span>
             </div>))}
         </div>

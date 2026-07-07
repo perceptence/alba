@@ -38,6 +38,9 @@
 .stag>*:nth-child(2){animation-delay:.08s}.stag>*:nth-child(3){animation-delay:.16s}
 .stag>*:nth-child(4){animation-delay:.24s}.stag>*:nth-child(5){animation-delay:.32s}
 .stag>*:nth-child(6){animation-delay:.4s}.stag>*:nth-child(7){animation-delay:.48s}
+/* a sheet rendered inside a .stag screen must not inherit the page fade —
+   the scrim appears instantly and the sheet slides in on its own */
+.stag>.scrim{animation:none}
 
 .pc{padding:8px 28px 0}
 .eye{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:var(--tk-page);text-transform:uppercase;color:var(--grey-2)}
@@ -474,6 +477,7 @@
 .drow-opts{padding-bottom:8px}
 .am .drow-opt{display:flex;align-items:center;gap:12px;width:100%;padding:8px 0}
 .drow-opt .drow-ot{font-family:var(--serif);font-weight:400;font-size:16px}
+.drow-ot-t{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em}
 .co-photos{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .thumb{position:relative;width:56px;height:56px;border-radius:8px;background:var(--paper-3);display:grid;place-items:center;flex:none}
 .thumb-ph svg{width:20px;height:20px;stroke:var(--grey-2)}
@@ -488,16 +492,21 @@
 .kvl .k{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .kvl .v{font-family:var(--serif);font-weight:400}
 .tml{margin-top:var(--sp-5)}
-.tstep{display:flex;gap:16px;position:relative;padding-bottom:24px}
+.sh-body>.tml{margin-top:-16px}
+.tstep{display:flex;gap:16px;position:relative;padding-bottom:20px}
 .tstep:last-child{padding-bottom:0}
-.tnode{width:20px;height:20px;border-radius:50%;border:1px solid var(--sage);display:grid;place-items:center;flex:none;z-index:1;background:var(--paper)}
-.tnode svg{width:12px;height:12px;stroke:var(--sage)}
-.tstep.done .tnode{background:var(--sage)}.tstep.done .tnode svg{stroke:var(--paper)}
-.tstep:not(:last-child)::before{content:"";position:absolute;left:12px;top:20px;bottom:0;width:1px;background:var(--line)}
+.tnode{width:20px;height:20px;border-radius:50%;border:1px solid var(--grey-2);display:grid;place-items:center;flex:none;z-index:1;background:var(--paper)}
+.tnode svg{width:12px;height:12px;stroke:var(--paper)}
+/* connector centred under the node (node centre = 10px) */
+.tstep:not(:last-child)::before{content:"";position:absolute;left:9.5px;top:20px;bottom:0;width:0;border-left:1px solid var(--line)}
+.tstep.done .tnode{background:var(--sage);border-color:var(--sage)}
+.tstep.done:not(:last-child)::before{border-left-color:var(--sage)}
+.tstep.now .tnode{background:var(--sage);border-color:var(--sage);box-shadow:0 0 0 4px rgba(79,106,66,.16)}
+.tstep.now:not(:last-child)::before,.tstep.future:not(:last-child)::before{border-left-style:dotted;border-left-color:var(--grey-2)}
+.tstep.future .tnode{background:var(--paper);border-color:var(--line)}
+.tstep.future .tlab{color:var(--grey-2)}
 .tstep .tlab{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.25}
 .tsub{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-1);letter-spacing:.02em}
-.tstep.now .tnode{border-color:var(--clay)}
-.tdot{width:8px;height:8px;border-radius:50%;background:var(--clay)}
 .scr-intro{margin-top:12px;font-size:14px;line-height:1.6;color:var(--grey);letter-spacing:.01em}
 .am .lease-review{display:flex;align-items:center;gap:12px;width:100%;margin-top:18px}
 .lease-review-m{flex:1;min-width:0}

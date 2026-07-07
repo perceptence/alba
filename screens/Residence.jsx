@@ -44,7 +44,7 @@ export function Residence({ onBack, go, onAsk, openGuests, openRenewal }) {
 
     <div className="sect"><div className="sect-h"><span className="l">Lease</span></div>
       <div className="tline" style={{marginTop:0}}><div className="tbar"><span className="tfill" style={{width:LEASE.progress+"%"}}/><span className="tnow" style={{left:LEASE.progress+"%"}}/></div>
-        <div className="tends"><span>Since {LEASE.termStart}</span><span className="tends-now" style={{left:LEASE.progress+"%"}}>Now</span></div></div>
+        <div className="tends"><span>Since {LEASE.termStart}</span><span className="tends-now" style={{left:LEASE.progress+"%"}}>{LEASE.now}</span></div></div>
       <button className="lease-review" onClick={openRenewal}>
         <span className="lease-review-m">
           <div className="lm sf">{LEASE.remaining} months remaining</div>
