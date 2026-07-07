@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { RES, DOCS, ROSA, ADRIEN, AV } from "@/lib/data";
-import { Avatar } from "@/components/Avatar";
+import { RES, DOCS, ADRIEN } from "@/lib/data";
 import { Elevation } from "@/components/Elevation";
+import { ManagerPresence } from "@/components/ManagerPresence";
+import { TextLink } from "@/components/TextLink";
 import { I } from "@/components/icons";
 
 export function Residence({ onBack, go }) {
@@ -27,14 +28,16 @@ export function Residence({ onBack, go }) {
 
     <div className="sect"><div className="sect-h"><span className="l">Documents</span></div>
       {DOCS.map((d,i)=>(<span key={d.t}>
-        <button className={"doc"+(open===i?" open":"")} onClick={()=>setOpen(open===i?null:i)}><span className="dl sf">{d.t}</span><span className="dc"><I.chev/></span></button>
+        <button className={"doc"+(open===i?" open":"")+(i===DOCS.length-1?" last":"")} onClick={()=>setOpen(open===i?null:i)}><span className="dl sf">{d.t}</span><span className="dc"><I.chev/></span></button>
         {open===i&&<div className="docb rise">{d.d}</div>}
       </span>))}
     </div>
 
     <div className="sect"><div className="sect-h"><span className="l">Your manager</span></div>
-      <div className="mgr"><Avatar cfg={AV.rosa} size={44}/><span style={{flex:1}}><div className="mn sf">{ROSA.name}</div><div className="mr">{ROSA.role} · Replies within the hour</div></span>
-        <button className="link" onClick={()=>go("concierge")}>Message<I.arrow/></button></div>
+      <div className="mgr-block">
+        <ManagerPresence large/>
+        <TextLink onClick={()=>go("concierge")}>Message Rosa</TextLink>
+      </div>
     </div>
     <div style={{height:8}}/>
   </div>);

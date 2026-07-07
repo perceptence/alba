@@ -79,7 +79,7 @@ export function PayDetailSheet({ id, onClose }) {
     <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">{pp.month}</div><div className="sh-sub">Rent payment</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
     <div className="sh-body" style={{paddingTop:8}}>
-      <div className="kvl">
+      <div className="kvl" style={{marginTop:0}}>
         <div className="kv"><span className="k">Status</span><span className="v st-g">Paid</span></div>
         <div className="kv"><span className="k">Amount</span><span className="v num">{money(pp.amount)}</span></div>
         <div className="kv"><span className="k">Paid on</span><span className="v">{pp.paid}</span></div>

@@ -3,6 +3,7 @@ import { RES, ADRIEN } from "@/lib/data";
 import { money } from "@/lib/util";
 import { I } from "@/components/icons";
 import { Elevation } from "@/components/Elevation";
+import { TextLink } from "@/components/TextLink";
 
 export function Home({ go, openRes, openRent, openNotices }) {
   const cx=useCx();
@@ -20,7 +21,7 @@ export function Home({ go, openRes, openRent, openNotices }) {
         <Elevation h={160}/>
         <div className="res-name sf">{RES.name}</div>
         <div className="res-meta">{RES.city} · Resident since 2023</div>
-        <div className="res-cta"><span className="link">View residence<I.arrow/></span></div>
+        <TextLink>View residence</TextLink>
       </button>
 
       <div className="sect">

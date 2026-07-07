@@ -3,6 +3,7 @@ import { useAp } from "@/lib/autopayStore";
 import { RES, PAYMENTS } from "@/lib/data";
 import { money, ord } from "@/lib/util";
 import { I } from "@/components/icons";
+import { TextLink } from "@/components/TextLink";
 
 export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, onChangeMethod }) {
   const ap=useAp(); const a=ap.get();
@@ -24,7 +25,7 @@ export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, onChangeM
         <span><div className="tt sf">Autopay</div><div className="td">{a.on?`From ${a.method.bank} ···· ${a.method.last4} · Runs on the ${ord(a.day)}`:"Rent won't be collected automatically"}</div></span>
         <button className={"tog"+(a.on?" on":"")} role="switch" aria-checked={a.on} onClick={()=>onAutopay(a.on)}><i/></button>
       </div>
-      {a.on&&<button className="ap-link" onClick={onChangeMethod}>Change payment method<I.arrow/></button>}
+      {a.on&&<TextLink onClick={onChangeMethod}>Change payment method</TextLink>}
 
       <div className="sect">
         <div className="sect-h"><span className="l">Standing</span></div>
@@ -38,7 +39,7 @@ export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, onChangeM
           <span className="pm"><div className="pmo sf">{PAYMENTS[0].month}</div><div className="psub">Paid {PAYMENTS[0].paid} · {PAYMENTS[0].via} · {PAYMENTS[0].method}</div></span>
           <span className="pamt num">{money(PAYMENTS[0].amount)}</span>
         </button>
-        <button className="ap-link" onClick={onOpenPayments}>View all payments<I.arrow/></button>
+        <TextLink onClick={onOpenPayments}>View all payments</TextLink>
       </div>
       <div style={{height:8}}/>
     </div>

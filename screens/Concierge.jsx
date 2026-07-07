@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useCx, cxGuess, CX_CATS, cxSub } from "@/lib/conciergeStore";
 import { RM } from "@/lib/util";
-import { AV } from "@/lib/data";
-import { Avatar } from "@/components/Avatar";
 import { I } from "@/components/icons";
+import { ManagerPresence } from "@/components/ManagerPresence";
+import { TextLink } from "@/components/TextLink";
 
 const CX_PROMPTS=["The pool heater is acting up…","Could we have fresh linens on Thursday?","When does the gate code change?","A package needs collecting…","Could a guest have access this weekend?"];
 
@@ -21,7 +21,7 @@ export function Concierge({ onCompose, onOpen, onOpenPast }) {
     <div className="pc stag">
       <div className="phead"><span className="eye">At your service</span><div className="ht sf">Concierge</div></div>
       <div className="assist">
-        <div className="row"><Avatar cfg={AV.rosa} size={36}/><span className="who">Rosa Ibáñez · Estate team</span></div>
+        <ManagerPresence/>
         <div className="q sf">How may we help?</div>
         <div className="ask">
           <input value={ask} onChange={e=>setAsk(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")send();}} placeholder={CX_PROMPTS[ph]}/>
@@ -39,7 +39,7 @@ export function Concierge({ onCompose, onOpen, onOpenPast }) {
         <button className={"pastlink"+(showPast?" open":"")} onClick={()=>setShowPast(v=>!v)}>Past · {past.length}<I.chev/></button>
         {showPast&&<div style={{marginTop:12}}>
           {past.slice(0,6).map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}
-          {past.length>6&&<button className="ap-link" onClick={onOpenPast}>View all {past.length} past requests<I.arrow/></button>}
+          {past.length>6&&<TextLink onClick={onOpenPast}>View all {past.length} past requests</TextLink>}
         </div>}
       </div>}
       <div style={{height:8}}/>
