@@ -45,9 +45,6 @@ export function AutopaySheet({ push, onClose }) {
         <ApField label="Runs on the" display={ord(day)} sel={day} options={AP_DAYS.map(d=>({v:d,l:ord(d)+" of the month"}))} open={openF==="day"} onToggle={()=>tog("day")} onPick={(v)=>{setDay(v);setOpenF(null);}}/>
         <ApField label="Payment method" display={method.bank+" ···· "+method.last4} sel={methodId} options={methods.map(m=>({v:m.id,l:m.bank+" ···· "+m.last4}))} open={openF==="method"} onToggle={()=>tog("method")} onPick={(v)=>{setMethodId(v);setOpenF(null);}}/>
       </div>}
-      {on
-        ? <div className="ap-recap"><span className="ap-recap-amt sf num">{money(a.amount)}</span> is drawn from {method.bank} ···· {method.last4} on the {ord(day)} of each month.</div>
-        : <p className="ga-fine">Turn on to have rent collected automatically each month.</p>}
     </div>
     <div className="sh-foot"><button className="cta" onClick={save}>Save changes</button></div>
   </div></div>);
