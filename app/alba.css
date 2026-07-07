@@ -351,6 +351,8 @@
 .am .gcode-copy{display:inline-flex;align-items:center;gap:6px;align-self:end;padding-bottom:4px;font-size:12px;font-weight:600;letter-spacing:.03em;color:var(--clay)}
 .gcode-copy svg{width:14px;height:14px;stroke:var(--clay)}
 .ga-fine{margin-top:20px;font-size:12px;line-height:1.6;color:var(--grey-2);letter-spacing:.01em}
+.ap-recap{margin-top:24px;padding:16px 18px;border-radius:12px;background:var(--paper-2);font-size:14px;line-height:1.65;color:var(--grey);letter-spacing:.01em}
+.ap-recap-amt{font-family:var(--serif);font-weight:400;font-size:18px;color:var(--ink);letter-spacing:-.01em;margin-right:1px}
 .ga-foot{display:flex;flex-direction:column;gap:10px}
 
 /* base radio, used by picker rows outside the autopay card */

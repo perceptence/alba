@@ -38,14 +38,16 @@ export function AutopaySheet({ push, onClose }) {
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
     <div className="sh-body" style={{paddingTop:8}}>
       <div className="toggle-line" style={{marginTop:0}}>
-        <span><div className="tt sf">Collect automatically</div><div className="td">{on?"Rent is paid for you each month":"Off · pay manually"}</div></span>
+        <span><div className="tt sf">Collect automatically</div><div className="td">{on?"Drawn from your account each month":"Off · pay manually"}</div></span>
         <button className={"tog"+(on?" on":"")} role="switch" aria-checked={on} onClick={()=>setOn(v=>!v)}><i/></button>
       </div>
       {on&&<div className="det">
         <ApField label="Runs on the" display={ord(day)} sel={day} options={AP_DAYS.map(d=>({v:d,l:ord(d)+" of the month"}))} open={openF==="day"} onToggle={()=>tog("day")} onPick={(v)=>{setDay(v);setOpenF(null);}}/>
         <ApField label="Payment method" display={method.bank+" ···· "+method.last4} sel={methodId} options={methods.map(m=>({v:m.id,l:m.bank+" ···· "+m.last4}))} open={openF==="method"} onToggle={()=>tog("method")} onPick={(v)=>{setMethodId(v);setOpenF(null);}}/>
       </div>}
-      <p className="ga-fine">{on?`${money(a.amount)} will be collected from ${method.bank} ···· ${method.last4} on the ${ord(day)} of each month.`:"Turn on to have rent collected automatically each month."}</p>
+      {on
+        ? <div className="ap-recap"><span className="ap-recap-amt sf num">{money(a.amount)}</span> is drawn from {method.bank} ···· {method.last4} on the {ord(day)} of each month.</div>
+        : <p className="ga-fine">Turn on to have rent collected automatically each month.</p>}
     </div>
     <div className="sh-foot"><button className="cta" onClick={save}>Save changes</button></div>
   </div></div>);
