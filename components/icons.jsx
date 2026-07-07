@@ -24,7 +24,7 @@ export const I = {
   close:(p)=><svg {...sv(p)}><path d="M6 6l12 12M18 6 6 18"/></svg>,
   send:(p)=><svg {...sv(p)}><path d="M4 12h15M13 6l6 6-6 6"/></svg>,
   clock:(p)=><svg {...sv(p)}><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>,
-  wrench:(p)=><svg {...sv(p)}><path d="M14.7 6.3a4 4 0 0 0-5 5L4 17l3 3 5.7-5.7a4 4 0 0 0 5-5l-2.4 2.4-2.6-.6-.6-2.6z"/></svg>,
+  wrench:(p)=><svg {...sv(p)}><path transform="translate(1.06 -1.06)" d="M14.7 6.3a4 4 0 0 0-5 5L4 17l3 3 5.7-5.7a4 4 0 0 0 5-5l-2.4 2.4-2.6-.6-.6-2.6z"/></svg>,
   leaf:(p)=><svg {...sv(p)}><path d="M5 19C5 9 12 5 20 5c0 8-4 15-14 15"/><path d="M5 19c3-5 7-8 11-10"/></svg>,
   towel:(p)=><svg {...sv(p)}><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M5 15h14"/><path d="M8.5 7.5h4"/></svg>,
   key:(p)=><svg {...sv(p)}><circle cx="8" cy="14" r="3.2"/><path d="m10.5 11.5 8-8M16 6l2.2 2.2M13.6 8.4 15.8 10.6"/></svg>,
@@ -37,4 +37,5 @@ export const I = {
   seal:(p)=><svg {...sv(p)}><path d="M12 3l1.9 2 2.7-.4.4 2.7 2 1.9-1.3 2.4 1.3 2.4-2 1.9-.4 2.7-2.7-.4L12 21l-1.9-2-2.7.4-.4-2.7-2-1.9 1.3-2.4L4.9 9l2-1.9.4-2.7 2.7.4z"/><path d="m9.5 12 1.7 1.7 3.3-3.4"/></svg>,
   renew:(p)=><svg {...sv(p)}><path d="M4 12a8 8 0 0 1 14-5l2 2M20 4v5h-5"/><path d="M20 12a8 8 0 0 1-14 5l-2-2M4 20v-5h5"/></svg>,
   sun:(p)=><svg {...sv(p)}><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>,
+  sort:(p)=><svg {...sv(p)}><path d="M7 4v16M4 7l3-3 3 3"/><path d="M17 20V4M14 17l3 3 3-3"/></svg>,
 };

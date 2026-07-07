@@ -86,6 +86,12 @@
 .res-name{font-family:var(--serif);font-weight:300;font-size:32px;letter-spacing:-.02em;margin-top:20px;line-height:1.08}
 .res-meta{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey);margin-top:var(--sp-2)}
 
+/* home — from the desk brief */
+.am .deskbrief{display:block;width:100%;text-align:left;margin-top:var(--sp-6);padding-left:var(--sp-4);border-left:2px solid var(--clay)}
+.deskbrief .db-text{font-size:17px;line-height:1.5;color:var(--ink);margin-top:var(--sp-4)}
+.deskbrief .db-foot{display:inline-flex;align-items:center;gap:8px;margin-top:var(--sp-4);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
+.deskbrief .db-foot svg{width:12px;height:12px;stroke:var(--grey-2)}
+
 /* glance rows */
 .grow{display:flex;align-items:center;gap:16px;width:100%;text-align:left;padding:20px 0;border-top:1px solid var(--line)}
 .grow .gm{flex:1;min-width:0}
@@ -145,7 +151,7 @@
 .payrow .psub{font-size:12px;font-weight:500;color:var(--grey-2);margin-top:var(--sp-1);letter-spacing:.02em}
 .payrow .pamt{font-size:16px;font-weight:600;letter-spacing:.01em;flex:none}
 .yearsw{display:flex;gap:8px;margin-top:var(--sp-5)}
-.am .yr{padding:8px 16px;border-radius:1000px;border:1px solid var(--line);font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--grey)}
+.am .yr{padding:8px 16px;border-radius:1000px;border:1px solid var(--line);font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--grey);white-space:nowrap;flex:none}
 .am .yr.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .pay-sum{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-4);letter-spacing:.02em}
 
@@ -219,6 +225,36 @@
 .arow .ad{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-1);line-height:1.55}
 .arow .aw{font-size:12px;font-weight:600;color:var(--grey-2);margin-top:var(--sp-2);letter-spacing:var(--tk-label);text-transform:uppercase}
 
+/* notices — the desk's brief, filters, stacks */
+.nt-brief{margin-top:var(--sp-4);padding-left:var(--sp-4);border-left:1px solid var(--clay)}
+.nt-brief .bq{font-size:18px;line-height:1.5;color:var(--ink)}
+.nt-brief .bby{margin-top:var(--sp-2);font-size:8px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2)}
+.nt-tabs{display:flex;gap:24px;margin-top:var(--sp-6);overflow-x:auto;scrollbar-width:none;margin-inline:-28px;padding:0 28px;border-bottom:1px solid var(--line)}
+.nt-tabs::-webkit-scrollbar{display:none}
+.am .nt-tab{position:relative;flex:none;padding-bottom:14px;font-size:13px;font-weight:500;letter-spacing:.01em;color:var(--grey-2);white-space:nowrap;transition:color .3s var(--e)}
+.am .nt-tab.on{color:var(--ink)}
+.nt-tab::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--clay);transform:scaleX(0);transition:transform .28s var(--e)}
+.nt-tab.on::after{transform:scaleX(1)}
+.nt-ctrls{display:flex;align-items:center;justify-content:flex-start;margin-top:var(--sp-4)}
+.am .nt-sort{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--ink)}
+.nt-sort svg{width:14px;height:14px;stroke:var(--ink)}
+.nt-g{margin-top:var(--sp-4);margin-bottom:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
+.am .arow{cursor:pointer}
+.arow.read .at{color:var(--grey)}
+.arow.read .ai svg{stroke:var(--grey)}
+.arow .aw .need{color:var(--clay)}
+.am .arow .a-act{display:inline-flex;align-items:center;gap:8px;margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px}
+.arow .a-act svg{width:12px;height:12px;stroke:var(--ink)}
+.am .nt-more{display:inline-flex;align-items:center;gap:6px;margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
+.nt-more svg{width:12px;height:12px;stroke:var(--grey-2);transition:transform .3s var(--e)}
+.nt-more.open svg{transform:rotate(180deg)}
+.nt-sub{margin-top:var(--sp-3);padding-left:var(--sp-3);border-left:1px solid var(--line)}
+.nt-si{padding:10px 0}
+.nt-si+.nt-si{border-top:1px solid var(--line-2)}
+.nt-si .st{font-size:14px}
+.nt-si .sd{font-size:12px;font-weight:500;color:var(--grey);margin-top:2px;line-height:1.5}
+.nt-si .sw{font-size:12px;font-weight:500;color:var(--grey-2);margin-top:var(--sp-1);letter-spacing:.04em;text-transform:uppercase}
+
 /* residence detail */
 .about{font-family:var(--serif);font-weight:400;font-size:20px;line-height:1.7;color:var(--ink-2);letter-spacing:-.005em}
 .amen{margin-top:var(--sp-2)}
@@ -239,7 +275,7 @@
 .nav button .nl{font-size:8px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2);transition:color .3s var(--e)}
 .nav button.on svg{stroke:var(--ink)}
 .nav button.on .nl{color:var(--ink)}
-.nav button .und{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:16px;height:1px;background:var(--clay);opacity:0;transition:opacity .3s var(--e)}
+.nav button .und{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:16px;height:2px;background:var(--clay);opacity:0;transition:opacity .3s var(--e)}
 .nav button.on .und{opacity:1}
 .nav .ndot{position:absolute;top:-2px;right:2px;width:8px;height:8px;border-radius:50%;background:var(--clay)}
 

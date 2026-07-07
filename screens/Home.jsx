@@ -1,19 +1,22 @@
 import { useCx, CX_STATUS } from "@/lib/conciergeStore";
+import { useNotices, ntBrief } from "@/lib/noticesStore";
 import { RES, ADRIEN } from "@/lib/data";
 import { money } from "@/lib/util";
 import { I } from "@/components/icons";
 import { Elevation } from "@/components/Elevation";
 import { TextLink } from "@/components/TextLink";
+import { ManagerPresence } from "@/components/ManagerPresence";
 
 export function Home({ go, openRes, openRent, openNotices }) {
   const cx=useCx();
+  const nt=useNotices();
   const openReq=cx.all().find(r=>r.status==="in_progress"||r.status==="scheduled");
   const openCount=cx.all().filter(r=>r.status!=="resolved"&&r.status!=="cancelled").length;
   return (
     <div className="pc stag">
       <div className="top">
         <span className="eye">Saturday · 5 July</span>
-        <button className="icob" onClick={openNotices} aria-label="Notices"><I.bell/><span className="dot"/></button>
+        <button className="icob" onClick={openNotices} aria-label="Notices"><I.bell/>{nt.unreadCount()>0&&<span className="dot"/>}</button>
       </div>
       <div className="hero-greet"><span className="g1">Good evening,</span><br/><span className="g2">{ADRIEN.first}.</span></div>
 
@@ -22,6 +25,12 @@ export function Home({ go, openRes, openRent, openNotices }) {
         <div className="res-name sf">{RES.name}</div>
         <div className="res-meta">{RES.city} · Resident since 2023</div>
         <TextLink>View residence</TextLink>
+      </button>
+
+      <button className="deskbrief" onClick={openNotices}>
+        <ManagerPresence/>
+        <div className="db-text sf">{ntBrief(nt.all(), 2)}</div>
+        <div className="db-foot"><span>Just now · {nt.unreadCount()} update{nt.unreadCount()===1?"":"s"}</span><I.arrow/></div>
       </button>
 
       <div className="sect">
