@@ -36,8 +36,6 @@ export function Residence({ onBack, go, onAsk, openGuests, openRenewal }) {
     <div className="res-meta">{RES.kind} · {RES.city}</div>
     <div className="res-meta num" style={{marginTop:8,color:"var(--grey-2)"}}>{RES.beds} bed · {RES.baths} bath · {RES.area} m²</div>
 
-    <div className="sect"><div className="sect-h"><span className="l">About</span></div><p className="about">{RES.about}</p></div>
-
     <div className="sect"><div className="sect-h"><span className="l">Amenities</span></div>
       <div className="amen">{RES.amenities.map(([a,b])=>(<div key={a} className="am-r"><span className="sf">{a}</span><span className="ld" style={{fontSize:12,fontWeight:500,letterSpacing:".04em",color:"var(--grey-2)"}}>{b}</span></div>))}</div>
     </div>

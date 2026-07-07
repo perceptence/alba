@@ -6,12 +6,13 @@ import { money, ord } from "@/lib/util";
 import { I } from "@/components/icons";
 import { TextLink } from "@/components/TextLink";
 import { SettleSheet } from "@/screens/SettleSheet";
+import { AutopaySheet } from "@/screens/RentSheets";
 
-export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, openCharges }) {
+export function Rent({ push, onOpenPayments, onOpenPayment, openCharges }) {
   const ap=useAp(); const a=ap.get();
   const ch=useCharges(); const dueTotal=ch.dueTotal(); const dueCount=ch.due().length;
   const [settling,setSettling]=useState(false);
-  const [methodOpen,setMethodOpen]=useState(false);
+  const [managing,setManaging]=useState(false);
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">Residence account</span><div className="ht sf">Payments</div></div>
@@ -34,20 +35,16 @@ export function Rent({ push, onOpenPayments, onOpenPayment, onAutopay, openCharg
 
       <div className="sect">
         <div className="sect-h"><span className="l">Autopay</span></div>
-        <div className="toggle-line" style={{marginTop:0}}>
-          <span><div className="tt sf">Collect automatically</div><div className="td">{a.on?`On the ${ord(a.day)} of each month`:"Off · rent paid manually"}</div></span>
-          <button className={"tog"+(a.on?" on":"")} role="switch" aria-checked={a.on} onClick={()=>onAutopay(a.on)}><i/></button>
+        <div className="lrow">
+          <span>
+            <div className="lm sf">{a.on?`Runs on the ${ord(a.day)}`:"Off"}</div>
+            <div className="ld">{a.on?`From ${a.method.bank} ···· ${a.method.last4}`:"Rent paid manually each month"}</div>
+          </span>
+          <span className={"lv "+(a.on?"st-g":"st-a")}>{a.on?"On":"Off"}</span>
         </div>
-        {a.on&&<div className={"drow"+(methodOpen?" open":"")}>
-          <button className="drow-head" onClick={()=>setMethodOpen(o=>!o)}>
-            <span className="drow-l sf">Payment method</span><span className="drow-v">{a.method.bank} ···· {a.method.last4}</span><span className="drow-c"><I.chev/></span>
-          </button>
-          {methodOpen&&<div className="drow-opts rise">{ap.methods().map(m=>(
-            <button key={m.id} className="drow-opt" onClick={()=>{ap.setMethod(m.id);setMethodOpen(false);}}>
-              <span className={"ap-radio"+(m.id===a.methodId?" on":"")}/><span className="drow-ot sf">{m.bank} ···· {m.last4}<span className="drow-ot-t"> · {m.type}</span></span>
-            </button>))}</div>}
-        </div>}
+        <TextLink onClick={()=>setManaging(true)}>Manage autopay</TextLink>
       </div>
+      {managing&&<AutopaySheet push={push} onClose={()=>setManaging(false)}/>}
 
       <div className="sect">
         <div className="sect-h"><span className="l">Standing</span></div>

@@ -5,68 +5,49 @@ import { money, ord } from "@/lib/util";
 import { I } from "@/components/icons";
 import { useSheet } from "@/components/useSheet";
 
-export function PauseSheet({ a, push, onClose }) {
-  const { close, scrimProps, sheetProps } = useSheet(onClose);
-  return (<div {...scrimProps}><div {...sheetProps}>
-    <div className="grab"/>
-    <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">Pause Autopay?</div><div className="sh-sub">Rent · Monthly</div></span>
-      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body">
-      <p className="ap-body">Rent won't be collected automatically. You'll need to settle {money(a.amount)} by the {ord(a.day)} of each month — we'll remind you before it's due.</p>
-    </div>
-    <div className="sh-foot ap-foot">
-      <button className="cta" onClick={()=>{apStore.setOn(false);push({t:"Autopay paused",d:"Settle rent manually each month"});close();}}>Pause Autopay</button>
-      <button className="cta ghost" onClick={close}>Keep Autopay on</button>
-    </div>
-  </div></div>);
+function ApField({ label, display, sel, options, open, onToggle, onPick }) {
+  return (<div className={"drow"+(open?" open":"")}>
+    <button className="drow-head" onClick={onToggle}>
+      <span className="drow-l sf">{label}</span><span className="drow-v">{display}</span><span className="drow-c"><I.chev/></span>
+    </button>
+    {open&&<div className="drow-opts rise">{options.map(o=>(
+      <button key={o.v} className="drow-opt" onClick={()=>onPick(o.v)}>
+        <span className={"ap-radio"+(o.v===sel?" on":"")}/><span className="drow-ot sf">{o.l}</span>
+      </button>))}</div>}
+  </div>);
 }
 
-export function TurnOnSheet({ ap, push, onClose }) {
+const AP_DAYS=[1,3,5,10,15,20,25,28];
+
+/* One place to manage Autopay — turn it on or off, choose the day of the
+   month, pick the account, and save. Opens as a bottom sheet / right panel,
+   so the Autopay section on Payments stays a summary + link like the rest. */
+export function AutopaySheet({ push, onClose }) {
   const { close, scrimProps, sheetProps } = useSheet(onClose);
-  const a=ap.get();const methods=ap.methods();
-  const [sel,setSel]=useState(a.methodId);
-  const confirm=()=>{ap.setMethod(sel);ap.setOn(true);push({t:"Autopay on",d:"Next run · 1 August"});close();};
+  const a=apStore.get();const methods=apStore.methods();
+  const [on,setOn]=useState(a.on);
+  const [methodId,setMethodId]=useState(a.methodId);
+  const [day,setDay]=useState(a.day);
+  const [openF,setOpenF]=useState(null);
+  const tog=(k)=>setOpenF(o=>o===k?null:k);
+  const method=methods.find(m=>m.id===methodId);
+  const save=()=>{apStore.save({on,methodId,day});push({t:"Autopay updated",d:on?`Runs on the ${ord(day)} of each month`:"Turned off — pay manually"});close();};
   return (<div {...scrimProps}><div {...sheetProps}>
     <div className="grab"/>
-    <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">Turn on Autopay</div><div className="sh-sub">Rent · Monthly</div></span>
+    <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">Autopay</div><div className="sh-sub">Rent · {money(a.amount)} / month</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
     <div className="sh-body" style={{paddingTop:8}}>
-      <div className="kvl" style={{marginTop:0}}>
-        <div className="kv"><span className="k">Amount</span><span className="v num">{money(a.amount)} / month</span></div>
-        <div className="kv"><span className="k">Runs on</span><span className="v">The {ord(a.day)}</span></div>
+      <div className="toggle-line" style={{marginTop:0}}>
+        <span><div className="tt sf">Collect automatically</div><div className="td">{on?"Rent is paid for you each month":"Off · pay manually"}</div></span>
+        <button className={"tog"+(on?" on":"")} role="switch" aria-checked={on} onClick={()=>setOn(v=>!v)}><i/></button>
       </div>
-      <div className="flab">Pay from</div>
-      {methods.map(m=>(
-        <button key={m.id} className="ap-card" onClick={()=>setSel(m.id)}>
-          <span className={"ap-radio"+(sel===m.id?" on":"")}/>
-          <span className="ap-brand">{m.bank} ···· {m.last4}</span>
-          <span className="ap-exp">{m.type}</span>
-        </button>))}
+      {on&&<div className="det">
+        <ApField label="Runs on the" display={ord(day)} sel={day} options={AP_DAYS.map(d=>({v:d,l:ord(d)+" of the month"}))} open={openF==="day"} onToggle={()=>tog("day")} onPick={(v)=>{setDay(v);setOpenF(null);}}/>
+        <ApField label="Payment method" display={method.bank+" ···· "+method.last4} sel={methodId} options={methods.map(m=>({v:m.id,l:m.bank+" ···· "+m.last4}))} open={openF==="method"} onToggle={()=>tog("method")} onPick={(v)=>{setMethodId(v);setOpenF(null);}}/>
+      </div>}
+      <p className="ga-fine">{on?`${money(a.amount)} will be collected from ${method.bank} ···· ${method.last4} on the ${ord(day)} of each month.`:"Turn on to have rent collected automatically each month."}</p>
     </div>
-    <div className="sh-foot">
-      <button className="cta" onClick={confirm}>Turn on Autopay</button>
-    </div>
-  </div></div>);
-}
-
-export function MethodSheet({ ap, onClose }) {
-  const { close, scrimProps, sheetProps } = useSheet(onClose);
-  const a=ap.get();const methods=ap.methods();
-  const [sel,setSel]=useState(a.methodId);
-  return (<div {...scrimProps}><div {...sheetProps}>
-    <div className="grab"/>
-    <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">Payment method</div><div className="sh-sub">For Autopay</div></span>
-      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body" style={{paddingTop:8}}>
-      {methods.map(m=>(
-        <button key={m.id} className="ap-card" onClick={()=>setSel(m.id)}>
-          <span className={"ap-radio"+(sel===m.id?" on":"")}/>
-          <span className="ap-brand">{m.bank} ···· {m.last4}</span>
-          <span className="ap-exp">{m.type}</span>
-        </button>))}
-      <p className="ap-note">To add a bank account, contact the estate office.</p>
-    </div>
-    <div className="sh-foot"><button className="cta" onClick={()=>{ap.setMethod(sel);close();}}>Save changes</button></div>
+    <div className="sh-foot"><button className="cta" onClick={save}>Save changes</button></div>
   </div></div>);
 }
 

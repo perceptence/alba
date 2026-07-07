@@ -17,12 +17,11 @@ import { I } from "@/components/icons";
 import { PhoneBar } from "@/components/PhoneBar";
 import { useToasts, ToastHost } from "@/components/Toasts";
 import { useCx } from "@/lib/conciergeStore";
-import { useAp } from "@/lib/autopayStore";
 import { useNotices } from "@/lib/noticesStore";
 
 import { Home } from "@/screens/Home";
 import { Rent, Payments } from "@/screens/Rent";
-import { PauseSheet, TurnOnSheet, PayDetailSheet } from "@/screens/RentSheets";
+import { PayDetailSheet } from "@/screens/RentSheets";
 import { Concierge, PastRequests } from "@/screens/Concierge";
 import { Composer, ReqDetail } from "@/screens/ConciergeSheets";
 import { NoticesPage } from "@/screens/Notices";
@@ -43,16 +42,15 @@ export default function App(){
   const [detail,setDetail]=useState(null);
   const [noticesView,setNoticesView]=useState(false);
   const [guestView,setGuestView]=useState(false);
+  // (autopay is now managed by a sheet local to the Payments screen)
   const [scheduleView,setScheduleView]=useState(false);
   const [renewalView,setRenewalView]=useState(false);
   const [chargesView,setChargesView]=useState(false);
-  const [apSheet,setApSheet]=useState(null);
   const [payView,setPayView]=useState(false);
   const [pastView,setPastView]=useState(false);
   const [paySheet,setPaySheet]=useState(null);
   const {toasts,push}=useToasts();
   const cx=useCx();
-  const ap=useAp();
   const nt=useNotices();
   const cxUnread=cx.unreadCount()>0;
   const go=(t)=>{setResView(false);setNoticesView(false);setGuestView(false);setScheduleView(false);setRenewalView(false);setChargesView(false);setTab(t);};
@@ -86,7 +84,7 @@ export default function App(){
             :chargesView?<Charges onBack={()=>setChargesView(false)} push={push}/>
             :resView?<Residence onBack={()=>setResView(false)} go={go} onAsk={(act)=>route({type:"compose",preset:act.preset,note:act.note})} openGuests={()=>setGuestView(true)} openRenewal={()=>setRenewalView(true)}/>
             :tab==="home"?<Home go={go} openRes={()=>setResView(true)} openRent={()=>setTab("rent")} openNotices={()=>setNoticesView(true)} onOpenRequest={setDetail} openSchedule={()=>setScheduleView(true)} openGuests={()=>setGuestView(true)}/>
-            :tab==="rent"?<Rent push={push} onOpenPayments={()=>setPayView(true)} onOpenPayment={(id)=>setPaySheet(id)} onAutopay={(on)=>setApSheet(on?"pause":"on")} openCharges={()=>setChargesView(true)}/>
+            :tab==="rent"?<Rent push={push} onOpenPayments={()=>setPayView(true)} onOpenPayment={(id)=>setPaySheet(id)} openCharges={()=>setChargesView(true)}/>
             :tab==="concierge"?<Concierge onCompose={setCompose} onOpen={setDetail} onOpenPast={()=>setPastView(true)}/>
             :<Profile onBack={()=>go("home")}/>}
           </div>
@@ -113,8 +111,6 @@ export default function App(){
           {paySheet&&<PayDetailSheet id={paySheet} onClose={()=>setPaySheet(null)}/>}
           {compose&&<Composer preset={compose.preset} initialNote={compose.note} push={push} onClose={()=>setCompose(null)} onCreated={(id)=>{setCompose(null);setDetail(id);}}/>}
           {detail&&<ReqDetail id={detail} push={push} onClose={()=>setDetail(null)}/>}
-          {apSheet==="pause"&&<PauseSheet a={ap.get()} push={push} onClose={()=>setApSheet(null)}/>}
-          {apSheet==="on"&&<TurnOnSheet ap={ap} push={push} onClose={()=>setApSheet(null)}/>}
           <ToastHost toasts={toasts}/>
         </div>
       </div>
