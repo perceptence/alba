@@ -79,8 +79,8 @@ export default function App(){
                 {k==="concierge"&&cxUnread&&<span className="ndot"/>}
               </button>))}
             <button className={"nav-notices"+(noticesView?" on":"")} onClick={()=>setNoticesView(true)}>
-              <span className="und"/><I.bell/><span className="nl">Notices</span>
-              {nt.unreadCount()>0&&<span className="ncount">{nt.unreadCount()}</span>}
+              <span className="und"/><I.bell/>
+              <span className="nn-txt"><span className="nl">Notices</span>{nt.unreadCount()>0&&<span className="nn-sub">{nt.unreadCount()} new updates</span>}</span>
             </button>
             <div className="rail-foot">
               <div className="rail-mgr">

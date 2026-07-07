@@ -16,11 +16,14 @@ export function Home({ go, openRes, openRent, openNotices, onOpenRequest }) {
   const recent=PAYMENTS.slice(0,1);
   return (
     <div className="pc stag pc-home">
-      <div className="top">
-        <span className="eye">Saturday · 5 July</span>
-        <button className="icob" onClick={openNotices} aria-label="Notices"><I.bell/>{nt.unreadCount()>0&&<span className="ncount">{nt.unreadCount()}</span>}</button>
+      <div className="hometop">
+        <div className="ht-meta">
+          <span className="eye">Saturday · 5 July</span>
+          <span className="settled"><I.seal/>All settled today</span>
+        </div>
+        <button className={"icob"+(nt.unreadCount()>0?" has-new":"")} onClick={openNotices} aria-label="Notices"><I.bell/></button>
+        <div className="hero-greet"><span className="g1">Good evening,</span><br/><span className="g2">{ADRIEN.first}.</span></div>
       </div>
-      <div className="hero-greet"><span className="g1">Good evening,</span><br/><span className="g2">{ADRIEN.first}.</span></div>
 
       <button className="respanel" onClick={openRes}>
         <Elevation h={160}/>
