@@ -2,7 +2,7 @@
    a bundler @import here was silently dropped, so the app fell back to
    Georgia / system sans. Keep the load in the document <head>. */
 :root{
-  --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;--sp-7:40px;--tk-page:.2em;--tk-label:.16em;
+  --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;--sp-7:40px;--tk-page:.2em;--tk-label:.16em;--tk-micro:.14em;
   --paper:#F3EFE7; --paper-2:#ECE7DC; --paper-3:#E5DFD2;
   --ink:#1C1917; --ink-2:#3D372F; --grey:#6B6459; --grey-2:#9A9184;
   --line:rgba(28,25,23,.12); --line-2:rgba(28,25,23,.06);
@@ -64,10 +64,10 @@
 .prof-head{display:flex;align-items:center;gap:var(--sp-4);margin-top:var(--sp-5)}
 .prof-idty{flex:1;min-width:0}
 .prof-av{display:inline-block;border:1px solid var(--line);border-radius:50%;padding:var(--sp-1);flex:none}
-.prof-seal{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--sage);margin-top:var(--sp-2)}
+.prof-seal{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--sage);margin-top:var(--sp-2)}
 .prof-seal svg{width:16px;height:16px;stroke:var(--sage)}
 .prof-eye{font-size:12px;font-weight:600;letter-spacing:var(--tk-page);text-transform:uppercase;color:var(--grey-2)}
-.prof-name{font-family:var(--serif);font-weight:400;font-size:28px;letter-spacing:-.01em;line-height:1.04}
+.prof-name{font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:-.01em;line-height:1.04}
 .prof-place{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey);margin-top:var(--sp-1)}
 .prof-tenure{margin-top:var(--sp-5);padding-top:var(--sp-5);border-top:1px solid var(--line)}
 .pt-eye{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
@@ -90,7 +90,7 @@
 .grow{display:flex;align-items:center;gap:16px;width:100%;text-align:left;padding:20px 0;border-top:1px solid var(--line)}
 .grow .gm{flex:1;min-width:0}
 .grow .gtop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
-.grow .gl{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-2)}
+.grow .gl{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .grow .gt{font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:-.01em;line-height:1.1}
 .grow .gs{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-1)}
 .grow .gs .st-g{color:var(--sage);font-weight:600}
@@ -105,11 +105,11 @@
 .backrow{display:flex;align-items:center;gap:16px;padding-top:12px}
 .am .backb{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none}
 .backb svg{width:20px;height:20px;stroke:var(--ink)}
-.backrow .bt{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+.backrow .bt{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey)}
 
 /* rent */
 .figure{margin-top:var(--sp-6)}
-.figure .fk{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-2)}
+.figure .fk{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .figure .fv{font-family:var(--serif);font-weight:300;font-size:64px;letter-spacing:-.03em;line-height:1;margin-top:var(--sp-3)}
 .figure .fs{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-3);letter-spacing:.02em}
 .tline{margin-top:var(--sp-6)}
@@ -158,8 +158,8 @@
 .mgr-id.lg .mgr-name{font-size:20px}
 .mgr-sub{display:flex;align-items:center;gap:6px;margin-top:var(--sp-1);font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .mgr-dot{width:6px;height:6px;border-radius:50%;background:var(--sage);flex:none}
-.assist .q{font-family:var(--serif);font-weight:300;font-size:28px;letter-spacing:-.01em;margin:var(--sp-4) 0}
-.assist .ask{display:flex;align-items:center;gap:12px;margin-top:var(--sp-5);border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .3s var(--e)}
+.assist .q{font-family:var(--serif);font-weight:300;font-size:24px;letter-spacing:-.01em;margin:var(--sp-5) 0 0}
+.assist .ask{display:flex;align-items:center;gap:12px;margin-top:var(--sp-4);border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .3s var(--e)}
 .assist .ask:focus-within{border-bottom-color:var(--ink)}
 .assist input{flex:1;border:none;background:none;font-size:16px;font-family:var(--serif);font-weight:400;color:var(--ink)}
 .assist input::placeholder{color:var(--grey-2)}
@@ -217,7 +217,7 @@
 .arow .ai svg{width:16px;height:16px;stroke:var(--ink)}
 .arow .at{font-family:var(--serif);font-weight:400;font-size:16px;display:flex;align-items:center;gap:8px}
 .arow .ad{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-1);line-height:1.55}
-.arow .aw{font-size:12px;font-weight:500;color:var(--grey-2);margin-top:var(--sp-2);letter-spacing:var(--tk-label);text-transform:uppercase}
+.arow .aw{font-size:12px;font-weight:600;color:var(--grey-2);margin-top:var(--sp-2);letter-spacing:var(--tk-label);text-transform:uppercase}
 
 /* residence detail */
 .about{font-family:var(--serif);font-weight:400;font-size:20px;line-height:1.7;color:var(--ink-2);letter-spacing:-.005em}
@@ -236,7 +236,7 @@
 .nav{position:absolute;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:space-around;padding:16px 24px 28px;background:linear-gradient(to top,var(--paper) 72%,rgba(243,239,231,0));backdrop-filter:blur(2px)}
 .am .nav button{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;padding:0 4px}
 .nav button svg{width:20px;height:20px;stroke:var(--grey-2);transition:stroke .3s var(--e)}
-.nav button .nl{font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-2);transition:color .3s var(--e)}
+.nav button .nl{font-size:8px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2);transition:color .3s var(--e)}
 .nav button.on svg{stroke:var(--ink)}
 .nav button.on .nl{color:var(--ink)}
 .nav button .und{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:16px;height:1px;background:var(--clay);opacity:0;transition:opacity .3s var(--e)}
@@ -250,17 +250,17 @@
 @media (prefers-reduced-motion:reduce){.sheet,.sheet.closing{animation-duration:.01ms}.tfill,.tnow{animation-duration:.01ms;animation-delay:0ms}}
 .grab{width:36px;height:4px;border-radius:4px;background:var(--line);margin:12px auto 0;flex:none}
 .sh-head{display:flex;align-items:flex-start;gap:16px;padding:20px 28px}
-.sh-title{font-family:var(--serif);font-weight:300;font-size:28px;letter-spacing:-.01em;flex:1;line-height:1.15}
+.sh-title{font-family:var(--serif);font-weight:300;font-size:24px;letter-spacing:-.01em;flex:1;line-height:1.15}
 .sh-sub{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey);margin-top:var(--sp-2)}
 .am .sh-x{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none}
 .sh-x svg{width:16px;height:16px;stroke:var(--ink)}
 .sh-body{padding:24px 28px;overflow-y:auto}
 .sh-foot{padding:16px 28px 28px}
-.am .cta{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:20px;border-radius:1000px;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.am .cta{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:20px;border-radius:1000px;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase}
 .cta svg{width:16px;height:16px;stroke:var(--paper)}
 .am .cta.ghost{background:none;color:var(--ink);border:1px solid var(--line)}
 .cta.ghost svg{stroke:var(--ink)}
-.flab{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-2);margin:24px 0 12px}
+.flab{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2);margin:24px 0 12px}
 .flab:first-child{margin-top:0}
 .selr{display:flex;flex-wrap:wrap;gap:8px}
 .am .sc{padding:12px 16px;border-radius:1000px;border:1px solid var(--line);font-size:12px;font-weight:500;letter-spacing:.03em;color:var(--grey)}
@@ -309,7 +309,7 @@
 .bub{padding:12px 16px;border-radius:16px;font-size:16px;font-family:var(--serif);font-weight:400;line-height:1.4}
 .bw.them .bub{background:var(--paper-2);border:1px solid var(--line);border-bottom-left-radius:4px}
 .bw.me .bub{background:var(--ink);color:var(--paper);border-bottom-right-radius:4px}
-.bt2{font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--grey-2);margin-top:var(--sp-1)}
+.bt2{font-size:8px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2);margin-top:var(--sp-1)}
 .bw.me .bt2{text-align:right}
 .compose{display:flex;gap:12px;align-items:center;margin-top:var(--sp-5);border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .3s var(--e)}
 .compose:focus-within{border-bottom-color:var(--ink)}
@@ -318,7 +318,7 @@
 .compose input:focus{outline:none}
 .am .compose .snd{flex:none;width:34px;height:34px;border-radius:50%;background:var(--clay);display:grid;place-items:center}
 .compose .snd svg{width:18px;height:18px;stroke:var(--paper)}
-.hint{font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-2);text-align:center;margin-top:var(--sp-3)}
+.hint{font-size:8px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2);text-align:center;margin-top:var(--sp-3)}
 
 /* avatar */
 .avr{border-radius:50%;overflow:hidden;flex:none;display:block}

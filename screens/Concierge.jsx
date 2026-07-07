@@ -21,8 +21,8 @@ export function Concierge({ onCompose, onOpen, onOpenPast }) {
     <div className="pc stag">
       <div className="phead"><span className="eye">At your service</span><div className="ht sf">Concierge</div></div>
       <div className="assist">
-        <div className="q sf">How may we help?</div>
         <ManagerPresence/>
+        <div className="q sf">How may we help?</div>
         <div className="ask">
           <input value={ask} onChange={e=>setAsk(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")send();}} placeholder={CX_PROMPTS[ph]}/>
           <button className="snd" onClick={send} aria-label="Send"><I.send/></button>
@@ -35,7 +35,7 @@ export function Concierge({ onCompose, onOpen, onOpenPast }) {
         {open.map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}
       </div>
 
-      {past.length>0&&<div style={{marginTop:8}}>
+      {past.length>0&&<div style={{marginTop:26}}>
         <button className={"pastlink"+(showPast?" open":"")} onClick={()=>setShowPast(v=>!v)}><span>Past requests · {past.length}</span><I.chevD/></button>
         {showPast&&<div className="stag">
           {past.slice(0,6).map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}
