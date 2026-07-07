@@ -413,4 +413,17 @@
 @media (min-width:1160px){
   .phone{grid-template-columns:280px 1fr}
   .pc{max-width:720px;padding:56px 48px 0}
+
+  /* Home reflows into two columns: identity + concierge voice on the
+     left, the "at a glance" ledger as an aside on the right */
+  .pc.pc-home{max-width:1000px;display:grid;grid-template-columns:1.5fr 1fr;
+    grid-template-areas:"top top" "greet greet" "res glance" "brief glance";
+    column-gap:56px;row-gap:28px;align-items:start}
+  .pc-home>.top{grid-area:top}
+  .pc-home>.hero-greet{grid-area:greet;margin:0}
+  .pc-home>.respanel{grid-area:res;margin:0}
+  .pc-home>.deskbrief{grid-area:brief;margin:0}
+  .pc-home>.sect{grid-area:glance;margin:0}
+  .pc-home .elev{margin:0}
+  .pc-home>div[style]{display:none}
 }

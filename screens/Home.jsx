@@ -13,7 +13,7 @@ export function Home({ go, openRes, openRent, openNotices }) {
   const openReq=cx.all().find(r=>r.status==="in_progress"||r.status==="scheduled");
   const openCount=cx.all().filter(r=>r.status!=="resolved"&&r.status!=="cancelled").length;
   return (
-    <div className="pc stag">
+    <div className="pc stag pc-home">
       <div className="top">
         <span className="eye">Saturday · 5 July</span>
         <button className="icob" onClick={openNotices} aria-label="Notices"><I.bell/>{nt.unreadCount()>0&&<span className="dot"/>}</button>
