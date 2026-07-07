@@ -468,7 +468,7 @@
 
   /* Home dashboard: grand house hero, modules in a three-up grid below */
   .pc.pc-home{max-width:1000px}
-  .elev{margin:0 -56px}
+  .elev{margin:0 auto;max-width:888px}
   .pc-home .deskbrief{max-width:680px}
   .pc-home .home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;align-items:start;margin-top:var(--sp-5)}
   .pc-home .home-only{display:block}
