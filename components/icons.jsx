@@ -40,4 +40,9 @@ export const I = {
   sort:(p)=><svg {...sv(p)}><path d="M7 4v16M4 7l3-3 3 3"/><path d="M17 20V4M14 17l3 3 3-3"/></svg>,
   search:(p)=><svg {...sv(p)}><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.3-4.3"/></svg>,
   ext:(p)=><svg {...sv(p)}><path d="M13 5h6v6"/><path d="M19 5l-8 8"/><path d="M18 13.5V18a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18V7a1.5 1.5 0 0 1 1.5-1.5H10"/></svg>,
+  users:(p)=><svg {...sv(p)}><circle cx="9" cy="8" r="3.2"/><path d="M3.8 19a5.2 5.2 0 0 1 10.4 0"/><path d="M15.4 5.5a3.1 3.1 0 0 1 0 5"/><path d="M17.2 13.3a5.2 5.2 0 0 1 3 4.7"/></svg>,
+  shield:(p)=><svg {...sv(p)}><path d="M12 3l7 2.6v5.1c0 4.4-3 7.6-7 8.9-4-1.3-7-4.5-7-8.9V5.6z"/><path d="m9 11.7 2 2 4-4.2"/></svg>,
+  copy:(p)=><svg {...sv(p)}><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>,
+  cal:(p)=><svg {...sv(p)}><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>,
+  receipt:(p)=><svg {...sv(p)}><path d="M6 3h12v18l-2.2-1.4-2 1.4-2-1.4-2 1.4L6 19.6z"/><path d="M9.2 8.2h5.6M9.2 12h5.6"/></svg>,
 };
