@@ -1,5 +1,8 @@
 import { useCx, CX_STATUS } from "@/lib/conciergeStore";
 import { useNotices, ntBrief } from "@/lib/noticesStore";
+import { useBookings } from "@/lib/bookingStore";
+import { useGuests } from "@/lib/guestStore";
+import { weekPreview } from "@/lib/schedule";
 import { RES, ADRIEN, AV, PAYMENTS } from "@/lib/data";
 import { money } from "@/lib/util";
 import { I } from "@/components/icons";
@@ -7,12 +10,13 @@ import { Elevation } from "@/components/Elevation";
 import { TextLink } from "@/components/TextLink";
 import { Avatar } from "@/components/Avatar";
 
-export function Home({ go, openRes, openRent, openNotices, onOpenRequest }) {
+export function Home({ go, openRes, openRent, openNotices, onOpenRequest, openSchedule }) {
   const cx=useCx();
   const nt=useNotices();
+  useBookings(); useGuests();
   const openReq=cx.all().find(r=>r.status==="in_progress"||r.status==="scheduled");
   const openCount=cx.all().filter(r=>r.status!=="resolved"&&r.status!=="cancelled").length;
-  const upcoming=cx.all().filter(r=>(r.status==="scheduled"||r.status==="in_progress")&&r.scheduledFor);
+  const week=weekPreview(3);
   const recent=PAYMENTS.slice(0,1);
   return (
     <div className="pc stag pc-home">
@@ -71,10 +75,10 @@ export function Home({ go, openRes, openRent, openNotices, onOpenRequest }) {
         </div>
 
         <div className="sect home-only">
-          <div className="sect-h"><span className="l">Upcoming at the estate</span></div>
-          {upcoming.length>0?upcoming.map(r=>(
-            <button className="urow urow-link" key={r.id} onClick={()=>onOpenRequest(r.id)}>
-              <span className="um"><span className="ut sf">{r.title}</span><span className="us">{r.scheduledFor}</span></span>
+          <div className="sect-h"><span className="l">This week</span><button className="a" onClick={openSchedule}>Full schedule</button></div>
+          {week.length>0?week.map((e,i)=>(
+            <button className="urow urow-link" key={i} onClick={()=>e.to?onOpenRequest(e.to.id):openSchedule()}>
+              <span className="um"><span className="ut sf">{e.title}</span><span className="us">{e.day}{e.window?" · "+e.window:""} · {e.sub}</span></span>
               <span className="uc"><I.chev/></span>
             </button>
           )):<div className="urow"><div className="us">Nothing scheduled</div></div>}
