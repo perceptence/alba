@@ -13,8 +13,8 @@ export function Elevation({ h = 196, animate = true }) {
   });
   const ink = "#2A241E";
   return (
-    <div className="elev" style={{ height: h }}>
-      <svg viewBox="0 30 392 166" width="100%" height={h} preserveAspectRatio="xMidYMax meet" style={{display:"block"}} fill="none" stroke={ink} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+    <div className="elev" style={{ "--elev-h": h + "px" }}>
+      <svg viewBox="0 30 392 166" width="100%" height="100%" preserveAspectRatio="xMidYMax meet" style={{display:"block"}} fill="none" stroke={ink} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         {/* ground */}
         <line {...L({x1:0,y1:158,x2:392,y2:158,_d:.1})}/>
         <line x1="0" y1="162" x2="392" y2="162" stroke={ink} strokeWidth=".5" opacity=".4"/>

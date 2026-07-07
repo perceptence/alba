@@ -27,7 +27,8 @@ import { Composer, ReqDetail } from "@/screens/ConciergeSheets";
 import { NoticesPage } from "@/screens/Notices";
 import { Residence } from "@/screens/Residence";
 import { Profile } from "@/screens/Profile";
-import { ManagerPresence } from "@/components/ManagerPresence";
+import { Avatar } from "@/components/Avatar";
+import { AV } from "@/lib/data";
 
 export default function App(){
   const [tab,setTab]=useState("home");
@@ -75,7 +76,13 @@ export default function App(){
                 <span className="und"/><Ico/><span className="nl">{label}</span>
                 {k==="concierge"&&cxUnread&&<span className="ndot"/>}
               </button>))}
-            <div className="rail-foot"><ManagerPresence/></div>
+            <div className="rail-foot">
+              <div className="rail-mgr">
+                <Avatar cfg={AV.rosa} size={38}/>
+                <span className="rail-mgr-id"><span className="rail-mgr-name sf">Rosa Ibáñez</span><span className="rail-mgr-role">Your estate manager</span></span>
+              </div>
+              <button className="rail-contact" onClick={()=>go("concierge")}><I.msg/>Contact</button>
+            </div>
           </nav>
           {paySheet&&<PayDetailSheet id={paySheet} onClose={()=>setPaySheet(null)}/>}
           {compose&&<Composer preset={compose.preset} initialNote={compose.note} push={push} onClose={()=>setCompose(null)} onCreated={(id)=>{setCompose(null);setDetail(id);}}/>}
