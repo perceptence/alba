@@ -75,7 +75,7 @@ export default function App(){
           <nav className="nav">
             <div className="rail-brand">ALBA</div>
             {NAV.map(([k,Ico,label])=>(
-              <button key={k} className={tab===k?"on":""} onClick={()=>go(k)}>
+              <button key={k} className={(tab===k&&!noticesView)?"on":""} onClick={()=>go(k)}>
                 <span className="und"/><Ico/><span className="nl">{label}</span>
                 {k==="concierge"&&cxUnread&&<span className="ndot"/>}
               </button>))}

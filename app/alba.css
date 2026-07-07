@@ -87,8 +87,7 @@
 
 /* residence panel */
 .am .respanel{display:block;width:100%;text-align:left;margin-top:28px}
-.elev{position:relative;margin:0 -28px;height:var(--elev-h,196px)}
-.elev *{vector-effect:non-scaling-stroke}
+.elev{position:relative;margin:0 -28px;aspect-ratio:392 / 166}
 .res-name{font-family:var(--serif);font-weight:300;font-size:32px;letter-spacing:-.02em;margin-top:20px;line-height:1.08}
 .res-meta{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey);margin-top:var(--sp-2)}
 
@@ -415,10 +414,9 @@
   .pc{padding:12px 44px 0}
   .scrim{justify-content:center}
   .sheet{max-width:600px}
-  .elev{height:230px;margin:0 -44px}
-  /* notices tabs underline runs edge to edge inside the frame */
-  .nt-bar{margin-inline:-44px;padding-inline:44px;border-bottom:1px solid var(--line)}
-  .nt-bar .nt-tabs{border-bottom:none}
+  .elev{margin:0 -44px}
+  /* notices bar bleeds edge to edge inside the frame */
+  .nt-bar{margin-inline:-44px;padding-inline:44px}
 }
 
 /* DESKTOP: left sidebar rail + right-slide panels */
@@ -455,7 +453,7 @@
   .rail-mgr-id{min-width:0;display:flex;flex-direction:column}
   .rail-mgr-name{font-family:var(--serif);font-weight:400;font-size:15px;color:var(--ink);line-height:1.1}
   .rail-mgr-role{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.01em;margin-top:2px}
-  .rail-foot .txtlink{margin-top:3px;margin-left:48px}
+  .am .rail-foot .txtlink{display:inline-flex;width:auto;padding:0 0 2px;border-radius:0;background:none;margin-top:3px;margin-left:48px}
 
   .scroll{grid-column:2;grid-row:1;padding-bottom:56px}
   .pc{max-width:760px;margin:0 auto;padding:52px 56px 0}
@@ -469,19 +467,17 @@
 
   /* Home dashboard: grand house hero, modules in a three-up grid below */
   .pc.pc-home{max-width:1000px}
-  .pc-home .elev{height:300px}
+  .elev{margin:0 -56px}
   .pc-home .deskbrief{max-width:680px}
   .pc-home .home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;align-items:start;margin-top:var(--sp-5)}
   .pc-home .home-only{display:block}
-
-  .elev{height:280px}
 }
 
 /* notices page (tablet + desktop): roomier, tabs + sort share one row */
 @media (min-width:768px){
   .nt-brief{margin-top:var(--sp-6)}
-  .nt-bar{display:flex;align-items:baseline;gap:28px;margin-top:var(--sp-6)}
-  .nt-bar .nt-tabs{flex:1;margin:0;padding:0;overflow:visible}
+  .nt-bar{display:flex;align-items:baseline;gap:28px;margin-top:var(--sp-6);border-bottom:1px solid var(--line)}
+  .nt-bar .nt-tabs{flex:1;margin:0;padding:0;overflow:visible;border-bottom:none}
   .nt-bar .nt-ctrls{position:relative;margin:0;padding:0 0 0 28px;align-items:baseline}
   .nt-bar .nt-ctrls::before{content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:1px;background:var(--line)}
   .nt-g{margin-top:var(--sp-6)}
