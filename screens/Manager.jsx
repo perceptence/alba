@@ -69,16 +69,13 @@ function StatusChip({ r, hideUrgent = false }) {
   return <>{flagged && <><span className="cxt-a">Urgent</span> · </>}{CX_CATS[r.category].tag} · <span className={"cxt-" + (CX_TINT[r.status] || "n")}>{st.label}</span></>;
 }
 // Sorting a list reuses the resident notices sort control — a single button
-// showing the current mode, tapped to cycle. (Filtering uses tabs; sorting
-// uses this. Pills are gone from the product.)
+// showing the current mode, tapped to cycle. It sits on the count row (see
+// the .mgr-bar wrapper) so it's anchored, not floating. (Filtering uses tabs;
+// sorting uses this. Pills are gone from the product.)
 function SortBar({ opts, sort, setSort }) {
   const idx = Math.max(0, opts.findIndex(([k]) => k === sort));
   const next = () => setSort(opts[(idx + 1) % opts.length][0]);
-  return (
-    <div className="nt-ctrls mgr-ctrls">
-      <button className="nt-sort" onClick={next}><I.sort/><span>{opts[idx][1]}</span></button>
-    </div>
-  );
+  return <button className="nt-sort" onClick={next}><I.sort/><span>{opts[idx][1]}</span></button>;
 }
 
 /* ——— Requests — the triage queue ——— */
@@ -112,11 +109,16 @@ function RequestsSection({ push }) {
         <span><span className="eye">The estate desk</span><div className="ht sf">Good morning, Rosa.</div></span>
         <Avatar cfg={AV.rosa} size={46}/>
       </div>
-      <div className="mgr-fig">
-        <span className="mgr-fig-n sf num">{c.needs}</span>
-        <span className="mgr-fig-l">request{c.needs !== 1 ? "s" : ""}<br/>need you</span>
+      <div className="mgr-hero">
+        <div className="mgr-fig">
+          <span className="mgr-fig-n sf num">{c.needs}</span>
+          <span className="mgr-fig-l">request{c.needs !== 1 ? "s" : ""}<br/>need you</span>
+        </div>
+        <div className="mgr-stats">
+          <div className="mgr-stat"><span className="mgr-stat-n sf num">{c.open}</span><span className="mgr-stat-l">open</span></div>
+          <div className="mgr-stat"><span className="mgr-stat-n sf num">{c.done}</span><span className="mgr-stat-l">resolved</span></div>
+        </div>
       </div>
-      <div className="mgr-fig-s">{c.open} open across your estates · {c.done} resolved recently</div>
       <div className="nt-tabs mgr-nt-tabs">
         {TABS.map((t) => {
           const n = reqs.filter(t.match).length;
@@ -178,8 +180,10 @@ function EstatesSection({ push }) {
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Estates</div></div>
-      <div className="mgr-sum2">{ESTATES.length} estates in your care</div>
-      <SortBar opts={[["area", "By area"], ["az", "A–Z"], ["urgent", "Needs attention"]]} sort={sort} setSort={setSort}/>
+      <div className="mgr-bar">
+        <div className="mgr-sum2">{ESTATES.length} estates in your care</div>
+        <SortBar opts={[["area", "By area"], ["az", "A–Z"], ["urgent", "Needs attention"]]} sort={sort} setSort={setSort}/>
+      </div>
       <div className="mgr-list">
         {groups.map(([label, list]) => (
           <div key={label || "all"}>
@@ -229,8 +233,10 @@ function ResidentsSection({ push }) {
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Residents</div></div>
-      <div className="mgr-sum2">{RESIDENTS.length} residents across your estates</div>
-      <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={sort} setSort={setSort}/>
+      <div className="mgr-bar">
+        <div className="mgr-sum2">{RESIDENTS.length} residents across your estates</div>
+        <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={sort} setSort={setSort}/>
+      </div>
       <div className="mgr-list">
         {groups.map(([label, list]) => (
           <div key={label || "all"}>
