@@ -139,7 +139,7 @@
 .am .ob-orient ~ .cta{animation-delay:.54s}
 
 .ob-step .cta{margin-top:auto}
-@media (min-width:1160px){
+@media (min-width:900px){
   /* .phone is a 2-column grid (rail | content) on desktop; .ob-step has no
      nav/rail counterpart, so it must explicitly span both columns or grid
      auto-placement drops it into the narrow first column. */
@@ -790,13 +790,13 @@
 @keyframes slideout{from{transform:none}to{transform:translateX(100%)}}
 
 /* mobile + tablet: full-page sub-views hide the bottom tab bar */
-@media (max-width:1159px){
+@media (max-width:899px){
   .am.subview .nav{display:none}
 }
 
 /* TABLET: an iPad-style device frame on the taupe stage, scaled nav.
    The frame height tracks the viewport (aspect 3:4) so it always fits. */
-@media (min-width:768px) and (max-width:1159px){
+@media (min-width:768px) and (max-width:899px){
   .stage{padding:40px 24px}
   .phone{width:auto;height:min(1000px, calc(100vh - 80px));aspect-ratio:3 / 4;
     max-width:calc(100vw - 48px);border-width:10px;border-radius:42px}
@@ -819,7 +819,7 @@
 }
 
 /* DESKTOP: left sidebar rail + right-slide panels */
-@media (min-width:1160px){
+@media (min-width:900px){
   .stage{display:block;padding:0;background:var(--paper);min-height:100vh}
   .island,.pbar{display:none}
   .splash-brand{font-size:46px}
