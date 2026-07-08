@@ -578,7 +578,6 @@
 
 /* residents roster row (a button) */
 .am .rres{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
-.mgr-list .rres:first-child,.mgr-grp+.rres{border-top:none}
 .rres-m{flex:1;min-width:0}
 .rres-name{font-family:var(--serif);font-weight:400;font-size:16px}
 .rres-role{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--grey-2)}
@@ -589,23 +588,23 @@
 
 /* estate list row */
 .am .estrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
-.mgr-list .estrow:first-child,.mgr-grp+.estrow{border-top:none}
 .estrow-m{flex:1;min-width:0}
 .estrow-n{font-family:var(--serif);font-weight:400;font-size:17px;letter-spacing:-.01em}
 .estrow-s{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:2px}
 .estrow-r{flex:none;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.02em}
 .estrow-r svg{width:16px;height:16px;stroke:var(--grey-2)}
+.estrow-open{color:var(--grey);font-weight:500}
 
 /* estate detail sheet */
 .est-addr{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .est-addr svg{width:16px;height:16px;stroke:var(--grey-2);fill:none;flex:none}
 .est-specs{margin-top:12px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .est-about{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:16px;letter-spacing:-.005em}
-.est-res{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.am .est-res{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-top:1px solid var(--line)}
 .est-res-m{flex:1;min-width:0}
-.est-res-n{font-family:var(--serif);font-weight:400;font-size:15px}
+.est-res-n{font-family:var(--serif);font-weight:400;font-size:16px}
 .est-res-s{font-size:12px;font-weight:500;color:var(--grey-2);margin-top:1px;letter-spacing:.01em}
-.am .est-res-tel{flex:none;font-size:12px;font-weight:500;color:var(--clay);letter-spacing:.02em;text-decoration:none;white-space:nowrap}
+.est-res>svg{flex:none;width:16px;height:16px;stroke:var(--grey-2)}
 .est-lease-note{margin-top:14px;font-size:12px;color:var(--grey);letter-spacing:.01em}
 
 /* resident detail sheet */
@@ -619,30 +618,38 @@
 .res-est-s{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2);margin-top:6px}
 
 /* compact request row shown inside estate / resident detail */
-.reqmini{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
-.reqmini-ic{flex:none;width:30px;height:30px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center}
+.am .reqmini{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-top:1px solid var(--line)}
+.reqmini-ic{flex:none;width:32px;height:32px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center}
 .reqmini-ic svg{width:15px;height:15px;stroke:var(--grey);fill:none}
 .reqmini-m{flex:1;min-width:0}
-.reqmini-t{font-family:var(--serif);font-weight:400;font-size:15px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.reqmini-s{font-size:12px;font-weight:500;color:var(--grey);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.reqmini-w{flex:none;font-size:11px;font-weight:500;color:var(--grey-2)}
+.reqmini-t{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reqmini-s{font-size:12px;font-weight:500;color:var(--grey);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reqmini-w{flex:none;font-size:11px;font-weight:500;color:var(--grey-2);letter-spacing:.02em}
+.reqmini-c{flex:none;display:flex}
+.reqmini-c svg{width:15px;height:15px;stroke:var(--grey-2)}
 
 /* queue row — a scan line: priority tick, initials, who + what + status, time */
-.am .dqrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-top:1px solid var(--line)}
+.am .dqrow{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:19px 0;border-top:1px solid var(--line)}
 .mgr-list .dqrow:first-child{border-top:none}
 .dqpri{flex:none;width:3px;align-self:stretch;border-radius:2px;background:var(--line)}
 .dqpri-urgent{background:var(--clay)}
 .dqpri-soon{background:var(--clay-soft)}
 .dqav{flex:none;width:38px;height:38px;border-radius:50%;background:var(--paper-2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-weight:400;font-size:14px;color:var(--grey);letter-spacing:.02em}
 .dqm{flex:1;min-width:0}
-.dqwho{font-size:12px;font-weight:600;color:var(--ink);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dqest{font-weight:500;color:var(--grey-2)}
-.dqt{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.25;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dqsub{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em;white-space:nowrap;overflow:hidden}
+.dqwho{font-size:12px;font-weight:600;color:var(--grey);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dqest{font-weight:600;color:var(--grey-2)}
+.dqt{font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.3;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dqsub{display:flex;align-items:center;gap:6px;margin-top:7px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em;white-space:nowrap;overflow:hidden}
 .dqsub svg{width:13px;height:13px;stroke:var(--grey-2);fill:none;flex:none}
 .dqr{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .dqtime{font-size:11px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;white-space:nowrap}
 .dqr svg{width:16px;height:16px;stroke:var(--grey-2)}
+
+/* Requests filter — notices-style underline tabs (filtering a subset of one
+   list). Sorting lists elsewhere uses pills; filtering uses tabs. */
+.mgr-nt-tabs{margin-top:26px;margin-inline:0;padding:0;gap:12px;justify-content:space-between}
+.nt-tabn{margin-left:6px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--grey-2)}
+.am .nt-tab.on .nt-tabn{color:var(--grey)}
 
 /* request detail (operator) — reuses the sheet; note in Rosa's voice, actions at foot */
 .dd-av{flex:none;width:44px;height:44px;border-radius:50%;background:var(--paper-2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-size:16px;color:var(--grey)}
@@ -774,7 +781,7 @@
 .hint{font-size:8px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2);text-align:center;margin-top:var(--sp-3)}
 
 /* avatar */
-.avr{border-radius:50%;overflow:hidden;flex:none;display:block}
+.avr{border-radius:50%;overflow:hidden;flex:none;display:block;box-shadow:inset 0 0 0 1px rgba(28,25,23,.08)}
 
 /* toast */
 .toasts{position:absolute;left:0;right:0;bottom:104px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:110;pointer-events:none}
