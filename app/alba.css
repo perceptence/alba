@@ -578,7 +578,7 @@
 .mgr-sum2{margin-top:12px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .mgr-sort{margin-top:18px}
 .mgr-grp{margin:24px 0 var(--sp-4);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
-.mgr-list>div:first-child>.mgr-grp{margin-top:12px}
+.mgr-list>div:first-child>.mgr-grp{margin-top:26px}
 
 /* residents roster row (a button) */
 .am .rres{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
@@ -653,7 +653,7 @@
    underline rail bleeding edge to edge. Only the top gap is tuned here, and
    the list gets clear breathing room below the rail. */
 .mgr-nt-tabs{margin-top:22px}
-.mgr-nt-tabs + .mgr-list{margin-top:var(--sp-5)}
+.mgr-nt-tabs + .mgr-list{margin-top:var(--sp-4)}
 .nt-tabn{margin-left:6px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--grey-2)}
 .am .nt-tab.on .nt-tabn{color:var(--grey)}
 /* Sort control shares a row with the count line (label left, sort right) so
