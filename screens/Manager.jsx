@@ -436,6 +436,26 @@ function ResidentDetail({ id, onClose, push }) {
   </>);
 }
 
+// The milestone journey for a request, so the detail paints the whole track
+// (mirrors the resident side). Derived from status; the current step carries
+// the ETA, the first the arrival time.
+const DESK_JOURNEY = {
+  request: ["submitted", "acknowledged", "scheduled", "in_progress", "resolved"],
+  question: ["submitted", "acknowledged", "resolved"],
+};
+function deskMilestones(r) {
+  const order = DESK_JOURNEY[CX_CATS[r.category].kind] || DESK_JOURNEY.request;
+  const cur = order.indexOf(r.status);
+  const resolved = r.status === "resolved";
+  return order.map((s, i) => {
+    const state = i < cur ? "done" : i === cur ? (resolved ? "done" : "now") : "future";
+    let detail = "";
+    if (s === "submitted") detail = r.time;
+    if (i === cur && !resolved && r.eta) detail = r.eta;
+    return { label: CX_STATUS[s].label, state, detail };
+  });
+}
+
 function DeskDetail({ id, onClose, push }) {
   const desk = useDesk();
   const r = desk.get(id);
@@ -449,7 +469,7 @@ function DeskDetail({ id, onClose, push }) {
 
   const ack = () => { deskStore.acknowledge(id); push({ t: "Acknowledged", d: `${r.who} has been notified` }); };
   const resolve = () => { deskStore.resolve(id); push({ t: "Marked resolved", d: r.title }); close(); };
-  const send = () => { const t = reply.trim(); if (!t) return; setReply(""); if (isNew) deskStore.acknowledge(id); push({ t: "Reply sent", d: `To ${r.who}` }); };
+  const send = () => { const t = reply.trim(); if (!t) return; setReply(""); deskStore.reply(id, t); push({ t: "Reply sent", d: `To ${r.who}` }); };
 
   return (<div {...scrimProps}><div {...sheetProps}>
     <div className="grab"/>
@@ -464,15 +484,26 @@ function DeskDetail({ id, onClose, push }) {
         <span className={"dd-status cxt-" + (CX_TINT[r.status] || "n")}>{st.label}</span>
       </div>
       <div className="dd-title sf">{r.title}</div>
-      <p className="dd-note">&ldquo;{r.note}&rdquo;</p>
-      <div className="dd-by">— {r.who}</div>
-      {r.eta && <div className="dd-eta"><I.clock/>{r.eta}</div>}
 
-      <div className="flab">Reply to {r.who.split(" ")[0]}</div>
-      <div className="assist dd-reply"><div className="ask">
-        <input value={reply} onChange={(e) => setReply(e.target.value)} placeholder="A quick note back…"/>
-        <button className="snd" disabled={!reply.trim()} onClick={send} aria-label="Send"><I.send/></button>
-      </div></div>
+      <div className="tml dd-tml">{deskMilestones(r).map((m, i) => (
+        <div className={"tstep " + m.state} key={i}>
+          <span className="tnode">{m.state === "done" ? <I.check/> : null}</span>
+          <span><div className="tlab sf">{m.label}</div>{m.detail && <div className="tsub">{m.detail}</div>}</span>
+        </div>))}</div>
+
+      <div className="flab">Correspondence</div>
+      <div className="thread">{r.thread.map((m, i) => (
+        <div key={i} className={"bw " + (m.f === "m" ? "me" : "them")}>
+          <span><div className="bub">{m.t}</div><div className="bt2">{m.f === "r" ? r.who.split(" ")[0] + " · " : ""}{m.at}</div></span>
+        </div>))}</div>
+
+      {!done && <>
+        <div className="flab">Reply to {r.who.split(" ")[0]}</div>
+        <div className="assist dd-reply"><div className="ask">
+          <input value={reply} onChange={(e) => setReply(e.target.value)} placeholder="A quick note back…"/>
+          <button className="snd" disabled={!reply.trim()} onClick={send} aria-label="Send"><I.send/></button>
+        </div></div>
+      </>}
     </div>
     <div className="sh-foot dd-foot">
       {isNew && <button className="cta ghost" onClick={ack}>Acknowledge</button>}

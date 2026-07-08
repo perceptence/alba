@@ -673,9 +673,9 @@ html,body{background:#CFC8BB}
 .dd-status{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .dd-title{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.01em;line-height:1.2;margin-top:16px}
 .dd-note{font-family:var(--serif);font-weight:400;font-style:italic;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:12px}
-.dd-by{margin-top:8px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
-.dd-eta{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:13px;font-weight:500;color:var(--clay);letter-spacing:.01em}
-.dd-eta svg{width:15px;height:15px;stroke:var(--clay);fill:none}
+/* the detail's timeline isn't the first body element (tags + title precede
+   it), so undo the resident '-16px pull-up' and give it normal spacing */
+.am .sh-body>.dd-tml{margin-top:var(--sp-5)}
 /* reply box matches the resident 'Ask Rosa' composer — serif input, hairline
    underline, round clay send */
 .dd-reply{margin-top:0}
