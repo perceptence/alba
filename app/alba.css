@@ -622,7 +622,7 @@
   .rail-foot{display:block;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
   /* Rosa's presence uses the shared ManagerPresence (.mgr-id); align the
      Contact link under the name, past the 44px avatar + 12px gap */
-  .am .rail-foot .txtlink{display:inline-flex;width:auto;gap:8px;padding:0 0 2px;border-radius:0;background:none;margin-top:10px;margin-left:56px}
+  .am .rail-foot .txtlink{display:inline-flex;width:auto;gap:8px;padding:0 0 2px;border-radius:0;background:none;margin-top:8px;margin-left:56px}
   .am .rail-foot .txtlink svg{width:12px;height:12px;stroke:var(--ink)}
 
   .scroll{grid-column:2;grid-row:1;padding-bottom:56px}
