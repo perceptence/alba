@@ -33,6 +33,7 @@ import { Charges } from "@/screens/Charges";
 import { Autopay } from "@/screens/Autopay";
 import { Profile } from "@/screens/Profile";
 import { Onboarding } from "@/screens/Onboarding";
+import { Manager } from "@/screens/Manager";
 import { ManagerPresence } from "@/components/ManagerPresence";
 import { DemoPanel } from "@/components/DemoPanel";
 
@@ -81,6 +82,7 @@ export default function App(){
   const viewKey=payView?"pay":pastView?"past":noticesView?"notices":guestView?"guest":scheduleView?"schedule":renewalView?"renewal":chargesView?"charges":autopayView?"autopay":resView?"res":tab;
   useEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;},[viewKey]);
   const onboarding=journey==="onboarding";
+  const manager=journey==="manager";
   return (
     <div className={"am"+(subview?" subview":"")}>
       <DemoPanel journey={journey} onChange={(j)=>{setJourney(j);go("home");}}/>
@@ -90,6 +92,8 @@ export default function App(){
           <PhoneBar/>
           {onboarding?(
             <Onboarding onComplete={()=>{setJourney("resident");go("home");}}/>
+          ):manager?(
+            <Manager push={push}/>
           ):(<>
           <div className="scroll" ref={scrollRef}>
             {payView?<Payments onBack={()=>setPayView(false)} onOpenPayment={(id)=>setPaySheet(id)}/>

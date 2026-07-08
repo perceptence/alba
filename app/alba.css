@@ -556,6 +556,57 @@
 .dr-more{font-size:12px;font-weight:600;color:var(--grey-2)}
 .am mark{background:var(--clay-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
+/* ESTATE DESK — Rosa's operator side. Denser than the resident app: several
+   estates at once, priority triage, scan-and-act rows. Same tokens and fonts,
+   tuned for scanning rather than dwelling. Replaces the resident scroll+nav. */
+.mgr-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:40px}
+.mgr-scroll::-webkit-scrollbar{display:none}
+.mgr-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-top:16px}
+.mgr-head .eye{display:block}
+.mgr-head .ht{font-family:var(--serif);font-weight:300;font-size:32px;letter-spacing:-.02em;margin-top:var(--sp-2);line-height:1}
+.mgr-fig{display:flex;align-items:center;gap:16px;margin-top:28px}
+.mgr-fig-n{font-family:var(--serif);font-weight:300;font-size:56px;letter-spacing:-.03em;line-height:.9;color:var(--ink)}
+.mgr-fig-l{font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.15;color:var(--ink-2)}
+.mgr-fig-s{margin-top:12px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
+.mgr-tabs{margin-top:24px}
+.mgr-tabn{margin-left:7px;font-variant-numeric:tabular-nums;opacity:.5}
+.mgr-list{margin-top:8px}
+
+/* queue row — a scan line: priority tick, initials, who + what + status, time */
+.am .dqrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-top:1px solid var(--line)}
+.mgr-list .dqrow:first-child{border-top:none}
+.dqpri{flex:none;width:3px;align-self:stretch;border-radius:2px;background:var(--line)}
+.dqpri-urgent{background:var(--clay)}
+.dqpri-soon{background:var(--clay-soft)}
+.dqav{flex:none;width:38px;height:38px;border-radius:50%;background:var(--paper-2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-weight:400;font-size:14px;color:var(--grey);letter-spacing:.02em}
+.dqm{flex:1;min-width:0}
+.dqwho{font-size:12px;font-weight:600;color:var(--ink);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dqest{font-weight:500;color:var(--grey-2)}
+.dqt{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.25;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dqsub{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em;white-space:nowrap;overflow:hidden}
+.dqsub svg{width:13px;height:13px;stroke:var(--grey-2);fill:none;flex:none}
+.dqr{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.dqtime{font-size:11px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;white-space:nowrap}
+.dqr svg{width:16px;height:16px;stroke:var(--grey-2)}
+
+/* request detail (operator) — reuses the sheet; note in Rosa's voice, actions at foot */
+.dd-av{flex:none;width:44px;height:44px;border-radius:50%;background:var(--paper-2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-size:16px;color:var(--grey)}
+.dd-tags{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.dd-cat{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+.dd-cat svg{width:14px;height:14px;stroke:var(--grey-2);fill:none}
+.dd-urgent{font-size:10px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--clay);background:var(--clay-soft);padding:3px 9px;border-radius:100px}
+.dd-status{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.dd-title{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.01em;line-height:1.2;margin-top:14px}
+.dd-note{font-family:var(--serif);font-weight:400;font-style:italic;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:12px}
+.dd-eta{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:13px;font-weight:500;color:var(--clay);letter-spacing:.01em}
+.dd-eta svg{width:15px;height:15px;stroke:var(--clay);fill:none}
+.am .dd-send{margin-top:14px;padding:13px}
+.am .dd-send svg{width:15px;height:15px}
+.dd-foot{display:flex;gap:12px}
+.dd-foot .cta{flex:1;padding:16px}
+.dd-done{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--sage)}
+.dd-done svg{width:16px;height:16px;stroke:var(--sage)}
+
 /* nav */
 .nav{position:absolute;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:space-around;padding:16px 24px 28px;background:linear-gradient(to top,var(--paper) 72%,rgba(243,239,231,0));backdrop-filter:blur(2px)}
 .am .nav button{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;padding:0 4px}
@@ -762,6 +813,9 @@
   .am .rail-foot .rail-contact svg{width:15px;height:15px;fill:none;stroke:var(--ink)}
 
   .scroll{grid-column:2;grid-row:1;padding-bottom:56px}
+  /* the estate desk has no rail counterpart — span both grid columns, like
+     onboarding, or auto-placement drops it into the narrow first column */
+  .mgr-scroll{grid-column:1/-1;grid-row:1;padding-bottom:56px}
   .pc{max-width:1000px;margin:0 auto;padding:52px 56px 0}
 
   /* flyouts slide in from the right as panels */

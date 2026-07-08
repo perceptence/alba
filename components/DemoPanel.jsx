@@ -5,6 +5,7 @@
 const JOURNEYS = [
   ["resident", "Resident", "Adrien — day to day"],
   ["onboarding", "New invite", "First-run onboarding"],
+  ["manager", "Estate desk", "Rosa — operator side"],
 ];
 
 export function DemoPanel({ journey, onChange }) {
