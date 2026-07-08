@@ -32,9 +32,14 @@ import { Renewal } from "@/screens/Renewal";
 import { Charges } from "@/screens/Charges";
 import { Autopay } from "@/screens/Autopay";
 import { Profile } from "@/screens/Profile";
+import { Onboarding } from "@/screens/Onboarding";
 import { ManagerPresence } from "@/components/ManagerPresence";
+import { DemoPanel } from "@/components/DemoPanel";
 
 export default function App(){
+  // Which journey the preview is showing — a prototype-only concern, driven
+  // by the DemoPanel outside the device frame. Not part of the real product.
+  const [journey,setJourney]=useState("resident"); // resident | onboarding
   const [tab,setTab]=useState("home");
   const [resView,setResView]=useState(false);
   const [compose,setCompose]=useState(null);
@@ -75,12 +80,17 @@ export default function App(){
   // (opening a sheet doesn't change the key, so the page keeps its place).
   const viewKey=payView?"pay":pastView?"past":noticesView?"notices":guestView?"guest":scheduleView?"schedule":renewalView?"renewal":chargesView?"charges":autopayView?"autopay":resView?"res":tab;
   useEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;},[viewKey]);
+  const onboarding=journey==="onboarding";
   return (
     <div className={"am"+(subview?" subview":"")}>
+      <DemoPanel journey={journey} onChange={(j)=>{setJourney(j);go("home");}}/>
       <div className="stage">
         <div className="phone">
           <div className="island"/>
           <PhoneBar/>
+          {onboarding?(
+            <Onboarding onComplete={()=>{setJourney("resident");go("home");}}/>
+          ):(<>
           <div className="scroll" ref={scrollRef}>
             {payView?<Payments onBack={()=>setPayView(false)} onOpenPayment={(id)=>setPaySheet(id)}/>
             :pastView?<PastRequests onBack={()=>setPastView(false)} onOpen={setDetail}/>
@@ -125,6 +135,7 @@ export default function App(){
           {compose&&<Composer preset={compose.preset} initialNote={compose.note} push={push} onClose={()=>setCompose(null)} onCreated={(id)=>{setCompose(null);setDetail(id);}}/>}
           {detail&&<ReqDetail id={detail} push={push} onClose={()=>setDetail(null)}/>}
           <ToastHost toasts={toasts}/>
+          </>)}
           {splash!=="gone"&&(
             <div className={"splash"+(splash==="out"?" out":"")} aria-hidden="true">
               <div className="splash-brand">

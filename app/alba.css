@@ -49,6 +49,72 @@
 .scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:120px}
 .scroll::-webkit-scrollbar{display:none}
 
+/* ——— PROTOTYPE ONLY: journey switcher, floating outside the device frame.
+   Never part of the product itself — a way to reach every demoable flow. ——— */
+.demopanel{position:fixed;right:16px;bottom:16px;z-index:250;display:flex;align-items:center;gap:4px;
+  background:var(--paper-2);border:1px solid var(--line);border-radius:100px;padding:6px 6px 6px 14px;
+  box-shadow:0 8px 24px rgba(38,30,22,.16)}
+.dp-eye{font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-2);margin-right:2px}
+.am .dp-opt{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:6px 12px;border-radius:100px;transition:background .25s var(--e)}
+.dp-opt.on{background:var(--ink)}
+.dp-l{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.dp-opt.on .dp-l{color:var(--paper)}
+.dp-s{font-size:9.5px;color:var(--grey-2)}
+@media (max-width:479px){.demopanel{right:10px;bottom:10px;padding:5px 5px 5px 12px}.dp-s{display:none}}
+
+/* ——— Onboarding — first-run flow. Fills the frame in place of .scroll +
+   .nav; each step is a quiet full screen: dot progress, back chevron, one
+   Continue. No numbered "step 2 of 5" chrome — momentum only. ——— */
+.ob-step{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;padding:8px 28px 40px}
+.ob-top{display:flex;align-items:center;justify-content:space-between;padding-top:8px;margin-bottom:28px}
+.am .ob-back{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.ob-back svg{width:16px;height:16px;stroke:var(--ink);fill:none}
+.ob-dots{display:flex;gap:6px}
+.ob-dot{width:5px;height:5px;border-radius:50%;background:var(--line)}
+.ob-dot.on{background:var(--clay)}
+.ob-dot.done{background:var(--grey-2)}
+
+.ob-mark{display:flex;justify-content:center;margin:12px 0 22px}
+.ob-mark svg{width:44px;height:44px;fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linecap:round}
+.ob-mark .ob-sun{fill:var(--clay);stroke:none}
+
+.ob-h{font-family:var(--serif);font-weight:300;font-size:28px;letter-spacing:-.01em;line-height:1.15;margin-top:10px}
+.ob-p{font-size:14px;line-height:1.6;color:var(--grey);margin-top:14px}
+
+.ob-signoff{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
+.ob-signoff-t{font-size:13px;font-weight:500;color:var(--grey)}
+
+.ob-emailrow{display:flex;align-items:center;gap:10px;margin-top:24px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;font-size:14px;color:var(--ink)}
+.ob-emailrow svg{width:16px;height:16px;stroke:var(--grey-2);fill:none;flex:none}
+
+.ob-code{margin-top:24px}
+.am .ob-code input{width:100%;border:none;border-bottom:1px solid var(--line);background:none;font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:.45em;text-align:center;color:var(--ink);padding-bottom:12px;transition:border-color .3s var(--e)}
+.am .ob-code input:focus{outline:none;border-bottom-color:var(--ink)}
+.ob-code input::placeholder{color:var(--line)}
+
+.am .ob-resend{display:block;width:100%;text-align:center;margin-top:16px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey)}
+
+.ob-rosa{margin-top:22px;display:flex;justify-content:center}
+.ob-quote{margin-top:22px;font-family:var(--serif);font-weight:400;font-style:italic;font-size:17px;line-height:1.5;color:var(--ink);text-align:center}
+
+.ob-orient{margin-top:22px;display:flex;flex-direction:column}
+.ob-orow{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.ob-orow:first-child{border-top:none;padding-top:0}
+.ob-oico{width:36px;height:36px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center;flex:none}
+.ob-oico svg{width:17px;height:17px;stroke:var(--grey);fill:none}
+.ob-orow .ob-ot{font-family:var(--serif);font-weight:400;font-size:15px;line-height:1.2}
+.ob-od{font-size:13px;color:var(--grey);margin-top:4px;line-height:1.5}
+
+.ob-step .cta{margin-top:auto}
+@media (min-width:1160px){
+  /* .phone is a 2-column grid (rail | content) on desktop; .ob-step has no
+     nav/rail counterpart, so it must explicitly span both columns or grid
+     auto-placement drops it into the narrow first column. */
+  .ob-step{grid-column:1/-1;grid-row:1;align-items:center;justify-content:center;padding:40px}
+  .ob-step>*{width:100%;max-width:420px}
+  .ob-step .cta{margin-top:32px}
+}
+
 @keyframes fadeup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes sheet{from{transform:translateY(100%)}to{transform:none}}
