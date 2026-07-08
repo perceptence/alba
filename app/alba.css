@@ -614,6 +614,7 @@
      no fill), scaled up for the rail — the active state is icon+label ink plus
      the clay tick, mirroring the bottom bar's ink + clay accent. */
   .nav button .nl{font-size:12px;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2)}
+  .nav button.on{background:var(--paper-3)}
   .nav button.on svg{stroke:var(--ink)}
   .nav button.on .nl{color:var(--ink)}
   /* the clay accent returns on desktop as a left-edge tick on the active item */
