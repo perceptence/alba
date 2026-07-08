@@ -32,9 +32,8 @@ import { Renewal } from "@/screens/Renewal";
 import { Charges } from "@/screens/Charges";
 import { Autopay } from "@/screens/Autopay";
 import { Profile } from "@/screens/Profile";
-import { Avatar } from "@/components/Avatar";
+import { ManagerPresence } from "@/components/ManagerPresence";
 import { TextLink } from "@/components/TextLink";
-import { AV } from "@/lib/data";
 
 export default function App(){
   const [tab,setTab]=useState("home");
@@ -104,10 +103,7 @@ export default function App(){
               {nt.unreadCount()>0&&<span className="nn-sub">{nt.unreadCount()} new updates</span>}
             </button>
             <div className="rail-foot">
-              <div className="rail-mgr">
-                <Avatar cfg={AV.rosa} size={38}/>
-                <span className="rail-mgr-id"><span className="rail-mgr-name sf">Rosa Ibáñez</span><span className="rail-mgr-role">Your estate manager</span></span>
-              </div>
+              <ManagerPresence replies={false}/>
               <TextLink onClick={()=>go("concierge")}>Contact</TextLink>
             </div>
           </nav>

@@ -607,7 +607,8 @@
   .nav button.on{background:var(--paper-3)}
   .nav button.on svg{stroke:var(--ink)}
   .nav button.on .nl{color:var(--ink)}
-  .nav button .und{display:none}
+  /* the clay accent returns on desktop as a left-edge tick on the active item */
+  .nav button .und{display:block;top:50%;left:0;bottom:auto;transform:translateY(-50%);width:3px;height:18px;border-radius:2px}
   .nav button .ndot{position:static;top:auto;right:auto;margin-left:auto}
   .am .nav button.nav-notices{display:flex;flex-direction:column;align-items:flex-start;gap:0}
   .nav-notices .nn-main{display:flex;align-items:center;gap:14px}
@@ -619,11 +620,9 @@
   .pc-home .ht-meta .settled{display:inline-flex;margin-top:4px}
   .pc-home .hometop .icob{display:none}
   .rail-foot{display:block;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
-  .rail-mgr{display:flex;align-items:center;gap:10px}
-  .rail-mgr-id{min-width:0;display:flex;flex-direction:column}
-  .rail-mgr-name{font-family:var(--serif);font-weight:400;font-size:15px;color:var(--ink);line-height:1.1}
-  .rail-mgr-role{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.01em;margin-top:2px}
-  .am .rail-foot .txtlink{display:inline-flex;width:auto;gap:8px;padding:0 0 2px;border-radius:0;background:none;margin-top:3px;margin-left:48px}
+  /* Rosa's presence uses the shared ManagerPresence (.mgr-id); align the
+     Contact link under the name, past the 44px avatar + 12px gap */
+  .am .rail-foot .txtlink{display:inline-flex;width:auto;gap:8px;padding:0 0 2px;border-radius:0;background:none;margin-top:10px;margin-left:56px}
   .am .rail-foot .txtlink svg{width:12px;height:12px;stroke:var(--ink)}
 
   .scroll{grid-column:2;grid-row:1;padding-bottom:56px}
