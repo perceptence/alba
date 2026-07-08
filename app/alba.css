@@ -574,7 +574,7 @@ html,body{background:#CFC8BB}
 .mgr-stat{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
 .mgr-stat-n{font-family:var(--serif);font-weight:300;font-size:20px;letter-spacing:-.02em;line-height:1;color:var(--ink);min-width:.7em}
 .mgr-stat-l{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
-.mgr-list{margin-top:8px}
+.mgr-list{margin-top:24px}
 /* section summary + sort/group controls (Estates, Residents) */
 .mgr-sum2{margin-top:12px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .mgr-grp{margin:24px 0 var(--sp-4);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
