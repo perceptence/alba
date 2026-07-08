@@ -338,9 +338,10 @@ html,body{background:#CFC8BB}
 .qc:active{background:var(--paper-2)}
 .rrow{display:flex;align-items:flex-start;gap:16px;width:100%;text-align:left;padding:20px 0}
 .sect>.rrow:last-child{padding-bottom:0}
-.rrow .ric{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none;position:relative}
-.rrow .ric svg{width:16px;height:16px;stroke:var(--ink)}
-.rrow .ric-new{position:absolute;top:-1px;right:-1px;border:1.5px solid var(--paper)}
+/* stroke-circle request icon — shared by the resident list and the manager queue */
+.ric{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none;position:relative}
+.ric svg{width:16px;height:16px;stroke:var(--ink)}
+.ric-new{position:absolute;top:-1px;right:-1px;border:1.5px solid var(--paper)}
 .rrow .rrow-m{flex:1;min-width:0}
 .rrow .reye{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .rrow .rt{font-family:var(--serif);font-weight:400;font-size:16px;margin-top:var(--sp-1)}
@@ -634,13 +635,9 @@ html,body{background:#CFC8BB}
 /* queue row — a scan line: priority tick, initials, who + what + status, time */
 .am .dqrow{display:flex;align-items:flex-start;gap:16px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
 .mgr-list .dqrow:first-child{border-top:none}
-.dqpri{flex:none;width:3px;align-self:stretch;border-radius:2px;background:var(--line)}
-.dqpri-urgent{background:var(--clay)}
-.dqpri-soon{background:var(--clay-soft)}
-.dqtile{flex:none;width:36px;height:36px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center}
-.dqtile svg{width:16px;height:16px;stroke:var(--grey);fill:none}
 .dqm{flex:1;min-width:0}
-.dqwho{font-size:12px;font-weight:600;color:var(--grey);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dqhead{display:flex;align-items:center;gap:8px}
+.dqwho{min-width:0;font-size:12px;font-weight:600;color:var(--grey);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dqt{font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.3;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .dqsub{margin-top:4px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dqr{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
@@ -665,8 +662,6 @@ html,body{background:#CFC8BB}
 /* request detail (operator) — reuses the sheet; note in Rosa's voice, actions at foot */
 /* request detail header uses the request-type tile (like the queue row), a
    little larger to sit against the sheet title */
-.sh-head .dqtile{width:44px;height:44px}
-.sh-head .dqtile svg{width:19px;height:19px}
 .dd-tags{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .dd-urgent{font-size:10px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--clay);background:var(--clay-soft);padding:4px 8px;border-radius:100px}
 .dd-status{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}

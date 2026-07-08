@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useDesk, deskStore, TABS, PRI, ESTATES, RESIDENTS, byEst, byRes, estateResidents } from "@/lib/managerData";
+import { useDesk, deskStore, TABS, ESTATES, RESIDENTS, byEst, byRes, estateResidents } from "@/lib/managerData";
 import { CX_CATS, CX_STATUS, CX_TINT } from "@/lib/conciergeStore";
 import { money } from "@/lib/util";
 import { AV } from "@/lib/data";
@@ -85,12 +85,12 @@ function SortBar({ opts, sort, setSort }) {
 function DeskRow({ r, onOpen }) {
   const Ico = I[CX_ICON[r.category]] || I.dots;
   const st = CX_STATUS[r.status];
+  const urgent = r.priority === "Urgent" && r.status !== "resolved";
   return (
     <button className="dqrow" onClick={() => onOpen(r.id)}>
-      <span className={"dqpri dqpri-" + PRI[r.priority]} aria-hidden="true"/>
-      <span className="dqtile"><Ico/></span>
+      <span className="ric"><Ico/></span>
       <span className="dqm">
-        <div className="dqwho">{r.estate}</div>
+        <div className="dqhead"><span className="dqwho">{r.estate}</span>{urgent && <span className="dd-urgent">Urgent</span>}</div>
         <div className="dqt sf">{r.title}</div>
         <div className="dqsub">{r.who} · <span className={"cxt-" + (CX_TINT[r.status] || "n")}>{st.label}</span></div>
       </span>
@@ -465,7 +465,6 @@ function DeskDetail({ id, onClose, push }) {
   const st = CX_STATUS[r.status];
   const isNew = r.status === "submitted";
   const done = r.status === "resolved";
-  const Ico = I[CX_ICON[r.category]] || I.dots;
   const ms = deskMilestones(r);
   const cur = ms.find((m) => m.state === "now") || ms[ms.length - 1];
 
@@ -476,7 +475,6 @@ function DeskDetail({ id, onClose, push }) {
   return (<div {...scrimProps}><div {...sheetProps}>
     <div className="grab"/>
     <div className="sh-head">
-      <span className="dqtile"><Ico/></span>
       <span style={{ flex: 1 }}><div className="sh-title sf">{r.estate}</div><div className="sh-sub">{r.area} · {CX_CATS[r.category].tag}</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button>
     </div>
