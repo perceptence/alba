@@ -566,30 +566,27 @@ html,body{background:#CFC8BB}
 /* Requests hero — the big "needs you" figure, then the open/resolved stats as
    a tight group right beside it (a fixed gap, not spread across the viewport),
    spanning the same height as the figure so the two read as one block. */
-.mgr-hero{display:flex;align-items:stretch;gap:26px;margin-top:28px}
+.mgr-hero{display:flex;align-items:stretch;gap:24px;margin-top:28px}
 .mgr-fig{display:flex;align-items:center;gap:16px}
 .mgr-fig-n{font-family:var(--serif);font-weight:300;font-size:56px;letter-spacing:-.03em;line-height:.9;color:var(--ink)}
 .mgr-fig-l{font-family:var(--serif);font-weight:400;font-size:18px;line-height:1.15;color:var(--ink-2)}
-.mgr-stats{flex:none;display:flex;flex-direction:column;justify-content:space-between;padding-left:26px;border-left:1px solid var(--line)}
+.mgr-stats{flex:none;display:flex;flex-direction:column;justify-content:center;gap:4px;padding-left:24px;border-left:1px solid var(--line)}
 .mgr-stat{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
 .mgr-stat-n{font-family:var(--serif);font-weight:300;font-size:20px;letter-spacing:-.02em;line-height:1;color:var(--ink);min-width:.7em}
 .mgr-stat-l{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
-.mgr-tabs{margin-top:24px}
-.mgr-tabn{margin-left:7px;font-variant-numeric:tabular-nums;opacity:.5}
 .mgr-list{margin-top:8px}
 /* section summary + sort/group controls (Estates, Residents) */
 .mgr-sum2{margin-top:12px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
-.mgr-sort{margin-top:18px}
 .mgr-grp{margin:24px 0 var(--sp-4);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
-.mgr-list>div:first-child>.mgr-grp{margin-top:26px}
+.mgr-list>div:first-child>.mgr-grp{margin-top:24px}
 
 /* residents roster row (a button) */
-.am .rres{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
+.am .rres{display:flex;align-items:center;gap:16px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
 .rres-m{flex:1;min-width:0}
 .rres-name{font-family:var(--serif);font-weight:400;font-size:16px}
 .rres-role{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--grey-2)}
-.rres-est{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:2px}
-.rres-r{flex:none;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.02em}
+.rres-est{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:4px}
+.rres-r{flex:none;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.02em}
 .rres-r svg{width:16px;height:16px;stroke:var(--grey-2)}
 .rres-clear{color:var(--grey-2);font-weight:500}
 
@@ -597,56 +594,55 @@ html,body{background:#CFC8BB}
 .am .estrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
 .estrow-m{flex:1;min-width:0}
 .estrow-n{font-family:var(--serif);font-weight:400;font-size:17px;letter-spacing:-.01em}
-.estrow-s{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:2px}
-.estrow-r{flex:none;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.02em}
+.estrow-s{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:4px}
+.estrow-r{flex:none;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.02em}
 .estrow-r svg{width:16px;height:16px;stroke:var(--grey-2)}
 .estrow-open{color:var(--grey);font-weight:500}
 
 /* estate detail sheet */
-.est-addr{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
+.est-addr{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .est-addr svg{width:16px;height:16px;stroke:var(--grey-2);fill:none;flex:none}
 .est-specs{margin-top:12px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .est-about{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:16px;letter-spacing:-.005em}
-.am .est-res{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-top:1px solid var(--line)}
+.am .est-res{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
 .est-res-m{flex:1;min-width:0}
 .est-res-n{font-family:var(--serif);font-weight:400;font-size:16px}
-.est-res-s{font-size:12px;font-weight:500;color:var(--grey-2);margin-top:1px;letter-spacing:.01em}
+.est-res-s{font-size:12px;font-weight:500;color:var(--grey-2);margin-top:4px;letter-spacing:.01em}
 .est-res>svg{flex:none;width:16px;height:16px;stroke:var(--grey-2)}
-.est-lease-note{margin-top:14px;font-size:12px;color:var(--grey);letter-spacing:.01em}
+.est-lease-note{margin-top:12px;font-size:12px;color:var(--grey);letter-spacing:.01em}
 
 /* resident detail sheet */
-.res-contact{display:flex;gap:10px}
-.am .res-contact-b{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1px solid var(--line);border-radius:11px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+.res-contact{display:flex;gap:8px}
+.am .res-contact-b{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1px solid var(--line);border-radius:12px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);text-decoration:none}
 .res-contact-b svg{width:15px;height:15px;stroke:var(--ink);fill:none}
 .res-tel{margin-top:12px;font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.01em;text-align:center}
-.res-est{padding-bottom:14px}
+.res-est{padding-bottom:16px}
 .res-est-n{font-family:var(--serif);font-weight:400;font-size:17px;letter-spacing:-.01em}
-.res-est-a{font-size:12px;font-weight:500;color:var(--grey);margin-top:3px;letter-spacing:.01em}
-.res-est-s{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2);margin-top:6px}
+.res-est-a{font-size:12px;font-weight:500;color:var(--grey);margin-top:4px;letter-spacing:.01em}
+.res-est-s{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2);margin-top:8px}
 
 /* compact request row shown inside estate / resident detail */
-.am .reqmini{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-top:1px solid var(--line)}
+.am .reqmini{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
 .reqmini-ic{flex:none;width:32px;height:32px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center}
 .reqmini-ic svg{width:15px;height:15px;stroke:var(--grey);fill:none}
 .reqmini-m{flex:1;min-width:0}
 .reqmini-t{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.reqmini-s{font-size:12px;font-weight:500;color:var(--grey);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reqmini-s{font-size:12px;font-weight:500;color:var(--grey);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .reqmini-w{flex:none;font-size:11px;font-weight:500;color:var(--grey-2);letter-spacing:.02em}
 .reqmini-c{flex:none;display:flex}
 .reqmini-c svg{width:15px;height:15px;stroke:var(--grey-2)}
 
 /* queue row — a scan line: priority tick, initials, who + what + status, time */
-.am .dqrow{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:19px 0;border-top:1px solid var(--line)}
+.am .dqrow{display:flex;align-items:center;gap:16px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
 .mgr-list .dqrow:first-child{border-top:none}
 .dqpri{flex:none;width:3px;align-self:stretch;border-radius:2px;background:var(--line)}
 .dqpri-urgent{background:var(--clay)}
 .dqpri-soon{background:var(--clay-soft)}
-.dqav{flex:none;width:38px;height:38px;border-radius:50%;background:var(--paper-2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-weight:400;font-size:14px;color:var(--grey);letter-spacing:.02em}
 .dqm{flex:1;min-width:0}
 .dqwho{font-size:12px;font-weight:600;color:var(--grey);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dqest{font-weight:600;color:var(--grey-2)}
-.dqt{font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.3;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dqsub{display:flex;align-items:center;gap:6px;margin-top:7px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em;white-space:nowrap;overflow:hidden}
+.dqt{font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.3;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dqsub{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em;white-space:nowrap;overflow:hidden}
 .dqsub svg{width:13px;height:13px;stroke:var(--grey-2);fill:none;flex:none}
 .dqr{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .dqtime{font-size:11px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;white-space:nowrap}
@@ -655,28 +651,27 @@ html,body{background:#CFC8BB}
 /* Requests filter uses the notices tabs as-is — hugging the labels, the
    underline rail bleeding edge to edge. Only the top gap is tuned here, and
    the list gets clear breathing room below the rail. */
-.mgr-nt-tabs{margin-top:22px}
-.mgr-nt-tabs + .mgr-list{margin-top:var(--sp-4)}
-.nt-tabn{margin-left:6px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--grey-2)}
+.mgr-nt-tabs{margin-top:24px}
+.mgr-nt-tabs + .mgr-list{margin-top:var(--sp-2)}
+.nt-tabn{margin-left:8px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--grey-2)}
 .am .nt-tab.on .nt-tabn{color:var(--grey)}
 /* Sort control shares a row with the count line (label left, sort right) so
    it reads like the notices bar rather than floating alone. */
-.mgr-bar{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:14px}
+.mgr-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px}
 .mgr-bar .mgr-sum2{margin-top:0}
 .mgr-bar .nt-sort{flex:none}
 
 /* request detail (operator) — reuses the sheet; note in Rosa's voice, actions at foot */
-.dd-av{flex:none;width:44px;height:44px;border-radius:50%;background:var(--paper-2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-size:16px;color:var(--grey)}
 .dd-tags{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.dd-cat{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+.dd-cat{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
 .dd-cat svg{width:14px;height:14px;stroke:var(--grey-2);fill:none}
-.dd-urgent{font-size:10px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--clay);background:var(--clay-soft);padding:3px 9px;border-radius:100px}
+.dd-urgent{font-size:10px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--clay);background:var(--clay-soft);padding:4px 8px;border-radius:100px}
 .dd-status{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-.dd-title{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.01em;line-height:1.2;margin-top:14px}
+.dd-title{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.01em;line-height:1.2;margin-top:16px}
 .dd-note{font-family:var(--serif);font-weight:400;font-style:italic;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:12px}
 .dd-eta{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:13px;font-weight:500;color:var(--clay);letter-spacing:.01em}
 .dd-eta svg{width:15px;height:15px;stroke:var(--clay);fill:none}
-.am .dd-send{margin-top:14px;padding:13px}
+.am .dd-send{margin-top:16px;padding:12px}
 .am .dd-send svg{width:15px;height:15px}
 .dd-foot{display:flex;gap:12px}
 .dd-foot .cta{flex:1;padding:16px}
