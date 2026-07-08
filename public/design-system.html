@@ -19,6 +19,8 @@
     --e:cubic-bezier(.4,0,.2,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:450;
     -webkit-font-smoothing:antialiased;line-height:1.5}
   .num{font-variant-numeric:tabular-nums}
@@ -513,6 +515,18 @@
     plus:'<path d="M12 5v14M5 12h14"/>',
     check:'<path d="m5 12 4.5 4.5L19 6"/>',
   };
+  // Masthead nav — smoothly scroll to the clicked section (respecting the
+  // sticky header's height), and reflect it in the URL without a jump.
+  document.querySelectorAll('.mh-nav a').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const target = document.getElementById(a.getAttribute('href').slice(1));
+      if(!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior:'smooth', block:'start' });
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
+  });
+
   const order = ['home','card','concierge','bell','mail','msg','key','users','leaf','towel','cal','clock','doc','receipt','shield','seal','renew','sun','search','copy','box','person','plus','check'];
   const grid = document.getElementById('iconset');
   order.forEach(name=>{
