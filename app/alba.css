@@ -651,9 +651,11 @@ html,body{background:#CFC8BB}
 /* Requests filter uses the notices tabs as-is — hugging the labels, the
    underline rail bleeding edge to edge. Only the top gap is tuned here, and
    the list gets clear breathing room below the rail. */
-.mgr-nt-tabs{margin-top:24px}
+/* only three filters — they fit, so no scroll container (which was forcing a
+   1px vertical scroll off the active-tab underline). */
+.mgr-nt-tabs{margin-top:24px;overflow-x:visible}
 .mgr-nt-tabs + .mgr-list{margin-top:var(--sp-2)}
-.nt-tabn{margin-left:8px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--grey-2)}
+.nt-tabn{margin-left:4px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--grey-2)}
 .am .nt-tab.on .nt-tabn{color:var(--grey)}
 /* Sort control shares a row with the count line (label left, sort right) so
    it reads like the notices bar rather than floating alone. */
