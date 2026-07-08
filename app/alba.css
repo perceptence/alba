@@ -64,12 +64,15 @@
 
 /* ——— Onboarding — first-run flow. Fills the frame in place of .scroll +
    .nav; each step is a quiet full screen: dot progress, back chevron, one
-   Continue. No numbered "step 2 of 5" chrome — momentum only. ——— */
-.ob-step{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;padding:8px 28px 40px}
-.ob-top{display:flex;align-items:center;justify-content:space-between;padding-top:8px;margin-bottom:28px}
-.am .ob-back{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none}
+   Continue. No numbered "step 2 of 5" chrome — momentum only. The button's
+   bottom/left/right clearance to the frame edge is kept equal (28px). ——— */
+.ob-step{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;padding:8px 28px 28px}
+/* grid, not space-between: the dots must stay in the true centre whether or
+   not a back button occupies column 1, so each gets an explicit column. */
+.ob-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding-top:8px;margin-bottom:28px}
+.am .ob-back{grid-column:1;justify-self:start;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center}
 .ob-back svg{width:16px;height:16px;stroke:var(--ink);fill:none}
-.ob-dots{display:flex;gap:6px}
+.ob-dots{grid-column:2;justify-self:center;display:flex;gap:6px}
 .ob-dot{width:5px;height:5px;border-radius:50%;background:var(--line)}
 .ob-dot.on{background:var(--clay)}
 .ob-dot.done{background:var(--grey-2)}
@@ -79,22 +82,34 @@
 .ob-mark .ob-sun{fill:var(--clay);stroke:none}
 
 .ob-h{font-family:var(--serif);font-weight:300;font-size:28px;letter-spacing:-.01em;line-height:1.15;margin-top:10px}
-.ob-p{font-size:14px;line-height:1.6;color:var(--grey);margin-top:14px}
+/* narrative body copy reads in the brand's serif voice, same family as the
+   headline and quote — matches .about/.ap-body elsewhere, not plain Inter */
+.ob-p{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.6;color:var(--ink-2);letter-spacing:-.005em;margin-top:14px}
 
 .ob-signoff{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
 .ob-signoff-t{font-size:13px;font-weight:500;color:var(--grey)}
 
-.ob-emailrow{display:flex;align-items:center;gap:10px;margin-top:24px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;font-size:14px;color:var(--ink)}
-.ob-emailrow svg{width:16px;height:16px;stroke:var(--grey-2);fill:none;flex:none}
+/* a quiet caption, not a form field — this is a display of the email on
+   file, not something editable, so it carries no border/box */
+.ob-emailrow{display:flex;align-items:center;gap:8px;margin-top:22px;font-size:13px;font-weight:500;color:var(--grey)}
+.ob-emailrow svg{width:14px;height:14px;stroke:var(--grey-2);fill:none;flex:none}
 
-.ob-code{margin-top:24px}
-.am .ob-code input{width:100%;border:none;border-bottom:1px solid var(--line);background:none;font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:.45em;text-align:center;color:var(--ink);padding-bottom:12px;transition:border-color .3s var(--e)}
-.am .ob-code input:focus{outline:none;border-bottom-color:var(--ink)}
-.ob-code input::placeholder{color:var(--line)}
+/* six-box one-time-code entry, each a purpose-built cell rather than one
+   generic stretched input */
+.ob-otp{display:flex;gap:8px;margin-top:24px}
+.am .ob-otp input{flex:1;min-width:0;aspect-ratio:1;border:1px solid var(--line);border-radius:10px;background:none;
+  font-family:var(--serif);font-weight:400;font-size:20px;text-align:center;color:var(--ink);
+  transition:border-color .25s var(--e)}
+.am .ob-otp input:focus{outline:none;border-color:var(--ink)}
 
 .am .ob-resend{display:block;width:100%;text-align:center;margin-top:16px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey)}
 
-.ob-rosa{margin-top:22px;display:flex;justify-content:center}
+/* combined residence + manager step */
+.ob-facts{margin-top:10px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey);text-align:center}
+.ob-amen{margin-top:6px;font-size:12.5px;font-weight:500;color:var(--grey-2);text-align:center}
+.ob-divider{margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
+
+.ob-rosa{margin-top:16px;display:flex;justify-content:center}
 .ob-quote{margin-top:22px;font-family:var(--serif);font-weight:400;font-style:italic;font-size:17px;line-height:1.5;color:var(--ink);text-align:center}
 
 .ob-orient{margin-top:22px;display:flex;flex-direction:column}

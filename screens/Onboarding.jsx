@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { RES, ADRIEN, ROSA, AV } from "@/lib/data";
 import { Elevation } from "@/components/Elevation";
 import { Avatar } from "@/components/Avatar";
@@ -8,14 +8,15 @@ import { ManagerPresence } from "@/components/ManagerPresence";
 import { I } from "@/components/icons";
 
 /* ALBA — first-run onboarding. A resident arrives via a personal invitation
-   (see the emailed invite mock) and is walked through five quiet steps:
-   the invitation itself, passwordless access, a welcome to the residence,
-   an introduction to their estate manager, and a brief orientation — then
-   straight into Home. No tutorial carousel, no numbered progress bar; just
-   a thin dot of momentum and a single Continue at each step. */
+   (see the emailed invite mock) and is walked through four quiet steps:
+   the invitation itself, passwordless access, the residence + their estate
+   manager together, and a brief orientation — then straight into Home. No
+   tutorial carousel, no numbered progress bar; just a thin dot of momentum
+   and a single Continue at each step. */
 
-const STEPS = ["invite", "access", "welcome", "rosa", "orient"];
+const STEPS = ["invite", "access", "residence", "orient"];
 const EMAIL_MASK = "adrien•••••@•••••.com";
+const OTP_LEN = 6;
 
 function StepDots({ i }) {
   return (
@@ -29,11 +30,36 @@ function StepShell({ i, onBack, children }) {
   return (
     <div className="ob-step stag">
       <div className="ob-top">
-        {i>0 ? <button className="ob-back" onClick={onBack} aria-label="Back"><I.chevL/></button> : <span/>}
+        {i>0 && <button className="ob-back" onClick={onBack} aria-label="Back"><I.chevL/></button>}
         <StepDots i={i}/>
-        <span/>
       </div>
       {children}
+    </div>
+  );
+}
+
+// Six-box one-time-code entry — auto-advances focus per digit, and steps
+// back on delete. Reads as a considered, purpose-built control rather than
+// a single generic text field.
+function OtpInput({ value, onChange }) {
+  const refs = useRef([]);
+  const setDigit = (i, raw) => {
+    const d = raw.replace(/\D/g, "").slice(-1);
+    const chars = value.padEnd(OTP_LEN, " ").split("");
+    chars[i] = d || " ";
+    onChange(chars.join("").trimEnd());
+    if (d && i < OTP_LEN-1) refs.current[i+1]?.focus();
+  };
+  const onKeyDown = (i, e) => {
+    if (e.key === "Backspace" && !value[i] && i > 0) refs.current[i-1]?.focus();
+  };
+  return (
+    <div className="ob-otp">
+      {Array.from({ length: OTP_LEN }).map((_, i) => (
+        <input key={i} ref={(el) => (refs.current[i] = el)} autoFocus={i===0}
+          inputMode="numeric" maxLength={1} value={value[i] && value[i]!==" " ? value[i] : ""}
+          onChange={(e) => setDigit(i, e.target.value)} onKeyDown={(e) => onKeyDown(i, e)}/>
+      ))}
     </div>
   );
 }
@@ -50,7 +76,7 @@ export function Onboarding({ onComplete }) {
   const [verifying, setVerifying] = useState(false);
   const sendCode = () => setSent(true);
   const verify = () => {
-    if (code.trim().length < 4) return;
+    if (code.trim().length < OTP_LEN) return;
     setVerifying(true);
     setTimeout(() => { setVerifying(false); next(); }, 700);
   };
@@ -85,14 +111,8 @@ export function Onboarding({ onComplete }) {
         <button className="cta" onClick={sendCode}>Send code</button>
       ) : (
         <>
-          <div className="ob-code">
-            <input
-              inputMode="numeric" maxLength={6} autoFocus
-              placeholder="000000" value={code}
-              onChange={(e)=>setCode(e.target.value.replace(/\D/g,""))}
-            />
-          </div>
-          <button className="cta" disabled={code.trim().length<4 || verifying} style={(code.trim().length<4||verifying)?{opacity:.4}:undefined} onClick={verify}>
+          <OtpInput value={code} onChange={setCode}/>
+          <button className="cta" disabled={code.trim().length<OTP_LEN || verifying} style={(code.trim().length<OTP_LEN||verifying)?{opacity:.4}:undefined} onClick={verify}>
             {verifying ? "Verifying…" : "Verify & continue"}
           </button>
           <button className="ob-resend" onClick={sendCode}>Resend code</button>
@@ -101,26 +121,27 @@ export function Onboarding({ onComplete }) {
     </StepShell>
   );
 
-  if (step === "welcome") return (
-    <StepShell i={i} onBack={back}>
-      <Elevation h={130}/>
-      <span className="eye" style={{display:"block",textAlign:"center",marginTop:20}}>{RES.city}</span>
-      <div className="ob-h sf" style={{textAlign:"center"}}>{RES.name}.</div>
-      <p className="ob-p" style={{textAlign:"center"}}>Everything here — payments, requests, the people who look after it — lives in one place now. Settle in; we'll handle the rest.</p>
-      <button className="cta" onClick={next}>Continue</button>
-    </StepShell>
-  );
+  if (step === "residence") {
+    const topAmenities = RES.amenities.slice(0,3).map(([a])=>a).join(" · ");
+    return (
+      <StepShell i={i} onBack={back}>
+        <Elevation h={130}/>
+        <span className="eye" style={{display:"block",textAlign:"center",marginTop:20}}>{RES.city}</span>
+        <div className="ob-h sf" style={{textAlign:"center"}}>{RES.name}.</div>
+        <div className="ob-facts">{RES.kind} · {RES.beds} bed · {RES.baths} bath · {RES.area} m²</div>
+        <div className="ob-amen">{topAmenities}</div>
+        <p className="ob-p" style={{textAlign:"center"}}>Everything here — payments, requests, the people who look after it — lives in one place now.</p>
 
-  if (step === "rosa") return (
-    <StepShell i={i} onBack={back}>
-      <span className="eye">Your estate manager</span>
-      <div className="ob-rosa">
-        <ManagerPresence large/>
-      </div>
-      <p className="ob-quote sf">&ldquo;I'll be looking after {RES.short} for you — reach me anytime, day or night. Nothing is too small.&rdquo;</p>
-      <button className="cta" onClick={next}>Continue</button>
-    </StepShell>
-  );
+        <div className="ob-divider"/>
+        <span className="eye" style={{display:"block",textAlign:"center"}}>Your estate manager</span>
+        <div className="ob-rosa">
+          <ManagerPresence large/>
+        </div>
+        <p className="ob-quote sf">&ldquo;I'll be looking after {RES.short} for you — reach me anytime, day or night. Nothing is too small.&rdquo;</p>
+        <button className="cta" onClick={next}>Continue</button>
+      </StepShell>
+    );
+  }
 
   // orient
   const rows = [
