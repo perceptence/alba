@@ -128,12 +128,12 @@ export function Onboarding({ onComplete }) {
       <span className="eye" style={{display:"block",textAlign:"center",marginTop:20}}>{RES.city}</span>
       <div className="ob-h sf" style={{textAlign:"center"}}>{RES.name}.</div>
       <div className="ob-facts">{RES.kind} · {RES.beds} bed · {RES.baths} bath · {RES.area} m²</div>
-      <p className="ob-p" style={{textAlign:"center"}}>Everything here — payments, requests, the people who look after it — lives in one place now.</p>
+      <p className="ob-p" style={{textAlign:"center"}}>Payments, requests, and the people who look after it — all in one place now.</p>
 
       <div className="ob-divider"/>
       <p className="ob-quote sf">&ldquo;I'll be looking after {RES.short} for you — reach me anytime, day or night. Nothing is too small.&rdquo;</p>
       <div className="ob-rosa">
-        <ManagerPresence large/>
+        <ManagerPresence large replies={false}/>
       </div>
       <button className="cta" onClick={next}>Continue</button>
     </StepShell>
@@ -142,7 +142,7 @@ export function Onboarding({ onComplete }) {
   // orient
   const rows = [
     [I.card, "Payments", "Rent, autopay, and charges in one place."],
-    [I.concierge, "Concierge", "Ask Rosa for anything — she typically replies within the hour."],
+    [I.concierge, "Concierge", "Ask Rosa for anything — she's always a message away."],
     [I.bell, "Notices", "Updates from the estate, when there's something to know."],
   ];
   return (
