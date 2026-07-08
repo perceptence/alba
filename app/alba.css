@@ -558,9 +558,8 @@
 
 /* ESTATE DESK — Rosa's operator side. Denser than the resident app: several
    estates at once, priority triage, scan-and-act rows. Same tokens and fonts,
-   tuned for scanning rather than dwelling. Replaces the resident scroll+nav. */
-.mgr-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:40px}
-.mgr-scroll::-webkit-scrollbar{display:none}
+   tuned for scanning rather than dwelling. Its own responsive nav (bottom bar
+   on phone, left rail on desktop) reuses the resident .nav machinery. */
 .mgr-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-top:16px}
 .mgr-head .eye{display:block}
 .mgr-head .ht{font-family:var(--serif);font-weight:300;font-size:32px;letter-spacing:-.02em;margin-top:var(--sp-2);line-height:1}
@@ -571,6 +570,16 @@
 .mgr-tabs{margin-top:24px}
 .mgr-tabn{margin-left:7px;font-variant-numeric:tabular-nums;opacity:.5}
 .mgr-list{margin-top:8px}
+/* section summary line (Residents / Schedule) */
+.mgr-sum2{margin-top:12px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
+/* residents roster row */
+.rres{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
+.mgr-list .rres:first-child{border-top:none}
+.rres-m{flex:1;min-width:0}
+.rres-name{font-family:var(--serif);font-weight:400;font-size:16px}
+.rres-est{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:2px}
+.rres-r{flex:none;font-size:12px;font-weight:600;letter-spacing:.02em}
+.rres-r .cxt-g{color:var(--grey-2);font-weight:500}
 
 /* queue row — a scan line: priority tick, initials, who + what + status, time */
 .am .dqrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-top:1px solid var(--line)}
@@ -803,6 +812,8 @@
   .pc-home .hometop .icob{display:none}
   .rail-foot{display:block;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
   .rail-foot .mgr-name{font-size:20px}
+  /* operator foot — an identity badge (signed-in as Rosa), not a contact action */
+  .rail-foot-op .rail-op-eye{display:block;font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2);margin-bottom:12px}
   /* Contact action — a quiet full-width ghost button ("Message Rosa"), sitting
      below the ManagerPresence. Hairline border, no fill; tints on hover. */
   .am .rail-foot .rail-contact{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:14px;
@@ -813,9 +824,6 @@
   .am .rail-foot .rail-contact svg{width:15px;height:15px;fill:none;stroke:var(--ink)}
 
   .scroll{grid-column:2;grid-row:1;padding-bottom:56px}
-  /* the estate desk has no rail counterpart — span both grid columns, like
-     onboarding, or auto-placement drops it into the narrow first column */
-  .mgr-scroll{grid-column:1/-1;grid-row:1;padding-bottom:56px}
   .pc{max-width:1000px;margin:0 auto;padding:52px 56px 0}
 
   /* flyouts slide in from the right as panels */
