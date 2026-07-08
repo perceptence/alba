@@ -68,11 +68,15 @@ function StatusChip({ r, hideUrgent = false }) {
   const flagged = !hideUrgent && r.priority === "Urgent" && r.status !== "resolved";
   return <>{flagged && <><span className="cxt-a">Urgent</span> · </>}{CX_CATS[r.category].tag} · <span className={"cxt-" + (CX_TINT[r.status] || "n")}>{st.label}</span></>;
 }
-// Pills — for sorting/reordering a list (which order am I looking at).
+// Sorting a list reuses the resident notices sort control — a single button
+// showing the current mode, tapped to cycle. (Filtering uses tabs; sorting
+// uses this. Pills are gone from the product.)
 function SortBar({ opts, sort, setSort }) {
+  const idx = Math.max(0, opts.findIndex(([k]) => k === sort));
+  const next = () => setSort(opts[(idx + 1) % opts.length][0]);
   return (
-    <div className="yearsw mgr-tabs mgr-sort">
-      {opts.map(([k, label]) => <button key={k} className={"yr" + (k === sort ? " on" : "")} onClick={() => setSort(k)}>{label}</button>)}
+    <div className="nt-ctrls mgr-ctrls">
+      <button className="nt-sort" onClick={next}><I.sort/><span>{opts[idx][1]}</span></button>
     </div>
   );
 }

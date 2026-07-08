@@ -56,7 +56,7 @@ export function PastRequests({ onBack, onOpen }) {
   return (<div className="pc stag">
     <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Concierge</span></div>
     <div className="phead" style={{paddingTop:24}}><span className="eye">At your service</span><div className="ht sf">Past requests</div></div>
-    <div className="yearsw">{years.map(y=><button key={y} className={"yr"+(y===year?" on":"")} onClick={()=>setYear(y)}>{y}</button>)}</div>
+    <div className="nt-tabs">{years.map(y=><button key={y} className={"nt-tab"+(y===year?" on":"")} onClick={()=>setYear(y)}>{y}</button>)}</div>
     <div className="pay-sum">{list.length} resolved in {year}</div>
     <div style={{marginTop:8}}>{list.map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}</div>
     <div style={{height:8}}/>

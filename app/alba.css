@@ -299,9 +299,6 @@
 .payrow .pmo{font-family:var(--serif);font-weight:400;font-size:16px}
 .payrow .psub{font-size:12px;font-weight:500;color:var(--grey-2);margin-top:var(--sp-1);letter-spacing:.02em}
 .payrow .pamt{font-size:16px;font-weight:600;letter-spacing:.01em;flex:none}
-.yearsw{display:flex;gap:8px;margin-top:var(--sp-5)}
-.am .yr{padding:8px 16px;border-radius:1000px;border:1px solid var(--line);font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--grey);white-space:nowrap;flex:none}
-.am .yr.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .pay-sum{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-4);letter-spacing:.02em}
 
 /* concierge */
@@ -647,9 +644,13 @@
 
 /* Requests filter — notices-style underline tabs (filtering a subset of one
    list). Sorting lists elsewhere uses pills; filtering uses tabs. */
-.mgr-nt-tabs{margin-top:26px;margin-inline:0;padding:0;gap:12px;justify-content:space-between}
+/* Requests filter uses the notices tabs as-is — hugging the labels, the
+   underline rail bleeding edge to edge. Only the top gap is tuned here. */
+.mgr-nt-tabs{margin-top:22px}
 .nt-tabn{margin-left:6px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--grey-2)}
 .am .nt-tab.on .nt-tabn{color:var(--grey)}
+/* Sort control (cycling) sits where the pills were, left-aligned. */
+.mgr-ctrls{margin-top:18px}
 
 /* request detail (operator) — reuses the sheet; note in Rosa's voice, actions at foot */
 .dd-av{flex:none;width:44px;height:44px;border-radius:50%;background:var(--paper-2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-size:16px;color:var(--grey)}
