@@ -664,17 +664,22 @@ html,body{background:#CFC8BB}
 .mgr-bar .nt-sort{flex:none}
 
 /* request detail (operator) — reuses the sheet; note in Rosa's voice, actions at foot */
+/* request detail header uses the request-type tile (like the queue row), a
+   little larger to sit against the sheet title */
+.sh-head .dqtile{width:44px;height:44px}
+.sh-head .dqtile svg{width:19px;height:19px}
 .dd-tags{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.dd-cat{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
-.dd-cat svg{width:14px;height:14px;stroke:var(--grey-2);fill:none}
 .dd-urgent{font-size:10px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--clay);background:var(--clay-soft);padding:4px 8px;border-radius:100px}
 .dd-status{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .dd-title{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.01em;line-height:1.2;margin-top:16px}
 .dd-note{font-family:var(--serif);font-weight:400;font-style:italic;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:12px}
+.dd-by{margin-top:8px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .dd-eta{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:13px;font-weight:500;color:var(--clay);letter-spacing:.01em}
 .dd-eta svg{width:15px;height:15px;stroke:var(--clay);fill:none}
-.am .dd-send{margin-top:16px;padding:12px}
-.am .dd-send svg{width:15px;height:15px}
+/* reply box matches the resident 'Ask Rosa' composer — serif input, hairline
+   underline, round clay send */
+.dd-reply{margin-top:0}
+.dd-reply .snd:disabled{opacity:.4}
 .dd-foot{display:flex;gap:12px}
 .dd-foot .cta{flex:1;padding:16px}
 .dd-done{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--sage)}

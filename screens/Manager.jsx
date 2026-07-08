@@ -454,27 +454,29 @@ function DeskDetail({ id, onClose, push }) {
   return (<div {...scrimProps}><div {...sheetProps}>
     <div className="grab"/>
     <div className="sh-head">
-      <Avatar cfg={av(r.resId)} size={44}/>
-      <span style={{ flex: 1 }}><div className="sh-title sf">{r.who}</div><div className="sh-sub">{r.estate} · {r.area}</div></span>
+      <span className="dqtile"><Ico/></span>
+      <span style={{ flex: 1 }}><div className="sh-title sf">{r.estate}</div><div className="sh-sub">{r.area} · {CX_CATS[r.category].tag}</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button>
     </div>
     <div className="sh-body" style={{ paddingTop: 8 }}>
       <div className="dd-tags">
-        <span className="dd-cat"><Ico/>{CX_CATS[r.category].tag}</span>
         {r.priority === "Urgent" && !done && <span className="dd-urgent">Urgent</span>}
         <span className={"dd-status cxt-" + (CX_TINT[r.status] || "n")}>{st.label}</span>
       </div>
       <div className="dd-title sf">{r.title}</div>
       <p className="dd-note">&ldquo;{r.note}&rdquo;</p>
+      <div className="dd-by">— {r.who}</div>
       {r.eta && <div className="dd-eta"><I.clock/>{r.eta}</div>}
 
       <div className="flab">Reply to {r.who.split(" ")[0]}</div>
-      <div className="co-field"><textarea rows={1} value={reply} onChange={(e) => setReply(e.target.value)} placeholder="A quick note back…"/></div>
-      <button className="cta ghost dd-send" disabled={!reply.trim()} style={!reply.trim() ? { opacity: .4 } : undefined} onClick={send}><I.send/>Send reply</button>
+      <div className="assist dd-reply"><div className="ask">
+        <input value={reply} onChange={(e) => setReply(e.target.value)} placeholder="A quick note back…"/>
+        <button className="snd" disabled={!reply.trim()} onClick={send} aria-label="Send"><I.send/></button>
+      </div></div>
     </div>
     <div className="sh-foot dd-foot">
       {isNew && <button className="cta ghost" onClick={ack}>Acknowledge</button>}
-      {!done && <button className="cta" onClick={resolve}><I.check/>Resolve</button>}
+      {!done && <button className="cta" onClick={resolve}>Resolve</button>}
       {done && <div className="dd-done"><I.check/>Resolved</div>}
     </div>
   </div></div>);
