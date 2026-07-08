@@ -6,13 +6,11 @@ import { money, ord } from "@/lib/util";
 import { I } from "@/components/icons";
 import { TextLink } from "@/components/TextLink";
 import { SettleSheet } from "@/screens/SettleSheet";
-import { AutopaySheet } from "@/screens/RentSheets";
 
-export function Rent({ push, onOpenPayments, onOpenPayment, openCharges }) {
+export function Rent({ push, onOpenPayments, onOpenPayment, openCharges, openAutopay }) {
   const ap=useAp(); const a=ap.get();
   const ch=useCharges(); const dueTotal=ch.dueTotal(); const dueCount=ch.due().length;
   const [settling,setSettling]=useState(false);
-  const [managing,setManaging]=useState(false);
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">Residence account</span><div className="ht sf">Payments</div></div>
@@ -42,9 +40,8 @@ export function Rent({ push, onOpenPayments, onOpenPayment, openCharges }) {
           </span>
           <span className={"lv "+(a.on?"st-g":"st-a")}>{a.on?"On":"Off"}</span>
         </div>
-        <TextLink onClick={()=>setManaging(true)}>Manage autopay</TextLink>
+        <TextLink onClick={openAutopay}>Manage autopay</TextLink>
       </div>
-      {managing&&<AutopaySheet push={push} onClose={()=>setManaging(false)}/>}
 
       <div className="sect">
         <div className="sect-h"><span className="l">Standing</span></div>

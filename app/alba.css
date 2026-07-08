@@ -353,6 +353,13 @@
 .am .gcode-copy{display:inline-flex;align-items:center;gap:6px;align-self:end;padding-bottom:4px;font-size:12px;font-weight:600;letter-spacing:.03em;color:var(--clay)}
 .gcode-copy svg{width:14px;height:14px;stroke:var(--clay)}
 .ga-fine{margin-top:20px;font-size:12px;line-height:1.6;color:var(--grey-2);letter-spacing:.01em}
+.ap-terms{font-size:13px;line-height:1.65;color:var(--grey);letter-spacing:.01em}
+.am .ap-consent{display:flex;align-items:flex-start;gap:12px;width:100%;margin-top:18px}
+.ap-consent-check{flex:none;width:20px;height:20px;border-radius:5px;border:1px solid var(--grey-2);display:grid;place-items:center;margin-top:1px}
+.ap-consent.on .ap-consent-check{background:var(--ink);border-color:var(--ink)}
+.ap-consent-check svg{width:12px;height:12px;stroke:var(--paper)}
+.ap-consent-l{font-size:14px;color:var(--ink);line-height:1.4;font-weight:500}
+.ap-consent-hint{font-size:12px;color:var(--grey-2);letter-spacing:.01em;text-align:center}
 .ga-foot{display:flex;flex-direction:column;gap:10px}
 
 /* base radio, used by picker rows outside the autopay card */

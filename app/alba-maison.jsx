@@ -30,6 +30,7 @@ import { GuestAccess } from "@/screens/GuestAccess";
 import { Schedule } from "@/screens/Schedule";
 import { Renewal } from "@/screens/Renewal";
 import { Charges } from "@/screens/Charges";
+import { Autopay } from "@/screens/Autopay";
 import { Profile } from "@/screens/Profile";
 import { Avatar } from "@/components/Avatar";
 import { TextLink } from "@/components/TextLink";
@@ -46,6 +47,7 @@ export default function App(){
   const [scheduleView,setScheduleView]=useState(false);
   const [renewalView,setRenewalView]=useState(false);
   const [chargesView,setChargesView]=useState(false);
+  const [autopayView,setAutopayView]=useState(false);
   const [payView,setPayView]=useState(false);
   const [pastView,setPastView]=useState(false);
   const [paySheet,setPaySheet]=useState(null);
@@ -53,7 +55,7 @@ export default function App(){
   const cx=useCx();
   const nt=useNotices();
   const cxUnread=cx.unreadCount()>0;
-  const go=(t)=>{setResView(false);setNoticesView(false);setGuestView(false);setScheduleView(false);setRenewalView(false);setChargesView(false);setTab(t);};
+  const go=(t)=>{setResView(false);setNoticesView(false);setGuestView(false);setScheduleView(false);setRenewalView(false);setChargesView(false);setAutopayView(false);setTab(t);};
   const route=(to)=>{
     if(to.type==="request")setDetail(to.id);
     else if(to.type==="payment")setPaySheet(to.id);
@@ -62,11 +64,11 @@ export default function App(){
     else if(to.type==="renewal"){setNoticesView(false);setResView(false);setRenewalView(true);}
   };
   const NAV=[["home",I.home,"Home"],["rent",I.card,"Payments"],["concierge",I.concierge,"Concierge"],["profile",I.person,"Account"]];
-  const subview=resView||payView||pastView||noticesView||guestView||scheduleView||renewalView||chargesView;
+  const subview=resView||payView||pastView||noticesView||guestView||scheduleView||renewalView||chargesView||autopayView;
   const scrollRef=useRef(null);
   // Each distinct screen gets a key; when it changes, scroll back to the top
   // (opening a sheet doesn't change the key, so the page keeps its place).
-  const viewKey=payView?"pay":pastView?"past":noticesView?"notices":guestView?"guest":scheduleView?"schedule":renewalView?"renewal":chargesView?"charges":resView?"res":tab;
+  const viewKey=payView?"pay":pastView?"past":noticesView?"notices":guestView?"guest":scheduleView?"schedule":renewalView?"renewal":chargesView?"charges":autopayView?"autopay":resView?"res":tab;
   useEffect(()=>{if(scrollRef.current)scrollRef.current.scrollTop=0;},[viewKey]);
   return (
     <div className={"am"+(subview?" subview":"")}>
@@ -82,9 +84,10 @@ export default function App(){
             :scheduleView?<Schedule onBack={()=>setScheduleView(false)} onOpenRequest={setDetail}/>
             :renewalView?<Renewal onBack={()=>setRenewalView(false)} push={push}/>
             :chargesView?<Charges onBack={()=>setChargesView(false)} push={push}/>
+            :autopayView?<Autopay onBack={()=>setAutopayView(false)} push={push}/>
             :resView?<Residence onBack={()=>setResView(false)} go={go} onAsk={(act)=>route({type:"compose",preset:act.preset,note:act.note})} openGuests={()=>setGuestView(true)} openRenewal={()=>setRenewalView(true)}/>
             :tab==="home"?<Home go={go} openRes={()=>setResView(true)} openRent={()=>setTab("rent")} openNotices={()=>setNoticesView(true)} onOpenRequest={setDetail} openSchedule={()=>setScheduleView(true)} openGuests={()=>setGuestView(true)}/>
-            :tab==="rent"?<Rent push={push} onOpenPayments={()=>setPayView(true)} onOpenPayment={(id)=>setPaySheet(id)} openCharges={()=>setChargesView(true)}/>
+            :tab==="rent"?<Rent push={push} onOpenPayments={()=>setPayView(true)} onOpenPayment={(id)=>setPaySheet(id)} openCharges={()=>setChargesView(true)} openAutopay={()=>setAutopayView(true)}/>
             :tab==="concierge"?<Concierge onCompose={setCompose} onOpen={setDetail} onOpenPast={()=>setPastView(true)}/>
             :<Profile onBack={()=>go("home")}/>}
           </div>
