@@ -99,13 +99,14 @@ export function Onboarding({ onComplete }) {
 
   if (step === "access") return (
     <StepShell i={i} onBack={back}>
-      <span className="eye">Confirm it's you</span>
-      <div className="ob-h sf">A code, sent to you.</div>
-      <p className="ob-p">No password to remember — we'll send a one-time code to the email on file for {ADRIEN.first}.</p>
+      <div className="ob-mailhero"><I.mail/></div>
+      <span className="eye" style={{display:"block",textAlign:"center"}}>Confirm it's you</span>
+      <div className="ob-h sf" style={{textAlign:"center"}}>{sent ? "Enter your code." : "A code, sent to you."}</div>
+      <p className="ob-p" style={{textAlign:"center"}}>{sent
+        ? <>We've sent a six-digit code to your inbox. Enter it below to continue.</>
+        : <>No password to remember — we'll send a one-time code to the email on file for {ADRIEN.first}.</>}</p>
 
-      <div className="ob-emailrow">
-        <I.msg/><span>{EMAIL_MASK}</span>
-      </div>
+      <div className="ob-emailpill"><I.mail/><span>{EMAIL_MASK}</span></div>
 
       {!sent ? (
         <button className="cta" onClick={sendCode}>Send code</button>
@@ -115,33 +116,28 @@ export function Onboarding({ onComplete }) {
           <button className="cta" disabled={code.trim().length<OTP_LEN || verifying} style={(code.trim().length<OTP_LEN||verifying)?{opacity:.4}:undefined} onClick={verify}>
             {verifying ? "Verifying…" : "Verify & continue"}
           </button>
-          <button className="ob-resend" onClick={sendCode}>Resend code</button>
+          <button className="ob-resend" onClick={sendCode}>Didn't get it? Resend code</button>
         </>
       )}
     </StepShell>
   );
 
-  if (step === "residence") {
-    const topAmenities = RES.amenities.slice(0,3).map(([a])=>a).join(" · ");
-    return (
-      <StepShell i={i} onBack={back}>
-        <Elevation h={130}/>
-        <span className="eye" style={{display:"block",textAlign:"center",marginTop:20}}>{RES.city}</span>
-        <div className="ob-h sf" style={{textAlign:"center"}}>{RES.name}.</div>
-        <div className="ob-facts">{RES.kind} · {RES.beds} bed · {RES.baths} bath · {RES.area} m²</div>
-        <div className="ob-amen">{topAmenities}</div>
-        <p className="ob-p" style={{textAlign:"center"}}>Everything here — payments, requests, the people who look after it — lives in one place now.</p>
+  if (step === "residence") return (
+    <StepShell i={i} onBack={back}>
+      <Elevation h={130}/>
+      <span className="eye" style={{display:"block",textAlign:"center",marginTop:20}}>{RES.city}</span>
+      <div className="ob-h sf" style={{textAlign:"center"}}>{RES.name}.</div>
+      <div className="ob-facts">{RES.kind} · {RES.beds} bed · {RES.baths} bath · {RES.area} m²</div>
+      <p className="ob-p" style={{textAlign:"center"}}>Everything here — payments, requests, the people who look after it — lives in one place now.</p>
 
-        <div className="ob-divider"/>
-        <span className="eye" style={{display:"block",textAlign:"center"}}>Your estate manager</span>
-        <div className="ob-rosa">
-          <ManagerPresence large/>
-        </div>
-        <p className="ob-quote sf">&ldquo;I'll be looking after {RES.short} for you — reach me anytime, day or night. Nothing is too small.&rdquo;</p>
-        <button className="cta" onClick={next}>Continue</button>
-      </StepShell>
-    );
-  }
+      <div className="ob-divider"/>
+      <p className="ob-quote sf">&ldquo;I'll be looking after {RES.short} for you — reach me anytime, day or night. Nothing is too small.&rdquo;</p>
+      <div className="ob-rosa">
+        <ManagerPresence large/>
+      </div>
+      <button className="cta" onClick={next}>Continue</button>
+    </StepShell>
+  );
 
   // orient
   const rows = [

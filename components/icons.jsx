@@ -29,6 +29,7 @@ export const I = {
   towel:(p)=><svg {...sv(p)}><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M5 15h14"/><path d="M8.5 7.5h4"/></svg>,
   key:(p)=><svg {...sv(p)}><circle cx="8" cy="14" r="3.2"/><path d="m10.5 11.5 8-8M16 6l2.2 2.2M13.6 8.4 15.8 10.6"/></svg>,
   msg:(p)=><svg {...sv(p)}><path d="M4 6h16v10H9l-5 4z"/></svg>,
+  mail:(p)=><svg {...sv(p)}><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 5.5L20.5 7"/></svg>,
   box:(p)=><svg {...sv(p)}><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg>,
   dots:(p)=><svg {...sv(p)}><circle cx="5" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="19" cy="12" r="1.5" fill="currentColor"/></svg>,
   image:(p)=><svg {...sv(p)}><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-4-4 3-2-1.5L3 17"/></svg>,
