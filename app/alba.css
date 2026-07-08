@@ -18,6 +18,9 @@
 .am .num{font-variant-numeric:tabular-nums}
 .am .sf{font-family:var(--serif);font-weight:300;letter-spacing:-.01em}
 
+/* ALBA is a fixed light theme — the page behind the device frame must be the
+   taupe stage colour, never the globals.css dark-mode body background. */
+html,body{background:#CFC8BB}
 .stage{min-height:100vh;background:#CFC8BB;display:grid;place-items:center;padding:48px 24px}
 .phone{width:392px;height:832px;border-radius:52px;border:6px solid #26221E;background:var(--paper);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 4px rgba(0,0,0,.2),0 40px 80px -24px rgba(38,30,22,.4)}
 .island{position:absolute;top:12px;left:52%;transform:translateX(-50%);width:112px;height:32px;border-radius:20px;background:#26221E;z-index:90}
@@ -566,7 +569,7 @@
 .mgr-hero{display:flex;align-items:stretch;gap:26px;margin-top:28px}
 .mgr-fig{display:flex;align-items:center;gap:16px}
 .mgr-fig-n{font-family:var(--serif);font-weight:300;font-size:56px;letter-spacing:-.03em;line-height:.9;color:var(--ink)}
-.mgr-fig-l{font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.15;color:var(--ink-2)}
+.mgr-fig-l{font-family:var(--serif);font-weight:400;font-size:18px;line-height:1.15;color:var(--ink-2)}
 .mgr-stats{flex:none;display:flex;flex-direction:column;justify-content:space-between;padding-left:26px;border-left:1px solid var(--line)}
 .mgr-stat{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
 .mgr-stat-n{font-family:var(--serif);font-weight:300;font-size:20px;letter-spacing:-.02em;line-height:1;color:var(--ink);min-width:.7em}
@@ -810,6 +813,14 @@
 /* mobile + tablet: full-page sub-views hide the bottom tab bar */
 @media (max-width:899px){
   .am.subview .nav{display:none}
+}
+
+/* MOBILE: the device frame fits within the viewport, and the journey switcher
+   sits above it (in flow, centred) rather than floating over the app. */
+@media (max-width:767px){
+  .stage{min-height:0;padding:12px 12px 0}
+  .phone{width:min(392px, calc(100vw - 24px));height:min(832px, calc(100vh - 104px))}
+  .demopanel{position:static;right:auto;bottom:auto;margin:0 auto 14px;width:max-content;max-width:calc(100vw - 20px)}
 }
 
 /* TABLET: an iPad-style device frame on the taupe stage, scaled nav.
