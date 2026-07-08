@@ -477,6 +477,8 @@
 .det{margin-top:var(--sp-5)}
 .drow{border-top:1px solid var(--line)}
 .am .drow-head{display:flex;align-items:center;gap:12px;width:100%;padding:16px 0}
+/* last field in a group: drop trailing padding so the section gap stays even */
+.det .drow:last-child:not(.open) .drow-head{padding-bottom:0}
 .drow-head .drow-l{font-family:var(--serif);font-weight:400;font-size:16px;flex:1}
 .drow-head .drow-v{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--grey)}
 .drow-head .drow-c{flex:none}
