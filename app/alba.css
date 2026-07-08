@@ -802,7 +802,10 @@
     max-width:calc(100vw - 48px);border-width:10px;border-radius:42px}
   .island{display:none}
   .pbar{padding:18px 34px 8px}
-  .nav{justify-content:center;gap:72px;padding:16px 40px 22px}
+  /* distribute across the frame rather than a fixed centred gap — the tablet
+     frame width tracks the viewport height (3:4), and the operator nav has 5
+     items, so a fixed 72px gap overflowed on shorter/landscape tablets */
+  .nav{justify-content:space-around;gap:8px;padding:16px 20px 22px}
   .nav button svg{width:24px;height:24px}
   .nav button .nl{font-size:11px}
   .nav button .und{top:-10px;width:18px}
