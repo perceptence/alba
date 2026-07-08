@@ -466,6 +466,8 @@ function DeskDetail({ id, onClose, push }) {
   const isNew = r.status === "submitted";
   const done = r.status === "resolved";
   const Ico = I[CX_ICON[r.category]] || I.dots;
+  const ms = deskMilestones(r);
+  const cur = ms.find((m) => m.state === "now") || ms[ms.length - 1];
 
   const ack = () => { deskStore.acknowledge(id); push({ t: "Acknowledged", d: `${r.who} has been notified` }); };
   const resolve = () => { deskStore.resolve(id); push({ t: "Marked resolved", d: r.title }); close(); };
@@ -485,11 +487,15 @@ function DeskDetail({ id, onClose, push }) {
       </div>
       <div className="dd-title sf">{r.title}</div>
 
-      <div className="tml dd-tml">{deskMilestones(r).map((m, i) => (
-        <div className={"tstep " + m.state} key={i}>
-          <span className="tnode">{m.state === "done" ? <I.check/> : null}</span>
-          <span><div className="tlab sf">{m.label}</div>{m.detail && <div className="tsub">{m.detail}</div>}</span>
-        </div>))}</div>
+      <div className="dd-track-wrap">
+        <div className="dd-track">
+          {ms.flatMap((m, i) => [
+            i > 0 && <span key={"s" + i} className={"dd-seg" + ((m.state === "done" || m.state === "now") ? " on" : "")}/>,
+            <span key={"n" + i} className={"dd-node " + m.state}/>,
+          ])}
+        </div>
+        <div className="dd-track-cap"><span className="dd-track-now">{cur.label}</span>{cur.detail ? " · " + cur.detail : ""}</div>
+      </div>
 
       <div className="flab">Correspondence</div>
       <div className="thread">{r.thread.map((m, i) => (

@@ -576,14 +576,16 @@ html,body{background:#CFC8BB}
 .mgr-stat-l{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .mgr-list{margin-top:24px}
 /* section summary + sort/group controls (Estates, Residents) */
-.mgr-sum2{margin-top:12px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
+.mgr-sum2{margin-top:12px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .mgr-grp{margin:24px 0 var(--sp-4);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .mgr-list>div:first-child>.mgr-grp{margin-top:24px}
 
 /* residents roster row (a button) */
 .am .rres{display:flex;align-items:center;gap:16px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
 .rres-m{flex:1;min-width:0}
-.rres-name{font-family:var(--serif);font-weight:400;font-size:16px}
+/* one rule for every primary serif row name across the manager, matching the
+   resident row name (16px) so they can't drift apart */
+.rres-name,.estrow-n,.est-res-n,.res-est-n{font-family:var(--serif);font-weight:400;font-size:16px}
 .rres-role{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--grey-2)}
 .rres-est{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:4px}
 .rres-r{flex:none;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.02em}
@@ -593,7 +595,6 @@ html,body{background:#CFC8BB}
 /* estate list row */
 .am .estrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
 .estrow-m{flex:1;min-width:0}
-.estrow-n{font-family:var(--serif);font-weight:400;font-size:17px;letter-spacing:-.01em}
 .estrow-s{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:4px}
 .estrow-r{flex:none;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.02em}
 .estrow-r svg{width:16px;height:16px;stroke:var(--grey-2)}
@@ -606,7 +607,6 @@ html,body{background:#CFC8BB}
 .est-about{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:16px;letter-spacing:-.005em}
 .am .est-res{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
 .est-res-m{flex:1;min-width:0}
-.est-res-n{font-family:var(--serif);font-weight:400;font-size:16px}
 .est-res-s{font-size:12px;font-weight:500;color:var(--grey-2);margin-top:4px;letter-spacing:.01em}
 .est-res>svg{flex:none;width:16px;height:16px;stroke:var(--grey-2)}
 .est-lease-note{margin-top:12px;font-size:12px;color:var(--grey);letter-spacing:.01em}
@@ -617,7 +617,6 @@ html,body{background:#CFC8BB}
 .res-contact-b svg{width:15px;height:15px;stroke:var(--ink);fill:none}
 .res-tel{margin-top:12px;font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.01em;text-align:center}
 .res-est{padding-bottom:16px}
-.res-est-n{font-family:var(--serif);font-weight:400;font-size:17px;letter-spacing:-.01em}
 .res-est-a{font-size:12px;font-weight:500;color:var(--grey);margin-top:4px;letter-spacing:.01em}
 .res-est-s{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2);margin-top:8px}
 
@@ -673,9 +672,17 @@ html,body{background:#CFC8BB}
 .dd-status{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .dd-title{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.01em;line-height:1.2;margin-top:16px}
 .dd-note{font-family:var(--serif);font-weight:400;font-style:italic;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:12px}
-/* the detail's timeline isn't the first body element (tags + title precede
-   it), so undo the resident '-16px pull-up' and give it normal spacing */
-.am .sh-body>.dd-tml{margin-top:var(--sp-5)}
+/* horizontal clay track — nodes on a line, filled to the current step, with a
+   caption naming it. Compact, and clay to match the brand accent. */
+.dd-track-wrap{margin-top:var(--sp-5)}
+.dd-track{display:flex;align-items:center}
+.dd-node{flex:none;width:9px;height:9px;border-radius:50%;box-sizing:border-box;border:1px solid var(--line);background:var(--paper)}
+.dd-node.done,.dd-node.now{background:var(--clay);border-color:var(--clay)}
+.dd-node.now{box-shadow:0 0 0 4px var(--clay-soft)}
+.dd-seg{flex:1;height:1px;background:var(--line)}
+.dd-seg.on{background:var(--clay)}
+.dd-track-cap{margin-top:12px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
+.dd-track-now{color:var(--clay);font-weight:600}
 /* reply box matches the resident 'Ask Rosa' composer — serif input, hairline
    underline, round clay send */
 .dd-reply{margin-top:0}
