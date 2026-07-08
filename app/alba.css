@@ -25,17 +25,27 @@
 .pbar .tm{font-size:16px;font-weight:600}
 .pbar-r{display:flex;align-items:center;gap:8px}
 .pbar-r svg{display:block}
-/* brand masthead — mobile & tablet only (desktop carries it in the left rail).
-   Sized in em off .appbar's font-size, so the whole lockup — including the
-   equal-width MAISON tracking — scales as one unit per breakpoint. */
-.appbar{flex:none;display:flex;align-items:center;justify-content:center;padding:2px 24px 14px;font-size:16px}
-.ab-lock{display:flex;align-items:center;gap:.6em}
-.ab-mark{width:1.6em;height:1.6em;display:block}
-.ab-mark path,.ab-mark line{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
-.ab-mark .ab-sun{fill:var(--clay);stroke:none}
-.ab-id{display:flex;flex-direction:column}
-.ab-word{font-family:var(--serif);font-weight:400;font-size:1em;letter-spacing:.2em;color:var(--ink);line-height:1}
-.ab-desc{font-family:var(--sans);font-weight:600;font-size:.4375em;letter-spacing:.71em;text-transform:uppercase;color:var(--grey-2);margin-top:.43em}
+/* Launch splash — the brand on load; the clay sun rises into the arch (alba =
+   dawn), then the whole screen fades to reveal the app. Covers the phone frame
+   on mobile/tablet and the full window on desktop. */
+.splash{position:absolute;inset:0;z-index:200;background:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  animation:splashIn .5s var(--e) both;transition:opacity .65s var(--e)}
+.splash.out{opacity:0;pointer-events:none}
+.splash-brand{font-size:32px;display:flex;flex-direction:column;align-items:center}
+.splash-mark{width:2em;height:2em;display:block;margin-bottom:.62em;animation:splashMark .8s var(--e) both}
+.splash-mark path,.splash-mark line{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+.splash-mark .splash-sun{fill:var(--clay);stroke:none;transform-box:fill-box;transform-origin:bottom;animation:splashSun 1s .4s var(--e) both}
+.splash-id{display:flex;flex-direction:column}
+.splash-word{font-family:var(--serif);font-weight:400;font-size:1em;letter-spacing:.2em;color:var(--ink);line-height:1;animation:splashUp .8s .3s var(--e) both}
+.splash-desc{font-family:var(--sans);font-weight:600;font-size:.4375em;letter-spacing:.71em;text-transform:uppercase;color:var(--grey-2);margin-top:.5em;animation:splashUp .8s .45s var(--e) both}
+@keyframes splashIn{from{opacity:0}to{opacity:1}}
+@keyframes splashMark{from{opacity:0}to{opacity:1}}
+@keyframes splashSun{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes splashUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){
+  .splash-mark,.splash-sun,.splash-word,.splash-desc{animation:none}
+}
 .scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:120px}
 .scroll::-webkit-scrollbar{display:none}
 
@@ -587,7 +597,6 @@
     max-width:calc(100vw - 48px);border-width:10px;border-radius:42px}
   .island{display:none}
   .pbar{padding:18px 34px 8px}
-  .appbar{font-size:19px;padding:4px 40px 18px}
   .nav{justify-content:center;gap:72px;padding:16px 40px 22px}
   .nav button svg{width:24px;height:24px}
   .nav button .nl{font-size:11px}
@@ -604,7 +613,8 @@
 /* DESKTOP: left sidebar rail + right-slide panels */
 @media (min-width:1160px){
   .stage{display:block;padding:0;background:var(--paper);min-height:100vh}
-  .island,.pbar,.appbar{display:none}
+  .island,.pbar{display:none}
+  .splash-brand{font-size:46px}
   .phone{width:100%;height:100vh;max-height:none;border:none;border-radius:0;box-shadow:none;
     display:grid;grid-template-columns:280px 1fr;grid-template-rows:100vh}
   .nav{grid-column:1;grid-row:1;position:static;flex-direction:column;justify-content:flex-start;

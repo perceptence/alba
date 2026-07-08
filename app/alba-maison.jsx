@@ -53,6 +53,13 @@ export default function App(){
   const cx=useCx();
   const nt=useNotices();
   const cxUnread=cx.unreadCount()>0;
+  // Launch splash — shows the brand on load, then fades to reveal the app.
+  const [splash,setSplash]=useState("in"); // in → out → gone
+  useEffect(()=>{
+    const t1=setTimeout(()=>setSplash("out"),1900);
+    const t2=setTimeout(()=>setSplash("gone"),2550);
+    return ()=>{clearTimeout(t1);clearTimeout(t2);};
+  },[]);
   const go=(t)=>{setResView(false);setNoticesView(false);setGuestView(false);setScheduleView(false);setRenewalView(false);setChargesView(false);setAutopayView(false);setTab(t);};
   const route=(to)=>{
     if(to.type==="request")setDetail(to.id);
@@ -74,19 +81,6 @@ export default function App(){
         <div className="phone">
           <div className="island"/>
           <PhoneBar/>
-          <div className="appbar">
-            <span className="ab-lock">
-              <svg className="ab-mark" viewBox="0 0 40 40" aria-hidden="true">
-                <path d="M 9 34 L 9 19 A 11 9 0 0 1 31 19 L 31 34"/>
-                <path className="ab-sun" d="M 14 34 A 6 6 0 0 1 26 34 Z"/>
-                <line x1="4" y1="34" x2="36" y2="34"/>
-              </svg>
-              <span className="ab-id">
-                <span className="ab-word">ALBA</span>
-                <span className="ab-desc">Maison</span>
-              </span>
-            </span>
-          </div>
           <div className="scroll" ref={scrollRef}>
             {payView?<Payments onBack={()=>setPayView(false)} onOpenPayment={(id)=>setPaySheet(id)}/>
             :pastView?<PastRequests onBack={()=>setPastView(false)} onOpen={setDetail}/>
@@ -131,6 +125,21 @@ export default function App(){
           {compose&&<Composer preset={compose.preset} initialNote={compose.note} push={push} onClose={()=>setCompose(null)} onCreated={(id)=>{setCompose(null);setDetail(id);}}/>}
           {detail&&<ReqDetail id={detail} push={push} onClose={()=>setDetail(null)}/>}
           <ToastHost toasts={toasts}/>
+          {splash!=="gone"&&(
+            <div className={"splash"+(splash==="out"?" out":"")} aria-hidden="true">
+              <div className="splash-brand">
+                <svg className="splash-mark" viewBox="0 0 40 40">
+                  <path d="M 9 34 L 9 19 A 11 9 0 0 1 31 19 L 31 34"/>
+                  <path className="splash-sun" d="M 14 34 A 6 6 0 0 1 26 34 Z"/>
+                  <line x1="4" y1="34" x2="36" y2="34"/>
+                </svg>
+                <span className="splash-id">
+                  <span className="splash-word">ALBA</span>
+                  <span className="splash-desc">Maison</span>
+                </span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
