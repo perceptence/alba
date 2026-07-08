@@ -79,16 +79,20 @@ function SortBar({ opts, sort, setSort }) {
 }
 
 /* ——— Requests — the triage queue ——— */
+// A triage line, not a message: the request type leads (category icon), the
+// estate is the identifier, urgency is the priority bar, and the resident is
+// demoted to the meta line.
 function DeskRow({ r, onOpen }) {
   const Ico = I[CX_ICON[r.category]] || I.dots;
+  const st = CX_STATUS[r.status];
   return (
     <button className="dqrow" onClick={() => onOpen(r.id)}>
       <span className={"dqpri dqpri-" + PRI[r.priority]} aria-hidden="true"/>
-      <Avatar cfg={av(r.resId)} size={40}/>
+      <span className="dqtile"><Ico/></span>
       <span className="dqm">
-        <div className="dqwho">{r.who}<span className="dqest"> · {r.estateShort}</span></div>
+        <div className="dqwho">{r.estate}</div>
         <div className="dqt sf">{r.title}</div>
-        <div className="dqsub"><Ico/><StatusChip r={r} hideUrgent/></div>
+        <div className="dqsub">{r.who} · <span className={"cxt-" + (CX_TINT[r.status] || "n")}>{st.label}</span></div>
       </span>
       <span className="dqr"><span className="dqtime">{r.time}</span><I.chev/></span>
     </button>

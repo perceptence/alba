@@ -633,17 +633,17 @@ html,body{background:#CFC8BB}
 .reqmini-c svg{width:15px;height:15px;stroke:var(--grey-2)}
 
 /* queue row — a scan line: priority tick, initials, who + what + status, time */
-.am .dqrow{display:flex;align-items:center;gap:16px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
+.am .dqrow{display:flex;align-items:flex-start;gap:16px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
 .mgr-list .dqrow:first-child{border-top:none}
 .dqpri{flex:none;width:3px;align-self:stretch;border-radius:2px;background:var(--line)}
 .dqpri-urgent{background:var(--clay)}
 .dqpri-soon{background:var(--clay-soft)}
+.dqtile{flex:none;width:36px;height:36px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center}
+.dqtile svg{width:16px;height:16px;stroke:var(--grey);fill:none}
 .dqm{flex:1;min-width:0}
 .dqwho{font-size:12px;font-weight:600;color:var(--grey);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dqest{font-weight:600;color:var(--grey-2)}
-.dqt{font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.3;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dqsub{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em;white-space:nowrap;overflow:hidden}
-.dqsub svg{width:13px;height:13px;stroke:var(--grey-2);fill:none;flex:none}
+.dqt{font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.3;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dqsub{margin-top:4px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dqr{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .dqtime{font-size:11px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;white-space:nowrap}
 .dqr svg{width:16px;height:16px;stroke:var(--grey-2)}
