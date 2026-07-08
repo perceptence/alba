@@ -33,7 +33,6 @@ import { Charges } from "@/screens/Charges";
 import { Autopay } from "@/screens/Autopay";
 import { Profile } from "@/screens/Profile";
 import { ManagerPresence } from "@/components/ManagerPresence";
-import { TextLink } from "@/components/TextLink";
 
 export default function App(){
   const [tab,setTab]=useState("home");
@@ -112,7 +111,7 @@ export default function App(){
             </button>
             <div className="rail-foot">
               <ManagerPresence replies={false}/>
-              <TextLink onClick={()=>go("concierge")}>Contact</TextLink>
+              <button className="rail-contact" onClick={()=>go("concierge")}><I.msg/>Message Rosa</button>
             </div>
           </nav>
           {paySheet&&<PayDetailSheet id={paySheet} onClose={()=>setPaySheet(null)}/>}

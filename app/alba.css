@@ -631,10 +631,14 @@
   .pc-home .hometop .icob{display:none}
   .rail-foot{display:block;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
   .rail-foot .mgr-name{font-size:20px}
-  /* Rosa's presence uses the shared ManagerPresence (.mgr-id); align the
-     Contact link under the name, past the 44px avatar + 12px gap */
-  .am .rail-foot .txtlink{display:inline-flex;width:auto;gap:8px;padding:0 0 2px;border-radius:0;background:none;margin-top:8px;margin-left:56px}
-  .am .rail-foot .txtlink svg{width:12px;height:12px;stroke:var(--ink)}
+  /* Contact action — a quiet full-width ghost button ("Message Rosa"), sitting
+     below the ManagerPresence. Hairline border, no fill; tints on hover. */
+  .am .rail-foot .rail-contact{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:14px;
+    padding:9px 14px;border:1px solid var(--line);border-radius:11px;background:none;line-height:1;
+    font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);
+    transition:border-color .3s var(--e),background .3s var(--e)}
+  .am .rail-foot .rail-contact:hover{border-color:var(--grey-2);background:var(--paper-3)}
+  .am .rail-foot .rail-contact svg{width:15px;height:15px;fill:none;stroke:var(--ink)}
 
   .scroll{grid-column:2;grid-row:1;padding-bottom:56px}
   .pc{max-width:1000px;margin:0 auto;padding:52px 56px 0}
