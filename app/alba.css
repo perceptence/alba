@@ -569,7 +569,7 @@
 .mgr-fig-l{font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.15;color:var(--ink-2)}
 .mgr-stats{flex:none;display:flex;flex-direction:column;justify-content:space-between;padding-left:26px;border-left:1px solid var(--line)}
 .mgr-stat{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
-.mgr-stat-n{font-family:var(--serif);font-weight:300;font-size:24px;letter-spacing:-.02em;line-height:1;color:var(--ink);min-width:.62em}
+.mgr-stat-n{font-family:var(--serif);font-weight:300;font-size:20px;letter-spacing:-.02em;line-height:1;color:var(--ink);min-width:.7em}
 .mgr-stat-l{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .mgr-tabs{margin-top:24px}
 .mgr-tabn{margin-left:7px;font-variant-numeric:tabular-nums;opacity:.5}
