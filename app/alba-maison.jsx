@@ -74,6 +74,19 @@ export default function App(){
         <div className="phone">
           <div className="island"/>
           <PhoneBar/>
+          <div className="appbar">
+            <span className="ab-lock">
+              <svg className="ab-mark" viewBox="0 0 40 40" aria-hidden="true">
+                <path d="M 9 34 L 9 19 A 11 9 0 0 1 31 19 L 31 34"/>
+                <path className="ab-sun" d="M 14 34 A 6 6 0 0 1 26 34 Z"/>
+                <line x1="4" y1="34" x2="36" y2="34"/>
+              </svg>
+              <span className="ab-id">
+                <span className="ab-word">ALBA</span>
+                <span className="ab-desc">Maison</span>
+              </span>
+            </span>
+          </div>
           <div className="scroll" ref={scrollRef}>
             {payView?<Payments onBack={()=>setPayView(false)} onOpenPayment={(id)=>setPaySheet(id)}/>
             :pastView?<PastRequests onBack={()=>setPastView(false)} onOpen={setDetail}/>
