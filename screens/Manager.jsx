@@ -181,7 +181,7 @@ function EstatesSection({ push }) {
     <div className="pc stag">
       <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Estates</div></div>
       <div className="mgr-bar">
-        <div className="mgr-sum2">{ESTATES.length} estates in your care</div>
+        <div className="mgr-sum2">{ESTATES.length} in your care</div>
         <SortBar opts={[["area", "By area"], ["az", "A–Z"], ["urgent", "Needs attention"]]} sort={sort} setSort={setSort}/>
       </div>
       <div className="mgr-list">
@@ -234,7 +234,7 @@ function ResidentsSection({ push }) {
     <div className="pc stag">
       <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Residents</div></div>
       <div className="mgr-bar">
-        <div className="mgr-sum2">{RESIDENTS.length} residents across your estates</div>
+        <div className="mgr-sum2">{RESIDENTS.length} across your estates</div>
         <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={sort} setSort={setSort}/>
       </div>
       <div className="mgr-list">
