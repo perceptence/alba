@@ -610,8 +610,10 @@
   .am .nav button{flex-direction:row;justify-content:flex-start;align-items:center;gap:14px;
     padding:12px 14px;border-radius:12px;transition:background .3s var(--e)}
   .nav button svg{width:22px;height:22px}
-  .nav button .nl{font-size:12px;letter-spacing:.06em;text-transform:none;color:var(--grey)}
-  .nav button.on{background:var(--paper-3)}
+  /* menu items match the mobile/iPad treatment (uppercase micro-caps, grey-2,
+     no fill), scaled up for the rail — the active state is icon+label ink plus
+     the clay tick, mirroring the bottom bar's ink + clay accent. */
+  .nav button .nl{font-size:12px;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2)}
   .nav button.on svg{stroke:var(--ink)}
   .nav button.on .nl{color:var(--ink)}
   /* the clay accent returns on desktop as a left-edge tick on the active item */
