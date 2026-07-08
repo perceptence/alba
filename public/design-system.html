@@ -48,12 +48,12 @@
   .cover-eye{font-size:12px;font-weight:600;letter-spacing:var(--tk-page);text-transform:uppercase;color:var(--grey-2)}
   .cover-h{font-family:var(--serif);font-weight:300;font-size:clamp(44px,8vw,76px);letter-spacing:-.03em;line-height:1;margin-top:18px}
   .cover-sub{font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.6;color:var(--ink-2);max-width:540px;margin:24px auto 0;letter-spacing:-.005em}
-  .cover-meta{display:flex;justify-content:center;gap:28px;margin-top:34px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-2)}
+  .cover-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 28px;margin-top:34px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-2)}
   .cover-meta span{display:inline-flex;gap:8px}
   .cover-meta b{color:var(--ink);font-weight:600}
 
   /* —— section scaffold —— */
-  section{padding:80px 0;border-bottom:1px solid var(--line)}
+  section{padding:80px 0;border-bottom:1px solid var(--line);scroll-margin-top:66px}
   .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:44px}
   .sec-no{font-family:var(--serif);font-weight:400;font-size:15px;color:var(--clay);font-variant-numeric:tabular-nums}
   .sec-eye{font-size:12px;font-weight:600;letter-spacing:var(--tk-page);text-transform:uppercase;color:var(--grey-2)}
@@ -157,12 +157,19 @@
   .ic span{font-size:10px;color:var(--grey-2);letter-spacing:.02em}
 
   /* —— components —— */
-  .comp{margin-top:34px}
-  .comp:first-of-type{margin-top:0}
+  /* every component group — a standalone .comp or a paired .stagey — sits 34px
+     below the last, except the first (right under the section head) */
+  .comp,.stagey{margin-top:34px}
+  .sec-head + .comp,.sec-head + .stagey{margin-top:0}
   .comp-h{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2);margin-bottom:16px}
-  .stagey{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+  .stagey{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
   @media(max-width:720px){.stagey{grid-template-columns:1fr}}
+  .stagey .comp{display:flex;flex-direction:column;margin-top:0}
   .demo{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:26px}
+  /* paired specimen boxes share one row height, content centred vertically —
+     no more ragged bottoms between, e.g., the short toggle and tall figure */
+  .stagey .demo{flex:1;min-height:150px;display:flex;flex-direction:column;justify-content:center}
+  .demo.mid{align-items:center;text-align:center}
 
   .cta{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:20px;border-radius:1000px;
     background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;border:none;cursor:pointer}
@@ -227,6 +234,19 @@
   .colo-mark .sun{fill:var(--clay);stroke:none}
   .colo{font-family:var(--serif);font-weight:400;font-style:italic;font-size:18px;color:var(--ink-2);max-width:460px;margin:0 auto;line-height:1.5}
   .colo-meta{margin-top:24px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-2)}
+
+  /* —— phone —— tighten rhythm, stack the type-scale rows so the specimen
+     text has the full width to breathe instead of crushing into a column —— */
+  @media(max-width:680px){
+    .wrap{padding:0 22px}
+    section{padding:56px 0}
+    .sec-head{margin-bottom:30px}
+    .sec-title{font-size:30px}
+    .sec-intro{font-size:16px}
+    .cover{padding:76px 0 62px}
+    .scale-row{flex-direction:column;align-items:flex-start;gap:12px;padding:22px 0}
+    .scale-spec{width:auto}
+  }
 </style>
 </head>
 <body>
@@ -401,7 +421,7 @@
           <button class="cta">Continue <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
           <button class="cta ghost"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16v10H9l-5 4z"/></svg> Message Rosa</button>
         </div>
-        <div class="demo" style="display:flex;align-items:center;justify-content:center;min-height:120px"><a class="txtlink">View all payments <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+        <div class="demo mid"><a class="txtlink">View all payments <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
       </div>
     </div>
 
@@ -417,11 +437,11 @@
     <div class="stagey">
       <div class="comp">
         <div class="comp-h">Status</div>
-        <div class="demo" style="min-height:120px;display:flex;align-items:center"><div class="pills"><span class="pill g"><span class="dot"></span>Settled</span><span class="pill a"><span class="dot"></span>Due</span><span class="pill n"><span class="dot"></span>In progress</span></div></div>
+        <div class="demo mid"><div class="pills"><span class="pill g"><span class="dot"></span>Settled</span><span class="pill a"><span class="dot"></span>Due</span><span class="pill n"><span class="dot"></span>In progress</span></div></div>
       </div>
       <div class="comp">
         <div class="comp-h">Manager presence</div>
-        <div class="demo" style="min-height:120px;display:flex;align-items:center"><div class="mgr"><div class="ava">R</div><div><div class="mgr-name">Rosa Ibáñez</div><div class="mgr-sub"><span class="dot"></span>Estate manager</div></div></div></div>
+        <div class="demo mid"><div class="mgr"><div class="ava">R</div><div><div class="mgr-name">Rosa Ibáñez</div><div class="mgr-sub"><span class="dot"></span>Estate manager</div></div></div></div>
       </div>
     </div>
 
@@ -439,11 +459,11 @@
     <div class="stagey">
       <div class="comp">
         <div class="comp-h">One-time code</div>
-        <div class="demo" style="min-height:120px;display:flex;align-items:center;justify-content:center"><div class="otp"><i class="f">4</i><i>8</i><i>2</i><i>9</i><i>1</i><i>3</i></div></div>
+        <div class="demo mid"><div class="otp"><i class="f">4</i><i>8</i><i>2</i><i>9</i><i>1</i><i>3</i></div></div>
       </div>
       <div class="comp">
         <div class="comp-h">Progress dots</div>
-        <div class="demo" style="min-height:120px;display:flex;align-items:center;justify-content:center"><div class="dots"><i class="done"></i><i class="done"></i><i class="on"></i><i></i></div></div>
+        <div class="demo mid"><div class="dots"><i class="done"></i><i class="done"></i><i class="on"></i><i></i></div></div>
       </div>
     </div>
 
