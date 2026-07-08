@@ -570,16 +570,62 @@
 .mgr-tabs{margin-top:24px}
 .mgr-tabn{margin-left:7px;font-variant-numeric:tabular-nums;opacity:.5}
 .mgr-list{margin-top:8px}
-/* section summary line (Residents / Schedule) */
+/* section summary + sort/group controls (Estates, Residents) */
 .mgr-sum2{margin-top:12px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
-/* residents roster row */
-.rres{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
-.mgr-list .rres:first-child{border-top:none}
+.mgr-sort{margin-top:18px}
+.mgr-grp{margin:24px 0 2px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
+.mgr-list>div:first-child>.mgr-grp{margin-top:12px}
+
+/* residents roster row (a button) */
+.am .rres{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;border-top:1px solid var(--line)}
+.mgr-list .rres:first-child,.mgr-grp+.rres{border-top:none}
 .rres-m{flex:1;min-width:0}
 .rres-name{font-family:var(--serif);font-weight:400;font-size:16px}
+.rres-role{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--grey-2)}
 .rres-est{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:2px}
-.rres-r{flex:none;font-size:12px;font-weight:600;letter-spacing:.02em}
-.rres-r .cxt-g{color:var(--grey-2);font-weight:500}
+.rres-r{flex:none;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.02em}
+.rres-r svg{width:16px;height:16px;stroke:var(--grey-2)}
+.rres-clear{color:var(--grey-2);font-weight:500}
+
+/* estate list row */
+.am .estrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
+.mgr-list .estrow:first-child,.mgr-grp+.estrow{border-top:none}
+.estrow-m{flex:1;min-width:0}
+.estrow-n{font-family:var(--serif);font-weight:400;font-size:17px;letter-spacing:-.01em}
+.estrow-s{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:2px}
+.estrow-r{flex:none;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.02em}
+.estrow-r svg{width:16px;height:16px;stroke:var(--grey-2)}
+
+/* estate detail sheet */
+.est-addr{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
+.est-addr svg{width:16px;height:16px;stroke:var(--grey-2);fill:none;flex:none}
+.est-specs{margin-top:12px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
+.est-about{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:16px;letter-spacing:-.005em}
+.est-res{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.est-res-m{flex:1;min-width:0}
+.est-res-n{font-family:var(--serif);font-weight:400;font-size:15px}
+.est-res-s{font-size:12px;font-weight:500;color:var(--grey-2);margin-top:1px;letter-spacing:.01em}
+.am .est-res-tel{flex:none;font-size:12px;font-weight:500;color:var(--clay);letter-spacing:.02em;text-decoration:none;white-space:nowrap}
+.est-lease-note{margin-top:14px;font-size:12px;color:var(--grey);letter-spacing:.01em}
+
+/* resident detail sheet */
+.res-contact{display:flex;gap:10px}
+.am .res-contact-b{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1px solid var(--line);border-radius:11px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+.res-contact-b svg{width:15px;height:15px;stroke:var(--ink);fill:none}
+.res-tel{margin-top:12px;font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.01em;text-align:center}
+.res-est{padding-bottom:14px}
+.res-est-n{font-family:var(--serif);font-weight:400;font-size:17px;letter-spacing:-.01em}
+.res-est-a{font-size:12px;font-weight:500;color:var(--grey);margin-top:3px;letter-spacing:.01em}
+.res-est-s{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2);margin-top:6px}
+
+/* compact request row shown inside estate / resident detail */
+.reqmini{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.reqmini-ic{flex:none;width:30px;height:30px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center}
+.reqmini-ic svg{width:15px;height:15px;stroke:var(--grey);fill:none}
+.reqmini-m{flex:1;min-width:0}
+.reqmini-t{font-family:var(--serif);font-weight:400;font-size:15px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reqmini-s{font-size:12px;font-weight:500;color:var(--grey);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reqmini-w{flex:none;font-size:11px;font-weight:500;color:var(--grey-2)}
 
 /* queue row — a scan line: priority tick, initials, who + what + status, time */
 .am .dqrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-top:1px solid var(--line)}

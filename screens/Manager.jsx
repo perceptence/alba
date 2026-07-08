@@ -1,20 +1,23 @@
 import { useState, useRef, useEffect } from "react";
-import { useDesk, deskStore, TABS, PRI } from "@/lib/managerData";
+import { useDesk, deskStore, TABS, PRI, ESTATES, RESIDENTS, byEst, byRes, estateResidents } from "@/lib/managerData";
 import { CX_CATS, CX_STATUS, CX_TINT } from "@/lib/conciergeStore";
+import { money } from "@/lib/util";
 import { AV } from "@/lib/data";
 import { Avatar } from "@/components/Avatar";
 import { ManagerPresence } from "@/components/ManagerPresence";
 import { useSheet } from "@/components/useSheet";
 import { I } from "@/components/icons";
 
-/* Rosa's side — the estate desk. An operator app across several estates:
-   denser than the resident experience, tuned for scanning and acting, but
-   built from the same design system. It mirrors the resident shell — a
-   bottom bar on phone, a left rail on desktop — with its own operator nav. */
+/* Rosa's side — the estate desk. An operator app across a portfolio of estates:
+   requests to triage, a book of residents, the estates themselves as reference,
+   a schedule and her own account. Denser than the resident experience, built
+   from the same design system, and — like the resident app — a bottom bar on
+   phone, a left rail on desktop. */
 
 const CX_ICON = { maintenance:"wrench", housekeeping:"towel", access:"key", delivery:"box", question:"msg", other:"dots" };
 const OP_NAV = [
   ["requests", I.concierge, "Requests"],
+  ["estates", I.home, "Estates"],
   ["residents", I.users, "Residents"],
   ["schedule", I.cal, "Schedule"],
   ["account", I.person, "Account"],
@@ -28,6 +31,7 @@ export function Manager({ push }) {
     <>
       <div className="scroll" ref={scrollRef}>
         {section === "requests" ? <RequestsSection push={push}/>
+          : section === "estates" ? <EstatesSection/>
           : section === "residents" ? <ResidentsSection/>
           : section === "schedule" ? <ScheduleSection/>
           : <AccountSection/>}
@@ -55,19 +59,31 @@ export function Manager({ push }) {
   );
 }
 
+/* small shared bits */
+function StatusChip({ r }) {
+  const st = CX_STATUS[r.status];
+  const flagged = r.priority === "Urgent" && r.status !== "resolved";
+  return <>{flagged && <><span className="cxt-a">Urgent</span> · </>}{CX_CATS[r.category].tag} · <span className={"cxt-" + (CX_TINT[r.status] || "n")}>{st.label}</span></>;
+}
+function SortBar({ opts, sort, setSort }) {
+  return (
+    <div className="yearsw mgr-tabs mgr-sort">
+      {opts.map(([k, label]) => <button key={k} className={"yr" + (k === sort ? " on" : "")} onClick={() => setSort(k)}>{label}</button>)}
+    </div>
+  );
+}
+
 /* ——— Requests — the triage queue ——— */
 function DeskRow({ r, onOpen }) {
   const Ico = I[CX_ICON[r.category]] || I.dots;
-  const st = CX_STATUS[r.status];
-  const flagged = r.priority === "Urgent" && r.status !== "resolved";
   return (
     <button className="dqrow" onClick={() => onOpen(r.id)}>
       <span className={"dqpri dqpri-" + PRI[r.priority]} aria-hidden="true"/>
       <span className="dqav">{r.init}</span>
       <span className="dqm">
-        <div className="dqwho">{r.who}<span className="dqest"> · {r.estate}</span></div>
+        <div className="dqwho">{r.who}<span className="dqest"> · {r.estateShort}</span></div>
         <div className="dqt sf">{r.title}</div>
-        <div className="dqsub"><Ico/>{flagged && <><span className="cxt-a">Urgent</span> · </>}{CX_CATS[r.category].tag} · <span className={"cxt-" + (CX_TINT[r.status] || "n")}>{st.label}</span></div>
+        <div className="dqsub"><Ico/><StatusChip r={r}/></div>
       </span>
       <span className="dqr"><span className="dqtime">{r.time}</span><I.chev/></span>
     </button>
@@ -110,38 +126,107 @@ function RequestsSection({ push }) {
   );
 }
 
-/* ——— Residents — the book of residents across estates ——— */
-function ResidentsSection() {
+/* ——— Estates — the portfolio, Rosa's reference point ——— */
+function EstateRow({ e, onOpen }) {
   const desk = useDesk();
-  const reqs = desk.all();
-  const byWho = {};
-  reqs.forEach((r) => {
-    if (!byWho[r.who]) byWho[r.who] = { who: r.who, init: r.init, estate: r.estate, area: r.area, open: 0 };
-    if (r.status !== "resolved") byWho[r.who].open++;
-  });
-  const residents = Object.values(byWho).sort((a, b) => b.open - a.open || a.who.localeCompare(b.who));
+  const open = desk.openCountEstate(e.id);
+  const res = estateResidents(e.id);
+  return (
+    <button className="estrow" onClick={() => onOpen(e.id)}>
+      <span className="estrow-m">
+        <div className="estrow-n sf">{e.name}</div>
+        <div className="estrow-s">{e.kind} · {e.beds} bed · {res.length} resident{res.length !== 1 ? "s" : ""}</div>
+      </span>
+      <span className="estrow-r">
+        {open > 0 ? <span className="cxt-a">{open} open</span> : <span className="rres-clear">Clear</span>}
+        <I.chev/>
+      </span>
+    </button>
+  );
+}
+
+function EstatesSection() {
+  const desk = useDesk();
+  const [sort, setSort] = useState("area");
+  const [openId, setOpenId] = useState(null);
+  let groups;
+  if (sort === "area") {
+    const byArea = {};
+    ESTATES.forEach((e) => { (byArea[e.area] = byArea[e.area] || []).push(e); });
+    groups = Object.keys(byArea).sort().map((area) => [area, byArea[area]]);
+  } else if (sort === "az") {
+    groups = [[null, [...ESTATES].sort((a, b) => a.name.localeCompare(b.name))]];
+  } else {
+    groups = [[null, [...ESTATES].sort((a, b) => desk.openCountEstate(b.id) - desk.openCountEstate(a.id) || a.name.localeCompare(b.name))]];
+  }
   return (
     <div className="pc stag">
-      <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Residents</div></div>
-      <div className="mgr-sum2">{residents.length} residents across your estates</div>
+      <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Estates</div></div>
+      <div className="mgr-sum2">{ESTATES.length} estates in your care</div>
+      <SortBar opts={[["area", "By area"], ["az", "A–Z"], ["open", "Most open"]]} sort={sort} setSort={setSort}/>
       <div className="mgr-list">
-        {residents.map((p) => (
-          <div className="rres" key={p.who}>
-            <span className="dqav">{p.init}</span>
-            <span className="rres-m">
-              <div className="rres-name sf">{p.who}</div>
-              <div className="rres-est">{p.estate} · {p.area}</div>
-            </span>
-            <span className="rres-r">{p.open > 0 ? <span className="cxt-a">{p.open} open</span> : <span className="cxt-g">All clear</span>}</span>
+        {groups.map(([label, list]) => (
+          <div key={label || "all"}>
+            {label && <div className="mgr-grp">{label}</div>}
+            {list.map((e) => <EstateRow key={e.id} e={e} onOpen={setOpenId}/>)}
           </div>
         ))}
       </div>
       <div style={{ height: 8 }}/>
+      {openId && <EstateDetail id={openId} onClose={() => setOpenId(null)}/>}
     </div>
   );
 }
 
-/* ——— Schedule — upcoming visits & arrivals across estates ——— */
+/* ——— Residents — grouped by estate, sortable ——— */
+function ResidentRow({ p, onOpen, showEstate = true }) {
+  const desk = useDesk();
+  const open = desk.openCountResident(p.id);
+  const e = byEst(p.estate);
+  return (
+    <button className="rres" onClick={() => onOpen(p.id)}>
+      <span className="dqav">{p.init}</span>
+      <span className="rres-m">
+        <div className="rres-name sf">{p.name}{p.role === "Co-resident" && <span className="rres-role"> · Co-resident</span>}</div>
+        <div className="rres-est">{showEstate ? `${e.short} · ${e.area}` : p.role}</div>
+      </span>
+      <span className="rres-r">{open > 0 ? <span className="cxt-a">{open} open</span> : <span className="rres-clear">All clear</span>}<I.chev/></span>
+    </button>
+  );
+}
+
+function ResidentsSection() {
+  const desk = useDesk();
+  const [sort, setSort] = useState("estate");
+  const [openId, setOpenId] = useState(null);
+  let groups;
+  if (sort === "estate") {
+    groups = ESTATES.map((e) => [e.short, estateResidents(e.id)]).filter(([, list]) => list.length);
+  } else if (sort === "az") {
+    groups = [[null, [...RESIDENTS].sort((a, b) => a.name.localeCompare(b.name))]];
+  } else {
+    groups = [[null, [...RESIDENTS].sort((a, b) => desk.openCountResident(b.id) - desk.openCountResident(a.id) || a.name.localeCompare(b.name))]];
+  }
+  return (
+    <div className="pc stag">
+      <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Residents</div></div>
+      <div className="mgr-sum2">{RESIDENTS.length} residents across your estates</div>
+      <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={sort} setSort={setSort}/>
+      <div className="mgr-list">
+        {groups.map(([label, list]) => (
+          <div key={label || "all"}>
+            {label && <div className="mgr-grp">{label}</div>}
+            {list.map((p) => <ResidentRow key={p.id} p={p} onOpen={setOpenId} showEstate={sort !== "estate"}/>)}
+          </div>
+        ))}
+      </div>
+      <div style={{ height: 8 }}/>
+      {openId && <ResidentDetail id={openId} onClose={() => setOpenId(null)}/>}
+    </div>
+  );
+}
+
+/* ——— Schedule — upcoming visits (redesign is Pass 2) ——— */
 function ScheduleSection() {
   const desk = useDesk();
   const upcoming = desk.all().filter((r) => r.eta && r.status !== "resolved");
@@ -159,7 +244,7 @@ function ScheduleSection() {
                 <span className="sentry-ic sentry-ic-request"><Ico/></span>
                 <span className="sentry-m">
                   <div className="sentry-t sf">{r.title}</div>
-                  <div className="sentry-s">{r.who} · {r.estate}</div>
+                  <div className="sentry-s">{r.who} · {r.estateShort}</div>
                 </span>
                 <span className="sentry-w">{r.eta}</span>
               </div>
@@ -171,11 +256,9 @@ function ScheduleSection() {
   );
 }
 
-/* ——— Account — Rosa's own, the signed-in operator ——— */
+/* ——— Account — Rosa's own (rework is Pass 2) ——— */
 function AccountSection() {
   const desk = useDesk();
-  const reqs = desk.all();
-  const estates = new Set(reqs.map((r) => r.estate)).size;
   const c = desk.counts();
   return (
     <div className="pc stag">
@@ -188,7 +271,7 @@ function AccountSection() {
         </div>
       </div>
       <div className="sect"><div className="sect-h"><span className="l">Your desk</span></div>
-        <div className="prow"><span className="pk">Estates</span><span className="pv">{estates}</span></div>
+        <div className="prow"><span className="pk">Estates</span><span className="pv">{ESTATES.length}</span></div>
         <div className="prow"><span className="pk">Open requests</span><span className="pv">{c.open}</span></div>
         <div className="prow"><span className="pk">Resolved recently</span><span className="pv">{c.done}</span></div>
       </div>
@@ -198,7 +281,107 @@ function AccountSection() {
   );
 }
 
-/* ——— Request detail (operator) ——— */
+/* ——— detail sheets ——— */
+function ReqMini({ r }) {
+  const Ico = I[CX_ICON[r.category]] || I.dots;
+  return (
+    <div className="reqmini">
+      <span className="reqmini-ic"><Ico/></span>
+      <span className="reqmini-m"><div className="reqmini-t sf">{r.title}</div><div className="reqmini-s"><StatusChip r={r}/></div></span>
+      <span className="reqmini-w">{r.time}</span>
+    </div>
+  );
+}
+
+function EstateDetail({ id, onClose }) {
+  const desk = useDesk();
+  const e = byEst(id);
+  const { close, scrimProps, sheetProps } = useSheet(onClose);
+  if (!e) return null;
+  const res = estateResidents(id);
+  const reqs = desk.forEstate(id);
+  const open = reqs.filter((r) => r.status !== "resolved");
+  return (<div {...scrimProps}><div {...sheetProps}>
+    <div className="grab"/>
+    <div className="sh-head"><span style={{ flex: 1 }}><div className="sh-title sf">{e.name}</div><div className="sh-sub">{e.area}</div></span>
+      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
+    <div className="sh-body" style={{ paddingTop: 8 }}>
+      <div className="est-addr"><I.home/><span>{e.address}</span></div>
+      <div className="est-specs">{e.kind} · {e.beds} bed · {e.baths} bath · {e.size} m²</div>
+      <p className="est-about">{e.about}</p>
+
+      <div className="sect"><div className="sect-h"><span className="l">Residents</span><span className="a">{res.length}</span></div>
+        {res.map((p) => (
+          <div className="est-res" key={p.id}>
+            <span className="dqav">{p.init}</span>
+            <span className="est-res-m"><div className="est-res-n sf">{p.name}</div><div className="est-res-s">{p.role} · since {p.since}</div></span>
+            <a className="est-res-tel" href={"tel:" + p.phone.replace(/\s/g, "")}>{p.phone}</a>
+          </div>
+        ))}
+      </div>
+
+      <div className="sect"><div className="sect-h"><span className="l">Lease</span></div>
+        <div className="prow"><span className="pk">Term</span><span className="pv">{e.lease.term}</span></div>
+        <div className="prow"><span className="pk">Rent</span><span className="pv num">{money(e.lease.rent)}/mo</span></div>
+        <div className="prow"><span className="pk">Deposit</span><span className="pv num">{money(e.lease.deposit)}</span></div>
+        <div className="est-lease-note">{e.lease.note}</div>
+      </div>
+
+      <div className="sect"><div className="sect-h"><span className="l">Open requests</span><span className="a">{open.length}</span></div>
+        {open.length ? open.map((r) => <ReqMini key={r.id} r={r}/>) : <div className="calm"><I.leaf/>Nothing open here.</div>}
+      </div>
+
+      <div className="sect"><div className="sect-h"><span className="l">Amenities</span></div>
+        <div className="amen">{e.amenities.map((a) => <div className="am-r" key={a}><span className="sf">{a}</span></div>)}</div>
+      </div>
+
+      <div className="sect"><div className="sect-h"><span className="l">Documents</span></div>
+        {e.docs.map((d) => (
+          <div className="doc" key={d.t}>
+            <span style={{ flex: 1, minWidth: 0 }}><span className="dl sf">{d.t}</span><span className="doc-sum">{d.tag}</span></span>
+            <span className="dc"><I.chev/></span></div>
+        ))}
+      </div>
+      <div style={{ height: 8 }}/>
+    </div>
+  </div></div>);
+}
+
+function ResidentDetail({ id, onClose }) {
+  const desk = useDesk();
+  const p = byRes(id);
+  const { close, scrimProps, sheetProps } = useSheet(onClose);
+  if (!p) return null;
+  const e = byEst(p.estate);
+  const reqs = desk.forResident(id);
+  const open = reqs.filter((r) => r.status !== "resolved");
+  return (<div {...scrimProps}><div {...sheetProps}>
+    <div className="grab"/>
+    <div className="sh-head"><span className="dd-av">{p.init}</span>
+      <span style={{ flex: 1 }}><div className="sh-title sf">{p.name}</div><div className="sh-sub">{p.role} · since {p.since}</div></span>
+      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
+    <div className="sh-body" style={{ paddingTop: 8 }}>
+      <div className="res-contact">
+        <a className="res-contact-b" href={"tel:" + p.phone.replace(/\s/g, "")}><I.msg/>Call</a>
+        <a className="res-contact-b" href={"mailto:" + p.email}><I.mail/>Email</a>
+      </div>
+      <div className="res-tel">{p.phone} · {p.email}</div>
+
+      <div className="sect"><div className="sect-h"><span className="l">Residence</span></div>
+        <div className="res-est"><div className="res-est-n sf">{e.name}</div><div className="res-est-a">{e.address}</div>
+          <div className="res-est-s">{e.kind} · {e.beds} bed · {e.baths} bath · {e.size} m²</div></div>
+        <div className="prow"><span className="pk">Lease</span><span className="pv" style={{ fontSize: 13 }}>{e.lease.term}</span></div>
+        <div className="prow"><span className="pk">Rent</span><span className="pv num">{money(e.lease.rent)}/mo</span></div>
+      </div>
+
+      <div className="sect"><div className="sect-h"><span className="l">Requests</span><span className="a">{open.length} open</span></div>
+        {reqs.length ? reqs.map((r) => <ReqMini key={r.id} r={r}/>) : <div className="calm"><I.leaf/>No requests on file.</div>}
+      </div>
+      <div style={{ height: 8 }}/>
+    </div>
+  </div></div>);
+}
+
 function DeskDetail({ id, onClose, push }) {
   const desk = useDesk();
   const r = desk.get(id);
