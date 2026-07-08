@@ -573,7 +573,7 @@
 /* section summary + sort/group controls (Estates, Residents) */
 .mgr-sum2{margin-top:12px;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .mgr-sort{margin-top:18px}
-.mgr-grp{margin:24px 0 2px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
+.mgr-grp{margin:24px 0 var(--sp-4);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .mgr-list>div:first-child>.mgr-grp{margin-top:12px}
 
 /* residents roster row (a button) */
