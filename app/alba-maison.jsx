@@ -91,7 +91,15 @@ export default function App(){
             :<Profile onBack={()=>go("home")}/>}
           </div>
           <nav className="nav">
-            <div className="rail-brand">ALBA</div>
+            <div className="rail-brand">
+              <svg className="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+                <path d="M 9 34 L 9 19 A 11 9 0 0 1 31 19 L 31 34"/>
+                <path className="brand-sun" d="M 14 34 A 6 6 0 0 1 26 34 Z"/>
+                <line x1="4" y1="34" x2="36" y2="34"/>
+              </svg>
+              <div className="brand-word">ALBA</div>
+              <div className="brand-desc">Maison</div>
+            </div>
             {NAV.map(([k,Ico,label])=>(
               <button key={k} className={(tab===k&&!noticesView)?"on":""} onClick={()=>go(k)}>
                 <span className="und"/><Ico/><span className="nl">{label}</span>

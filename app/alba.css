@@ -598,8 +598,15 @@
   .nav{grid-column:1;grid-row:1;position:static;flex-direction:column;justify-content:flex-start;
     align-items:stretch;gap:2px;padding:34px 20px 20px;background:var(--paper-2);
     border-right:1px solid var(--line);backdrop-filter:none}
-  .rail-brand{display:block;font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:.36em;
-    text-transform:uppercase;color:var(--ink);padding:0 14px 30px}
+  /* Brand masthead — the "doorway dawn" mark over a Fraunces ALBA / MAISON
+     lockup. MAISON is tracked (.88em) so its ink width equals ALBA's, then
+     left-aligned so both edges sit flush. No rule beneath — spacing carries it. */
+  .rail-brand{display:block;padding:0 14px 30px}
+  .rail-brand .brand-mark{display:block;width:38px;height:38px;margin-bottom:16px}
+  .rail-brand .brand-mark path,.rail-brand .brand-mark line{fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linecap:round}
+  .rail-brand .brand-mark .brand-sun{fill:var(--clay);stroke:none}
+  .rail-brand .brand-word{font-family:var(--serif);font-weight:400;font-size:23px;letter-spacing:.2em;color:var(--ink);line-height:1}
+  .rail-brand .brand-desc{margin-top:4px;font-family:var(--sans);font-weight:600;font-size:9px;letter-spacing:.88em;text-transform:uppercase;color:var(--grey-2)}
   .am .nav button{flex-direction:row;justify-content:flex-start;align-items:center;gap:14px;
     padding:12px 14px;border-radius:12px;transition:background .3s var(--e)}
   .nav button svg{width:22px;height:22px}
