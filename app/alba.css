@@ -514,7 +514,9 @@ html,body{background:#CFC8BB}
 /* between days: the last row's own 20px bottom padding + 20 margin = 40 total;
    the first day sits a full 40 under the summary line */
 .sday{margin-top:20px}
-.sweek>.sday:first-child{margin-top:40px}
+/* 36, not 40: the 40px serif title above carries ~10px of descender allowance
+   below its baseline ("Schedule" has no descenders), so 36 reads as 40 */
+.sweek>.sday:first-child{margin-top:36px}
 .sday-h{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
 /* line-height:1 so the header's box hugs the glyph — its default 1.5 leading
    was adding ~7px above 'Today', making the 40px margin read as ~47 */
@@ -622,13 +624,12 @@ html,body{background:#CFC8BB}
 
 /* estate list row */
 .am .estrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
-/* search across the book — a quiet rounded field under the count bar */
-.mgr-search{display:flex;align-items:center;gap:12px;height:44px;padding:0 16px;margin-top:16px;border:1px solid var(--line);border-radius:22px;background:var(--paper)}
-.mgr-search>svg{width:18px;height:18px;stroke:var(--grey-2);flex:none}
-.am .mgr-search input{flex:1;min-width:0;border:none;background:none;font-family:var(--sans);font-size:14px;color:var(--ink);padding:0;outline:none}
-.am .mgr-search input::placeholder{color:var(--grey-2)}
-.am .mgr-search-x{display:grid;place-items:center;flex:none}
-.mgr-search-x svg{width:16px;height:16px;stroke:var(--grey)}
+/* search across the book — folded behind an icon on the count bar; opens as
+   the same composer row a message reply uses (.assist .ask) */
+.mgr-bar-r{display:flex;align-items:center;gap:16px;flex:none}
+.am .mgr-search-t{display:grid;place-items:center}
+.mgr-search-t svg{width:18px;height:18px;stroke:var(--ink)}
+.assist.mgr-search{margin-top:0}
 /* who lives here, at a glance — overlapping resident avatars on the row */
 .est-avs{display:flex;align-items:center;flex:none}
 .est-av{display:block;flex:none;border-radius:50%;border:2px solid var(--paper);margin-left:-8px;overflow:hidden}

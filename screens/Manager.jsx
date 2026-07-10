@@ -199,7 +199,11 @@ function PortfolioSection({ push, openEstate }) {
   const [estSort, setEstSort] = useState("area"); // each lens keeps its own sort
   const [resSort, setResSort] = useState("estate");
   const [resId, setResId] = useState(null);
+  // Search stays folded behind an icon until asked for; the open field is the
+  // same quiet composer as a message reply. Esc or the button closes it.
+  const [searching, setSearching] = useState(false);
   const [q, setQ] = useState("");
+  const closeSearch = () => { setQ(""); setSearching(false); };
   // accent-insensitive: "reid" finds Reïd, "theo" finds Théo
   const fold = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   const ql = fold(q.trim());
@@ -245,15 +249,23 @@ function PortfolioSection({ push, openEstate }) {
       <div className="mgr-bar">
         <div className="mgr-sum2">{ql ? `${found} match${found === 1 ? "" : "es"}`
           : view === "estates" ? `${ESTATES.length} in your care` : `${RESIDENTS.length} across your estates`}</div>
-        {!ql && (view === "estates"
-          ? <SortBar opts={[["area", "By area"], ["az", "A–Z"], ["urgent", "Needs attention"]]} sort={estSort} setSort={setEstSort}/>
-          : <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={resSort} setSort={setResSort}/>)}
+        {!searching && <span className="mgr-bar-r">
+          {view === "estates"
+            ? <SortBar opts={[["area", "By area"], ["az", "A–Z"], ["urgent", "Needs attention"]]} sort={estSort} setSort={setEstSort}/>
+            : <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={resSort} setSort={setResSort}/>}
+          <button className="mgr-search-t" aria-label="Search" onClick={() => setSearching(true)}><I.search/></button>
+        </span>}
       </div>
-      <div className="mgr-search">
-        <I.search/>
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={view === "estates" ? "Search the estates" : "Search the residents"} aria-label="Search"/>
-        {q && <button className="mgr-search-x" onClick={() => setQ("")} aria-label="Clear search"><I.close/></button>}
-      </div>
+      {searching && (
+        <div className="assist mgr-search">
+          <div className="ask">
+            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)}
+              placeholder={view === "estates" ? "Search the estates" : "Search the residents"} aria-label="Search"
+              onKeyDown={(e) => { if (e.key === "Escape") closeSearch(); }}/>
+            <button className="snd" onClick={closeSearch} aria-label="Close search"><I.close/></button>
+          </div>
+        </div>
+      )}
       <div className="mgr-list">
         {ql && found === 0 && <div className="calm"><I.leaf/>Nothing by that name.</div>}
         {groups.map(([label, list]) => (
@@ -310,7 +322,6 @@ function ScheduleSection({ push }) {
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">The week ahead</span><div className="ht sf">Schedule</div></div>
-      <div className="mgr-sum2">This week across your estates</div>
       <div className="sweek">
         {days.map((d) => (
           <div className="sday" key={d.dow}>
