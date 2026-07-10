@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useDesk, deskStore, TABS, ESTATES, RESIDENTS, byEst, byRes, estateResidents } from "@/lib/managerData";
+import { useDesk, deskStore, TABS, ESTATES, RESIDENTS, byEst, byRes, estateResidents, deskAgenda } from "@/lib/managerData";
 import { CX_CATS, CX_STATUS, CX_TINT } from "@/lib/conciergeStore";
 import { money } from "@/lib/util";
 import { AV } from "@/lib/data";
@@ -36,7 +36,7 @@ export function Manager({ push }) {
         {section === "requests" ? <RequestsSection push={push}/>
           : section === "estates" ? <EstatesSection push={push}/>
           : section === "residents" ? <ResidentsSection push={push}/>
-          : section === "schedule" ? <ScheduleSection/>
+          : section === "schedule" ? <ScheduleSection push={push}/>
           : <AccountSection/>}
       </div>
       <nav className="nav">
@@ -255,32 +255,40 @@ function ResidentsSection({ push }) {
   );
 }
 
-/* ——— Schedule — upcoming visits (redesign is Pass 2) ——— */
-function ScheduleSection() {
-  const desk = useDesk();
-  const upcoming = desk.all().filter((r) => r.eta && r.status !== "resolved");
+/* ——— Schedule — a week agenda across the estates ——— */
+function DeskEntry({ e, onOpen }) {
+  const Ico = I[e.icon] || I.dots;
+  const inner = (<>
+    <span className={"sentry-ic sentry-ic-" + e.type}><Ico/></span>
+    <span className="sentry-m"><span className="sentry-t sf">{e.title}</span><span className="sentry-s">{e.sub}</span></span>
+    {e.window && <span className="sentry-w">{e.window}</span>}
+    {e.reqId && <span className="sentry-c"><I.chev/></span>}
+  </>);
+  return e.reqId
+    ? <button className="sentry" onClick={() => onOpen(e.reqId)}>{inner}</button>
+    : <div className="sentry">{inner}</div>;
+}
+
+function ScheduleSection({ push }) {
+  useDesk(); // re-render when a request changes
+  const days = deskAgenda();
+  const [openId, setOpenId] = useState(null);
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Schedule</div></div>
-      <div className="mgr-sum2">Upcoming visits &amp; arrivals across your estates</div>
-      <div className="mgr-list" style={{ marginTop: 16 }}>
-        {upcoming.length === 0
-          ? <div className="calm"><I.leaf/>Nothing scheduled yet.</div>
-          : upcoming.map((r) => {
-            const Ico = I[CX_ICON[r.category]] || I.dots;
-            return (
-              <div className="sentry" key={r.id}>
-                <span className="sentry-ic sentry-ic-request"><Ico/></span>
-                <span className="sentry-m">
-                  <div className="sentry-t sf">{r.title}</div>
-                  <div className="sentry-s">{r.who} · {r.estateShort}</div>
-                </span>
-                <span className="sentry-w">{r.eta}</span>
-              </div>
-            );
-          })}
+      <div className="mgr-sum2">This week across your estates</div>
+      <div style={{ marginTop: 8 }}>
+        {days.map((d) => (
+          <div className="sday" key={d.dow}>
+            <div className="sday-h"><span className="sday-l">{d.label}</span>{d.label !== d.dow && <span className="sday-dow">{d.dow}</span>}</div>
+            {d.entries.length === 0
+              ? <div className="sday-empty">A clear day — nothing scheduled</div>
+              : d.entries.map((e, i) => <DeskEntry key={i} e={e} onOpen={setOpenId}/>)}
+          </div>
+        ))}
       </div>
       <div style={{ height: 8 }}/>
+      {openId && <DeskDetail id={openId} onClose={() => setOpenId(null)} push={push}/>}
     </div>
   );
 }
