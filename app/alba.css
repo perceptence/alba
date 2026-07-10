@@ -260,9 +260,12 @@ html,body{background:#CFC8BB}
 .phead .eye{display:block}
 .phead .ht{font-family:var(--serif);font-weight:300;font-size:40px;letter-spacing:-.02em;margin-top:var(--sp-2);line-height:1}
 .backrow{display:flex;align-items:center;gap:16px;padding-top:12px}
-/* desktop: Notices is a rail destination, not a pushed sub-page — its back row
-   (unlike other sub-pages') is redundant with the rail, so hide it */
-@media (min-width:900px){.backrow-nav{display:none}.backrow-nav + .phead{padding-top:0!important}}
+/* Notices header: the Home bell sat top-right and opened this panel — the close
+   takes its exact spot (mirrors .hometop .icob), so the bell reads as an X. */
+.nt-head{position:relative;padding-top:12px}
+.am .nt-head .nt-close{position:absolute;top:12px;right:0;z-index:2}
+/* on desktop the rail stays visible, so there's nothing to close back to */
+@media (min-width:900px){.nt-head .nt-close{display:none}.nt-head{padding-top:0}}
 .am .backb{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none}
 .backb svg{width:20px;height:20px;stroke:var(--ink)}
 .backrow .bt{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey)}
