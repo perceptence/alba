@@ -259,17 +259,29 @@ function ResidentsSection({ push }) {
    resident Notices (.arow): stroke-circle icon, title, sub, time below. ——— */
 function DeskEntry({ e, onOpen }) {
   const Ico = I[e.icon] || I.dots;
-  const inner = (<>
-    <span className={"ai" + (e.reqId ? " ai-act" : "")}><Ico/></span>
-    <span style={{ flex: 1, minWidth: 0 }}>
-      <div className="at sf">{e.title}</div>
-      <div className="ad">{e.sub}</div>
-      {e.window && <div className={"aw" + (e.reqId ? " aw-act" : "")}>{e.window}</div>}
-    </span>
-  </>);
-  return e.reqId
-    ? <div className="arow" onClick={() => onOpen(e.reqId)}>{inner}</div>
-    : <div className="arow arow-static">{inner}</div>;
+  const [open, setOpen] = useState(false);
+  const req = e.reqId ? deskStore.get(e.reqId) : null;
+  const updates = req ? req.thread.slice(1) : []; // activity since the opening message
+  return (
+    <div className="arow arow-static">
+      <span className={"ai" + (e.reqId ? " ai-act" : "")}><Ico/></span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <div className="at sf">{e.title}</div>
+        <div className="ad">{e.sub}</div>
+        {e.window && <div className={"aw" + (e.reqId ? " aw-act" : "")}>{e.window}</div>}
+        {e.reqId && <button className="a-act" onClick={() => onOpen(e.reqId)}>Follow along<I.arrow/></button>}
+        {updates.length > 0 && <>
+          <button className={"nt-more" + (open ? " open" : "")} onClick={() => setOpen((v) => !v)}>
+            {updates.length} earlier update{updates.length === 1 ? "" : "s"}<I.chevD/></button>
+          {open && <div className="nt-sub stag">{updates.map((m, i) => (
+            <div className="nt-si" key={i}>
+              <div className="st sf">{m.t}</div>
+              <div className="sd">{m.f === "m" ? "Rosa" : req.who} · {m.at}</div>
+            </div>))}</div>}
+        </>}
+      </span>
+    </div>
+  );
 }
 
 function ScheduleSection({ push }) {
