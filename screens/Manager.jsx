@@ -110,7 +110,7 @@ function RequestsSection({ push }) {
   return (
     <div className="pc stag">
       <div className="mgr-head">
-        <span><span className="eye">The estate desk</span><div className="ht sf">Good morning, Rosa.</div></span>
+        <span><span className="eye">Saturday · 5 July</span><div className="ht sf">Good morning, Rosa.</div></span>
         <Avatar cfg={AV.rosa} size={46}/>
       </div>
       <div className="mgr-hero">
@@ -267,7 +267,8 @@ function DeskEntry({ e, onOpen }) {
       <span className={"ai" + (e.reqId ? " ai-act" : "")}><Ico/></span>
       <span style={{ flex: 1, minWidth: 0 }}>
         <div className="at sf">{e.title}</div>
-        <div className="ad">{e.sub}</div>
+        <div className="ad ad-loc">{e.sub}</div>
+        {e.desc && <div className="ad">{e.desc}</div>}
         {e.window && <div className={"aw" + (e.reqId ? " aw-act" : "")}>{e.window}</div>}
         {e.reqId && <button className="a-act" onClick={() => onOpen(e.reqId)}>Follow along<I.arrow/></button>}
         {updates.length > 0 && <>
@@ -327,14 +328,15 @@ function RentRow({ e, month, onOpen }) {
 function NoticeRow({ n, onOpen }) {
   const needsResend = n.state === "needs-resend";
   return (
-    <div className="arow" onClick={() => onOpen(n.id)}>
+    <div className="arow arow-static">
       <span className="ai"><I.bell/></span>
       <span style={{ flex: 1, minWidth: 0 }}>
         <div className="at sf">{n.title}</div>
-        <div className="ad">{n.scope} · {n.reach} resident{n.reach !== 1 ? "s" : ""}</div>
+        <div className="ad ad-loc">{n.scope} · {n.reach} resident{n.reach !== 1 ? "s" : ""}</div>
+        <div className="ad">{n.body}</div>
         <div className="aw">{needsResend && <span className="need">Needs resend · </span>}{n.state === "scheduled" ? "Scheduled · " : ""}{n.at}</div>
+        <button className="a-act" onClick={() => onOpen(n.id)}>View notice<I.arrow/></button>
       </span>
-      <span className="rchev"><I.chev/></span>
     </div>
   );
 }
@@ -432,9 +434,12 @@ function AccountSection({ push }) {
         </div>
         <div className="acct-hd">
           <span className="acct-hd-v sf num">{money(rent.collected)}</span>
-          <span className="acct-hd-l">collected of {money(rent.expected)}</span>
+          {rent.outstanding > 0
+            ? <span className="acct-hd-out">{money(rent.outstanding)} outstanding</span>
+            : <span className="acct-hd-set">All settled</span>}
         </div>
         <div className="acct-bar"><span className="acct-bar-f" style={{ width: (rent.collected / rent.expected * 100).toFixed(0) + "%" }}/></div>
+        <div className="acct-hd-l">collected of {money(rent.expected)}</div>
 
         {outstanding.length > 0 && <>
           <div className="mgr-grp acct-grp">Outstanding · {money(rent.outstanding)}</div>
@@ -444,7 +449,7 @@ function AccountSection({ push }) {
         {paid.map((e) => <RentRow key={e.id} e={e} month={month} onOpen={setOpenEst}/>)}
       </div>
 
-      <div className="sect"><div className="sect-h"><span className="l">Notices</span><button className="sect-act" onClick={() => setCompose(true)}><I.plus/>Compose</button></div>
+      <div className="sect acct-notices"><div className="sect-h sect-h-act"><span className="l">Notices</span><button className="sect-act" onClick={() => setCompose(true)}><I.plus/>Compose</button></div>
         <div className="nt-tabs mgr-nt-tabs">
           <button className={"nt-tab" + (ntab === "sent" ? " on" : "")} onClick={() => setNtab("sent")}>Sent<span className="nt-tabn">{sentCount}</span></button>
           <button className={"nt-tab" + (ntab === "scheduled" ? " on" : "")} onClick={() => setNtab("scheduled")}>Scheduled<span className="nt-tabn">{schedCount}</span></button>

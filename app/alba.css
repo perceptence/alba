@@ -662,7 +662,9 @@ html,body{background:#CFC8BB}
    the list gets clear breathing room below the rail. */
 /* only three filters — they fit, so no scroll container (which was forcing a
    1px vertical scroll off the active-tab underline). */
-.mgr-nt-tabs{margin-top:24px;overflow-x:visible}
+/* 40px above the tabs so label→tabs matches the row→group rhythm (a row's
+   own 16px padding pushes its group gap to ~40 visually — match it here) */
+.mgr-nt-tabs{margin-top:40px;overflow-x:visible}
 .mgr-nt-tabs + .mgr-list{margin-top:var(--sp-2)}
 .nt-tabn{margin-left:4px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--grey-2)}
 .am .nt-tab.on .nt-tabn{color:var(--grey)}
@@ -701,10 +703,23 @@ html,body{background:#CFC8BB}
 .prof-head + .sect{margin-top:32px}
 .acct-hd{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin-top:24px}
 .acct-hd-v{font-family:var(--serif);font-weight:300;font-size:32px;letter-spacing:-.02em;line-height:1;color:var(--ink)}
-.acct-hd-l{font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em}
+.acct-hd-out{font-size:13px;font-weight:600;color:var(--clay);letter-spacing:.01em}
+.acct-hd-set{font-size:13px;font-weight:600;color:var(--sage);letter-spacing:.01em}
+/* the total sits under the bar, right-aligned to its end, 12px below */
+.acct-hd-l{display:block;text-align:right;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em;margin-top:12px}
 .acct-bar{height:4px;border-radius:2px;background:var(--paper-3);margin-top:16px;overflow:hidden}
 .acct-bar-f{display:block;height:100%;border-radius:2px;background:var(--sage);transition:width .5s var(--e)}
 .mgr-nt-tabs + .mgr-nt-list{margin-top:var(--sp-4)}
+/* Notices header: center the label with the Compose action (icon+text) */
+.sect-h-act{align-items:center}
+/* the tab rail already draws the top line — don't double it on the first row */
+.mgr-nt-list .arow:first-child{border-top:none}
+/* manager rows carry an extra location line above the description; mute it */
+.arow .ad-loc{color:var(--grey-2)}
+/* caption→first group matches the row→group visual gap (40) */
+.acct-hd-l + .mgr-grp{margin-top:40px}
+/* rent→notices boundary: 24 box + the last row's 16px padding ≈ 40 (was 56) */
+.acct-notices{margin-top:24px}
 .am .sect-act{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--clay)}
 .sect-act svg{width:14px;height:14px;stroke:var(--clay)}
 .nd-when{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey-2)}
