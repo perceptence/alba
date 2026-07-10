@@ -199,46 +199,49 @@ function PortfolioSection({ push, openEstate }) {
   const [estSort, setEstSort] = useState("area"); // each lens keeps its own sort
   const [resSort, setResSort] = useState("estate");
   const [resId, setResId] = useState(null);
-  // Search stays folded behind an icon until asked for; the open field is the
-  // same quiet composer as a message reply. Esc or the button closes it.
+  // Search folds behind an icon on the count bar; the icon becomes the close.
+  // The open field is one hairline input line. Esc closes too.
   const [searching, setSearching] = useState(false);
   const [q, setQ] = useState("");
   const closeSearch = () => { setQ(""); setSearching(false); };
   // accent-insensitive: "reid" finds Reïd, "theo" finds Théo
   const fold = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   const ql = fold(q.trim());
-  let groups;
+  let groups; // [label, list, kind] — kind picks the row (est | res)
   if (ql) {
-    // Searching flattens the book — matches only, A–Z, no grouping or sort.
-    groups = [[null, view === "estates"
-      ? ESTATES.filter((e) => fold(`${e.name} ${e.area} ${e.kind}`).includes(ql)).sort((a, b) => a.name.localeCompare(b.name))
-      : RESIDENTS.filter((p) => fold(`${p.name} ${byEst(p.estate).name} ${byEst(p.estate).area}`).includes(ql)).sort((a, b) => a.name.localeCompare(b.name))]];
+    // Search spans the whole book regardless of lens — a resident's name typed
+    // in the Estates lens still finds them, and vice versa. Matches only, A–Z.
+    const em = ESTATES.filter((e) => fold(`${e.name} ${e.area} ${e.kind}`).includes(ql)).sort((a, b) => a.name.localeCompare(b.name));
+    const rm = RESIDENTS.filter((p) => fold(`${p.name} ${byEst(p.estate).name} ${byEst(p.estate).area}`).includes(ql)).sort((a, b) => a.name.localeCompare(b.name));
+    groups = [];
+    if (em.length) groups.push(["Estates", em, "est"]);
+    if (rm.length) groups.push(["Residents", rm, "res"]);
   } else if (view === "estates") {
     if (estSort === "area") {
       const byArea = {};
       ESTATES.forEach((e) => { (byArea[e.area] = byArea[e.area] || []).push(e); });
-      groups = Object.keys(byArea).sort().map((area) => [area, byArea[area]]);
+      groups = Object.keys(byArea).sort().map((area) => [area, byArea[area], "est"]);
     } else if (estSort === "az") {
-      groups = [[null, [...ESTATES].sort((a, b) => a.name.localeCompare(b.name))]];
+      groups = [[null, [...ESTATES].sort((a, b) => a.name.localeCompare(b.name)), "est"]];
     } else {
       // Needs attention — urgency first (an open request can be anything; what
       // matters is which estates have something pressing), then by open count.
       groups = [[null, [...ESTATES].sort((a, b) =>
         (desk.urgentCountEstate(b.id) - desk.urgentCountEstate(a.id)) ||
         (desk.openCountEstate(b.id) - desk.openCountEstate(a.id)) ||
-        a.name.localeCompare(b.name))]];
+        a.name.localeCompare(b.name)), "est"]];
     }
   } else if (resSort === "estate") {
-    groups = ESTATES.map((e) => [e.short, estateResidents(e.id)]).filter(([, list]) => list.length);
+    groups = ESTATES.map((e) => [e.short, estateResidents(e.id), "res"]).filter(([, list]) => list.length);
   } else if (resSort === "az") {
-    groups = [[null, [...RESIDENTS].sort((a, b) => a.name.localeCompare(b.name))]];
+    groups = [[null, [...RESIDENTS].sort((a, b) => a.name.localeCompare(b.name)), "res"]];
   } else {
     groups = [[null, [...RESIDENTS].sort((a, b) =>
       (desk.urgentCountResident(b.id) - desk.urgentCountResident(a.id)) ||
       (desk.openCountResident(b.id) - desk.openCountResident(a.id)) ||
-      a.name.localeCompare(b.name))]];
+      a.name.localeCompare(b.name)), "res"]];
   }
-  const found = ql ? groups[0][1].length : 0;
+  const found = ql ? groups.reduce((n, [, list]) => n + list.length, 0) : 0;
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">In your care</span><div className="ht sf">Estates</div></div>
@@ -249,29 +252,30 @@ function PortfolioSection({ push, openEstate }) {
       <div className="mgr-bar">
         <div className="mgr-sum2">{ql ? `${found} match${found === 1 ? "" : "es"}`
           : view === "estates" ? `${ESTATES.length} in your care` : `${RESIDENTS.length} across your estates`}</div>
-        {!searching && <span className="mgr-bar-r">
+        <span className="mgr-bar-r">
           {view === "estates"
             ? <SortBar opts={[["area", "By area"], ["az", "A–Z"], ["urgent", "Needs attention"]]} sort={estSort} setSort={setEstSort}/>
             : <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={resSort} setSort={setResSort}/>}
-          <button className="mgr-search-t" aria-label="Search" onClick={() => setSearching(true)}><I.search/></button>
-        </span>}
+          {/* the same icon is the toggle: search when closed, a cross when open */}
+          <button className="mgr-search-t" aria-label={searching ? "Close search" : "Search"}
+            onClick={() => searching ? closeSearch() : setSearching(true)}>
+            {searching ? <I.close/> : <I.search/>}
+          </button>
+        </span>
       </div>
       {searching && (
-        <div className="assist mgr-search">
-          <div className="ask">
-            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)}
-              placeholder={view === "estates" ? "Search the estates" : "Search the residents"} aria-label="Search"
-              onKeyDown={(e) => { if (e.key === "Escape") closeSearch(); }}/>
-            <button className="snd" onClick={closeSearch} aria-label="Close search"><I.close/></button>
-          </div>
+        <div className="mgr-sline">
+          <input autoFocus value={q} onChange={(e) => setQ(e.target.value)}
+            placeholder="Search estates and residents" aria-label="Search"
+            onKeyDown={(e) => { if (e.key === "Escape") closeSearch(); }}/>
         </div>
       )}
       <div className="mgr-list">
         {ql && found === 0 && <div className="calm"><I.leaf/>Nothing by that name.</div>}
-        {groups.map(([label, list]) => (
+        {groups.map(([label, list, kind]) => (
           <div key={label || "all"}>
             {label && <div className="mgr-grp">{label}</div>}
-            {view === "estates"
+            {kind === "est"
               ? list.map((e) => <EstateRow key={e.id} e={e} onOpen={openEstate}/>)
               : list.map((p) => <ResidentRow key={p.id} p={p} onOpen={setResId} showEstate={ql ? true : resSort !== "estate"}/>)}
           </div>
