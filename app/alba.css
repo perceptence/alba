@@ -152,6 +152,8 @@ html,body{background:#CFC8BB}
 }
 
 @keyframes fadeup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+/* Notices panel: a quiet shade easing down from the top (the bell it opens from) */
+@keyframes ntShade{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes sheet{from{transform:translateY(100%)}to{transform:none}}
 @keyframes sheetOut{from{transform:none}to{transform:translateY(100%)}}
@@ -262,6 +264,7 @@ html,body{background:#CFC8BB}
 .backrow{display:flex;align-items:center;gap:16px;padding-top:12px}
 /* Notices header: the Home bell sat top-right and opened this panel — the close
    takes its exact spot (mirrors .hometop .icob), so the bell reads as an X. */
+.nt-panel{animation:ntShade .32s var(--e) both}
 .nt-head{position:relative;padding-top:12px}
 .am .nt-head .nt-close{position:absolute;top:12px;right:0;z-index:2}
 /* on desktop the rail stays visible, so there's nothing to close back to */
