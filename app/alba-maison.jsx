@@ -138,8 +138,9 @@ export default function App(){
           {paySheet&&<PayDetailSheet id={paySheet} onClose={()=>setPaySheet(null)}/>}
           {compose&&<Composer preset={compose.preset} initialNote={compose.note} push={push} onClose={()=>setCompose(null)} onCreated={(id)=>{setCompose(null);setDetail(id);}}/>}
           {detail&&<ReqDetail id={detail} push={push} onClose={()=>setDetail(null)}/>}
-          <ToastHost toasts={toasts}/>
           </>)}
+          {/* toasts render for every journey (resident, onboarding, manager) */}
+          <ToastHost toasts={toasts}/>
           {splash!=="gone"&&(
             <div className={"splash"+(splash==="out"?" out":"")} aria-hidden="true">
               <div className="splash-brand">

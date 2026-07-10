@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useDesk, deskStore, TABS, ESTATES, RESIDENTS, byEst, byRes, estateResidents, deskAgenda } from "@/lib/managerData";
+import { useDesk, deskStore, TABS, ESTATES, RESIDENTS, byEst, byRes, estateResidents, deskAgenda, rentStatus, rentSummary, AREAS, reachOf, noticeStore, useNotices } from "@/lib/managerData";
 import { CX_CATS, CX_STATUS, CX_TINT } from "@/lib/conciergeStore";
 import { money } from "@/lib/util";
 import { AV } from "@/lib/data";
@@ -37,7 +37,7 @@ export function Manager({ push }) {
           : section === "estates" ? <EstatesSection push={push}/>
           : section === "residents" ? <ResidentsSection push={push}/>
           : section === "schedule" ? <ScheduleSection push={push}/>
-          : <AccountSection/>}
+          : <AccountSection push={push}/>}
       </div>
       <nav className="nav">
         <div className="rail-brand">
@@ -308,10 +308,64 @@ function ScheduleSection({ push }) {
   );
 }
 
-/* ——— Account — Rosa's own (rework is Pass 2) ——— */
-function AccountSection() {
-  const desk = useDesk();
-  const c = desk.counts();
+/* ——— Account — Rosa's desk: the money, notices she sends, her profile ——— */
+function RentRow({ e, onOpen }) {
+  const rs = rentStatus(e.id);
+  const tone = rs.state === "paid" ? "g" : rs.state === "overdue" ? "a" : "n";
+  const label = rs.state === "paid" ? "Paid" : rs.state === "overdue" ? "Overdue" : "Due Jul 5";
+  return (
+    <button className="estrow" onClick={() => onOpen(e.id)}>
+      <span className="estrow-m">
+        <div className="estrow-n sf">{e.short}</div>
+        <div className="estrow-s">{money(e.lease.rent)}/mo</div>
+      </span>
+      <span className="estrow-r"><span className={"gpill gpill-" + tone}>{label}</span><I.chev/></span>
+    </button>
+  );
+}
+
+function NoticeComposer({ onClose, push }) {
+  const { close, scrimProps, sheetProps } = useSheet(onClose);
+  const [scope, setScope] = useState("All estates");
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const reach = reachOf(scope);
+  const valid = title.trim() && body.trim();
+  const send = () => {
+    if (!valid) return;
+    noticeStore.send({ title: title.trim(), body: body.trim(), scope, reach });
+    push({ t: "Notice sent", d: `To ${reach} resident${reach !== 1 ? "s" : ""} · ${scope}` });
+    close();
+  };
+  return (<div {...scrimProps}><div {...sheetProps}>
+    <div className="grab"/>
+    <div className="sh-head"><span style={{ flex: 1 }}><div className="sh-title sf">Compose a notice</div><div className="sh-sub">Posts to residents' Notices</div></span>
+      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
+    <div className="sh-body" style={{ paddingTop: 8 }}>
+      <div className="flab" style={{ marginTop: 0 }}>Send to</div>
+      <div className="scope">
+        {["All estates", ...AREAS].map((s) => (
+          <button key={s} className={"scope-c" + (scope === s ? " on" : "")} onClick={() => setScope(s)}>{s}</button>
+        ))}
+      </div>
+      <div className="acct-reach">{reach} resident{reach !== 1 ? "s" : ""} will receive this</div>
+      <div className="flab">Title</div>
+      <div className="co-field-line"><input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Gate code rotation this weekend"/></div>
+      <div className="flab">Message</div>
+      <div className="co-field"><textarea rows={3} value={body} onChange={(e) => setBody(e.target.value)} placeholder="What should residents know?"/></div>
+    </div>
+    <div className="sh-foot">
+      <button className="cta" disabled={!valid} style={!valid ? { opacity: .4 } : undefined} onClick={send}><I.send/>Send notice</button>
+    </div>
+  </div></div>);
+}
+
+function AccountSection({ push }) {
+  const nt = useNotices();
+  const rent = rentSummary();
+  const [openEst, setOpenEst] = useState(null);
+  const [compose, setCompose] = useState(false);
+  const sent = nt.all();
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">Signed in</span><div className="ht sf">Rosa Ibáñez</div></div>
@@ -322,13 +376,36 @@ function AccountSection() {
           <div className="prof-place">ALBA · Bel-Air &amp; the Westside</div>
         </div>
       </div>
-      <div className="sect"><div className="sect-h"><span className="l">Your desk</span></div>
-        <div className="prow"><span className="pk">Estates</span><span className="pv">{ESTATES.length}</span></div>
-        <div className="prow"><span className="pk">Open requests</span><span className="pv">{c.open}</span></div>
-        <div className="prow"><span className="pk">Resolved recently</span><span className="pv">{c.done}</span></div>
+
+      <div className="sect"><div className="sect-h"><span className="l">This month</span><span className="a">{rent.month}</span></div>
+        <div className="acct-money">
+          <div className="acct-stat"><span className="acct-stat-v sf num">{money(rent.collected)}</span><span className="acct-stat-l">collected</span></div>
+          <div className="acct-stat out"><span className="acct-stat-v sf num">{money(rent.outstanding)}</span><span className="acct-stat-l">outstanding · {rent.outCount} estates</span></div>
+        </div>
+        <div className="acct-money-sub">of {money(rent.expected)} expected across {ESTATES.length} estates</div>
+        <div style={{ marginTop: 8 }}>{ESTATES.map((e) => <RentRow key={e.id} e={e} onOpen={setOpenEst}/>)}</div>
       </div>
-      <button className="signout">Sign out</button>
+
+      <div className="sect"><div className="sect-h"><span className="l">Notices</span></div>
+        <button className="cta ghost acct-compose" onClick={() => setCompose(true)}><I.bell/>Compose a notice</button>
+        <div style={{ marginTop: 16 }}>
+          {sent.map((n) => (
+            <div className="arow arow-static" key={n.id}>
+              <span className="ai"><I.bell/></span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <div className="at sf">{n.title}</div>
+                <div className="ad">{n.scope} · {n.reach} resident{n.reach !== 1 ? "s" : ""}</div>
+                <div className="aw">{n.at}</div>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <button className="signout" onClick={() => push({ t: "Signed out", d: "See you soon, Rosa" })}>Sign out</button>
       <div style={{ height: 8 }}/>
+      {openEst && <EstateDetail id={openEst} onClose={() => setOpenEst(null)} push={push}/>}
+      {compose && <NoticeComposer onClose={() => setCompose(false)} push={push}/>}
     </div>
   );
 }
@@ -386,6 +463,7 @@ function EstateDetail({ id, onClose, push }) {
       <div className="sect"><div className="sect-h"><span className="l">Lease</span></div>
         <div className="prow"><span className="pk">Term</span><span className="pv">{e.lease.term}</span></div>
         <div className="prow"><span className="pk">Rent</span><span className="pv num">{money(e.lease.rent)}/mo</span></div>
+        <div className="prow"><span className="pk">This month</span><span className="pv">{(() => { const rs = rentStatus(e.id); const tone = rs.state === "paid" ? "g" : rs.state === "overdue" ? "a" : "n"; return <span className={"gpill gpill-" + tone}>{rs.on}</span>; })()}</span></div>
         <div className="prow"><span className="pk">Deposit</span><span className="pv num">{money(e.lease.deposit)}</span></div>
         <div className="est-lease-note">{e.lease.note}</div>
       </div>

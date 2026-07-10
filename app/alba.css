@@ -693,6 +693,19 @@ html,body{background:#CFC8BB}
 .dd-seg.on{background:var(--tc)}
 .dd-track-cap{margin-top:12px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .dd-track-now{color:var(--tc);font-weight:600}
+
+/* Account — Rosa's desk: rent summary, notice composer */
+.acct-money{display:flex;flex-wrap:wrap;gap:12px 32px;margin-top:16px}
+.acct-stat{display:flex;align-items:baseline;gap:10px}
+.acct-stat-v{font-family:var(--serif);font-weight:300;font-size:26px;letter-spacing:-.02em;line-height:1;color:var(--ink)}
+.acct-stat.out .acct-stat-v{color:var(--clay)}
+.acct-stat-l{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
+.acct-money-sub{margin-top:12px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
+.acct-reach{margin-top:8px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
+.am .acct-compose{margin-top:4px}
+.scope{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.am .scope-c{padding:8px 14px;border-radius:100px;border:1px solid var(--line);font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--grey);white-space:nowrap;transition:background .25s var(--e),border-color .25s var(--e),color .25s var(--e)}
+.am .scope-c.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 /* reply box matches the resident 'Ask Rosa' composer — serif input, hairline
    underline, round clay send */
 .dd-reply{margin-top:0}
