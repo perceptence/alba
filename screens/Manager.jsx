@@ -43,7 +43,7 @@ export function Manager({ push, onSubview }) {
         {estateId ? <EstatePage id={estateId} backLabel={BACK_LABEL[section]} onBack={() => setEstateId(null)} push={push}/>
           : section === "requests" ? <RequestsSection push={push}/>
           : section === "estates" ? <PortfolioSection push={push} openEstate={setEstateId}/>
-          : section === "schedule" ? <ScheduleSection push={push} openEstate={setEstateId}/>
+          : section === "schedule" ? <ScheduleSection push={push}/>
           : <AccountSection push={push} openEstate={setEstateId}/>}
       </div>
       <nav className="nav">
@@ -273,9 +273,9 @@ function PortfolioSection({ push, openEstate }) {
 
 /* ——— Schedule — a week agenda across the estates. Same line item as the
    resident Notices (.arow): stroke-circle icon, title, sub, time below.
-   Request-driven entries open their request; routine visits (pool, trash,
-   guests…) belong to an estate, so they open the estate's page instead. ——— */
-function DeskEntry({ e, onOpen, openEstate }) {
+   Request-driven entries open their request thread; routine visits (pool,
+   trash, guests…) are reference only — nothing behind them to open. ——— */
+function DeskEntry({ e, onOpen }) {
   const Ico = I[e.icon] || I.dots;
   const [open, setOpen] = useState(false);
   const req = e.reqId ? deskStore.get(e.reqId) : null;
@@ -289,7 +289,6 @@ function DeskEntry({ e, onOpen, openEstate }) {
         {e.desc && <div className="ad">{e.desc}</div>}
         {e.window && <div className={"aw" + (e.reqId ? " aw-act" : "")}>{e.window}</div>}
         {e.reqId && <button className="a-act" onClick={() => onOpen(e.reqId)}>Follow along<I.arrow/></button>}
-        {!e.reqId && e.estId && openEstate && <button className="a-act" onClick={() => openEstate(e.estId)}>Open the estate<I.arrow/></button>}
         {updates.length > 0 && <>
           <button className={"nt-more" + (open ? " open" : "")} onClick={() => setOpen((v) => !v)}>
             {updates.length} earlier update{updates.length === 1 ? "" : "s"}<I.chevD/></button>
@@ -304,8 +303,8 @@ function DeskEntry({ e, onOpen, openEstate }) {
   );
 }
 
-function ScheduleSection({ push, openEstate }) {
-  useDesk(); // re-render when a request changes
+function ScheduleSection({ push }) {
+  useDesk(); // re-render when a request changes; week agenda across the estates
   const days = deskAgenda();
   const [openId, setOpenId] = useState(null);
   return (
@@ -318,7 +317,7 @@ function ScheduleSection({ push, openEstate }) {
             <div className="sday-h"><span className="sday-l">{d.label}</span>{d.label !== d.dow && <span className="sday-dow">{d.dow}</span>}</div>
             {d.entries.length === 0
               ? <div className="sday-empty">A clear day — nothing scheduled</div>
-              : d.entries.map((e, i) => <DeskEntry key={i} e={e} onOpen={setOpenId} openEstate={openEstate}/>)}
+              : d.entries.map((e, i) => <DeskEntry key={i} e={e} onOpen={setOpenId}/>)}
           </div>
         ))}
       </div>
