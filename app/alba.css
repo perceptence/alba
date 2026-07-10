@@ -264,7 +264,13 @@ html,body{background:#CFC8BB}
 .backrow{display:flex;align-items:center;gap:16px;padding-top:12px}
 /* Notices header: the Home bell sat top-right and opened this panel — the close
    takes its exact spot (mirrors .hometop .icob), so the bell reads as an X. */
-.nt-panel{animation:ntShade .32s var(--e) both}
+/* mobile + tablet only: the panel eases in as a shade, in place of the row
+   stagger. Desktop is a rail destination — it keeps the standard stagger-fadeup
+   like every other page, so the shade must not reach it. */
+@media (max-width:899px){
+  .nt-panel{animation:ntShade .32s var(--e) both}
+  .nt-panel.stag>*{animation:none}
+}
 .nt-head{position:relative;padding-top:12px}
 .am .nt-head .nt-close{position:absolute;top:12px;right:0;z-index:2}
 /* on desktop the rail stays visible, so there's nothing to close back to */

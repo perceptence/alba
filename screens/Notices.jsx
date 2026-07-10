@@ -37,7 +37,7 @@ export function NoticesPage({ onBack, route }) {
   const go = (to) => { if (to && route) route(to); };
 
   return (
-    <div className="pc nt-panel">
+    <div className="pc stag nt-panel">
       <div className="phead nt-head">
         {/* the Home bell that opened this panel sits here — it becomes the close */}
         <button className="icob nt-close" onClick={onBack} aria-label="Close notices"><I.close/></button>
