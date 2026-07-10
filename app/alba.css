@@ -391,6 +391,7 @@ html,body{background:#CFC8BB}
 .nt-sort svg{width:14px;height:14px;stroke:var(--ink)}
 .nt-g{margin-top:var(--sp-4);margin-bottom:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .am .arow{cursor:pointer}
+.am .arow.arow-static{cursor:default}
 .arow.read .at{color:var(--grey)}
 .arow.read .ai svg{stroke:var(--grey)}
 .arow .aw .need{color:var(--clay)}

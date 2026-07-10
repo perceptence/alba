@@ -255,18 +255,21 @@ function ResidentsSection({ push }) {
   );
 }
 
-/* ——— Schedule — a week agenda across the estates ——— */
+/* ——— Schedule — a week agenda across the estates. Same line item as the
+   resident Notices (.arow): stroke-circle icon, title, sub, time below. ——— */
 function DeskEntry({ e, onOpen }) {
   const Ico = I[e.icon] || I.dots;
   const inner = (<>
-    <span className={"sentry-ic sentry-ic-" + e.type}><Ico/></span>
-    <span className="sentry-m"><span className="sentry-t sf">{e.title}</span><span className="sentry-s">{e.sub}</span></span>
-    {e.window && <span className="sentry-w">{e.window}</span>}
-    {e.reqId && <span className="sentry-c"><I.chev/></span>}
+    <span className="ai"><Ico/></span>
+    <span style={{ flex: 1, minWidth: 0 }}>
+      <div className="at sf">{e.title}</div>
+      <div className="ad">{e.sub}</div>
+      {e.window && <div className="aw">{e.window}</div>}
+    </span>
   </>);
   return e.reqId
-    ? <button className="sentry" onClick={() => onOpen(e.reqId)}>{inner}</button>
-    : <div className="sentry">{inner}</div>;
+    ? <div className="arow" onClick={() => onOpen(e.reqId)}>{inner}</div>
+    : <div className="arow arow-static">{inner}</div>;
 }
 
 function ScheduleSection({ push }) {
