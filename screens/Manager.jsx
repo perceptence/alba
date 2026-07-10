@@ -88,9 +88,9 @@ function DeskRow({ r, onOpen }) {
   const urgent = r.priority === "Urgent" && r.status !== "resolved";
   return (
     <button className="dqrow" onClick={() => onOpen(r.id)}>
-      <span className="ric"><Ico/></span>
+      <span className={"ric" + (urgent ? " ric-urgent" : "")}><Ico/></span>
       <span className="dqm">
-        <div className="dqhead"><span className="dqwho">{r.estate}</span>{urgent && <span className="dd-urgent">Urgent</span>}</div>
+        <div className="dqwho">{r.estate}</div>
         <div className="dqt sf">{r.title}</div>
         <div className="dqsub">{r.who} · <span className={"cxt-" + (CX_TINT[r.status] || "n")}>{st.label}</span></div>
       </span>
@@ -485,7 +485,7 @@ function DeskDetail({ id, onClose, push }) {
       </div>
       <div className="dd-title sf">{r.title}</div>
 
-      <div className="dd-track-wrap">
+      <div className={"dd-track-wrap tc-" + (CX_TINT[r.status] || "n")}>
         <div className="dd-track">
           {ms.flatMap((m, i) => [
             i > 0 && <span key={"s" + i} className={"dd-seg" + ((m.state === "done" || m.state === "now") ? " on" : "")}/>,

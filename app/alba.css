@@ -6,7 +6,7 @@
   --paper:#F3EFE7; --paper-2:#ECE7DC; --paper-3:#E5DFD2;
   --ink:#1C1917; --ink-2:#3D372F; --grey:#6B6459; --grey-2:#9A9184;
   --line:rgba(28,25,23,.12); --line-2:rgba(28,25,23,.06);
-  --clay:#A8583C; --clay-soft:rgba(168,88,60,.1); --sage:#4F6A42;
+  --clay:#A8583C; --clay-soft:rgba(168,88,60,.1); --sage:#4F6A42; --gold:#9A7526;
   --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
   --e:cubic-bezier(.4,0,.2,1);
 }
@@ -353,6 +353,7 @@ html,body{background:#CFC8BB}
 .rrow .rchev{flex:none;align-self:center}
 .rrow .rchev svg{width:16px;height:16px;stroke:var(--grey-2)}
 .cxt-a{color:var(--clay);font-weight:600}
+.cxt-b{color:var(--gold);font-weight:600}
 .cxt-g{color:var(--sage);font-weight:600}
 .cxt-n{color:var(--ink);font-weight:600}
 .cxt-m{color:var(--grey);font-weight:600}
@@ -636,7 +637,10 @@ html,body{background:#CFC8BB}
 .am .dqrow{display:flex;align-items:flex-start;gap:16px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
 .mgr-list .dqrow:first-child{border-top:none}
 .dqm{flex:1;min-width:0}
-.dqhead{display:flex;align-items:center;gap:8px}
+/* urgent requests wear a clay-stroked icon (same signal as the bell's unread
+   state) instead of a badge */
+.ric-urgent{border-color:var(--clay)}
+.ric-urgent svg{stroke:var(--clay)}
 .dqwho{min-width:0;font-size:12px;font-weight:600;color:var(--grey);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dqt{font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.3;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .dqsub{margin-top:4px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -667,17 +671,22 @@ html,body{background:#CFC8BB}
 .dd-status{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .dd-title{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.01em;line-height:1.2;margin-top:16px}
 .dd-note{font-family:var(--serif);font-weight:400;font-style:italic;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:12px}
-/* horizontal clay track — nodes on a line, filled to the current step, with a
-   caption naming it. Compact, and clay to match the brand accent. */
-.dd-track-wrap{margin-top:var(--sp-5)}
+/* horizontal track — nodes on a line, filled to the current step, with a
+   caption naming it. Colour follows the current status (--tc): gold while
+   active, sage when resolved, ink otherwise. */
+.dd-track-wrap{margin-top:var(--sp-5);--tc:var(--clay)}
+.dd-track-wrap.tc-b{--tc:var(--gold)}
+.dd-track-wrap.tc-g{--tc:var(--sage)}
+.dd-track-wrap.tc-n{--tc:var(--ink)}
+.dd-track-wrap.tc-m{--tc:var(--grey)}
 .dd-track{display:flex;align-items:center}
 .dd-node{flex:none;width:9px;height:9px;border-radius:50%;box-sizing:border-box;border:1px solid var(--line);background:var(--paper)}
-.dd-node.done,.dd-node.now{background:var(--clay);border-color:var(--clay)}
-.dd-node.now{box-shadow:0 0 0 4px var(--clay-soft)}
+.dd-node.done,.dd-node.now{background:var(--tc);border-color:var(--tc)}
+.dd-node.now{box-shadow:0 0 0 4px color-mix(in srgb,var(--tc) 14%,transparent)}
 .dd-seg{flex:1;height:1px;background:var(--line)}
-.dd-seg.on{background:var(--clay)}
+.dd-seg.on{background:var(--tc)}
 .dd-track-cap{margin-top:12px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
-.dd-track-now{color:var(--clay);font-weight:600}
+.dd-track-now{color:var(--tc);font-weight:600}
 /* reply box matches the resident 'Ask Rosa' composer — serif input, hairline
    underline, round clay send */
 .dd-reply{margin-top:0}
