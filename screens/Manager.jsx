@@ -208,14 +208,19 @@ function PortfolioSection({ push, openEstate }) {
   const fold = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   const ql = fold(q.trim());
   let groups; // [label, list, kind] — kind picks the row (est | res)
-  if (ql) {
-    // Search spans the whole book regardless of lens — a resident's name typed
-    // in the Estates lens still finds them, and vice versa. Matches only, A–Z.
-    const em = ESTATES.filter((e) => fold(`${e.name} ${e.area} ${e.kind}`).includes(ql)).sort((a, b) => a.name.localeCompare(b.name));
-    const rm = RESIDENTS.filter((p) => fold(`${p.name} ${byEst(p.estate).name} ${byEst(p.estate).area}`).includes(ql)).sort((a, b) => a.name.localeCompare(b.name));
-    groups = [];
-    if (em.length) groups.push(["Estates", em, "est"]);
-    if (rm.length) groups.push(["Residents", rm, "res"]);
+  if (ql && view === "estates") {
+    // Search stays in the lens but reaches across the relationship: an estate
+    // row surfaces whether the query hits the estate OR anyone who lives there.
+    groups = [[null, ESTATES.filter((e) =>
+      fold(`${e.name} ${e.area} ${e.kind}`).includes(ql) ||
+      estateResidents(e.id).some((p) => fold(p.name).includes(ql))
+    ).sort((a, b) => a.name.localeCompare(b.name)), "est"]];
+  } else if (ql) {
+    // Residents lens: a person surfaces on their own name OR their estate's.
+    groups = [[null, RESIDENTS.filter((p) => {
+      const e = byEst(p.estate);
+      return fold(p.name).includes(ql) || fold(`${e.name} ${e.short} ${e.area} ${e.kind}`).includes(ql);
+    }).sort((a, b) => a.name.localeCompare(b.name)), "res"]];
   } else if (view === "estates") {
     if (estSort === "area") {
       const byArea = {};
@@ -241,7 +246,7 @@ function PortfolioSection({ push, openEstate }) {
       (desk.openCountResident(b.id) - desk.openCountResident(a.id)) ||
       a.name.localeCompare(b.name)), "res"]];
   }
-  const found = ql ? groups.reduce((n, [, list]) => n + list.length, 0) : 0;
+  const found = ql ? groups[0][1].length : 0;
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">In your care</span><div className="ht sf">Estates</div></div>
@@ -264,10 +269,13 @@ function PortfolioSection({ push, openEstate }) {
         </span>
       </div>
       {searching && (
-        <div className="mgr-sline">
-          <input autoFocus value={q} onChange={(e) => setQ(e.target.value)}
-            placeholder="Search estates and residents" aria-label="Search"
-            onKeyDown={(e) => { if (e.key === "Escape") closeSearch(); }}/>
+        <div className="assist mgr-search">
+          <div className="ask">
+            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)}
+              placeholder={view === "estates" ? "Search the estates" : "Search the residents"} aria-label="Search"
+              onKeyDown={(e) => { if (e.key === "Escape") closeSearch(); }}/>
+            <button className="snd" aria-label="Search" onClick={(e) => e.currentTarget.previousElementSibling.blur()}><I.search/></button>
+          </div>
         </div>
       )}
       <div className="mgr-list">

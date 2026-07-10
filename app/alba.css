@@ -625,15 +625,14 @@ html,body{background:#CFC8BB}
 /* estate list row */
 .am .estrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
 /* search across the book — folded behind an icon on the count bar (the icon
-   itself becomes the cross while open); the field is one hairline input line
-   in the composer's voice: serif 16 on a hairline that inks up on focus */
+   itself becomes the cross while open). The open field is the message reply
+   composer verbatim (.assist .ask): serif 16 on a hairline, clay send-circle
+   at its end — here that circle carries the search glyph. */
 .mgr-bar-r{display:flex;align-items:center;gap:16px;flex:none}
 .am .mgr-search-t{display:grid;place-items:center}
 .mgr-search-t svg{width:18px;height:18px;stroke:var(--ink)}
-.mgr-sline{margin-top:16px;border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .3s var(--e)}
-.mgr-sline:focus-within{border-bottom-color:var(--ink)}
-.am .mgr-sline input{width:100%;border:none;background:none;font-family:var(--serif);font-weight:400;font-size:16px;color:var(--ink);outline:none}
-.am .mgr-sline input::placeholder{color:var(--grey-2)}
+.assist.mgr-search{margin-top:16px}
+.mgr-search .snd svg{stroke:var(--paper)}
 /* who lives here, at a glance — overlapping resident avatars on the row */
 .est-avs{display:flex;align-items:center;flex:none}
 .est-av{display:block;flex:none;border-radius:50%;border:2px solid var(--paper);margin-left:-8px;overflow:hidden}
