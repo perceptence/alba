@@ -4,13 +4,14 @@ import { CX_CATS, CX_STATUS, CX_TINT } from "@/lib/conciergeStore";
 import { money } from "@/lib/util";
 import { AV } from "@/lib/data";
 import { Avatar } from "@/components/Avatar";
+import { Elevation } from "@/components/Elevation";
 import { ManagerPresence } from "@/components/ManagerPresence";
 import { useSheet } from "@/components/useSheet";
 import { I } from "@/components/icons";
 
 /* Rosa's side — the estate desk. An operator app across a portfolio of estates:
-   requests to triage, a book of residents, the estates themselves as reference,
-   a schedule and her own account. Denser than the resident experience, built
+   requests to triage, the estates (and the people in them) as one book, a
+   schedule and her own desk. Denser than the resident experience, built
    from the same design system, and — like the resident app — a bottom bar on
    phone, a left rail on desktop. */
 
@@ -18,26 +19,32 @@ const CX_ICON = { maintenance:"wrench", housekeeping:"towel", access:"key", deli
 const OP_NAV = [
   ["requests", I.concierge, "Requests"],
   ["estates", I.home, "Estates"],
-  ["residents", I.users, "Residents"],
   ["schedule", I.cal, "Schedule"],
   ["account", I.person, "Desk"],
 ];
+// What the estate page's back button returns to, by originating section.
+const BACK_LABEL = { requests:"Requests", estates:"Estates", schedule:"Schedule", account:"The Desk" };
 // Every resident has a generative avatar (see AV in lib/data). Falls back to
 // Adrien's config for any id we don't have art for.
 const av = (id) => AV[id] || AV.adrien;
 
-export function Manager({ push }) {
+export function Manager({ push, onSubview }) {
   const [section, setSection] = useState("requests");
+  // An open estate is a pushed page over whatever section it came from —
+  // back returns there. On phone/tablet it hides the nav (a subview).
+  const [estateId, setEstateId] = useState(null);
   const scrollRef = useRef(null);
-  useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; }, [section]);
+  useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; }, [section, estateId]);
+  useEffect(() => { onSubview?.(!!estateId); return () => onSubview?.(false); }, [estateId, onSubview]);
+  const go = (k) => { setEstateId(null); setSection(k); };
   return (
     <>
       <div className="scroll" ref={scrollRef}>
-        {section === "requests" ? <RequestsSection push={push}/>
-          : section === "estates" ? <EstatesSection push={push}/>
-          : section === "residents" ? <ResidentsSection push={push}/>
+        {estateId ? <EstatePage id={estateId} backLabel={BACK_LABEL[section]} onBack={() => setEstateId(null)} push={push}/>
+          : section === "requests" ? <RequestsSection push={push}/>
+          : section === "estates" ? <PortfolioSection push={push} openEstate={setEstateId}/>
           : section === "schedule" ? <ScheduleSection push={push}/>
-          : <AccountSection push={push}/>}
+          : <AccountSection push={push} openEstate={setEstateId}/>}
       </div>
       <nav className="nav">
         <div className="rail-brand">
@@ -50,7 +57,7 @@ export function Manager({ push }) {
           <div className="brand-desc">Maison</div>
         </div>
         {OP_NAV.map(([k, Ico, label]) => (
-          <button key={k} className={section === k ? "on" : ""} onClick={() => setSection(k)}>
+          <button key={k} className={section === k ? "on" : ""} onClick={() => go(k)}>
             <span className="und"/><Ico/><span className="nl">{label}</span>
           </button>))}
         <div className="rail-foot rail-foot-op">
@@ -142,7 +149,9 @@ function RequestsSection({ push }) {
   );
 }
 
-/* ——— Estates — the portfolio, Rosa's reference point ——— */
+/* ——— Estates — the portfolio as one book: the houses and the people in them.
+   Two lenses over the same care — Estates opens the full estate page,
+   Residents flies the person in. ——— */
 function EstateRow({ e, onOpen }) {
   const desk = useDesk();
   const open = desk.openCountEstate(e.id);
@@ -154,6 +163,10 @@ function EstateRow({ e, onOpen }) {
         <div className="estrow-n sf">{e.name}</div>
         <div className="estrow-s">{e.kind} · {e.beds} bed · {res.length} resident{res.length !== 1 ? "s" : ""}</div>
       </span>
+      <span className="est-avs">
+        {res.slice(0, 3).map((p) => <span className="est-av" key={p.id}><Avatar cfg={av(p.id)} size={24}/></span>)}
+        {res.length > 3 && <span className="est-av est-av-n">+{res.length - 3}</span>}
+      </span>
       <span className="estrow-r">
         {urgent > 0 ? <span className="cxt-a">Urgent</span>
           : open > 0 ? <span className="estrow-open">{open} open</span>
@@ -164,47 +177,6 @@ function EstateRow({ e, onOpen }) {
   );
 }
 
-function EstatesSection({ push }) {
-  const desk = useDesk();
-  const [sort, setSort] = useState("area");
-  const [openId, setOpenId] = useState(null);
-  let groups;
-  if (sort === "area") {
-    const byArea = {};
-    ESTATES.forEach((e) => { (byArea[e.area] = byArea[e.area] || []).push(e); });
-    groups = Object.keys(byArea).sort().map((area) => [area, byArea[area]]);
-  } else if (sort === "az") {
-    groups = [[null, [...ESTATES].sort((a, b) => a.name.localeCompare(b.name))]];
-  } else {
-    // Needs attention — urgency first (an open request can be anything; what
-    // matters is which estates have something pressing), then by open count.
-    groups = [[null, [...ESTATES].sort((a, b) =>
-      (desk.urgentCountEstate(b.id) - desk.urgentCountEstate(a.id)) ||
-      (desk.openCountEstate(b.id) - desk.openCountEstate(a.id)) ||
-      a.name.localeCompare(b.name))]];
-  }
-  return (
-    <div className="pc stag">
-      <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Estates</div></div>
-      <div className="mgr-bar">
-        <div className="mgr-sum2">{ESTATES.length} in your care</div>
-        <SortBar opts={[["area", "By area"], ["az", "A–Z"], ["urgent", "Needs attention"]]} sort={sort} setSort={setSort}/>
-      </div>
-      <div className="mgr-list">
-        {groups.map(([label, list]) => (
-          <div key={label || "all"}>
-            {label && <div className="mgr-grp">{label}</div>}
-            {list.map((e) => <EstateRow key={e.id} e={e} onOpen={setOpenId}/>)}
-          </div>
-        ))}
-      </div>
-      <div style={{ height: 8 }}/>
-      {openId && <EstateDetail id={openId} onClose={() => setOpenId(null)} push={push}/>}
-    </div>
-  );
-}
-
-/* ——— Residents — grouped by estate, sortable ——— */
 function ResidentRow({ p, onOpen, showEstate = true }) {
   const desk = useDesk();
   const open = desk.openCountResident(p.id);
@@ -221,14 +193,31 @@ function ResidentRow({ p, onOpen, showEstate = true }) {
   );
 }
 
-function ResidentsSection({ push }) {
+function PortfolioSection({ push, openEstate }) {
   const desk = useDesk();
-  const [sort, setSort] = useState("estate");
-  const [openId, setOpenId] = useState(null);
+  const [view, setView] = useState("estates");    // the lens: estates | residents
+  const [estSort, setEstSort] = useState("area"); // each lens keeps its own sort
+  const [resSort, setResSort] = useState("estate");
+  const [resId, setResId] = useState(null);
   let groups;
-  if (sort === "estate") {
+  if (view === "estates") {
+    if (estSort === "area") {
+      const byArea = {};
+      ESTATES.forEach((e) => { (byArea[e.area] = byArea[e.area] || []).push(e); });
+      groups = Object.keys(byArea).sort().map((area) => [area, byArea[area]]);
+    } else if (estSort === "az") {
+      groups = [[null, [...ESTATES].sort((a, b) => a.name.localeCompare(b.name))]];
+    } else {
+      // Needs attention — urgency first (an open request can be anything; what
+      // matters is which estates have something pressing), then by open count.
+      groups = [[null, [...ESTATES].sort((a, b) =>
+        (desk.urgentCountEstate(b.id) - desk.urgentCountEstate(a.id)) ||
+        (desk.openCountEstate(b.id) - desk.openCountEstate(a.id)) ||
+        a.name.localeCompare(b.name))]];
+    }
+  } else if (resSort === "estate") {
     groups = ESTATES.map((e) => [e.short, estateResidents(e.id)]).filter(([, list]) => list.length);
-  } else if (sort === "az") {
+  } else if (resSort === "az") {
     groups = [[null, [...RESIDENTS].sort((a, b) => a.name.localeCompare(b.name))]];
   } else {
     groups = [[null, [...RESIDENTS].sort((a, b) =>
@@ -238,21 +227,29 @@ function ResidentsSection({ push }) {
   }
   return (
     <div className="pc stag">
-      <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Residents</div></div>
+      <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Estates</div></div>
+      <div className="nt-tabs mgr-nt-tabs">
+        <button className={"nt-tab" + (view === "estates" ? " on" : "")} onClick={() => setView("estates")}>Estates<span className="nt-tabn">{ESTATES.length}</span></button>
+        <button className={"nt-tab" + (view === "residents" ? " on" : "")} onClick={() => setView("residents")}>Residents<span className="nt-tabn">{RESIDENTS.length}</span></button>
+      </div>
       <div className="mgr-bar">
-        <div className="mgr-sum2">{RESIDENTS.length} across your estates</div>
-        <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={sort} setSort={setSort}/>
+        <div className="mgr-sum2">{view === "estates" ? `${ESTATES.length} in your care` : `${RESIDENTS.length} across your estates`}</div>
+        {view === "estates"
+          ? <SortBar opts={[["area", "By area"], ["az", "A–Z"], ["urgent", "Needs attention"]]} sort={estSort} setSort={setEstSort}/>
+          : <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={resSort} setSort={setResSort}/>}
       </div>
       <div className="mgr-list">
         {groups.map(([label, list]) => (
           <div key={label || "all"}>
             {label && <div className="mgr-grp">{label}</div>}
-            {list.map((p) => <ResidentRow key={p.id} p={p} onOpen={setOpenId} showEstate={sort !== "estate"}/>)}
+            {view === "estates"
+              ? list.map((e) => <EstateRow key={e.id} e={e} onOpen={openEstate}/>)
+              : list.map((p) => <ResidentRow key={p.id} p={p} onOpen={setResId} showEstate={resSort !== "estate"}/>)}
           </div>
         ))}
       </div>
       <div style={{ height: 8 }}/>
-      {openId && <ResidentDetail id={openId} onClose={() => setOpenId(null)} push={push}/>}
+      {resId && <ResidentDetail id={resId} onClose={() => setResId(null)} push={push} openEstate={(eid) => { setResId(null); openEstate(eid); }}/>}
     </div>
   );
 }
@@ -405,11 +402,10 @@ function NoticeComposer({ onClose, push }) {
   </div></div>);
 }
 
-function AccountSection({ push }) {
+function AccountSection({ push, openEstate }) {
   const nt = useNotices();
   const [month, setMonth] = useState("July");
   const [ntab, setNtab] = useState("sent");
-  const [openEst, setOpenEst] = useState(null);
   const [compose, setCompose] = useState(false);
   const [openNotice, setOpenNotice] = useState(null);
   const rent = rentSummary(month);
@@ -445,10 +441,10 @@ function AccountSection({ push }) {
 
         {outstanding.length > 0 && <>
           <div className="mgr-grp acct-grp">Outstanding · {money(rent.outstanding)}</div>
-          {outstanding.map((e) => <RentRow key={e.id} e={e} month={month} onOpen={setOpenEst}/>)}
+          {outstanding.map((e) => <RentRow key={e.id} e={e} month={month} onOpen={openEstate}/>)}
         </>}
         <div className="mgr-grp acct-grp">Collected · {money(rent.collected)}</div>
-        {paid.map((e) => <RentRow key={e.id} e={e} month={month} onOpen={setOpenEst}/>)}
+        {paid.map((e) => <RentRow key={e.id} e={e} month={month} onOpen={openEstate}/>)}
       </div>
 
       <div className="sect acct-notices"><div className="sect-h sect-h-act"><span className="l">Notices</span><button className="sect-act" onClick={() => setCompose(true)}><I.plus/>Compose</button></div>
@@ -465,7 +461,6 @@ function AccountSection({ push }) {
 
       <button className="signout" onClick={() => push({ t: "Signed out", d: "See you soon, Rosa" })}>Sign out</button>
       <div style={{ height: 8 }}/>
-      {openEst && <EstateDetail id={openEst} onClose={() => setOpenEst(null)} push={push}/>}
       {compose && <NoticeComposer onClose={() => setCompose(false)} push={push}/>}
       {openNotice && <NoticeDetail id={openNotice} onClose={() => setOpenNotice(null)} push={push}/>}
     </div>
@@ -498,10 +493,11 @@ function PersonRow({ p, onOpen }) {
   );
 }
 
-function EstateDetail({ id, onClose, push }) {
+/* The estate, as a full page — pushed over whatever section opened it. The
+   architectural elevation draws itself in; the people fly in as panels. */
+function EstatePage({ id, backLabel, onBack, push }) {
   const desk = useDesk();
   const e = byEst(id);
-  const { close, scrimProps, sheetProps } = useSheet(onClose);
   const [resId, setResId] = useState(null);
   const [reqId, setReqId] = useState(null);
   if (!e) return null;
@@ -509,13 +505,15 @@ function EstateDetail({ id, onClose, push }) {
   const reqs = desk.forEstate(id);
   const open = reqs.filter((r) => r.status !== "resolved");
   return (<>
-    <div {...scrimProps}><div {...sheetProps}>
-    <div className="grab"/>
-    <div className="sh-head"><span style={{ flex: 1 }}><div className="sh-title sf">{e.name}</div><div className="sh-sub">{e.area}</div></span>
-      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body" style={{ paddingTop: 8 }}>
+    <div className="pc stag">
+      <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">{backLabel}</span></div>
+      <div className="est-fig"><Elevation h={150}/></div>
+      <div className="phead est-phead">
+        <span className="eye">{e.area} · {e.kind}</span>
+        <div className="ht sf">{e.name}</div>
+      </div>
       <div className="est-addr"><I.home/><span>{e.address}</span></div>
-      <div className="est-specs">{e.kind} · {e.beds} bed · {e.baths} bath · {e.size} m²</div>
+      <div className="est-specs">{e.beds} bed · {e.baths} bath · {e.size} m²</div>
       <p className="est-about">{e.about}</p>
 
       <div className="sect"><div className="sect-h"><span className="l">Residents</span><span className="a">{res.length}</span></div>
@@ -547,13 +545,12 @@ function EstateDetail({ id, onClose, push }) {
       </div>
       <div style={{ height: 8 }}/>
     </div>
-    </div></div>
     {resId && <ResidentDetail id={resId} onClose={() => setResId(null)} push={push}/>}
     {reqId && <DeskDetail id={reqId} onClose={() => setReqId(null)} push={push}/>}
   </>);
 }
 
-function ResidentDetail({ id, onClose, push }) {
+function ResidentDetail({ id, onClose, push, openEstate }) {
   const desk = useDesk();
   const [rid, setRid] = useState(id);   // co-residents swap the viewed person in place
   const [reqId, setReqId] = useState(null);
@@ -578,7 +575,8 @@ function ResidentDetail({ id, onClose, push }) {
 
       <div className="sect"><div className="sect-h"><span className="l">Residence</span></div>
         <div className="res-est"><div className="res-est-n sf">{e.name}</div><div className="res-est-a">{e.address}</div>
-          <div className="res-est-s">{e.kind} · {e.beds} bed · {e.baths} bath · {e.size} m²</div></div>
+          <div className="res-est-s">{e.kind} · {e.beds} bed · {e.baths} bath · {e.size} m²</div>
+          {openEstate && <button className="a-act" onClick={() => { close(); openEstate(e.id); }}>Open the estate<I.arrow/></button>}</div>
         <div className="prow"><span className="pk">Lease</span><span className="pv" style={{ fontSize: 13 }}>{e.lease.term}</span></div>
         <div className="prow"><span className="pk">Rent</span><span className="pv num">{money(e.lease.rent)}/mo</span></div>
       </div>

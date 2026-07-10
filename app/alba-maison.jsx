@@ -75,7 +75,10 @@ export default function App(){
     else if(to.type==="renewal"){setNoticesView(false);setResView(false);setRenewalView(true);}
   };
   const NAV=[["home",I.home,"Home"],["rent",I.card,"Payments"],["concierge",I.concierge,"Concierge"],["profile",I.person,"Account"]];
-  const subview=resView||payView||pastView||noticesView||guestView||scheduleView||renewalView||chargesView||autopayView;
+  // The manager pushes its own sub-pages (an open estate); it reports them here
+  // so the same .subview nav-hiding applies to both journeys.
+  const [mgrSub,setMgrSub]=useState(false);
+  const subview=journey==="manager"?mgrSub:(resView||payView||pastView||noticesView||guestView||scheduleView||renewalView||chargesView||autopayView);
   const scrollRef=useRef(null);
   // Each distinct screen gets a key; when it changes, scroll back to the top
   // (opening a sheet doesn't change the key, so the page keeps its place).
@@ -93,7 +96,7 @@ export default function App(){
           {onboarding?(
             <Onboarding onComplete={()=>{setJourney("resident");go("home");}}/>
           ):manager?(
-            <Manager push={push}/>
+            <Manager push={push} onSubview={setMgrSub}/>
           ):(<>
           <div className="scroll" ref={scrollRef}>
             {payView?<Payments onBack={()=>setPayView(false)} onOpenPayment={(id)=>setPaySheet(id)}/>

@@ -617,6 +617,15 @@ html,body{background:#CFC8BB}
 
 /* estate list row */
 .am .estrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
+/* who lives here, at a glance — overlapping resident avatars on the row */
+.est-avs{display:flex;align-items:center;flex:none}
+.est-av{display:block;flex:none;border-radius:50%;border:2px solid var(--paper);margin-left:-8px;overflow:hidden}
+.est-av:first-child{margin-left:0}
+.est-av-n{width:24px;height:24px;display:grid;place-items:center;background:var(--paper-3);font-size:10px;font-weight:600;color:var(--grey)}
+/* the estate page — elevation art draws in above the name */
+.est-fig{margin-top:16px}
+.est-phead{padding-top:0;margin-top:24px}
+.est-phead+.est-addr{margin-top:16px}
 .estrow-m{flex:1;min-width:0}
 .estrow-s{font-size:12px;font-weight:500;color:var(--grey-2);letter-spacing:.02em;margin-top:4px}
 .estrow-r{flex:none;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.02em}
