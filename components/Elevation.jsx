@@ -15,13 +15,14 @@ const Ground = ({ L }) => (<>
   <line {...L({ x1: 0, y1: 158, x2: 392, y2: 158, _d: .1 })}/>
   <line x1="0" y1="162" x2="392" y2="162" stroke={ink} strokeWidth=".5" opacity=".4"/>
 </>);
+/* y stays ≥ 60 so the top ray (y−26) never clips the viewBox edge (y=30) */
 const Sun = ({ L, x = 312, y = 60 }) => (<>
   <circle {...L({ cx: x, cy: y, r: 15, _d: .3 }, 100)}/>
   <g stroke={ink} strokeWidth=".6" opacity=".5">
     <line x1={x} y1={y - 26} x2={x} y2={y - 20}/><line x1={x} y1={y + 20} x2={x} y2={y + 26}/>
     <line x1={x - 26} y1={y} x2={x - 20} y2={y}/><line x1={x + 20} y1={y} x2={x + 26} y2={y}/>
     <line x1={x - 18} y1={y - 18} x2={x - 14} y2={y - 14}/><line x1={x + 14} y1={y + 14} x2={x + 18} y2={y + 18}/>
-    <line x1={x + 18} y1={y - 18} x2={x + 14} y2={y - 14}/><line x1={x - 18} y1={y + 14} x2={x - 14} y2={y + 18}/>
+    <line x1={x + 18} y1={y - 18} x2={x + 14} y2={y - 14}/><line x1={x - 18} y1={y + 18} x2={x - 14} y2={y + 14}/>
   </g>
 </>);
 const Olive = ({ L, x, s = 1, y = 158, d = .9 }) => (
@@ -98,11 +99,11 @@ export function Elevation({ h = 196, animate = true, variant = "verde" }) {
       <path {...L({ d: "M64 158 V86 H252 V158", _d: .2 })}/>
       <path {...L({ d: "M52 86 L158 58 L264 86", _d: .35 })}/>
       <path {...L({ d: "M60 86 L158 62 L256 86", _d: .4 })}/>
-      {/* colonnaded loggia */}
+      {/* colonnaded loggia — each arch centred between the two windows above */}
       <g strokeWidth=".9">
-        <path {...L({ d: "M84 158 V134 Q84 120 100 120 Q116 120 116 134 V158", _d: .55 }, 120)}/>
-        <path {...L({ d: "M132 158 V134 Q132 120 148 120 Q164 120 164 134 V158", _d: .62 }, 120)}/>
-        <path {...L({ d: "M180 158 V134 Q180 120 196 120 Q212 120 212 134 V158", _d: .69 }, 120)}/>
+        <path {...L({ d: "M102 158 V134 Q102 120 118 120 Q134 120 134 134 V158", _d: .55 }, 120)}/>
+        <path {...L({ d: "M144 158 V134 Q144 120 160 120 Q176 120 176 134 V158", _d: .62 }, 120)}/>
+        <path {...L({ d: "M186 158 V134 Q186 120 202 120 Q218 120 218 134 V158", _d: .69 }, 120)}/>
       </g>
       {/* shuttered upper windows */}
       <g stroke={ink} strokeWidth=".7" opacity=".85">
@@ -114,7 +115,7 @@ export function Elevation({ h = 196, animate = true, variant = "verde" }) {
       {/* garden wall + gate */}
       <path {...L({ d: "M252 130 H340 V158", _d: .6 }, 140)}/>
       <path {...L({ d: "M296 158 V138 H316 V158", _d: .7 }, 80)}/>
-      <Sun L={L} x={318} y={56}/>
+      <Sun L={L} x={318}/>
       <Cypress L={L} x={40} ht={46}/>
       <Cypress L={L} x={358} ht={36} d={.95}/>
       <Dim a={64} b={252}/>
@@ -151,7 +152,7 @@ export function Elevation({ h = 196, animate = true, variant = "verde" }) {
         <line {...L({ x1: 166, y1: 122, x2: 166, y2: 130, _d: .82 }, 20)}/>
       </g>
       <path {...L({ d: "M180 148 L152 130", _d: .8 }, 60)}/>
-      <Sun L={L} x={64} y={54}/>
+      <Sun L={L} x={64}/>
       <Olive L={L} x={372} s={.8} d={.95}/>
     </>),
 
@@ -185,7 +186,7 @@ export function Elevation({ h = 196, animate = true, variant = "verde" }) {
       <g stroke={ink} strokeWidth=".5" opacity=".35">
         <line x1="88" y1="112" x2="96" y2="112"/><line x1="88" y1="122" x2="96" y2="122"/><line x1="88" y1="132" x2="96" y2="132"/>
       </g>
-      <Sun L={L} x={312} y={52}/>
+      <Sun L={L} x={312}/>
       <Cypress L={L} x={52} ht={48}/>
       <Cypress L={L} x={348} ht={40} d={.95}/>
       <Dim a={84} b={236}/>
@@ -220,7 +221,7 @@ export function Elevation({ h = 196, animate = true, variant = "verde" }) {
         <line {...L({ x1: 272, y1: 112, x2: 272, y2: 152, _d: .78 }, 60)}/>
         <line x1="200" y1="132" x2="312" y2="132" strokeWidth=".6" opacity=".7"/>
       </g>
-      <Sun L={L} x={330} y={58}/>
+      <Sun L={L} x={330}/>
       <Olive L={L} x={34} s={.9} y={137} d={.9}/>
       <Dim a={60} b={312}/>
     </>),
@@ -252,7 +253,7 @@ export function Elevation({ h = 196, animate = true, variant = "verde" }) {
         <rect {...L({ x: 300, y: 116, width: 20, height: 24, _d: .84 }, 90)}/>
       </g>
       <path {...L({ d: "M126 158 V124 H146 V158", _d: .74 }, 90)}/>
-      <Sun L={L} x={312} y={54}/>
+      <Sun L={L} x={312}/>
       <Dim a={44} b={348}/>
     </>),
 
@@ -291,7 +292,7 @@ export function Elevation({ h = 196, animate = true, variant = "verde" }) {
         <path {...L({ d: "M340 158 q10 -16 20 0", _d: .92 }, 40)}/>
       </g>
       <Olive L={L} x={368} s={.75} d={.96}/>
-      <Sun L={L} x={60} y={54}/>
+      <Sun L={L} x={60}/>
       <Dim a={96} b={222}/>
     </>),
   };

@@ -511,11 +511,14 @@ html,body{background:#CFC8BB}
 .ap-radio.on::after{content:"";position:absolute;top:50%;left:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--ink)}
 
 /* household schedule */
-.sday{margin-top:28px}
-.sday-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+/* between days: the last row's own 20px bottom padding + 20 margin = 40 total;
+   the first day sits a full 40 under the summary line */
+.sday{margin-top:20px}
+.sweek>.sday:first-child{margin-top:40px}
+.sday-h{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
 .sday-l{font-family:var(--serif);font-weight:400;font-size:18px;color:var(--ink)}
 .sday-dow{font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
-.sday-empty{font-size:13px;color:var(--grey-2);padding:14px 0;border-top:1px solid var(--line)}
+.sday-empty{font-size:13px;color:var(--grey-2);padding:16px 0;border-top:1px solid var(--line)}
 .am .sentry{display:flex;align-items:center;gap:14px;width:100%;padding:14px 0;border-top:1px solid var(--line)}
 .sentry-ic{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
 .sentry-ic svg{width:17px;height:17px;stroke:var(--grey)}
@@ -617,6 +620,13 @@ html,body{background:#CFC8BB}
 
 /* estate list row */
 .am .estrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:16px 0;border-top:1px solid var(--line)}
+/* search across the book — a quiet rounded field under the count bar */
+.mgr-search{display:flex;align-items:center;gap:12px;height:44px;padding:0 16px;margin-top:16px;border:1px solid var(--line);border-radius:22px;background:var(--paper)}
+.mgr-search>svg{width:18px;height:18px;stroke:var(--grey-2);flex:none}
+.am .mgr-search input{flex:1;min-width:0;border:none;background:none;font-family:var(--sans);font-size:14px;color:var(--ink);padding:0;outline:none}
+.am .mgr-search input::placeholder{color:var(--grey-2)}
+.am .mgr-search-x{display:grid;place-items:center;flex:none}
+.mgr-search-x svg{width:16px;height:16px;stroke:var(--grey)}
 /* who lives here, at a glance — overlapping resident avatars on the row */
 .est-avs{display:flex;align-items:center;flex:none}
 .est-av{display:block;flex:none;border-radius:50%;border:2px solid var(--paper);margin-left:-8px;overflow:hidden}

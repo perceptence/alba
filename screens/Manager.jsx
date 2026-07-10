@@ -23,7 +23,7 @@ const OP_NAV = [
   ["account", I.person, "Desk"],
 ];
 // What the estate page's back button returns to, by originating section.
-const BACK_LABEL = { requests:"Requests", estates:"Estates", schedule:"Schedule", account:"The Desk" };
+const BACK_LABEL = { requests:"Requests", estates:"Estates", schedule:"Schedule", account:"Desk" };
 // Every resident has a generative avatar (see AV in lib/data). Falls back to
 // Adrien's config for any id we don't have art for.
 const av = (id) => AV[id] || AV.adrien;
@@ -43,7 +43,7 @@ export function Manager({ push, onSubview }) {
         {estateId ? <EstatePage id={estateId} backLabel={BACK_LABEL[section]} onBack={() => setEstateId(null)} push={push}/>
           : section === "requests" ? <RequestsSection push={push}/>
           : section === "estates" ? <PortfolioSection push={push} openEstate={setEstateId}/>
-          : section === "schedule" ? <ScheduleSection push={push}/>
+          : section === "schedule" ? <ScheduleSection push={push} openEstate={setEstateId}/>
           : <AccountSection push={push} openEstate={setEstateId}/>}
       </div>
       <nav className="nav">
@@ -199,8 +199,17 @@ function PortfolioSection({ push, openEstate }) {
   const [estSort, setEstSort] = useState("area"); // each lens keeps its own sort
   const [resSort, setResSort] = useState("estate");
   const [resId, setResId] = useState(null);
+  const [q, setQ] = useState("");
+  // accent-insensitive: "reid" finds Reïd, "theo" finds Théo
+  const fold = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  const ql = fold(q.trim());
   let groups;
-  if (view === "estates") {
+  if (ql) {
+    // Searching flattens the book — matches only, A–Z, no grouping or sort.
+    groups = [[null, view === "estates"
+      ? ESTATES.filter((e) => fold(`${e.name} ${e.area} ${e.kind}`).includes(ql)).sort((a, b) => a.name.localeCompare(b.name))
+      : RESIDENTS.filter((p) => fold(`${p.name} ${byEst(p.estate).name} ${byEst(p.estate).area}`).includes(ql)).sort((a, b) => a.name.localeCompare(b.name))]];
+  } else if (view === "estates") {
     if (estSort === "area") {
       const byArea = {};
       ESTATES.forEach((e) => { (byArea[e.area] = byArea[e.area] || []).push(e); });
@@ -225,26 +234,34 @@ function PortfolioSection({ push, openEstate }) {
       (desk.openCountResident(b.id) - desk.openCountResident(a.id)) ||
       a.name.localeCompare(b.name))]];
   }
+  const found = ql ? groups[0][1].length : 0;
   return (
     <div className="pc stag">
-      <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Estates</div></div>
+      <div className="phead"><span className="eye">In your care</span><div className="ht sf">Estates</div></div>
       <div className="nt-tabs mgr-nt-tabs">
         <button className={"nt-tab" + (view === "estates" ? " on" : "")} onClick={() => setView("estates")}>Estates<span className="nt-tabn">{ESTATES.length}</span></button>
         <button className={"nt-tab" + (view === "residents" ? " on" : "")} onClick={() => setView("residents")}>Residents<span className="nt-tabn">{RESIDENTS.length}</span></button>
       </div>
       <div className="mgr-bar">
-        <div className="mgr-sum2">{view === "estates" ? `${ESTATES.length} in your care` : `${RESIDENTS.length} across your estates`}</div>
-        {view === "estates"
+        <div className="mgr-sum2">{ql ? `${found} match${found === 1 ? "" : "es"}`
+          : view === "estates" ? `${ESTATES.length} in your care` : `${RESIDENTS.length} across your estates`}</div>
+        {!ql && (view === "estates"
           ? <SortBar opts={[["area", "By area"], ["az", "A–Z"], ["urgent", "Needs attention"]]} sort={estSort} setSort={setEstSort}/>
-          : <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={resSort} setSort={setResSort}/>}
+          : <SortBar opts={[["estate", "By estate"], ["az", "A–Z"], ["open", "Needs attention"]]} sort={resSort} setSort={setResSort}/>)}
+      </div>
+      <div className="mgr-search">
+        <I.search/>
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={view === "estates" ? "Search the estates" : "Search the residents"} aria-label="Search"/>
+        {q && <button className="mgr-search-x" onClick={() => setQ("")} aria-label="Clear search"><I.close/></button>}
       </div>
       <div className="mgr-list">
+        {ql && found === 0 && <div className="calm"><I.leaf/>Nothing by that name.</div>}
         {groups.map(([label, list]) => (
           <div key={label || "all"}>
             {label && <div className="mgr-grp">{label}</div>}
             {view === "estates"
               ? list.map((e) => <EstateRow key={e.id} e={e} onOpen={openEstate}/>)
-              : list.map((p) => <ResidentRow key={p.id} p={p} onOpen={setResId} showEstate={resSort !== "estate"}/>)}
+              : list.map((p) => <ResidentRow key={p.id} p={p} onOpen={setResId} showEstate={ql ? true : resSort !== "estate"}/>)}
           </div>
         ))}
       </div>
@@ -255,8 +272,10 @@ function PortfolioSection({ push, openEstate }) {
 }
 
 /* ——— Schedule — a week agenda across the estates. Same line item as the
-   resident Notices (.arow): stroke-circle icon, title, sub, time below. ——— */
-function DeskEntry({ e, onOpen }) {
+   resident Notices (.arow): stroke-circle icon, title, sub, time below.
+   Request-driven entries open their request; routine visits (pool, trash,
+   guests…) belong to an estate, so they open the estate's page instead. ——— */
+function DeskEntry({ e, onOpen, openEstate }) {
   const Ico = I[e.icon] || I.dots;
   const [open, setOpen] = useState(false);
   const req = e.reqId ? deskStore.get(e.reqId) : null;
@@ -270,6 +289,7 @@ function DeskEntry({ e, onOpen }) {
         {e.desc && <div className="ad">{e.desc}</div>}
         {e.window && <div className={"aw" + (e.reqId ? " aw-act" : "")}>{e.window}</div>}
         {e.reqId && <button className="a-act" onClick={() => onOpen(e.reqId)}>Follow along<I.arrow/></button>}
+        {!e.reqId && e.estId && openEstate && <button className="a-act" onClick={() => openEstate(e.estId)}>Open the estate<I.arrow/></button>}
         {updates.length > 0 && <>
           <button className={"nt-more" + (open ? " open" : "")} onClick={() => setOpen((v) => !v)}>
             {updates.length} earlier update{updates.length === 1 ? "" : "s"}<I.chevD/></button>
@@ -284,21 +304,21 @@ function DeskEntry({ e, onOpen }) {
   );
 }
 
-function ScheduleSection({ push }) {
+function ScheduleSection({ push, openEstate }) {
   useDesk(); // re-render when a request changes
   const days = deskAgenda();
   const [openId, setOpenId] = useState(null);
   return (
     <div className="pc stag">
-      <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Schedule</div></div>
+      <div className="phead"><span className="eye">The week ahead</span><div className="ht sf">Schedule</div></div>
       <div className="mgr-sum2">This week across your estates</div>
-      <div style={{ marginTop: 8 }}>
+      <div className="sweek">
         {days.map((d) => (
           <div className="sday" key={d.dow}>
             <div className="sday-h"><span className="sday-l">{d.label}</span>{d.label !== d.dow && <span className="sday-dow">{d.dow}</span>}</div>
             {d.entries.length === 0
               ? <div className="sday-empty">A clear day — nothing scheduled</div>
-              : d.entries.map((e, i) => <DeskEntry key={i} e={e} onOpen={setOpenId}/>)}
+              : d.entries.map((e, i) => <DeskEntry key={i} e={e} onOpen={setOpenId} openEstate={openEstate}/>)}
           </div>
         ))}
       </div>
@@ -417,7 +437,7 @@ function AccountSection({ push, openEstate }) {
   const shown = notices.filter((n) => ntab === "scheduled" ? n.state === "scheduled" : n.state !== "scheduled");
   return (
     <div className="pc stag">
-      <div className="phead"><div className="ht sf">The Desk</div></div>
+      <div className="phead"><span className="eye">The estate desk</span><div className="ht sf">Desk</div></div>
       <div className="prof-head">
         <span className="prof-av"><Avatar cfg={AV.rosa} size={56}/></span>
         <div className="prof-idty">
