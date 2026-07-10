@@ -689,7 +689,7 @@ html,body{background:#CFC8BB}
 .am .nt-tab.on .nt-tabn{color:var(--grey)}
 /* Sort control shares a row with the count line (label left, sort right) so
    it reads like the notices bar rather than floating alone. */
-.mgr-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px}
+.mgr-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px}
 .mgr-bar .mgr-sum2{margin-top:0}
 .mgr-bar .nt-sort{flex:none}
 

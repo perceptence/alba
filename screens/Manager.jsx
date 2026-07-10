@@ -507,7 +507,7 @@ function EstatePage({ id, backLabel, onBack, push }) {
   return (<>
     <div className="pc stag">
       <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">{backLabel}</span></div>
-      <div className="est-fig"><Elevation h={150}/></div>
+      <div className="est-fig"><Elevation h={150} variant={e.id}/></div>
       <div className="phead est-phead">
         <span className="eye">{e.area} · {e.kind}</span>
         <div className="ht sf">{e.name}</div>
