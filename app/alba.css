@@ -395,6 +395,11 @@ html,body{background:#CFC8BB}
 .arow.read .at{color:var(--grey)}
 .arow.read .ai svg{stroke:var(--grey)}
 .arow .aw .need{color:var(--clay)}
+/* schedule: the request-driven visits (Rosa's to act on) carry the clay
+   accent; passive routine stays calm ink */
+.am .arow .ai-act{border-color:var(--clay)}
+.am .arow .ai-act svg{stroke:var(--clay)}
+.am .arow .aw-act{color:var(--clay)}
 .am .a-act{display:flex;width:fit-content;align-items:center;gap:8px;margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px}
 .a-act svg{width:12px;height:12px;stroke:var(--ink)}
 .am .nt-more{display:flex;width:fit-content;align-items:center;gap:6px;margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}

@@ -260,11 +260,11 @@ function ResidentsSection({ push }) {
 function DeskEntry({ e, onOpen }) {
   const Ico = I[e.icon] || I.dots;
   const inner = (<>
-    <span className="ai"><Ico/></span>
+    <span className={"ai" + (e.reqId ? " ai-act" : "")}><Ico/></span>
     <span style={{ flex: 1, minWidth: 0 }}>
       <div className="at sf">{e.title}</div>
       <div className="ad">{e.sub}</div>
-      {e.window && <div className="aw">{e.window}</div>}
+      {e.window && <div className={"aw" + (e.reqId ? " aw-act" : "")}>{e.window}</div>}
     </span>
   </>);
   return e.reqId
