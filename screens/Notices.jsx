@@ -38,7 +38,7 @@ export function NoticesPage({ onBack, route }) {
 
   return (
     <div className="pc stag">
-      <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Home</span></div>
+      <div className="backrow backrow-nav"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Home</span></div>
       <div className="phead" style={{paddingTop:24}}><span className="eye">The estate</span><div className="ht sf">Notices</div></div>
 
       <div className="nt-brief">
