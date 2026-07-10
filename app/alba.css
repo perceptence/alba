@@ -715,7 +715,7 @@ html,body{background:#CFC8BB}
 .acct-hd-l{display:block;text-align:right;font-size:13px;font-weight:500;color:var(--grey);letter-spacing:.01em;margin-top:12px}
 .acct-bar{height:4px;border-radius:2px;background:var(--paper-3);margin-top:16px;overflow:hidden}
 .acct-bar-f{display:block;height:100%;border-radius:2px;background:var(--sage);transition:width .5s var(--e)}
-.mgr-nt-tabs + .mgr-nt-list{margin-top:var(--sp-4)}
+.mgr-nt-tabs + .mgr-nt-list{margin-top:20px}
 /* Notices header: center the label with the Compose action (icon+text) */
 .sect-h-act{align-items:center}
 /* the tab rail already draws the top line — don't double it on the first row */
@@ -726,6 +726,9 @@ html,body{background:#CFC8BB}
 .acct-hd-l + .mgr-grp{margin-top:40px}
 /* rent→notices boundary: 24 box + the last row's 16px padding ≈ 40 (was 56) */
 .acct-notices{margin-top:24px}
+/* the 40px above tabs is for the Rent section; the Notices tabs sit closer to
+   their label so the label→tabs→rows read as one cluster */
+.acct-notices .mgr-nt-tabs{margin-top:24px}
 .am .sect-act{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--clay)}
 .sect-act svg{width:14px;height:14px;stroke:var(--clay)}
 .nd-when{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey-2)}

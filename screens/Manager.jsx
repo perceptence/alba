@@ -110,7 +110,9 @@ function RequestsSection({ push }) {
   return (
     <div className="pc stag">
       <div className="mgr-head">
-        <span><span className="eye">Saturday · 5 July</span><div className="ht sf">Good morning, Rosa.</div></span>
+        <span><span className="eye">Saturday · 5 July</span>
+          <div className="hero-greet"><span className="g1">Good morning,</span><br/><span className="g2">Rosa.</span></div>
+        </span>
         <Avatar cfg={AV.rosa} size={46}/>
       </div>
       <div className="mgr-hero">
