@@ -203,7 +203,7 @@ html,body{background:#CFC8BB}
 .prof-eye{font-size:12px;font-weight:600;letter-spacing:var(--tk-page);text-transform:uppercase;color:var(--grey-2)}
 .prof-name{font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:-.01em;line-height:1.04}
 .prof-place{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey);margin-top:var(--sp-1)}
-.prof-tenure{margin-top:var(--sp-5);padding-top:var(--sp-5);border-top:1px solid var(--line)}
+.prof-tenure{margin-top:var(--sp-7)}
 .pt-eye{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .pt-fig{font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:-.01em;line-height:1.1;margin-top:var(--sp-2)}
 .pt-cap{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-1);letter-spacing:.02em}
