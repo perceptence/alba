@@ -516,7 +516,9 @@ html,body{background:#CFC8BB}
 .sday{margin-top:20px}
 .sweek>.sday:first-child{margin-top:40px}
 .sday-h{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
-.sday-l{font-family:var(--serif);font-weight:400;font-size:18px;color:var(--ink)}
+/* line-height:1 so the header's box hugs the glyph — its default 1.5 leading
+   was adding ~7px above 'Today', making the 40px margin read as ~47 */
+.sday-l{font-family:var(--serif);font-weight:400;font-size:18px;line-height:1;color:var(--ink)}
 .sday-dow{font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .sday-empty{font-size:13px;color:var(--grey-2);padding:16px 0;border-top:1px solid var(--line)}
 .am .sentry{display:flex;align-items:center;gap:14px;width:100%;padding:14px 0;border-top:1px solid var(--line)}
