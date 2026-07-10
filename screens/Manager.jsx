@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useDesk, deskStore, TABS, ESTATES, RESIDENTS, byEst, byRes, estateResidents, deskAgenda, rentStatus, rentSummary, AREAS, reachOf, noticeStore, useNotices } from "@/lib/managerData";
+import { useDesk, deskStore, TABS, ESTATES, RESIDENTS, byEst, byRes, estateResidents, deskAgenda, rentStatus, rentSummary, RENT_MONTHS, AREAS, reachOf, noticeStore, useNotices } from "@/lib/managerData";
 import { CX_CATS, CX_STATUS, CX_TINT } from "@/lib/conciergeStore";
 import { money } from "@/lib/util";
 import { AV } from "@/lib/data";
@@ -20,7 +20,7 @@ const OP_NAV = [
   ["estates", I.home, "Estates"],
   ["residents", I.users, "Residents"],
   ["schedule", I.cal, "Schedule"],
-  ["account", I.person, "Account"],
+  ["account", I.person, "Desk"],
 ];
 // Every resident has a generative avatar (see AV in lib/data). Falls back to
 // Adrien's config for any id we don't have art for.
@@ -308,9 +308,9 @@ function ScheduleSection({ push }) {
   );
 }
 
-/* ——— Account — Rosa's desk: the money, notices she sends, her profile ——— */
-function RentRow({ e, onOpen }) {
-  const rs = rentStatus(e.id);
+/* ——— The Desk — Rosa's command surface: the money, the notices, her profile ——— */
+function RentRow({ e, month, onOpen }) {
+  const rs = rentStatus(e.id, month);
   const tone = rs.state === "paid" ? "g" : rs.state === "overdue" ? "a" : "n";
   const label = rs.state === "paid" ? "Paid" : rs.state === "overdue" ? "Overdue" : "Due Jul 5";
   return (
@@ -322,6 +322,47 @@ function RentRow({ e, onOpen }) {
       <span className="estrow-r"><span className={"gpill gpill-" + tone}>{label}</span><I.chev/></span>
     </button>
   );
+}
+
+function NoticeRow({ n, onOpen }) {
+  const needsResend = n.state === "needs-resend";
+  return (
+    <div className="arow" onClick={() => onOpen(n.id)}>
+      <span className="ai"><I.bell/></span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <div className="at sf">{n.title}</div>
+        <div className="ad">{n.scope} · {n.reach} resident{n.reach !== 1 ? "s" : ""}</div>
+        <div className="aw">{needsResend && <span className="need">Needs resend · </span>}{n.state === "scheduled" ? "Scheduled · " : ""}{n.at}</div>
+      </span>
+      <span className="rchev"><I.chev/></span>
+    </div>
+  );
+}
+
+function NoticeDetail({ id, onClose, push }) {
+  const nt = useNotices();
+  const n = nt.get(id);
+  const { close, scrimProps, sheetProps } = useSheet(onClose);
+  if (!n) return null;
+  const scheduled = n.state === "scheduled";
+  const needsResend = n.state === "needs-resend";
+  const stateLabel = scheduled ? "Scheduled" : needsResend ? "Needs resend" : "Sent";
+  const stateTone = scheduled ? "n" : needsResend ? "a" : "g";
+  const act = (fn, t) => { fn(id); push({ t, d: `To ${n.reach} resident${n.reach !== 1 ? "s" : ""} · ${n.scope}` }); close(); };
+  return (<div {...scrimProps}><div {...sheetProps}>
+    <div className="grab"/>
+    <div className="sh-head"><span style={{ flex: 1 }}><div className="sh-title sf">{n.title}</div><div className="sh-sub">{n.scope} · {n.reach} resident{n.reach !== 1 ? "s" : ""}</div></span>
+      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
+    <div className="sh-body" style={{ paddingTop: 8 }}>
+      <div className="dd-tags"><span className={"dd-status cxt-" + stateTone}>{stateLabel}</span><span className="nd-when">{n.at}</span></div>
+      <p className="nd-body">{n.body}</p>
+    </div>
+    <div className="sh-foot dd-foot">
+      {scheduled && <button className="cta" onClick={() => act(noticeStore.sendNow, "Notice sent")}><I.send/>Send now</button>}
+      {needsResend && <button className="cta" onClick={() => act(noticeStore.resend, "Notice resent")}><I.send/>Resend</button>}
+      {!scheduled && !needsResend && <button className="cta ghost" onClick={() => act(noticeStore.resend, "Notice resent")}>Resend</button>}
+    </div>
+  </div></div>);
 }
 
 function NoticeComposer({ onClose, push }) {
@@ -362,43 +403,56 @@ function NoticeComposer({ onClose, push }) {
 
 function AccountSection({ push }) {
   const nt = useNotices();
-  const rent = rentSummary();
+  const [month, setMonth] = useState("July");
+  const [ntab, setNtab] = useState("sent");
   const [openEst, setOpenEst] = useState(null);
   const [compose, setCompose] = useState(false);
-  const sent = nt.all();
+  const [openNotice, setOpenNotice] = useState(null);
+  const rent = rentSummary(month);
+  const outstanding = ESTATES.filter((e) => rentStatus(e.id, month).state !== "paid");
+  const paid = ESTATES.filter((e) => rentStatus(e.id, month).state === "paid");
+  const notices = nt.all();
+  const sentCount = notices.filter((n) => n.state !== "scheduled").length;
+  const schedCount = notices.filter((n) => n.state === "scheduled").length;
+  const shown = notices.filter((n) => ntab === "scheduled" ? n.state === "scheduled" : n.state !== "scheduled");
   return (
     <div className="pc stag">
-      <div className="phead"><span className="eye">Signed in</span><div className="ht sf">Rosa Ibáñez</div></div>
+      <div className="phead"><div className="ht sf">The Desk</div></div>
       <div className="prof-head">
         <span className="prof-av"><Avatar cfg={AV.rosa} size={56}/></span>
         <div className="prof-idty">
-          <div className="prof-name sf">Estate manager</div>
-          <div className="prof-place">ALBA · Bel-Air &amp; the Westside</div>
+          <div className="prof-name sf">Rosa Ibáñez</div>
+          <div className="prof-place">Estate manager · Bel-Air &amp; the Westside</div>
         </div>
       </div>
 
-      <div className="sect"><div className="sect-h"><span className="l">This month</span><span className="a">{rent.month}</span></div>
-        <div className="acct-money">
-          <div className="acct-stat"><span className="acct-stat-v sf num">{money(rent.collected)}</span><span className="acct-stat-l">collected</span></div>
-          <div className="acct-stat out"><span className="acct-stat-v sf num">{money(rent.outstanding)}</span><span className="acct-stat-l">outstanding · {rent.outCount} estates</span></div>
+      <div className="sect"><div className="sect-h"><span className="l">Rent</span></div>
+        <div className="nt-tabs mgr-nt-tabs">
+          {RENT_MONTHS.map((m) => <button key={m} className={"nt-tab" + (m === month ? " on" : "")} onClick={() => setMonth(m)}>{m}</button>)}
         </div>
-        <div className="acct-money-sub">of {money(rent.expected)} expected across {ESTATES.length} estates</div>
-        <div style={{ marginTop: 8 }}>{ESTATES.map((e) => <RentRow key={e.id} e={e} onOpen={setOpenEst}/>)}</div>
+        <div className="acct-hd">
+          <span className="acct-hd-v sf num">{money(rent.collected)}</span>
+          <span className="acct-hd-l">collected of {money(rent.expected)}</span>
+        </div>
+        <div className="acct-bar"><span className="acct-bar-f" style={{ width: (rent.collected / rent.expected * 100).toFixed(0) + "%" }}/></div>
+
+        {outstanding.length > 0 && <>
+          <div className="mgr-grp acct-grp">Outstanding · {money(rent.outstanding)}</div>
+          {outstanding.map((e) => <RentRow key={e.id} e={e} month={month} onOpen={setOpenEst}/>)}
+        </>}
+        <div className="mgr-grp acct-grp">Collected · {money(rent.collected)}</div>
+        {paid.map((e) => <RentRow key={e.id} e={e} month={month} onOpen={setOpenEst}/>)}
       </div>
 
-      <div className="sect"><div className="sect-h"><span className="l">Notices</span></div>
-        <button className="cta ghost acct-compose" onClick={() => setCompose(true)}><I.bell/>Compose a notice</button>
-        <div style={{ marginTop: 16 }}>
-          {sent.map((n) => (
-            <div className="arow arow-static" key={n.id}>
-              <span className="ai"><I.bell/></span>
-              <span style={{ flex: 1, minWidth: 0 }}>
-                <div className="at sf">{n.title}</div>
-                <div className="ad">{n.scope} · {n.reach} resident{n.reach !== 1 ? "s" : ""}</div>
-                <div className="aw">{n.at}</div>
-              </span>
-            </div>
-          ))}
+      <div className="sect"><div className="sect-h"><span className="l">Notices</span><button className="sect-act" onClick={() => setCompose(true)}><I.plus/>Compose</button></div>
+        <div className="nt-tabs mgr-nt-tabs">
+          <button className={"nt-tab" + (ntab === "sent" ? " on" : "")} onClick={() => setNtab("sent")}>Sent<span className="nt-tabn">{sentCount}</span></button>
+          <button className={"nt-tab" + (ntab === "scheduled" ? " on" : "")} onClick={() => setNtab("scheduled")}>Scheduled<span className="nt-tabn">{schedCount}</span></button>
+        </div>
+        <div className="mgr-nt-list">
+          {shown.length === 0
+            ? <div className="calm"><I.leaf/>Nothing here yet.</div>
+            : shown.map((n) => <NoticeRow key={n.id} n={n} onOpen={setOpenNotice}/>)}
         </div>
       </div>
 
@@ -406,6 +460,7 @@ function AccountSection({ push }) {
       <div style={{ height: 8 }}/>
       {openEst && <EstateDetail id={openEst} onClose={() => setOpenEst(null)} push={push}/>}
       {compose && <NoticeComposer onClose={() => setCompose(false)} push={push}/>}
+      {openNotice && <NoticeDetail id={openNotice} onClose={() => setOpenNotice(null)} push={push}/>}
     </div>
   );
 }
