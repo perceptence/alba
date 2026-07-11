@@ -416,7 +416,7 @@ html,body{background:#CFC8BB}
 .am .arow .ai-act svg{stroke:var(--clay)}
 .am .arow .aw-act{color:var(--clay)}
 .am .a-act{display:flex;width:fit-content;align-items:center;gap:8px;margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px}
-.a-act svg{width:12px;height:12px;stroke:var(--ink)}
+.a-act svg{width:16px;height:16px;stroke:var(--ink)}
 /* the big pill buttons carry their label, not decoration — no icon inside a
    .cta (the text-link CTAs keep their arrow; icon-only controls are untouched) */
 .am .cta svg{display:none}
@@ -793,7 +793,7 @@ html,body{background:#CFC8BB}
    their label so the label→tabs→rows read as one cluster */
 .acct-notices .mgr-nt-tabs{margin-top:24px}
 .am .sect-act{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--clay)}
-.sect-act svg{width:14px;height:14px;stroke:var(--clay)}
+.sect-act svg{width:16px;height:16px;stroke:var(--clay)}
 .nd-when{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey-2)}
 .nd-body{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:16px}
 /* visit detail flyout: tighter head→body→section, more room before the link */
