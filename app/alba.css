@@ -356,7 +356,7 @@ html,body{background:#CFC8BB}
 .mgr-sub{display:flex;align-items:center;gap:6px;margin-top:var(--sp-1);font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .mgr-dot{width:6px;height:6px;border-radius:50%;background:var(--sage);flex:none}
 .assist .q{font-family:var(--serif);font-weight:300;font-size:24px;letter-spacing:-.01em;margin:var(--sp-5) 0 0}
-.assist .ask{display:flex;align-items:center;gap:12px;margin-top:var(--sp-4);border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .3s var(--e)}
+.assist .ask{display:flex;align-items:center;gap:12px;margin-top:var(--gap-tight);border-bottom:1px solid var(--line);padding-bottom:8px;transition:border-color .3s var(--e)}
 .assist .ask:focus-within{border-bottom-color:var(--ink)}
 .assist input{flex:1;border:none;background:none;font-size:16px;font-family:var(--serif);font-weight:400;color:var(--ink)}
 .assist input::placeholder{color:var(--grey-2)}
