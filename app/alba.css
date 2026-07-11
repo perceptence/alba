@@ -1,6 +1,6 @@
-/* Fonts (Fraunces + Inter) are loaded via <link> in app/layout.tsx —
-   a bundler @import here was silently dropped, so the app fell back to
-   Georgia / system sans. Keep the load in the document <head>. */
+/* Fonts (Fraunces + Inter) are self-hosted via next/font/google in
+   app/layout.tsx, exposed as --font-fraunces / --font-inter on <html>. No
+   runtime Google request, no FOUT. --serif/--sans below reference them. */
 :root{
   --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;--sp-7:40px;--tk-page:.2em;--tk-label:.16em;--tk-micro:.14em;
   /* SPACING.md — the vertical rhythm. One owner per gap; no values outside these. */
@@ -15,7 +15,7 @@
   --ink:#1C1917; --ink-2:#3D372F; --grey:#6B6459; --grey-2:#9A9184;
   --line:rgba(28,25,23,.12); --line-2:rgba(28,25,23,.06);
   --clay:#A8583C; --clay-soft:rgba(168,88,60,.1); --sage:#4F6A42; --gold:#9A7526;
-  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  --serif:var(--font-fraunces),Georgia,serif; --sans:var(--font-inter),system-ui,sans-serif;
   --e:cubic-bezier(.4,0,.2,1);
 }
 .am{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;font-weight:450}
