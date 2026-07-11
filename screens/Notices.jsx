@@ -65,7 +65,8 @@ export function NoticesPage({ onBack, route }) {
         {groups[g].map(s=>{
           const Ico=I[s.ic];
           const un=nt.isUnread(s.id)||s.older.some(o=>nt.isUnread(o.id));
-          return (<div key={s.id} className={"arow"+(un?"":" read")} onClick={()=>settle(s)}>
+          return (<div key={s.id} className={"arow"+(un?"":" read")} role="button" tabIndex={0}
+            onClick={()=>settle(s)} onKeyDown={(e)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();settle(s);}}}>
             <span className="ai"><Ico/></span>
             <span style={{flex:1,minWidth:0}}>
               <div className="at sf">{s.t}{un&&<span className="bnew"/>}</div>

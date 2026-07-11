@@ -12,15 +12,19 @@
   --gap-group:20px; /* group labels, day blocks, field labels */
   --gap-tight:12px; /* label → its field/content */
   --paper:#F3EFE7; --paper-2:#ECE7DC; --paper-3:#E5DFD2;
-  --ink:#1C1917; --ink-2:#3D372F; --grey:#6B6459; --grey-2:#9A9184;
+  --ink:#1C1917; --ink-2:#3D372F; --grey:#6B6459; --grey-2:#736A5C; /* grey-2 darkened #9A9184→#736A5C for WCAG AA (2.71→4.6:1) */
   --line:rgba(28,25,23,.12); --line-2:rgba(28,25,23,.06);
-  --clay:#A8583C; --clay-soft:rgba(168,88,60,.1); --sage:#4F6A42; --gold:#9A7526;
+  --clay:#9E5236; --clay-soft:rgba(158,82,54,.1); --sage:#4F6A42; --gold:#856420; /* clay #A8583C→#9E5236 (4.4→4.9), gold #9A7526→#856420 (3.7→4.8) for AA */
   --serif:var(--font-fraunces),Georgia,serif; --sans:var(--font-inter),system-ui,sans-serif;
   --e:cubic-bezier(.4,0,.2,1);
 }
 .am{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;font-weight:450}
 .am *{margin:0;padding:0;box-sizing:border-box}
 .am button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;text-align:left;letter-spacing:inherit}
+/* keyboard focus: a branded, consistent ring (only on keyboard nav, not mouse/
+   touch). Inputs already signal focus via their field border, so scope to
+   buttons/links/role=button. */
+.am button:focus-visible,.am a:focus-visible,.am [role="button"]:focus-visible{outline:2px solid var(--clay);outline-offset:3px;border-radius:6px}
 .am .grow,.am .brief,.am .rrow,.am .arow,.am .doc{border-top:1px solid var(--line)}
 .am input,.am textarea{font-family:inherit}
 .am .num{font-variant-numeric:tabular-nums}
