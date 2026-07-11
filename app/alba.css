@@ -415,7 +415,9 @@ html,body{background:#CFC8BB}
 .am .arow .ai-act{border-color:var(--clay)}
 .am .arow .ai-act svg{stroke:var(--clay)}
 .am .arow .aw-act{color:var(--clay)}
-.am .a-act{display:flex;width:fit-content;align-items:center;gap:8px;margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px}
+/* tertiary CTA (text link): label + a 16px icon, 4px apart (--sp-1). This gap is
+   the system default for every text-link CTA — .a-act and .sect-act share it. */
+.am .a-act{display:flex;width:fit-content;align-items:center;gap:var(--sp-1);margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px}
 .a-act svg{width:16px;height:16px;stroke:var(--ink)}
 /* the big pill buttons carry their label, not decoration — no icon inside a
    .cta (the text-link CTAs keep their arrow; icon-only controls are untouched) */
@@ -794,7 +796,7 @@ html,body{background:#CFC8BB}
 /* the 40px above tabs is for the Rent section; the Notices tabs sit closer to
    their label so the label→tabs→rows read as one cluster */
 .acct-notices .mgr-nt-tabs{margin-top:24px}
-.am .sect-act{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--clay)}
+.am .sect-act{display:inline-flex;align-items:center;gap:var(--sp-1);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--clay)}
 .sect-act svg{width:16px;height:16px;stroke:var(--clay)}
 .nd-when{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey-2)}
 .nd-body{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:16px}
