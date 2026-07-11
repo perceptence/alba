@@ -319,7 +319,7 @@ html,body{background:#CFC8BB}
 .payrow .pmo{font-family:var(--serif);font-weight:400;font-size:16px}
 .payrow .psub{font-size:12px;font-weight:500;color:var(--grey-2);margin-top:var(--sp-1);letter-spacing:.02em}
 .payrow .pamt{font-size:16px;font-weight:600;letter-spacing:.01em;flex:none}
-.pay-sum{font-size:12px;font-weight:500;color:var(--grey);margin-top:var(--sp-5);letter-spacing:.02em}
+.pay-sum{font-size:12px;font-weight:500;color:var(--grey);margin-top:20px;letter-spacing:.02em}
 
 /* concierge */
 .assist{margin-top:var(--sp-5)}
@@ -406,7 +406,7 @@ html,body{background:#CFC8BB}
 .nt-ctrls{display:flex;align-items:center;justify-content:flex-start;margin-top:var(--sp-4)}
 .am .nt-sort{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--ink)}
 .nt-sort svg{width:14px;height:14px;stroke:var(--ink)}
-.nt-g{margin-top:var(--sp-4);margin-bottom:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
+.nt-g{margin-top:20px;margin-bottom:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .am .arow{cursor:pointer}
 .am .arow.arow-static{cursor:default}
 .arow.read .at{color:var(--grey)}
@@ -744,12 +744,12 @@ html,body{background:#CFC8BB}
 /* Requests landing only: hero→tabs 20, tab rail→first row 12 (Estates puts a
    count bar between its tabs and list, so this adjacency is Requests-specific) */
 .mgr-hero + .mgr-nt-tabs{margin-top:20px}
-.mgr-nt-tabs + .mgr-list{margin-top:12px}
+.mgr-nt-tabs + .mgr-list{margin-top:20px}
 .nt-tabn{margin-left:4px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--grey-2)}
 .am .nt-tab.on .nt-tabn{color:var(--grey)}
 /* Sort control shares a row with the count line (label left, sort right) so
    it reads like the notices bar rather than floating alone. */
-.mgr-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px}
+.mgr-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:20px}
 .mgr-bar .mgr-sum2{margin-top:0}
 .mgr-bar .nt-sort{flex:none}
 
@@ -780,7 +780,7 @@ html,body{background:#CFC8BB}
 
 /* The Desk — rent summary, notices */
 .prof-head + .sect{margin-top:32px}
-.acct-hd{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin-top:24px}
+.acct-hd{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin-top:20px}
 .acct-hd-v{font-family:var(--serif);font-weight:300;font-size:32px;letter-spacing:-.02em;line-height:1;color:var(--ink)}
 .acct-hd-out{font-size:13px;font-weight:600;color:var(--clay);letter-spacing:.01em}
 .acct-hd-set{font-size:13px;font-weight:600;color:var(--sage);letter-spacing:.01em}
