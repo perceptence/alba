@@ -43,7 +43,7 @@ export function Manager({ push, onSubview }) {
         {estateId ? <EstatePage id={estateId} backLabel={BACK_LABEL[section]} onBack={() => setEstateId(null)} push={push}/>
           : section === "requests" ? <RequestsSection push={push}/>
           : section === "estates" ? <PortfolioSection push={push} openEstate={setEstateId}/>
-          : section === "schedule" ? <ScheduleSection push={push}/>
+          : section === "schedule" ? <ScheduleSection push={push} openEstate={setEstateId}/>
           : <AccountSection push={push} openEstate={setEstateId}/>}
       </div>
       <nav className="nav">
@@ -300,7 +300,7 @@ function PortfolioSection({ push, openEstate }) {
    Request-driven entries open their request thread; routine visits (pool,
    trash, guests…) are reference only. Each carries a done-toggle, and today's
    first still-open visit wears a "Next up" flag. ——— */
-function DeskEntry({ e, onOpen, done, isNext, onToggleDone }) {
+function DeskEntry({ e, onOpen, onOpenVisit, done, isNext, onToggleDone }) {
   const Ico = I[e.icon] || I.dots;
   const [open, setOpen] = useState(false);
   const req = e.reqId ? deskStore.get(e.reqId) : null;
@@ -311,11 +311,15 @@ function DeskEntry({ e, onOpen, done, isNext, onToggleDone }) {
       <span style={{ flex: 1, minWidth: 0 }}>
         {isNext && <div className="svisit-next">Next up</div>}
         <div className="at sf">{e.title}</div>
-        <div className="ad ad-loc">{e.sub}{e.vendor ? " · " + e.vendor : ""}</div>
+        <div className="ad ad-loc">{e.sub}</div>
         {e.desc && <div className="ad">{e.desc}</div>}
         {e.window && <div className={"aw" + (e.reqId ? " aw-act" : "")}>{e.window}</div>}
-        {e.reqId && <button className="a-act" onClick={() => onOpen(e.reqId)}>Follow along<I.arrow/></button>}
-        {updates.length > 0 && <>
+        {/* request-linked → its thread (correspondence); once done it's a plain
+           'View request' in ink. Other visits → a details flyout, no thread. */}
+        {e.reqId
+          ? <button className="a-act" onClick={() => onOpen(e.reqId)}>{done ? "View request" : "Follow along"}<I.arrow/></button>
+          : <button className="a-act" onClick={() => onOpenVisit(e)}>View details<I.arrow/></button>}
+        {!done && updates.length > 0 && <>
           <button className={"nt-more" + (open ? " open" : "")} onClick={() => setOpen((v) => !v)}>
             {updates.length} earlier update{updates.length === 1 ? "" : "s"}<I.chevD/></button>
           {open && <div className="nt-sub stag">{updates.map((m, i) => (
@@ -330,38 +334,76 @@ function DeskEntry({ e, onOpen, done, isNext, onToggleDone }) {
   );
 }
 
-function ScheduleSection({ push }) {
+/* A service visit or guest arrival, in detail — the estate, timing, vendor and
+   description. No correspondence (there's no resident thread); Rosa can open the
+   estate or tick it done from here. */
+function VisitDetail({ e, onClose, push, openEstate }) {
+  const { close, scrimProps, sheetProps } = useSheet(onClose);
+  const visits = useVisits();
+  const done = visits.isDone(e.id);
+  const est = e.estId ? byEst(e.estId) : null;
+  return (<div {...scrimProps}><div {...sheetProps}>
+    <div className="grab"/>
+    <div className="sh-head"><span style={{ flex: 1 }}><div className="sh-title sf">{e.title}</div><div className="sh-sub">{e.sub}{e.window ? " · " + e.window : ""}</div></span>
+      <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
+    <div className="sh-body" style={{ paddingTop: 8 }}>
+      {done && <div className="dd-tags"><span className="dd-status cxt-g">Done</span></div>}
+      <p className="nd-body">{e.desc}</p>
+      <div className="sect"><div className="sect-h"><span className="l">Visit</span></div>
+        <div className="prow"><span className="pk">When</span><span className="pv">{e.dow}{e.window ? " · " + e.window : ""}</span></div>
+        {e.vendor && <div className="prow"><span className="pk">Vendor</span><span className="pv sf">{e.vendor}</span></div>}
+        {est && <div className="prow"><span className="pk">Estate</span><span className="pv">{est.short} · {est.area}</span></div>}
+      </div>
+      {est && openEstate && <button className="a-act" onClick={() => { close(); openEstate(est.id); }}>Open the estate<I.arrow/></button>}
+    </div>
+    <div className="sh-foot dd-foot">
+      <button className={"cta" + (done ? " ghost" : "")} onClick={() => { visitStore.toggle(e.id); push({ t: done ? "Marked open" : "Marked done", d: e.title }); close(); }}>
+        {done ? "Mark as open" : <><I.check/>Mark done</>}</button>
+    </div>
+  </div></div>);
+}
+
+function ScheduleSection({ push, openEstate }) {
   useDesk(); // re-render when a request changes; week agenda across the estates
   const visits = useVisits();
   const { days, tail } = deskAgenda();
-  const [openId, setOpenId] = useState(null);
-  // Next up — today's first visit that isn't ticked off yet (entries are
-  // already ordered imminent-first).
+  const [openId, setOpenId] = useState(null);      // request thread
+  const [openVisit, setOpenVisit] = useState(null); // visit detail (non-request)
+  // done visits sink to the bottom of their day; order otherwise is preserved.
+  const ordered = (entries) => [...entries].sort((a, b) => visits.isDone(a.id) - visits.isDone(b.id));
+  // Next up — today's first visit that isn't ticked off yet.
   const today = days.find((d) => d.isToday);
-  const nextId = today && today.entries.find((e) => !visits.isDone(e.id))?.id;
+  const nextId = today && ordered(today.entries).find((e) => !visits.isDone(e.id))?.id;
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">The week ahead</span><div className="ht sf">Schedule</div></div>
       <div className="sweek">
         {days.map((d) => {
+          const total = d.entries.length;
           const doneN = d.entries.filter((e) => visits.isDone(e.id)).length;
+          const allDone = total > 0 && doneN === total;
+          // today reads as work to do; other days are just a count.
+          const count = d.isToday
+            ? (doneN === 0 ? `${total} pending` : allDone ? "All done" : `${doneN} of ${total} done`)
+            : total;
           return (
           <div className="sday" key={d.dow}>
             <div className="sday-h">
               <span className="sday-l">{d.label}</span>
               {d.label !== d.dow && <span className="sday-dow">{d.dow}</span>}
-              <span className="sday-n">{d.isToday && doneN > 0 ? `${doneN} of ${d.entries.length} done` : d.entries.length}</span>
+              <span className={"sday-n" + (d.isToday && allDone ? " sday-n-done" : "")}>{count}</span>
             </div>
-            {d.entries.length === 0
+            {total === 0
               ? <div className="sday-empty">A clear day — nothing scheduled</div>
-              : d.entries.map((e) => <DeskEntry key={e.id} e={e} onOpen={setOpenId}
+              : ordered(d.entries).map((e) => <DeskEntry key={e.id} e={e} onOpen={setOpenId} onOpenVisit={setOpenVisit}
                   done={visits.isDone(e.id)} isNext={e.id === nextId} onToggleDone={() => visitStore.toggle(e.id)}/>)}
           </div>
         );})}
-        {tail && <div className="sday-tail"><I.leaf/>Nothing more this week</div>}
+        {tail && <div className="sday-tail"><I.seal/>That's the week — nothing else on the books.</div>}
       </div>
       <div style={{ height: 8 }}/>
       {openId && <DeskDetail id={openId} onClose={() => setOpenId(null)} push={push}/>}
+      {openVisit && <VisitDetail e={openVisit} onClose={() => setOpenVisit(null)} push={push} openEstate={openEstate}/>}
     </div>
   );
 }

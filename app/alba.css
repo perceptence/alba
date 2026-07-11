@@ -525,10 +525,11 @@ html,body{background:#CFC8BB}
 /* count per day (today shows progress instead); a dot leads it in */
 .sday-n{font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .sday-n::before{content:"·";margin-right:8px;color:var(--grey-2)}
+.sday-n-done{color:var(--sage)}
 .sday-empty{font-size:13px;color:var(--grey-2);padding:16px 0;border-top:1px solid var(--line)}
-/* quiet close to the week */
-.am .sday-tail{display:flex;align-items:center;gap:10px;margin-top:20px;padding:20px 0;border-top:1px solid var(--line);font-size:13px;color:var(--grey-2)}
-.sday-tail svg{width:16px;height:16px;stroke:var(--grey-2)}
+/* the week's close — a proper sign-off, not a whisper */
+.am .sday-tail{display:flex;align-items:center;gap:12px;margin-top:20px;padding:24px 0 8px;border-top:1px solid var(--line);font-family:var(--serif);font-weight:400;font-size:16px;color:var(--ink-2)}
+.sday-tail svg{width:18px;height:18px;stroke:var(--sage);fill:none;flex:none}
 /* Next up — a clay flag above today's imminent visit */
 .svisit-next{font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--clay);margin-bottom:6px}
 /* the done-toggle: a checkbox that fills sage when a visit is ticked off */
@@ -541,8 +542,10 @@ html,body{background:#CFC8BB}
 .svisit-done .at{text-decoration:line-through;text-decoration-color:var(--grey-2)}
 .am .svisit-done .ai{border-color:var(--line)}
 .am .svisit-done .ai svg{stroke:var(--grey-2)}
-.am .svisit-done .aw-act,.am .svisit-done .a-act{color:var(--grey-2)}
-.am .svisit-done .a-act svg{stroke:var(--grey-2)}
+.am .svisit-done .aw-act{color:var(--grey-2)}
+/* the settled row greys, but its 'View request' link stands in plain ink */
+.am .svisit-done .a-act{color:var(--ink)}
+.am .svisit-done .a-act svg{stroke:var(--ink)}
 .am .sentry{display:flex;align-items:center;gap:14px;width:100%;padding:14px 0;border-top:1px solid var(--line)}
 .sentry-ic{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2)}
 .sentry-ic svg{width:17px;height:17px;stroke:var(--grey)}
