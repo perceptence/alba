@@ -739,7 +739,10 @@ html,body{background:#CFC8BB}
 /* only three filters — they fit, so no scroll container (which was forcing a
    1px vertical scroll off the active-tab underline). */
 .mgr-nt-tabs{margin-top:16px;overflow-x:visible}
-.mgr-nt-tabs + .mgr-list{margin-top:var(--sp-2)}
+/* Requests landing only: hero→tabs 20, tab rail→first row 12 (Estates puts a
+   count bar between its tabs and list, so this adjacency is Requests-specific) */
+.mgr-hero + .mgr-nt-tabs{margin-top:20px}
+.mgr-nt-tabs + .mgr-list{margin-top:12px}
 .nt-tabn{margin-left:4px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--grey-2)}
 .am .nt-tab.on .nt-tabn{color:var(--grey)}
 /* Sort control shares a row with the count line (label left, sort right) so
