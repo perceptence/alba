@@ -1046,6 +1046,8 @@ html,body{background:#F7F7F5}
    The frame height tracks the viewport (aspect 3:4) so it always fits. */
 @media (min-width:768px) and (max-width:899px){
   .stage{padding:40px 24px}
+  /* scale the iPad mockup to 1.2 (zoom keeps layout flow) */
+  .device{zoom:1.2}
   /* iPad Pro 11" (M4): true 834:1194 portrait ratio, uniform thin bezel,
      restrained corner radius (nothing like the iPhone's), aluminium rail. */
   .phone{width:auto;height:min(1000px, calc(100vh - 80px));aspect-ratio:834 / 1194;
