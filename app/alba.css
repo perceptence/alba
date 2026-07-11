@@ -532,7 +532,7 @@ html,body{background:#CFC8BB}
 /* 36, not 40: the 40px serif title above carries ~10px of descender allowance
    below its baseline ("Schedule" has no descenders), so 36 reads as 40 */
 .sweek>.sday:first-child{margin-top:var(--gap-page)}
-.sday-h{display:flex;align-items:baseline;gap:0;margin-bottom:8px}
+.sday-h{display:flex;align-items:baseline;gap:0;margin-bottom:var(--gap-tight)}
 /* line-height:1 so the header's box hugs the glyph — its default 1.5 leading
    was adding ~7px above 'Today', making the 40px margin read as ~47 */
 .sday-l{font-family:var(--serif);font-weight:400;font-size:18px;line-height:1;color:var(--ink)}
