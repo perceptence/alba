@@ -65,8 +65,15 @@ Measured box gap = visual gap.
 
 ## Exclusions
 
-Onboarding (`.ob-*`) keeps its own narrative rhythm for now — it's a staged
-splash flow, not a data surface. Migrate when it's next touched.
+(none — onboarding migrated 2026-07-11.)
+
+Onboarding (`.ob-*`) is now on the tokens. Per-step rhythm: `--gap-section` (32)
+at the top nav → hero and the section breaks (sign-off rule, residence divider);
+`--gap-group` (20) hero → eyebrow, and the content blocks (pill, OTP, quote,
+Rosa, orient list); the title block runs eyebrow → heading `--sp-2` (8, matches
+`.phead`) → paragraph `--gap-tight` (12); heading → spec line (`facts`) `--sp-2`
+(8); CTA → resend `--gap-tight` (12). Orient rows use `--pad-row` with the first
+dropping its top padding. CTA stays bottom-anchored (`margin-top:auto`).
 
 Home hero (`.respanel`): greeting → residence illustration is a deliberate
 **24px**, tighter than the global title→first (`--gap-page` 32). A sanctioned
