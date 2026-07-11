@@ -35,7 +35,7 @@ export function Composer({ preset, initialNote, onClose, onCreated, push }) {
     <div className="grab"/>
     <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">{isQ?"Ask Rosa":"New request"}</div><div className="sh-sub">To Rosa · {RES.short}</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body" style={{paddingTop:8}}>
+    <div className="sh-body">
       <div className="flab" style={{marginTop:0}}>{isQ?"Your question":"In your words"}</div>
       <div className="co-field"><textarea ref={taRef} rows={1} value={note} onChange={e=>setNote(e.target.value)} placeholder={isQ?"What would you like to ask?":"What do you need?"}/></div>
       <div className="flab">Photos</div>

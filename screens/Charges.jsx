@@ -19,7 +19,7 @@ export function Charges({ onBack, push }) {
   return (
     <div className="pc stag">
       <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Charges &amp; statements</span></div>
-      <div className="phead" style={{paddingTop:24}}><span className="eye">Beyond rent</span><div className="ht sf">Charges</div></div>
+      <div className="phead"><span className="eye">Beyond rent</span><div className="ht sf">Charges</div></div>
 
       {dueTotal > 0
         ? <div className="chg-bal chg-bal-due">

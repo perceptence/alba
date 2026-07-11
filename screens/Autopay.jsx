@@ -44,7 +44,7 @@ export function Autopay({ onBack, push }) {
   return (
     <div className="pc stag">
       <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Payments</span></div>
-      <div className="phead" style={{paddingTop:24}}><span className="eye">Residence account</span><div className="ht sf">Autopay</div></div>
+      <div className="phead"><span className="eye">Residence account</span><div className="ht sf">Autopay</div></div>
       <p className="scr-intro">Have your rent collected automatically each month — you choose the day and the account, and you can turn it off anytime.</p>
 
       <div className="sect"><div className="sect-h"><span className="l">Collection</span></div>

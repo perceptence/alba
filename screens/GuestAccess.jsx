@@ -37,7 +37,7 @@ export function GuestAccess({ onBack, push }) {
   return (
     <div className="pc stag">
       <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Residence</span></div>
-      <div className="phead" style={{paddingTop:24}}><span className="eye">At the residence</span><div className="ht sf">Guests &amp; access</div></div>
+      <div className="phead"><span className="eye">At the residence</span><div className="ht sf">Guests &amp; access</div></div>
       <p className="scr-intro">Grant a visitor a time-boxed pass to the gate, grounds, or front door — each its own code. {ROSA.name.split(" ")[0]} is notified, and you can revoke it anytime.</p>
 
       <div className="sect"><div className="sect-h"><span className="l">Guest passes</span><span className="a num">{live.length} active</span></div>
@@ -108,7 +108,7 @@ export function GuestInvite({ push, onClose, onCreated }) {
     <div className="grab"/>
     <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">Invite a guest</div><div className="sh-sub">Pass · {RES.short}</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body" style={{paddingTop:8}}>
+    <div className="sh-body">
       <div className="flab" style={{marginTop:0}}>Who's visiting</div>
       <div className="co-field co-field-line"><input value={name} onChange={(e) => setName(e.target.value)} placeholder="Guest's name"/></div>
       <div className="flab">Access</div>

@@ -26,7 +26,7 @@ export function SettleSheet({ push, onClose }) {
     <div className="grab"/>
     <div className="sh-head"><span style={{flex:1}}><div className="sh-title sf">Settle charges</div><div className="sh-sub">{due.length} charge{due.length > 1 ? "s" : ""} · one payment</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body" style={{paddingTop:4}}>
+    <div className="sh-body">
       <div className="flab" style={{marginTop:0}}>Charges</div>
       <div className="kvl" style={{marginTop:0}}>
         {due.map((ch) => (

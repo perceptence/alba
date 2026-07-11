@@ -72,7 +72,7 @@ export function Payments({ onBack, onOpenPayment }) {
   const total=list.reduce((sum,p)=>sum+p.amount,0);
   return (<div className="pc stag">
     <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Payments</span></div>
-    <div className="phead" style={{paddingTop:24}}><span className="eye">Residence account</span><div className="ht sf">Payment history</div></div>
+    <div className="phead"><span className="eye">Residence account</span><div className="ht sf">Payment history</div></div>
     <div className="nt-tabs">{years.map(y=><button key={y} className={"nt-tab"+(y===year?" on":"")} onClick={()=>setYear(y)}>{y}</button>)}</div>
     <div className="pay-sum">{list.length} payments · {money(total)} settled</div>
     <div style={{marginTop:8}}>

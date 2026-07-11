@@ -29,7 +29,7 @@ export function Concierge({ onCompose, onOpen, onOpenPast }) {
         </div>
       </div>
 
-      <div className="sect" style={{marginTop:40}}>
+      <div className="sect">
         <div className="sect-h"><span className="l">In care of the estate</span></div>
         {open.length===0&&<div className="calm"><I.leaf/>Nothing in care — we're all yours.</div>}
         {open.map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}
@@ -55,7 +55,7 @@ export function PastRequests({ onBack, onOpen }) {
   const list=past.filter(r=>r.year===year);
   return (<div className="pc stag">
     <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Concierge</span></div>
-    <div className="phead" style={{paddingTop:24}}><span className="eye">At your service</span><div className="ht sf">Past requests</div></div>
+    <div className="phead"><span className="eye">At your service</span><div className="ht sf">Past requests</div></div>
     <div className="nt-tabs">{years.map(y=><button key={y} className={"nt-tab"+(y===year?" on":"")} onClick={()=>setYear(y)}>{y}</button>)}</div>
     <div className="pay-sum">{list.length} resolved in {year}</div>
     <div style={{marginTop:8}}>{list.map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}</div>

@@ -14,7 +14,7 @@ export function Renewal({ onBack, push }) {
   return (
     <div className="pc stag">
       <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Residence</span></div>
-      <div className="phead" style={{paddingTop:24}}><span className="eye">Lease</span><div className="ht sf">Renewal offer</div></div>
+      <div className="phead"><span className="eye">Lease</span><div className="ht sf">Renewal offer</div></div>
       <p className="scr-intro">Your term ends {RENEWAL.currentEnd}. Rosa has prepared an offer to renew for another {RENEWAL.termLength} — the terms are below.</p>
 
       {status === "accepted" && <div className="rnw-banner">

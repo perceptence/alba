@@ -346,7 +346,7 @@ function VisitDetail({ e, onClose, push, openEstate }) {
     <div className="grab"/>
     <div className="sh-head"><span style={{ flex: 1 }}><div className="sh-title sf">{e.title}</div><div className="sh-sub">{e.sub}{e.window ? " · " + e.window : ""}</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body vd-body" style={{ paddingTop: 8 }}>
+    <div className="sh-body vd-body">
       {done && <div className="dd-tags"><span className="dd-status cxt-g">Done</span></div>}
       <p className="nd-body">{e.desc}</p>
       <div className="sect"><div className="sect-h"><span className="l">Visit</span></div>
@@ -480,7 +480,7 @@ function NoticeDetail({ id, onClose, push }) {
     <div className="grab"/>
     <div className="sh-head"><span style={{ flex: 1 }}><div className="sh-title sf">{n.title}</div><div className="sh-sub">{n.scope} · {n.reach} resident{n.reach !== 1 ? "s" : ""}</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body" style={{ paddingTop: 8 }}>
+    <div className="sh-body">
       <div className="dd-tags"><span className={"dd-status cxt-" + stateTone}>{stateLabel}</span><span className="nd-when">{n.at}</span></div>
       <p className="nd-body">{n.body}</p>
     </div>
@@ -509,7 +509,7 @@ function NoticeComposer({ onClose, push }) {
     <div className="grab"/>
     <div className="sh-head"><span style={{ flex: 1 }}><div className="sh-title sf">Compose a notice</div><div className="sh-sub">Posts to residents' Notices</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body" style={{ paddingTop: 8 }}>
+    <div className="sh-body">
       <div className="flab" style={{ marginTop: 0 }}>Send to</div>
       <div className="scope">
         {["All estates", ...AREAS].map((s) => (
@@ -693,7 +693,7 @@ function ResidentDetail({ id, onClose, push, openEstate }) {
     <div className="sh-head"><Avatar cfg={av(p.id)} size={44}/>
       <span style={{ flex: 1 }}><div className="sh-title sf">{p.name}</div><div className="sh-sub">{p.role} · since {p.since}</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body" style={{ paddingTop: 8 }}>
+    <div className="sh-body">
       <div className="res-contact">
         <a className="res-contact-b" href={"tel:" + p.phone.replace(/\s/g, "")}><I.phone/>Call</a>
         <a className="res-contact-b" href={"mailto:" + p.email}><I.mail/>Email</a>
@@ -765,7 +765,7 @@ function DeskDetail({ id, onClose, push }) {
       <span style={{ flex: 1 }}><div className="sh-title sf">{r.estate}</div><div className="sh-sub">{r.area} · {CX_CATS[r.category].tag}</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button>
     </div>
-    <div className="sh-body" style={{ paddingTop: 8 }}>
+    <div className="sh-body">
       <div className="dd-tags">
         {r.priority === "Urgent" && !done && <span className="dd-urgent">Urgent</span>}
         <span className={"dd-status cxt-" + (CX_TINT[r.status] || "n")}>{st.label}</span>

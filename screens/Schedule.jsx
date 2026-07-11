@@ -27,7 +27,7 @@ export function Schedule({ onBack, onOpenRequest }) {
   return (
     <div className="pc stag">
       <div className="backrow"><button className="backb" onClick={onBack} aria-label="Back"><I.chevL/></button><span className="bt">Schedule</span></div>
-      <div className="phead" style={{paddingTop:24}}><span className="eye">This week</span><div className="ht sf">At the residence</div></div>
+      <div className="phead"><span className="eye">This week</span><div className="ht sf">At the residence</div></div>
 
       <div style={{marginTop:24}}>
         {days.map((d) => (
