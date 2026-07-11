@@ -482,7 +482,9 @@ html,body{background:#CFC8BB}
 .dr-search input{flex:1;border:none;background:none;font-family:var(--sans);font-size:14px;color:var(--ink)}
 .dr-search input::placeholder{color:var(--grey-2)}
 .dr-search input:focus{outline:none}
-.sh-body .dr-search{margin-top:-12px}
+/* first child of the sheet body — no negative pull (it clipped the field top
+   against the 4px inset). The sheet's header→body 24 is the gap. */
+.sh-body .dr-search{margin-top:0}
 .dr-search+.doc,.dr-search+.calm{border-top:0}
 .am .dr-clear{flex:none}
 .dr-clear svg{width:12px;height:12px;stroke:var(--grey-2)}
@@ -927,7 +929,9 @@ html,body{background:#CFC8BB}
 /* what a charge is for, under its label in the settle sheet */
 .kvl .kv-line .chg-d{display:block;font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.02em;color:var(--grey-2);margin-top:3px}
 .tml{margin-top:var(--sp-5)}
-.sh-body>.tml{margin-top:-16px}
+/* first child of the body: the sheet's header→body 24 (head 20 + body 4) is the
+   gap — no negative pull (it exceeded the 4px inset and clipped the top node). */
+.sh-body>.tml{margin-top:0}
 .tstep{display:flex;gap:16px;position:relative;padding-bottom:20px}
 .tstep:last-child{padding-bottom:0}
 .tnode{width:20px;height:20px;border-radius:50%;border:1px solid var(--grey-2);display:grid;place-items:center;flex:none;z-index:1;background:var(--paper)}
