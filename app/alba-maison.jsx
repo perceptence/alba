@@ -88,11 +88,13 @@ export default function App(){
   const manager=journey==="manager";
   return (
     <div className={"am"+(subview?" subview":"")}>
-      <DemoPanel journey={journey} onChange={(j)=>{setJourney(j);go("home");}}/>
       <div className="stage">
         <div className="device">
-          <i className="dv-btn dv-act"/><i className="dv-btn dv-vup"/><i className="dv-btn dv-vdn"/>
-          <i className="dv-btn dv-pwr"/><i className="dv-btn dv-cam"/>
+          <i className="v-btn left v-btn-action" aria-hidden="true"/>
+          <i className="v-btn left v-btn-volup" aria-hidden="true"/>
+          <i className="v-btn left v-btn-voldn" aria-hidden="true"/>
+          <i className="v-btn right v-btn-side" aria-hidden="true"/>
+          <i className="v-btn right v-btn-cam" aria-hidden="true"/>
         <div className="phone">
           <div className="island"/>
           <PhoneBar/>
@@ -165,6 +167,7 @@ export default function App(){
         </div>
         </div>
       </div>
+      <DemoPanel journey={journey} onChange={(j)=>{setJourney(j);go("home");}}/>
     </div>
   );
 }
