@@ -24,6 +24,18 @@ container `.pc`, not to titles/back rows).
 | `--pad-sub` | **8px** | Nested sub-items: nt-si, drow-opt |
 | — | **0** | Everything else: titles, headers, eyebrows, tabs, labels, sections, figures |
 
+### Boundary refinements (the seams a bulk sweep misses)
+
+- **Section→section has ONE owner.** A section's last line-item drops its bottom
+  padding (`.sect > .row:last-child{padding-bottom:0}`) so the 32px section
+  margin is the sole owner — not row-pad 16 + margin 32 = 48.
+- **Tertiary CTA placement:** one *inside* a section (its last child, e.g. a
+  TextLink) uses the tight in-section gap (`--gap-group` 20); one *after* a whole
+  section (a sibling, e.g. the visit flyout's "Open the estate") crosses a
+  boundary → `--gap-section` (32).
+- **Heading → hairline = `--gap-tight` (12)** for every heading type (sect-h,
+  sday-h, nt-g, mgr-grp) — see the scale table.
+
 ## Rule 2 — Container-owned gaps
 
 Elements carry no vertical margins of their own volition; the relationship

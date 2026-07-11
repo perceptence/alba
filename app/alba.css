@@ -182,6 +182,15 @@ html,body{background:#CFC8BB}
 .rule-2{height:1px;background:var(--line-2);border:none}
 .sect{margin-top:var(--gap-section)}
 .sect-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:var(--gap-tight)}
+/* SPACING.md — one owner per gap: a section's last row drops its bottom padding
+   so the 32px section margin is the SOLE owner of the section→section gap
+   (was row-pad 16 + margin 32 = 48). Applies to whatever row ends a section. */
+.am .sect > .reqmini:last-child,.am .sect > .est-res:last-child,.am .sect > .doc:last-child,
+.am .sect > .estrow:last-child,.am .sect > .arow:last-child,.am .sect > .payrow:last-child,
+.am .sect > .prow:last-child,.am .sect > .kv:last-child,.am .sect > .gpass:last-child,
+.am .sect > .chg:last-child,.am .sect > .rstep:last-child,.am .sect > .rres:last-child,
+.am .sect > .grow:last-child,.am .sect > .brief:last-child,.am .sect > .ap-card:last-child,
+.am .sect .amen > .am-r:last-child{padding-bottom:0}
 .sect-h .l{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .sect-h .a{font-size:12px;font-weight:500;color:var(--clay);letter-spacing:.04em}
 .am .txtlink{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px}
@@ -814,7 +823,9 @@ html,body{background:#CFC8BB}
 /* visit detail flyout: tighter head→body→section, more room before the link */
 .vd-body .nd-body{margin-top:0}
 .vd-body .sect{margin-top:var(--gap-group)}
-.am .vd-body>.a-act{margin-top:var(--gap-group)}
+/* a standalone tertiary CTA that follows a whole section (not one sitting inside
+   it) crosses a section boundary → --gap-section, so it reads as its own action */
+.am .vd-body>.a-act{margin-top:var(--gap-section)}
 .acct-reach{margin-top:8px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .scope{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .am .scope-c{padding:8px 14px;border-radius:100px;border:1px solid var(--line);font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--grey);white-space:nowrap;transition:background .25s var(--e),border-color .25s var(--e),color .25s var(--e)}
