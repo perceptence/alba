@@ -1049,7 +1049,7 @@ html,body{background:#F7F7F5}
   /* iPad Pro 11" (M4): true 834:1194 portrait ratio, uniform thin bezel,
      restrained corner radius (nothing like the iPhone's), aluminium rail. */
   .phone{width:auto;height:min(1000px, calc(100vh - 80px));aspect-ratio:834 / 1194;
-    max-width:calc(100vw - 48px);border:7px solid #0B0C09;border-radius:26px;
+    max-width:calc(100vw - 48px);border:8px solid #0B0C09;border-radius:26px;
     box-shadow:0 0 0 1px #8a8a8f, 0 22px 54px -18px rgba(0,0,0,.26)}
   .island{display:none}
   /* front camera on the landscape (long) edge — right-centred in portrait */
