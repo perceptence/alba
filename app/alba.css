@@ -999,13 +999,13 @@ html,body{background:#CFC8BB}
     max-width:calc(100vw - 48px);border-width:10px;border-radius:42px}
   .island{display:none}
   .pbar{padding:18px 34px 8px}
-  /* the nav is 4 items; space-around across a wide iPad frame flung them to
-     the edges with big voids. Cluster them centred with a proportional gap,
-     scaled up a touch for the larger frame. */
-  .nav{justify-content:center;gap:clamp(44px, 8vw, 84px);padding:18px 20px 26px}
-  .nav button svg{width:26px;height:26px}
-  .nav button .nl{font-size:12px}
-  .nav button .und{top:-10px;width:18px}
+  /* 4 items in a ~750px frame: keep them near mobile density — a compact
+     centred group, NOT a blown-up spread. Bigger icons/labels or space-around
+     read as a magnified phone. */
+  .nav{justify-content:center;gap:clamp(28px, 5vw, 48px);padding:16px 20px 24px}
+  .nav button svg{width:22px;height:22px}
+  .nav button .nl{font-size:9px}
+  .nav button .und{top:-8px;width:16px}
   .scroll{padding-bottom:112px}
   .pc{padding:24px 44px 0}
   /* bottom sheets span the full frame width, as on mobile */
