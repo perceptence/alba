@@ -632,7 +632,9 @@ html,body{background:#CFC8BB}
 .am .mgr-search-t{display:grid;place-items:center}
 .mgr-search-t svg{width:18px;height:18px;stroke:var(--ink)}
 .assist.mgr-search{margin-top:16px}
-.mgr-search .snd svg{stroke:var(--paper)}
+/* the search circle is a touch smaller than the composer's send button */
+.am .mgr-search .snd{width:28px;height:28px}
+.mgr-search .snd svg{width:16px;height:16px;stroke:var(--paper)}
 /* the search field's own hairline is the section divider — the first result
    row shouldn't draw a second line under it, and sits close to the field
    (the row's own 16px padding is the breathing room) rather than a full list gap */
