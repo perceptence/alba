@@ -9,7 +9,7 @@ import { SettleSheet } from "@/screens/SettleSheet";
 
 export function Rent({ push, onOpenPayments, onOpenPayment, openCharges, openAutopay }) {
   const ap=useAp(); const a=ap.get();
-  const ch=useCharges(); const dueTotal=ch.dueTotal(); const dueCount=ch.due().length;
+  const ch=useCharges(); const due=ch.due(); const dueTotal=ch.dueTotal(); const dueCount=due.length;
   const [settling,setSettling]=useState(false);
   return (
     <div className="pc stag">
@@ -18,7 +18,7 @@ export function Rent({ push, onOpenPayments, onOpenPayment, openCharges, openAut
         {dueTotal>0?<>
           <div className="fk">Rent &amp; charges</div>
           <div className="fv sf num">{money(RES.rent+dueTotal)}</div>
-          <div className="fs">{money(RES.rent)} rent · {money(dueTotal)} in charges</div>
+          <div className="fs">{money(RES.rent)} rent · <button className="fs-charges" onClick={()=>setSettling(true)}>{money(dueTotal)} in charges</button></div>
         </>:<>
           <div className="fk">Next payment</div>
           <div className="fv sf num">{money(RES.rent)}</div>
@@ -45,7 +45,7 @@ export function Rent({ push, onOpenPayments, onOpenPayment, openCharges, openAut
 
       <div className="sect">
         <div className="sect-h"><span className="l">Standing</span></div>
-        <div className="lrow"><span><div className="lm sf">Balance due today</div>{dueTotal>0&&<div className="ld">{dueCount} charge{dueCount>1?"s":""} outstanding</div>}</span>
+        <div className="lrow"><span><div className="lm sf">Balance due today</div>{dueTotal>0&&<div className="ld">{dueCount===1?due[0].label:`${dueCount} charges outstanding`}</div>}</span>
           {dueTotal>0?<button className="due-settle" onClick={()=>setSettling(true)}>Settle {money(dueTotal)}</button>:<span className="lv st-g">None</span>}</div>
         <div className="lrow"><span><div className="lm sf">Deposit held</div><div className="ld">In escrow</div></span><span className="lv num">{money(RES.deposit)}</span></div>
         <TextLink onClick={openCharges}>Charges &amp; statements</TextLink>

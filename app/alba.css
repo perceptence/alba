@@ -284,6 +284,8 @@ html,body{background:#CFC8BB}
 .figure .fk{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .figure .fv{font-family:var(--serif);font-weight:300;font-size:64px;letter-spacing:-.03em;line-height:1;margin-top:var(--sp-3)}
 .figure .fs{font-size:14px;font-weight:500;color:var(--grey);margin-top:var(--sp-3);letter-spacing:.01em}
+/* the charges amount reads as a link into the settle sheet — clay, underlined */
+.am .fs-charges{font-size:14px;font-weight:600;color:var(--clay);letter-spacing:.01em;border-bottom:1px solid var(--clay);padding-bottom:1px}
 .tline{margin-top:var(--sp-6)}
 .tbar{height:1px;background:var(--line);position:relative;margin:0 0 12px}
 .tfill{position:absolute;left:0;top:0;height:1px;background:var(--clay);animation:growbar 1.2s var(--e) .3s both}
@@ -892,6 +894,8 @@ html,body{background:#CFC8BB}
 .kvl .v{font-family:var(--serif);font-weight:400}
 /* receipt-style line item: name reads as content (serif), not a label */
 .kvl .kv-line .k{font-family:var(--serif);font-weight:400;font-size:16px;text-transform:none;letter-spacing:-.01em;color:var(--ink)}
+/* what a charge is for, under its label in the settle sheet */
+.kvl .kv-line .chg-d{display:block;font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.02em;color:var(--grey-2);margin-top:3px}
 .tml{margin-top:var(--sp-5)}
 .sh-body>.tml{margin-top:-16px}
 .tstep{display:flex;gap:16px;position:relative;padding-bottom:20px}
