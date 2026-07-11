@@ -49,6 +49,9 @@ html,body{background:#F7F7F5}
 .device{position:relative}
 .v-btn{display:none}
 @media (max-width:767px){
+  /* scale the whole device mockup to 0.95 (zoom keeps layout flow, so the
+     Preview panel below still tracks the frame) */
+  .device{zoom:.95}
   /* hold the true 402:874 ratio while fitting the pane — height-driven so the
      phone never squishes; thin uniform bezel + a hair of aluminium rail */
   /* true fixed 402×874 (from base) — clamping height alone distorted the
