@@ -634,7 +634,9 @@ html,body{background:#CFC8BB}
 .assist.mgr-search{margin-top:16px}
 .mgr-search .snd svg{stroke:var(--paper)}
 /* the search field's own hairline is the section divider — the first result
-   row shouldn't draw a second line under it */
+   row shouldn't draw a second line under it, and sits close to the field
+   (the row's own 16px padding is the breathing room) rather than a full list gap */
+.mgr-list-q{margin-top:8px}
 .mgr-list-q > div:first-child > .estrow:first-child,
 .mgr-list-q > div:first-child > .rres:first-child{border-top:none}
 /* who lives here, at a glance — overlapping resident avatars on the row */
