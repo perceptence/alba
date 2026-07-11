@@ -789,6 +789,8 @@ html,body{background:#CFC8BB}
 .acct-hd-l + .mgr-grp{margin-top:24px}
 /* rent→notices boundary: 24 box + the last row's 16px padding ≈ 40 (was 56) */
 .acct-notices{margin-top:24px}
+/* View notice → Sign out: 20 here + the last row's 20px padding = 40 total */
+.am .acct-notices + .signout{margin-top:20px}
 /* the 40px above tabs is for the Rent section; the Notices tabs sit closer to
    their label so the label→tabs→rows read as one cluster */
 .acct-notices .mgr-nt-tabs{margin-top:24px}
