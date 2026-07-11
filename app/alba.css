@@ -436,6 +436,9 @@ html,body{background:#CFC8BB}
 .am .nt-sort{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--ink)}
 .nt-sort svg{width:14px;height:14px;stroke:var(--ink)}
 .nt-g{margin-top:var(--gap-group);margin-bottom:var(--gap-tight);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
+/* first group hangs off the count bar at the rail gap (20) at every width —
+   not the roomier group→group spacing (the ≥768 --sp-6 bump). Matches Estates. */
+.mgr-bar + div > .nt-g{margin-top:var(--gap-rail)}
 .am .arow{cursor:pointer}
 .am .arow.arow-static{cursor:default}
 .arow.read .at{color:var(--grey)}
