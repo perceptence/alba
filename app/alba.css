@@ -633,6 +633,10 @@ html,body{background:#CFC8BB}
 .mgr-search-t svg{width:18px;height:18px;stroke:var(--ink)}
 .assist.mgr-search{margin-top:16px}
 .mgr-search .snd svg{stroke:var(--paper)}
+/* the search field's own hairline is the section divider — the first result
+   row shouldn't draw a second line under it */
+.mgr-list-q > div:first-child > .estrow:first-child,
+.mgr-list-q > div:first-child > .rres:first-child{border-top:none}
 /* who lives here, at a glance — overlapping resident avatars on the row */
 .est-avs{display:flex;align-items:center;flex:none}
 .est-av{display:block;flex:none;border-radius:50%;border:2px solid var(--paper);margin-left:-8px;overflow:hidden}

@@ -278,7 +278,7 @@ function PortfolioSection({ push, openEstate }) {
           </div>
         </div>
       )}
-      <div className="mgr-list">
+      <div className={"mgr-list" + (ql ? " mgr-list-q" : "")}>
         {ql && found === 0 && <div className="calm"><I.leaf/>Nothing by that name.</div>}
         {groups.map(([label, list, kind]) => (
           <div key={label || "all"}>
