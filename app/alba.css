@@ -436,7 +436,6 @@ html,body{background:#CFC8BB}
 .am .nt-tab.on{color:var(--ink)}
 .nt-tab::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--clay);transform:scaleX(0);transition:transform .28s var(--e)}
 .nt-tab.on::after{transform:scaleX(1)}
-.nt-ctrls{display:flex;align-items:center;justify-content:flex-start;margin-top:var(--gap-rail)}
 .am .nt-sort{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--ink)}
 .nt-sort svg{width:14px;height:14px;stroke:var(--ink)}
 .nt-g{margin-top:var(--gap-group);margin-bottom:var(--gap-tight);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
@@ -1025,8 +1024,7 @@ html,body{background:#CFC8BB}
   /* bottom sheets span the full frame width, as on mobile */
   .sheet{max-width:none}
   .elev{margin:0 -44px}
-  /* notices bar + standalone tabs bleed edge to edge inside the frame */
-  .nt-bar{margin-inline:-44px;padding-inline:44px}
+  /* tab rail bleeds edge to edge inside the frame */
   .nt-tabs{margin-inline:-44px;padding:0 44px}
 }
 
@@ -1103,12 +1101,9 @@ html,body{background:#CFC8BB}
   .pc-home .home-only{display:block}
 }
 
-/* notices page (tablet + desktop): roomier, tabs + sort share one row */
+/* notices page (tablet + desktop): roomier group spacing. Tabs and the
+   count+sort bar stack (Estates pattern) at every width — no shared row. */
 @media (min-width:768px){
-  .nt-bar{display:flex;align-items:baseline;gap:28px;margin-top:var(--gap-rail);border-bottom:1px solid var(--line)}
-  .nt-bar .nt-tabs{flex:1;margin:0;padding:0;overflow:visible;border-bottom:none}
-  .nt-bar .nt-ctrls{position:relative;margin:0;padding:0 0 0 28px;align-items:baseline}
-  .nt-bar .nt-ctrls::before{content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:1px;background:var(--line)}
   .nt-g{margin-top:var(--sp-6)}
 }
 /* pushed pages: back arrow → title */

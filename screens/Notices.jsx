@@ -32,6 +32,8 @@ export function NoticesPage({ onBack, route }) {
     (groups[g] = groups[g] || []).push(s);
   });
   const order = mode === "latest" ? G_TIME : G_PRIO;
+  // "pending" = notices in the current filter still needing the resident (unread)
+  const pending = stacks.filter(s => nt.isUnread(s.id) || s.older.some(o => nt.isUnread(o.id))).length;
 
   const settle = (s) => { nt.markRead(s.id); s.older.forEach(o => nt.markRead(o.id)); };
   const go = (to) => { if (to && route) route(to); };
@@ -49,15 +51,17 @@ export function NoticesPage({ onBack, route }) {
         <div className="bby">Composed by the desk · just now</div>
       </div>
 
-      <div className="nt-bar">
-        <div className="nt-tabs">
-          {[["all","All"],...Object.entries(NT_CATS).map(([k,c])=>[k,c.label])].map(([k,l])=>
-            <button key={k} className={"nt-tab"+(filt===k?" on":"")} onClick={()=>setFilt(k)}>{l}</button>)}
-        </div>
-        <div className="nt-ctrls">
+      <div className="nt-tabs">
+        {[["all","All"],...Object.entries(NT_CATS).map(([k,c])=>[k,c.label])].map(([k,l])=>
+          <button key={k} className={"nt-tab"+(filt===k?" on":"")} onClick={()=>setFilt(k)}>{l}</button>)}
+      </div>
+      {/* count + sort, mirroring the Estates count bar — same at every width */}
+      <div className="mgr-bar">
+        <div className="mgr-sum2">{pending} pending</div>
+        <span className="mgr-bar-r">
           <button className="nt-sort" onClick={()=>setMode(m=>m==="latest"?"priority":"latest")}>
             <I.sort/><span>{mode==="latest"?"Latest first":"Needs you first"}</span></button>
-        </div>
+        </span>
       </div>
 
       {order.filter(g=>groups[g]).map(g=>(<div key={g}>
