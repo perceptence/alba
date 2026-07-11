@@ -32,29 +32,39 @@
 
 /* ALBA is a fixed light theme — the page behind the device frame must be the
    taupe stage colour, never the globals.css dark-mode body background. */
-html,body{background:#CFC8BB}
-.stage{min-height:100vh;background:#CFC8BB;display:grid;place-items:center;padding:48px 24px}
+html,body{background:#F7F7F5}
+.stage{min-height:100vh;background:#F7F7F5;display:grid;place-items:center;padding:48px 24px}
 /* iPhone 17 Pro screen — 402×874 logical pt, 6.3". Just the screen here: thin
    black bezel + rounded corners. The metallic body, rail and side buttons live
    on the .device wrapper (mobile mockup only), below. */
-.phone{width:402px;height:874px;border-radius:55px;border:6px solid #0B0C09;background:var(--paper);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 4px rgba(0,0,0,.2),0 40px 80px -24px rgba(38,30,22,.4)}
-.island{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:22px;background:#000;z-index:90}
+.phone{width:402px;height:874px;border-radius:54px;border:6px solid #0B0C09;background:var(--paper);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 4px rgba(0,0,0,.2),0 40px 80px -24px rgba(38,30,22,.4)}
+/* Dynamic Island — true 126×37, 12px below the top edge */
+.island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:37px;border-radius:19px;background:#000;z-index:90}
+.speaker{display:none}
 
-/* non-clipping shell: holds the frame + hardware buttons as siblings, so they
-   escape the frame's overflow:hidden. Buttons + full bezel show only at mobile,
-   where the iPhone mockup renders (tablet = iPad frame, desktop = full screen). */
+/* non-clipping shell: holds the frame + hardware (buttons, earpiece) as
+   siblings so they escape the frame's overflow:hidden. iPhone hardware shows
+   only at mobile (tablet = iPad frame, desktop = full screen). */
 .device{position:relative}
 .v-btn{display:none}
 @media (max-width:767px){
-  .phone{border:none;box-shadow:0 0 0 9px #0B0C09, 0 0 0 11px #3a3d42, 0 6px 14px rgba(0,0,0,.3), 0 54px 108px -28px rgba(38,30,22,.55)}
-  .v-btn{display:block;position:absolute;width:4px;z-index:5;background:linear-gradient(90deg,#050604,#16170f 55%,#050604);box-shadow:0 1px 2px rgba(0,0,0,.4)}
-  .v-btn.left{left:-13px;border-radius:3px 0 0 3px}
-  .v-btn.right{right:-13px;border-radius:0 3px 3px 0}
-  .v-btn-action{top:150px;height:34px}
-  .v-btn-volup{top:204px;height:58px}
-  .v-btn-voldn{top:274px;height:58px}
-  .v-btn-side{top:210px;height:96px}
-  .v-btn-cam{top:338px;height:42px}
+  /* hold the true 402:874 ratio while fitting the pane — height-driven so the
+     phone never squishes; thin uniform bezel + a hair of aluminium rail */
+  /* true fixed 402×874 (from base) — clamping height alone distorted the
+     aspect ratio. A short pane just scrolls; at ~1000px tall it fits fully. */
+  .phone{border:none;box-shadow:0 0 0 6px #0B0C09, 0 0 0 7px #8a8a8f, 0 22px 48px -16px rgba(0,0,0,.28)}
+  /* earpiece speaker — thin slit centred in the top bezel */
+  .speaker{display:block;position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:42px;height:3px;border-radius:2px;background:#1a1a1c;z-index:6}
+  /* hardware buttons — thin slivers just past the ~7px bezel; positions in %
+     of height so they stay correct as the frame scales to the pane */
+  .v-btn{display:block;position:absolute;width:3px;z-index:5;background:linear-gradient(90deg,#050604,#17180f 55%,#050604);box-shadow:0 1px 2px rgba(0,0,0,.35)}
+  .v-btn.left{left:-9px;border-radius:2px 0 0 2px}
+  .v-btn.right{right:-9px;border-radius:0 2px 2px 0}
+  .v-btn-action{top:17.2%;height:3.9%}
+  .v-btn-volup{top:23.3%;height:6.6%}
+  .v-btn-voldn{top:31.3%;height:6.6%}
+  .v-btn-side{top:24%;height:11%}
+  .v-btn-cam{top:38.7%;height:4.8%}
 }
 .pbar{display:flex;align-items:center;justify-content:space-between;padding:20px 28px 8px;position:relative;z-index:5;flex:none}
 .pbar .tm{font-size:16px;font-weight:600}
@@ -1024,8 +1034,7 @@ html,body{background:#CFC8BB}
 /* MOBILE: the device frame fits within the viewport, and the journey switcher
    sits above it (in flow, centred) rather than floating over the app. */
 @media (max-width:767px){
-  .stage{min-height:0;padding:12px 12px 0}
-  .phone{width:min(402px, calc(100vw - 48px));height:min(874px, calc(100vh - 104px))}
+  .stage{min-height:0;padding:20px 12px}
 }
 
 /* TABLET: an iPad-style device frame on the taupe stage, scaled nav.

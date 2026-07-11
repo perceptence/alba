@@ -95,6 +95,7 @@ export default function App(){
           <i className="v-btn left v-btn-voldn" aria-hidden="true"/>
           <i className="v-btn right v-btn-side" aria-hidden="true"/>
           <i className="v-btn right v-btn-cam" aria-hidden="true"/>
+          <span className="speaker" aria-hidden="true"/>
         <div className="phone">
           <div className="island"/>
           <PhoneBar/>
