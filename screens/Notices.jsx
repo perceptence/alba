@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { I } from "@/components/icons";
-import { useNotices, ntBrief, NT_CATS } from "@/lib/noticesStore";
+import { useNotices, NT_CATS } from "@/lib/noticesStore";
 
 /* Notices — a full page reached from the Home bell (back arrow returns
    Home). Opens on the desk's composed brief, then the record: notices
@@ -44,11 +44,6 @@ export function NoticesPage({ onBack, route }) {
         {/* the Home bell that opened this panel sits here — it becomes the close */}
         <button className="icob nt-close" onClick={onBack} aria-label="Close notices"><I.close/></button>
         <span className="eye">The estate</span><div className="ht sf">Notices</div>
-      </div>
-
-      <div className="nt-brief">
-        <div className="bq sf">{ntBrief(nt.all())}</div>
-        <div className="bby">Composed by the desk · just now</div>
       </div>
 
       <div className="nt-tabs">

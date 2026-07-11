@@ -427,9 +427,6 @@ html,body{background:#CFC8BB}
 .arow .aw{font-size:12px;font-weight:600;color:var(--grey-2);margin-top:var(--sp-2);letter-spacing:var(--tk-label);text-transform:uppercase}
 
 /* notices — the desk's brief, filters, stacks */
-.nt-brief{margin-top:var(--gap-page);padding-left:var(--sp-4);border-left:1px solid var(--clay)}
-.nt-brief .bq{font-size:18px;line-height:1.5;color:var(--ink)}
-.nt-brief .bby{margin-top:var(--sp-2);font-size:8px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2)}
 .nt-tabs{display:flex;gap:24px;margin-top:var(--gap-rail);overflow-x:auto;scrollbar-width:none;margin-inline:-28px;padding:0 28px;border-bottom:1px solid var(--line)}
 .nt-tabs::-webkit-scrollbar{display:none}
 .am .nt-tab{position:relative;flex:none;padding-bottom:14px;font-size:13px;font-weight:500;letter-spacing:.01em;color:var(--grey-2);white-space:nowrap;transition:color .3s var(--e)}
