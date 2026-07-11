@@ -41,6 +41,7 @@ html,body{background:#F7F7F5}
 /* Dynamic Island — true 126×37, 12px below the top edge */
 .island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:37px;border-radius:19px;background:#000;z-index:90}
 .speaker{display:none}
+.ipad-cam{display:none}
 
 /* non-clipping shell: holds the frame + hardware (buttons, earpiece) as
    siblings so they escape the frame's overflow:hidden. iPhone hardware shows
@@ -1041,9 +1042,14 @@ html,body{background:#F7F7F5}
    The frame height tracks the viewport (aspect 3:4) so it always fits. */
 @media (min-width:768px) and (max-width:899px){
   .stage{padding:40px 24px}
-  .phone{width:auto;height:min(1000px, calc(100vh - 80px));aspect-ratio:3 / 4;
-    max-width:calc(100vw - 48px);border-width:10px;border-radius:42px}
+  /* iPad Pro 11" (M4): true 834:1194 portrait ratio, uniform thin bezel,
+     restrained corner radius (nothing like the iPhone's), aluminium rail. */
+  .phone{width:auto;height:min(1000px, calc(100vh - 80px));aspect-ratio:834 / 1194;
+    max-width:calc(100vw - 48px);border:12px solid #0B0C09;border-radius:28px;
+    box-shadow:0 0 0 1px #8a8a8f, 0 22px 54px -18px rgba(0,0,0,.26)}
   .island{display:none}
+  /* front camera on the landscape (long) edge — right-centred in portrait */
+  .ipad-cam{display:block;position:absolute;right:3px;top:50%;transform:translateY(-50%);width:5px;height:5px;border-radius:50%;background:#15151a;box-shadow:0 0 0 1px rgba(255,255,255,.07);z-index:6}
   .pbar{padding:18px 34px 8px}
   /* 4 items spread across the frame width; keep the near-mobile icon/label
      sizes so it doesn't read as a magnified phone. */
