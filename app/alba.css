@@ -1017,7 +1017,7 @@ html,body{background:#CFC8BB}
      sizes so it doesn't read as a magnified phone. */
   .nav{justify-content:space-around;gap:0;padding:16px 24px 24px}
   .nav button svg{width:22px;height:22px}
-  .nav button .nl{font-size:9px}
+  .nav button .nl{font-size:10px}
   .nav button .und{top:-8px;width:16px}
   .scroll{padding-bottom:112px}
   .pc{padding:24px 44px 0}
