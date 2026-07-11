@@ -353,9 +353,9 @@ html,body{background:#CFC8BB}
 .assist input{flex:1;border:none;background:none;font-size:16px;font-family:var(--serif);font-weight:400;color:var(--ink)}
 .assist input::placeholder{color:var(--grey-2)}
 .assist input:focus{outline:none}
-.am .assist .snd{flex:none;width:34px;height:34px;border-radius:50%;background:var(--clay);display:grid;place-items:center;transition:transform .2s var(--e)}
+.am .assist .snd{flex:none;width:28px;height:28px;border-radius:50%;background:var(--clay);display:grid;place-items:center;transition:transform .2s var(--e)}
 .assist .snd:active{transform:scale(.94)}
-.assist .snd svg{width:18px;height:18px;stroke:var(--paper)}
+.assist .snd svg{width:16px;height:16px;stroke:var(--paper)}
 .brief{display:flex;align-items:flex-start;gap:16px;width:100%;text-align:left;padding:var(--pad-row) 0;border-top:1px solid var(--line)}
 .brief .bi{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none}
 .brief .bi svg{width:16px;height:16px;stroke:var(--clay)}
@@ -684,8 +684,7 @@ html,body{background:#CFC8BB}
 .mgr-search-t svg{width:18px;height:18px;stroke:var(--ink)}
 .assist.mgr-search{margin-top:var(--gap-tight)}
 /* the search circle is a touch smaller than the composer's send button */
-.am .mgr-search .snd{width:28px;height:28px}
-.mgr-search .snd svg{width:16px;height:16px;stroke:var(--paper)}
+.mgr-search .snd svg{stroke:var(--paper)}
 /* the search field's own hairline is the section divider — the first result
    row shouldn't draw a second line under it, and sits close to the field
    (the row's own 16px padding is the breathing room) rather than a full list gap */
@@ -949,8 +948,8 @@ html,body{background:#CFC8BB}
 .compose input{flex:1;border:none;background:none;font-family:var(--serif);font-size:16px;color:var(--ink)}
 .compose input::placeholder{color:var(--grey-2)}
 .compose input:focus{outline:none}
-.am .compose .snd{flex:none;width:34px;height:34px;border-radius:50%;background:var(--clay);display:grid;place-items:center}
-.compose .snd svg{width:18px;height:18px;stroke:var(--paper)}
+.am .compose .snd{flex:none;width:28px;height:28px;border-radius:50%;background:var(--clay);display:grid;place-items:center}
+.compose .snd svg{width:16px;height:16px;stroke:var(--paper)}
 .hint{font-size:8px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2);text-align:center;margin-top:var(--sp-3)}
 
 /* avatar */
