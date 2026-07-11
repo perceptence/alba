@@ -269,13 +269,12 @@ function PortfolioSection({ push, openEstate }) {
         </span>
       </div>
       {searching && (
-        <div className="assist mgr-search">
-          <div className="ask">
-            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)}
-              placeholder={view === "estates" ? "Search the estates" : "Search the residents"} aria-label="Search"
-              onKeyDown={(e) => { if (e.key === "Escape") closeSearch(); }}/>
-            <button className="snd" aria-label="Search" onClick={(e) => e.currentTarget.previousElementSibling.blur()}><I.search/></button>
-          </div>
+        <div className="dr-search">
+          <I.search/>
+          <input autoFocus value={q} onChange={(e) => setQ(e.target.value)}
+            placeholder={view === "estates" ? "Search the estates" : "Search the residents"} aria-label="Search"
+            onKeyDown={(e) => { if (e.key === "Escape") closeSearch(); }}/>
+          {q && <button className="dr-clear" onClick={() => setQ("")} aria-label="Clear search"><I.close/></button>}
         </div>
       )}
       <div className={"mgr-list" + (ql ? " mgr-list-q" : "")}>
