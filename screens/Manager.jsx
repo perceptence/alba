@@ -317,7 +317,7 @@ function DeskEntry({ e, onOpen, onOpenVisit, done, isNext, onToggleDone, innerRe
         {/* request-linked → its thread (correspondence); once done it's a plain
            'View request' in ink. Other visits → a details flyout, no thread. */}
         {e.reqId
-          ? <button className="a-act" onClick={() => onOpen(e.reqId)}>{done ? "View request" : "Follow along"}<I.arrow/></button>
+          ? <button className="a-act" onClick={() => onOpen(e.reqId)}>{done ? "View details" : "Follow along"}<I.arrow/></button>
           : <button className="a-act" onClick={() => onOpenVisit(e)}>View details<I.arrow/></button>}
         {!done && updates.length > 0 && <>
           <button className={"nt-more" + (open ? " open" : "")} onClick={() => setOpen((v) => !v)}>
@@ -346,7 +346,7 @@ function VisitDetail({ e, onClose, push, openEstate }) {
     <div className="grab"/>
     <div className="sh-head"><span style={{ flex: 1 }}><div className="sh-title sf">{e.title}</div><div className="sh-sub">{e.sub}{e.window ? " · " + e.window : ""}</div></span>
       <button className="sh-x" onClick={close} aria-label="Close"><I.close/></button></div>
-    <div className="sh-body" style={{ paddingTop: 8 }}>
+    <div className="sh-body vd-body" style={{ paddingTop: 8 }}>
       {done && <div className="dd-tags"><span className="dd-status cxt-g">Done</span></div>}
       <p className="nd-body">{e.desc}</p>
       <div className="sect"><div className="sect-h"><span className="l">Visit</span></div>
@@ -411,7 +411,7 @@ function ScheduleSection({ push, openEstate }) {
           // today reads as work to do; other days are just a count.
           const count = d.isToday
             ? (doneN === 0 ? `${total} pending` : allDone ? "All done" : `${doneN} of ${total} done`)
-            : total;
+            : `${total} scheduled`;
           return (
           <div className="sday" key={d.dow}>
             <div className="sday-h">

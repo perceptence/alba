@@ -417,6 +417,9 @@ html,body{background:#CFC8BB}
 .am .arow .aw-act{color:var(--clay)}
 .am .a-act{display:flex;width:fit-content;align-items:center;gap:8px;margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px}
 .a-act svg{width:12px;height:12px;stroke:var(--ink)}
+/* buttons carry their label, not decoration — no icons inside a text button,
+   anywhere (icon-only controls like the send circle or close are untouched) */
+.am .a-act svg,.am .cta svg,.am .sect-act svg{display:none}
 .am .nt-more{display:flex;width:fit-content;align-items:center;gap:6px;margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .nt-more svg{width:12px;height:12px;stroke:var(--grey-2);transition:transform .3s var(--e)}
 .nt-more.open svg{transform:rotate(180deg)}
@@ -517,14 +520,14 @@ html,body{background:#CFC8BB}
 /* 36, not 40: the 40px serif title above carries ~10px of descender allowance
    below its baseline ("Schedule" has no descenders), so 36 reads as 40 */
 .sweek>.sday:first-child{margin-top:36px}
-.sday-h{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+.sday-h{display:flex;align-items:baseline;gap:0;margin-bottom:8px}
 /* line-height:1 so the header's box hugs the glyph — its default 1.5 leading
    was adding ~7px above 'Today', making the 40px margin read as ~47 */
 .sday-l{font-family:var(--serif);font-weight:400;font-size:18px;line-height:1;color:var(--ink)}
-.sday-dow{font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
-/* count per day (today shows progress instead); a dot leads it in */
-.sday-n{font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
-.sday-n::before{content:"·";margin-right:8px;color:var(--grey-2)}
+.sday-dow{font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2);margin-left:12px}
+/* count per day (today shows progress instead); a dot leads it in, 4px each side */
+.sday-n{font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2);margin-left:4px}
+.sday-n::before{content:"·";margin-right:4px;color:var(--grey-2)}
 .sday-n-done{color:var(--sage)}
 .sday-empty{font-size:13px;color:var(--grey-2);padding:16px 0;border-top:1px solid var(--line)}
 /* the week's close — a proper sign-off, not a whisper */
@@ -793,6 +796,10 @@ html,body{background:#CFC8BB}
 .sect-act svg{width:14px;height:14px;stroke:var(--clay)}
 .nd-when{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey-2)}
 .nd-body{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:16px}
+/* visit detail flyout: tighter head→body→section, more room before the link */
+.vd-body .nd-body{margin-top:0}
+.vd-body .sect{margin-top:24px}
+.am .vd-body>.a-act{margin-top:24px}
 .acct-reach{margin-top:8px;font-size:12px;font-weight:500;color:var(--grey);letter-spacing:.01em}
 .scope{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .am .scope-c{padding:8px 14px;border-radius:100px;border:1px solid var(--line);font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--grey);white-space:nowrap;transition:background .25s var(--e),border-color .25s var(--e),color .25s var(--e)}
