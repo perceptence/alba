@@ -35,7 +35,7 @@ export function Concierge({ onCompose, onOpen, onOpenPast }) {
         {open.map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}
       </div>
 
-      {past.length>0&&<div style={{marginTop:26}}>
+      {past.length>0&&<div className="sect">
         <button className={"pastlink"+(showPast?" open":"")} onClick={()=>setShowPast(v=>!v)}><span>Past requests · {past.length}</span><I.chevD/></button>
         {showPast&&<div className="stag">
           {past.slice(0,6).map(r=><ReqRow key={r.id} r={r} onOpen={onOpen} unread={cx.isUnread(r.id)}/>)}
