@@ -251,8 +251,8 @@ function PortfolioSection({ push, openEstate }) {
     <div className="pc stag">
       <div className="phead"><span className="eye">In your care</span><div className="ht sf">Estates</div></div>
       <div className="nt-tabs mgr-nt-tabs">
-        <button className={"nt-tab" + (view === "estates" ? " on" : "")} onClick={() => setView("estates")}>Estates<span className="nt-tabn">{ESTATES.length}</span></button>
-        <button className={"nt-tab" + (view === "residents" ? " on" : "")} onClick={() => setView("residents")}>Residents<span className="nt-tabn">{RESIDENTS.length}</span></button>
+        <button className={"nt-tab" + (view === "estates" ? " on" : "")} onClick={() => setView("estates")}>Estates</button>
+        <button className={"nt-tab" + (view === "residents" ? " on" : "")} onClick={() => setView("residents")}>Residents</button>
       </div>
       <div className="mgr-bar">
         <div className="mgr-sum2">{ql ? `${found} match${found === 1 ? "" : "es"}`
