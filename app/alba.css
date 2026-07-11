@@ -417,9 +417,9 @@ html,body{background:#CFC8BB}
 .am .arow .aw-act{color:var(--clay)}
 .am .a-act{display:flex;width:fit-content;align-items:center;gap:8px;margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px}
 .a-act svg{width:12px;height:12px;stroke:var(--ink)}
-/* buttons carry their label, not decoration — no icons inside a text button,
-   anywhere (icon-only controls like the send circle or close are untouched) */
-.am .a-act svg,.am .cta svg,.am .sect-act svg{display:none}
+/* the big pill buttons carry their label, not decoration — no icon inside a
+   .cta (the text-link CTAs keep their arrow; icon-only controls are untouched) */
+.am .cta svg{display:none}
 .am .nt-more{display:flex;width:fit-content;align-items:center;gap:6px;margin-top:var(--sp-3);font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey-2)}
 .nt-more svg{width:12px;height:12px;stroke:var(--grey-2);transition:transform .3s var(--e)}
 .nt-more.open svg{transform:rotate(180deg)}
