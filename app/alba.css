@@ -6,7 +6,7 @@
   /* SPACING.md — the vertical rhythm. One owner per gap; no values outside these. */
   --pad-row:16px;   /* Rule 1: the only vertical padding, on line items */
   --pad-sub:8px;    /* nested sub-items */
-  --gap-page:40px;  /* title block → first content */
+  --gap-page:32px;  /* title block → first content */
   --gap-section:32px; /* section → section; end-of-page action */
   --gap-rail:20px;  /* tab rail / count bar → adjacent content */
   --gap-group:20px; /* group labels, day blocks, field labels */
@@ -279,7 +279,7 @@ html,body{background:#CFC8BB}
 
 /* page head */
 .phead{padding-top:0}
-/* SPACING.md — a page title → its first element is always --gap-page (40),
+/* SPACING.md — a page title → its first element is always --gap-page (32),
    whether that's a content block or a control (tabs / the ask-composer). This
    lifts the three control-screens (Estates, sub-page tabs, Concierge) from the
    old 20 so there's one rule, no two-tier. */
