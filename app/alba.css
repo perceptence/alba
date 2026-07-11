@@ -999,10 +999,9 @@ html,body{background:#CFC8BB}
     max-width:calc(100vw - 48px);border-width:10px;border-radius:42px}
   .island{display:none}
   .pbar{padding:18px 34px 8px}
-  /* 4 items in a ~750px frame: keep them near mobile density — a compact
-     centred group, NOT a blown-up spread. Bigger icons/labels or space-around
-     read as a magnified phone. */
-  .nav{justify-content:center;gap:clamp(28px, 5vw, 48px);padding:16px 20px 24px}
+  /* 4 items spread across the frame width; keep the near-mobile icon/label
+     sizes so it doesn't read as a magnified phone. */
+  .nav{justify-content:space-around;gap:0;padding:16px 24px 24px}
   .nav button svg{width:22px;height:22px}
   .nav button .nl{font-size:9px}
   .nav button .und{top:-8px;width:16px}
