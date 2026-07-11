@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useDesk, deskStore, TABS, ESTATES, RESIDENTS, byEst, byRes, estateResidents, deskAgenda, rentStatus, rentSummary, RENT_MONTHS, AREAS, reachOf, noticeStore, useNotices } from "@/lib/managerData";
+import { useDesk, deskStore, TABS, ESTATES, RESIDENTS, byEst, byRes, estateResidents, deskAgenda, visitStore, useVisits, rentStatus, rentSummary, RENT_MONTHS, AREAS, reachOf, noticeStore, useNotices } from "@/lib/managerData";
 import { CX_CATS, CX_STATUS, CX_TINT } from "@/lib/conciergeStore";
 import { money } from "@/lib/util";
 import { AV } from "@/lib/data";
@@ -298,18 +298,20 @@ function PortfolioSection({ push, openEstate }) {
 /* ——— Schedule — a week agenda across the estates. Same line item as the
    resident Notices (.arow): stroke-circle icon, title, sub, time below.
    Request-driven entries open their request thread; routine visits (pool,
-   trash, guests…) are reference only — nothing behind them to open. ——— */
-function DeskEntry({ e, onOpen }) {
+   trash, guests…) are reference only. Each carries a done-toggle, and today's
+   first still-open visit wears a "Next up" flag. ——— */
+function DeskEntry({ e, onOpen, done, isNext, onToggleDone }) {
   const Ico = I[e.icon] || I.dots;
   const [open, setOpen] = useState(false);
   const req = e.reqId ? deskStore.get(e.reqId) : null;
   const updates = req ? req.thread.slice(1) : []; // activity since the opening message
   return (
-    <div className="arow arow-static">
+    <div className={"arow arow-static svisit" + (done ? " svisit-done" : "")}>
       <span className={"ai" + (e.reqId ? " ai-act" : "")}><Ico/></span>
       <span style={{ flex: 1, minWidth: 0 }}>
+        {isNext && <div className="svisit-next">Next up</div>}
         <div className="at sf">{e.title}</div>
-        <div className="ad ad-loc">{e.sub}</div>
+        <div className="ad ad-loc">{e.sub}{e.vendor ? " · " + e.vendor : ""}</div>
         {e.desc && <div className="ad">{e.desc}</div>}
         {e.window && <div className={"aw" + (e.reqId ? " aw-act" : "")}>{e.window}</div>}
         {e.reqId && <button className="a-act" onClick={() => onOpen(e.reqId)}>Follow along<I.arrow/></button>}
@@ -323,26 +325,40 @@ function DeskEntry({ e, onOpen }) {
             </div>))}</div>}
         </>}
       </span>
+      <button className="svisit-check" onClick={onToggleDone} aria-pressed={done} aria-label={done ? "Mark not done" : "Mark done"}>{done && <I.check/>}</button>
     </div>
   );
 }
 
 function ScheduleSection({ push }) {
   useDesk(); // re-render when a request changes; week agenda across the estates
-  const days = deskAgenda();
+  const visits = useVisits();
+  const { days, tail } = deskAgenda();
   const [openId, setOpenId] = useState(null);
+  // Next up — today's first visit that isn't ticked off yet (entries are
+  // already ordered imminent-first).
+  const today = days.find((d) => d.isToday);
+  const nextId = today && today.entries.find((e) => !visits.isDone(e.id))?.id;
   return (
     <div className="pc stag">
       <div className="phead"><span className="eye">The week ahead</span><div className="ht sf">Schedule</div></div>
       <div className="sweek">
-        {days.map((d) => (
+        {days.map((d) => {
+          const doneN = d.entries.filter((e) => visits.isDone(e.id)).length;
+          return (
           <div className="sday" key={d.dow}>
-            <div className="sday-h"><span className="sday-l">{d.label}</span>{d.label !== d.dow && <span className="sday-dow">{d.dow}</span>}</div>
+            <div className="sday-h">
+              <span className="sday-l">{d.label}</span>
+              {d.label !== d.dow && <span className="sday-dow">{d.dow}</span>}
+              <span className="sday-n">{d.isToday && doneN > 0 ? `${doneN} of ${d.entries.length} done` : d.entries.length}</span>
+            </div>
             {d.entries.length === 0
               ? <div className="sday-empty">A clear day — nothing scheduled</div>
-              : d.entries.map((e, i) => <DeskEntry key={i} e={e} onOpen={setOpenId}/>)}
+              : d.entries.map((e) => <DeskEntry key={e.id} e={e} onOpen={setOpenId}
+                  done={visits.isDone(e.id)} isNext={e.id === nextId} onToggleDone={() => visitStore.toggle(e.id)}/>)}
           </div>
-        ))}
+        );})}
+        {tail && <div className="sday-tail"><I.leaf/>Nothing more this week</div>}
       </div>
       <div style={{ height: 8 }}/>
       {openId && <DeskDetail id={openId} onClose={() => setOpenId(null)} push={push}/>}
