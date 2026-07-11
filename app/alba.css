@@ -999,12 +999,12 @@ html,body{background:#CFC8BB}
     max-width:calc(100vw - 48px);border-width:10px;border-radius:42px}
   .island{display:none}
   .pbar{padding:18px 34px 8px}
-  /* distribute across the frame rather than a fixed centred gap — the tablet
-     frame width tracks the viewport height (3:4), and the operator nav has 5
-     items, so a fixed 72px gap overflowed on shorter/landscape tablets */
-  .nav{justify-content:space-around;gap:8px;padding:16px 20px 22px}
-  .nav button svg{width:24px;height:24px}
-  .nav button .nl{font-size:11px}
+  /* the nav is 4 items; space-around across a wide iPad frame flung them to
+     the edges with big voids. Cluster them centred with a proportional gap,
+     scaled up a touch for the larger frame. */
+  .nav{justify-content:center;gap:clamp(44px, 8vw, 84px);padding:18px 20px 26px}
+  .nav button svg{width:26px;height:26px}
+  .nav button .nl{font-size:12px}
   .nav button .und{top:-10px;width:18px}
   .scroll{padding-bottom:112px}
   .pc{padding:24px 44px 0}
