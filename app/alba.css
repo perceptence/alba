@@ -864,7 +864,7 @@ html,body{background:#CFC8BB}
 .nav{position:absolute;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:space-around;padding:16px 24px 28px;background:linear-gradient(to top,var(--paper) 72%,rgba(243,239,231,0));backdrop-filter:blur(2px)}
 .am .nav button{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;padding:0 4px}
 .nav button svg{width:20px;height:20px;stroke:var(--grey-2);transition:stroke .3s var(--e)}
-.nav button .nl{font-size:8px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2);transition:color .3s var(--e)}
+.nav button .nl{font-size:9px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--grey-2);transition:color .3s var(--e)}
 .nav button.on svg{stroke:var(--ink)}
 .nav button.on .nl{color:var(--ink)}
 .nav button .und{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:16px;height:2px;background:var(--clay);opacity:0;transition:opacity .3s var(--e)}
