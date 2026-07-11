@@ -90,6 +90,9 @@ export default function App(){
     <div className={"am"+(subview?" subview":"")}>
       <DemoPanel journey={journey} onChange={(j)=>{setJourney(j);go("home");}}/>
       <div className="stage">
+        <div className="device">
+          <i className="dv-btn dv-act"/><i className="dv-btn dv-vup"/><i className="dv-btn dv-vdn"/>
+          <i className="dv-btn dv-pwr"/><i className="dv-btn dv-cam"/>
         <div className="phone">
           <div className="island"/>
           <PhoneBar/>
@@ -159,6 +162,7 @@ export default function App(){
               </div>
             </div>
           )}
+        </div>
         </div>
       </div>
     </div>

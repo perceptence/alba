@@ -34,12 +34,31 @@
    taupe stage colour, never the globals.css dark-mode body background. */
 html,body{background:#CFC8BB}
 .stage{min-height:100vh;background:#CFC8BB;display:grid;place-items:center;padding:48px 24px}
-/* iPhone 17 Pro — 402×874 logical pt, 6.3". The screen sits inside a layered
-   device frame: black screen bezel (border) → hairline metallic rail → warm
-   aluminium body → thin outer edge, then the drop shadow for depth. */
-.phone{width:402px;height:874px;border-radius:62px;border:6px solid #14110e;background:var(--paper);position:relative;overflow:hidden;display:flex;flex-direction:column;
-  box-shadow:0 0 0 1px #7a7268, 0 0 0 14px #201c18, 0 0 0 15px #0d0a08, 0 4px 8px rgba(0,0,0,.22), 0 46px 92px -26px rgba(38,30,22,.5)}
-.island{position:absolute;top:13px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:22px;background:#0d0a08;z-index:90}
+/* iPhone 17 Pro screen — 402×874 logical pt, 6.3". Just the screen here: thin
+   black bezel + rounded corners. The metallic body, rail and side buttons live
+   on the .device wrapper (mobile mockup only), below. */
+.phone{width:402px;height:874px;border-radius:62px;border:6px solid #100c0a;background:var(--paper);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 4px rgba(0,0,0,.2),0 40px 80px -24px rgba(38,30,22,.4)}
+.island{position:absolute;top:13px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:22px;background:#000;z-index:90}
+
+/* device body — wraps the phone as a mockup (mobile only): a warm graphite
+   frame with a lit metallic rail catching light on opposite corners, and the
+   real drop shadow. Transparent at tablet/desktop so those frames are unchanged. */
+.device{position:relative}
+.dv-btn{display:none}
+@media (max-width:767px){
+  .device{width:max-content;padding:5px;border-radius:68px;
+    background:linear-gradient(140deg,#7c7365 0%,#372f28 20%,#1d1712 50%,#372f28 80%,#8a8072 100%);
+    box-shadow:inset 0 0 0 1px rgba(255,246,232,.12), 0 4px 10px rgba(0,0,0,.26), 0 52px 104px -30px rgba(38,30,22,.55)}
+  .device .phone{box-shadow:none}
+  .dv-btn{display:block;position:absolute;border-radius:2px;background:linear-gradient(90deg,#120e0b,#4a433a 55%,#120e0b)}
+  /* left rail: action button, then volume up / down */
+  .dv-act{left:-2px;top:150px;width:4px;height:28px}
+  .dv-vup{left:-2px;top:206px;width:4px;height:58px}
+  .dv-vdn{left:-2px;top:274px;width:4px;height:58px}
+  /* right rail: side/power (upper), camera control (lower) */
+  .dv-pwr{right:-2px;top:224px;width:4px;height:96px}
+  .dv-cam{right:-2px;top:432px;width:4px;height:44px}
+}
 .pbar{display:flex;align-items:center;justify-content:space-between;padding:20px 28px 8px;position:relative;z-index:5;flex:none}
 .pbar .tm{font-size:16px;font-weight:600}
 .pbar-r{display:flex;align-items:center;gap:8px}
@@ -1005,7 +1024,7 @@ html,body{background:#CFC8BB}
    sits above it (in flow, centred) rather than floating over the app. */
 @media (max-width:767px){
   .stage{min-height:0;padding:12px 12px 0}
-  .phone{width:min(402px, calc(100vw - 36px));height:min(874px, calc(100vh - 104px))}
+  .phone{width:min(402px, calc(100vw - 48px));height:min(874px, calc(100vh - 104px))}
   .demopanel{position:static;right:auto;bottom:auto;margin:0 auto 14px;width:max-content;max-width:calc(100vw - 20px)}
 }
 
