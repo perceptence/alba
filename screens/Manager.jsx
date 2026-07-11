@@ -425,7 +425,7 @@ function ScheduleSection({ push, openEstate }) {
                   done={visits.isDone(e.id)} isNext={e.id === nextId} onToggleDone={() => visitStore.toggle(e.id)}/>)}
           </div>
         );})}
-        {tail && <div className="sday-tail"><I.seal/>That's the week — nothing else on the books.</div>}
+        {tail && <div className="sday-tail"><I.seal/><span><span className="sday-tail-t">That's the week.</span><span className="sday-tail-s">Nothing else on the books.</span></span></div>}
       </div>
       <div style={{ height: 8 }}/>
       {openId && <DeskDetail id={openId} onClose={() => setOpenId(null)} push={push}/>}

@@ -532,9 +532,12 @@ html,body{background:#CFC8BB}
 .sday-n::before{content:"·";margin-right:4px;color:var(--grey-2)}
 .sday-n-done{color:var(--sage)}
 .sday-empty{font-size:13px;color:var(--grey-2);padding:16px 0;border-top:1px solid var(--line)}
-/* the week's close — a proper sign-off, not a whisper */
-.am .sday-tail{display:flex;align-items:center;gap:12px;margin-top:20px;padding:24px 0 8px;border-top:1px solid var(--line);font-family:var(--serif);font-weight:400;font-size:16px;color:var(--ink-2)}
-.sday-tail svg{width:18px;height:18px;stroke:var(--sage);fill:none;flex:none}
+/* the week's close — a serif sign-off with a muted second line; the icon rides
+   with the first line, not the block's centre */
+.am .sday-tail{display:flex;align-items:flex-start;gap:12px;margin-top:20px;padding:24px 0 8px;border-top:1px solid var(--line)}
+.sday-tail svg{width:18px;height:18px;stroke:var(--sage);fill:none;flex:none;margin-top:1px}
+.sday-tail-t{display:block;font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.15;color:var(--ink-2)}
+.sday-tail-s{display:block;font-family:var(--sans);font-weight:500;font-size:13px;color:var(--grey-2);margin-top:4px}
 /* Next up — a clay flag above today's imminent visit */
 .svisit-next{font-size:11px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--clay);margin-bottom:6px}
 /* the done-toggle: a checkbox that fills sage when a visit is ticked off */
