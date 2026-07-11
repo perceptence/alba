@@ -68,6 +68,10 @@ Measured box gap = visual gap.
 Onboarding (`.ob-*`) keeps its own narrative rhythm for now — it's a staged
 splash flow, not a data surface. Migrate when it's next touched.
 
+Home hero (`.respanel`): greeting → residence illustration is a deliberate
+**24px**, tighter than the global title→first (`--gap-page` 32). A sanctioned
+one-off for the hero's intimacy — not drift.
+
 ## Verifying
 
 `scripts/spacing-audit.js` — paste/run in the console (or via CDP); it reports

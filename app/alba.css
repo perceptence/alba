@@ -235,7 +235,9 @@ html,body{background:#CFC8BB}
 .am .signout:active{border-color:var(--ink)}.hero-greet .g2{font-family:var(--serif);font-weight:600;font-size:40px;letter-spacing:-.02em;color:var(--ink);display:inline-block;margin-top:var(--sp-1)}
 
 /* residence panel */
-.am .respanel{display:block;width:100%;text-align:left;margin-top:var(--gap-page)}
+/* Home hero exception (see SPACING.md): the greeting → residence illustration
+   is deliberately tighter than the global title→first (--gap-page 32). */
+.am .respanel{display:block;width:100%;text-align:left;margin-top:24px}
 .elev{position:relative;margin:0 -28px;aspect-ratio:392 / 166}
 .res-name{font-family:var(--serif);font-weight:300;font-size:32px;letter-spacing:-.02em;margin-top:20px;line-height:1.08}
 .res-meta{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey);margin-top:var(--sp-2)}
