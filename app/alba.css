@@ -477,7 +477,9 @@ html,body{background:#CFC8BB}
 .mgr-block{border-top:1px solid var(--line);padding-top:var(--sp-4)}
 
 /* document reader — search field, prose/kv sections, callout, photo grid */
-.dr-search{display:flex;align-items:center;gap:10px;margin-top:var(--gap-tight);padding:var(--pad-row) 0;border-bottom:1px solid var(--line)}
+/* search field: lighter 12 top inset (heading 12 + 12 = 24 to the field text),
+   keeps the 16 pad-row below to the results list */
+.dr-search{display:flex;align-items:center;gap:10px;margin-top:var(--gap-tight);padding:var(--gap-tight) 0 var(--pad-row);border-bottom:1px solid var(--line)}
 .dr-search svg{width:16px;height:16px;stroke:var(--grey-2);flex:none}
 .dr-search input{flex:1;border:none;background:none;font-family:var(--sans);font-size:14px;color:var(--ink)}
 .dr-search input::placeholder{color:var(--grey-2)}
