@@ -276,6 +276,11 @@ html,body{background:#CFC8BB}
 
 /* page head */
 .phead{padding-top:0}
+/* SPACING.md — a page title → its first element is always --gap-page (40),
+   whether that's a content block or a control (tabs / the ask-composer). This
+   lifts the three control-screens (Estates, sub-page tabs, Concierge) from the
+   old 20 so there's one rule, no two-tier. */
+.phead + .mgr-nt-tabs,.phead + .nt-tabs,.phead + .assist{margin-top:var(--gap-page)}
 .phead .eye{display:block}
 .phead .ht{font-family:var(--serif);font-weight:300;font-size:40px;letter-spacing:-.02em;margin-top:var(--sp-2);line-height:1}
 .backrow{display:flex;align-items:center;gap:16px;padding-top:0}

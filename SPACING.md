@@ -46,7 +46,7 @@ one-offs outside this file's table.
 
 | Token | Value | Relationship |
 |---|---|---|
-| `--gap-page` | 40 | page title block → first content |
+| `--gap-page` | 40 | page title → its first element — **always**, content block OR control (tabs / composer). No two-tier. |
 | `--gap-section` | 32 | section → section; end-of-page action |
 | `--gap-rail` | 20 | tab rail / count bar → adjacent content (both sides) |
 | `--gap-group` | 20 | group label rhythm; day blocks; label blocks (flab) |
