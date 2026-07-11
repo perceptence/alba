@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { useDesk, deskStore, TABS, ESTATES, RESIDENTS, byEst, byRes, estateResidents, deskAgenda, visitStore, useVisits, rentStatus, rentSummary, RENT_MONTHS, AREAS, reachOf, noticeStore, useNotices } from "@/lib/managerData";
 import { CX_CATS, CX_STATUS, CX_TINT } from "@/lib/conciergeStore";
 import { money } from "@/lib/util";
@@ -300,13 +300,13 @@ function PortfolioSection({ push, openEstate }) {
    Request-driven entries open their request thread; routine visits (pool,
    trash, guests…) are reference only. Each carries a done-toggle, and today's
    first still-open visit wears a "Next up" flag. ——— */
-function DeskEntry({ e, onOpen, onOpenVisit, done, isNext, onToggleDone }) {
+function DeskEntry({ e, onOpen, onOpenVisit, done, isNext, onToggleDone, innerRef }) {
   const Ico = I[e.icon] || I.dots;
   const [open, setOpen] = useState(false);
   const req = e.reqId ? deskStore.get(e.reqId) : null;
   const updates = req ? req.thread.slice(1) : []; // activity since the opening message
   return (
-    <div className={"arow arow-static svisit" + (done ? " svisit-done" : "")}>
+    <div ref={innerRef} className={"arow arow-static svisit" + (done ? " svisit-done" : "")}>
       <span className={"ai" + (e.reqId ? " ai-act" : "")}><Ico/></span>
       <span style={{ flex: 1, minWidth: 0 }}>
         {isNext && <div className="svisit-next">Next up</div>}
@@ -371,6 +371,32 @@ function ScheduleSection({ push, openEstate }) {
   const [openVisit, setOpenVisit] = useState(null); // visit detail (non-request)
   // done visits sink to the bottom of their day; order otherwise is preserved.
   const ordered = (entries) => [...entries].sort((a, b) => visits.isDone(a.id) - visits.isDone(b.id));
+
+  // FLIP: when a visit is ticked and rows reorder, glide them to their new spot
+  // instead of jumping. Positions are measured relative to the offset parent so
+  // scrolling doesn't trigger spurious slides.
+  const rowRefs = useRef(new Map());
+  const prevTop = useRef(new Map());
+  useLayoutEffect(() => {
+    const cur = new Map();
+    rowRefs.current.forEach((el, id) => {
+      if (!el) return;
+      const top = el.offsetTop;
+      cur.set(id, top);
+      const prev = prevTop.current.get(id);
+      if (prev != null && prev !== top) {
+        // invert to the old position, commit it with a forced reflow, then let
+        // it transition home. Synchronous (no rAF) so it can't stall mid-move.
+        el.style.transition = "none";
+        el.style.transform = `translateY(${prev - top}px)`;
+        void el.offsetHeight;
+        el.style.transition = "transform .42s cubic-bezier(.4,0,.2,1)";
+        el.style.transform = "";
+      }
+    });
+    prevTop.current = cur;
+  });
+  const setRow = (id) => (el) => { el ? rowRefs.current.set(id, el) : rowRefs.current.delete(id); };
   // Next up — today's first visit that isn't ticked off yet.
   const today = days.find((d) => d.isToday);
   const nextId = today && ordered(today.entries).find((e) => !visits.isDone(e.id))?.id;
@@ -395,7 +421,7 @@ function ScheduleSection({ push, openEstate }) {
             </div>
             {total === 0
               ? <div className="sday-empty">A clear day — nothing scheduled</div>
-              : ordered(d.entries).map((e) => <DeskEntry key={e.id} e={e} onOpen={setOpenId} onOpenVisit={setOpenVisit}
+              : ordered(d.entries).map((e) => <DeskEntry key={e.id} e={e} innerRef={setRow(e.id)} onOpen={setOpenId} onOpenVisit={setOpenVisit}
                   done={visits.isDone(e.id)} isNext={e.id === nextId} onToggleDone={() => visitStore.toggle(e.id)}/>)}
           </div>
         );})}
