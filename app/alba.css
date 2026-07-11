@@ -42,6 +42,7 @@ html,body{background:#F7F7F5}
 .island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:37px;border-radius:19px;background:#000;z-index:90}
 .speaker{display:none}
 .ipad-cam{display:none}
+.ipad-btn{display:none}
 
 /* non-clipping shell: holds the frame + hardware (buttons, earpiece) as
    siblings so they escape the frame's overflow:hidden. iPhone hardware shows
@@ -1048,11 +1049,17 @@ html,body{background:#F7F7F5}
   /* iPad Pro 11" (M4): true 834:1194 portrait ratio, uniform thin bezel,
      restrained corner radius (nothing like the iPhone's), aluminium rail. */
   .phone{width:auto;height:min(1000px, calc(100vh - 80px));aspect-ratio:834 / 1194;
-    max-width:calc(100vw - 48px);border:12px solid #0B0C09;border-radius:28px;
+    max-width:calc(100vw - 48px);border:7px solid #0B0C09;border-radius:26px;
     box-shadow:0 0 0 1px #8a8a8f, 0 22px 54px -18px rgba(0,0,0,.26)}
   .island{display:none}
   /* front camera on the landscape (long) edge — right-centred in portrait */
   .ipad-cam{display:block;position:absolute;right:3px;top:50%;transform:translateY(-50%);width:5px;height:5px;border-radius:50%;background:#15151a;box-shadow:0 0 0 1px rgba(255,255,255,.07);z-index:6}
+  /* hardware buttons (iPad Pro 11" layout, portrait): Top/power button on the
+     top edge right-of-centre; Volume Up/Down on the right edge near the top */
+  .ipad-btn{display:block;position:absolute;z-index:6;box-shadow:0 1px 2px rgba(0,0,0,.35)}
+  .ipad-btn-power{top:-3px;right:86px;width:66px;height:4px;border-radius:2px 2px 0 0;background:linear-gradient(180deg,#050604,#17180f 55%,#050604)}
+  .ipad-btn-volup{right:-3px;top:52px;width:4px;height:52px;border-radius:0 2px 2px 0;background:linear-gradient(90deg,#050604,#17180f 55%,#050604)}
+  .ipad-btn-voldn{right:-3px;top:114px;width:4px;height:52px;border-radius:0 2px 2px 0;background:linear-gradient(90deg,#050604,#17180f 55%,#050604)}
   .pbar{padding:18px 34px 8px}
   /* 4 items spread across the frame width; keep the near-mobile icon/label
      sizes so it doesn't read as a magnified phone. */

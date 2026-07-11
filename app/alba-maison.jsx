@@ -97,6 +97,9 @@ export default function App(){
           <i className="v-btn right v-btn-cam" aria-hidden="true"/>
           <span className="speaker" aria-hidden="true"/>
           <span className="ipad-cam" aria-hidden="true"/>
+          <i className="ipad-btn ipad-btn-power" aria-hidden="true"/>
+          <i className="ipad-btn ipad-btn-volup" aria-hidden="true"/>
+          <i className="ipad-btn ipad-btn-voldn" aria-hidden="true"/>
         <div className="phone">
           <div className="island"/>
           <PhoneBar/>
