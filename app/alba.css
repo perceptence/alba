@@ -1016,7 +1016,7 @@ html,body{background:#CFC8BB}
   /* 4 items spread across the frame width; keep the near-mobile icon/label
      sizes so it doesn't read as a magnified phone. */
   .nav{justify-content:space-around;gap:0;padding:16px 24px 24px}
-  .nav button svg{width:22px;height:22px}
+  .nav button svg{width:21px;height:21px}
   .nav button .nl{font-size:10px}
   .nav button .und{top:-8px;width:16px}
   .scroll{padding-bottom:112px}
