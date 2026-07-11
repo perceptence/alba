@@ -56,7 +56,7 @@ html,body{background:#F7F7F5}
      phone never squishes; thin uniform bezel + a hair of aluminium rail */
   /* true fixed 402×874 (from base) — clamping height alone distorted the
      aspect ratio. A short pane just scrolls; at ~1000px tall it fits fully. */
-  .phone{border:none;box-shadow:0 0 0 6px #0B0C09, 0 0 0 7px #8a8a8f, 0 22px 48px -16px rgba(0,0,0,.28)}
+  .phone{border:none;box-shadow:0 0 0 8px #0B0C09, 0 0 0 9px #8a8a8f, 0 22px 48px -16px rgba(0,0,0,.28)}
   /* earpiece speaker — thin slit centred in the top bezel */
   .speaker{display:block;position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:42px;height:3px;border-radius:2px;background:#1a1a1c;z-index:6}
   /* hardware buttons — thin slivers just past the ~7px bezel; positions in %
