@@ -1065,10 +1065,10 @@ html,body{background:#CFC8BB}
   .pbar{padding:18px 34px 8px}
   /* 4 items spread across the frame width; keep the near-mobile icon/label
      sizes so it doesn't read as a magnified phone. */
-  .nav{justify-content:space-around;gap:0;padding:16px 24px 24px}
-  .nav button svg{width:21px;height:21px}
-  .nav button .nl{font-size:10px}
-  .nav button .und{top:-8px;width:16px}
+  .nav{justify-content:space-around;gap:0;padding:14px 24px 20px}
+  .nav button svg{width:18px;height:18px}
+  .nav button .nl{font-size:9px}
+  .nav button .und{top:-7px;width:15px}
   .scroll{padding-bottom:112px}
   .pc{padding:24px 44px 0}
   /* bottom sheets span the full frame width, as on mobile */
