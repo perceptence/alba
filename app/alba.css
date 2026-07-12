@@ -32,8 +32,8 @@
 
 /* ALBA is a fixed light theme — the page behind the device frame must be the
    taupe stage colour, never the globals.css dark-mode body background. */
-html,body{background:#F7F7F5}
-.stage{min-height:100vh;background:#F7F7F5;display:grid;place-items:center;padding:48px 24px}
+html,body{background:#CFC8BB}
+.stage{min-height:100vh;background:#CFC8BB;display:grid;place-items:center;padding:48px 24px}
 /* iPhone 17 Pro screen — 402×874 logical pt, 6.3". Just the screen here: thin
    black bezel + rounded corners. The metallic body, rail and side buttons live
    on the .device wrapper (mobile mockup only), below. */
