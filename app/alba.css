@@ -1083,6 +1083,9 @@ html,body{background:#F7F7F5}
   .stage{display:block;padding:0;background:var(--paper);min-height:100vh}
   .island,.pbar{display:none}
   .splash-brand{font-size:46px}
+  /* the device shell is only a mockup wrapper (mobile/tablet); on desktop it
+     must vanish so .phone fills the stage instead of shrink-wrapping centred */
+  .device{display:contents}
   .phone{width:100%;height:100vh;max-height:none;border:none;border-radius:0;box-shadow:none;
     display:grid;grid-template-columns:280px 1fr;grid-template-rows:100vh}
   .nav{grid-column:1;grid-row:1;position:static;flex-direction:column;justify-content:flex-start;
