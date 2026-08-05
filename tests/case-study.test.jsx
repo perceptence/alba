@@ -105,3 +105,23 @@ describe("the case-study page", () => {
     }
   });
 });
+
+/* The design system lives on its own page too. Both pages render the SAME
+   specimen module, so they cannot document different systems. */
+describe("the design-system page", () => {
+  it("renders the shared specimens, not its own copy", async () => {
+    const { default: DesignSystem } = await import("@/app/design-system/DesignSystem");
+    const { container } = render(<DesignSystem />);
+    expect(container.querySelector(".spec"), "no specimen grid").toBeTruthy();
+    expect(container.querySelectorAll(".spec .card").length).toBeGreaterThanOrEqual(9);
+  });
+
+  it("the case study links out to it", () => {
+    const { container } = render(<CaseStudy />);
+    const link = container.querySelector(".spec-link");
+    expect(link, "no link to the design system").toBeTruthy();
+    expect(link.getAttribute("href")).toBe("/design-system");
+    expect(link.getAttribute("target")).toBe("_blank");
+    expect(link.getAttribute("rel")).toContain("noopener");
+  });
+});

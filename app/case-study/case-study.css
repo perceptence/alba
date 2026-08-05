@@ -13,7 +13,8 @@
 body:has(.cs) { background: var(--paper); }
 
 .cs {
-  --cs-w: 1000px;
+  /* the app's own content column (1000) plus 40 either side */
+  --cs-w: 1080px;
   --cs-rule: var(--line);
   background: var(--paper);
   color: var(--ink);
@@ -38,7 +39,15 @@ body:has(.cs) { background: var(--paper); }
 }
 .cs .top.stuck { background: rgba(243, 239, 231, .88); border-bottom-color: var(--line); backdrop-filter: blur(8px); }
 .cs .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.cs .top-id { display: flex; align-items: baseline; gap: 10px; }
+/* The mark centres against the whole lockup; ALBA and MAISON share a baseline
+   inside it. Aligning all three on one axis puts the small caps out of true. */
+.cs .top-id { display: flex; align-items: center; gap: 10px; }
+.cs .top-words { display: flex; align-items: baseline; gap: 8px; }
+/* the mark's ink sits low in its box (ground line at 85%), so it reads a shade
+   low when box-centred — lift it by a pixel to centre the ink, not the box */
+.cs .top-mark { width: 24px; height: 24px; flex: none; display: block; transform: translateY(-1px); }
+.cs .top-mark path, .cs .top-mark line { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; }
+.cs .top-mark .top-sun { fill: var(--clay); stroke: none; }
 .cs .top-word { font-family: var(--serif); font-weight: 400; font-size: 17px; letter-spacing: .2em; color: var(--ink); }
 .cs .top-desc { font-size: 9px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); }
 .cs .top-link {
@@ -46,6 +55,10 @@ body:has(.cs) { background: var(--paper); }
   font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
   color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 2px;
 }
+/* tilted up — it leaves the page rather than continuing along it */
+.cs .top-arrow { display: inline-block; transform: rotate(-45deg); transition: transform .25s var(--e); }
+.cs .top-link:hover .top-arrow { transform: rotate(-45deg) translateX(2px); }
+@media (prefers-reduced-motion: reduce) { .cs .top-arrow { transition: none; } }
 
 /* ——— hero: full viewport, the product's own drawing at scale ——— */
 .cs .hero {
@@ -107,7 +120,7 @@ body:has(.cs) { background: var(--paper); }
    filled last row and the 1px grid background shows through as grey gaps.
    6 → 3×2 → 2×3 always divides exactly. */
 .cs .figs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--cs-rule); border: 1px solid var(--cs-rule); }
-@media (max-width: 1000px) { .cs .figs { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 1080px) { .cs .figs { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 480px) { .cs .figs { grid-template-columns: repeat(2, 1fr); } }
 .cs .fig { background: var(--paper); padding: 24px 20px; }
 .cs .fig-v { font-family: var(--serif); font-weight: 300; font-size: 44px; letter-spacing: -.02em; line-height: 1; color: var(--ink); }
@@ -123,6 +136,7 @@ body:has(.cs) { background: var(--paper); }
 .cs .jtab {
   position: relative; padding: 0 0 12px; border: none; background: none; cursor: pointer;
   font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: .01em;
+  line-height: 20px; /* fixed, so the rail's height is deterministic — see .live-stageWrap */
   color: var(--grey); transition: color .25s var(--e);
 }
 .cs .jtab:hover { color: var(--ink); }
@@ -144,7 +158,11 @@ body:has(.cs) { background: var(--paper); }
 .cs .jrow.on .jrow-t { color: var(--clay); }
 .cs .jrow-t { display: block; font-family: var(--serif); font-weight: 400; font-size: 17px; line-height: 1.2; color: var(--ink); }
 .cs .jrow-l { display: block; font-size: 13px; line-height: 1.5; color: var(--grey); margin-top: 4px; }
-.cs .live-stageWrap { display: flex; flex-direction: column; align-items: center; gap: var(--gap-group); }
+/* The badge starts level with the hairline under the tabs, so the device column
+   and the list column read off the same line. 33 = the tab rail's exact height:
+   20px label + 12px tab padding + the 1px rule. */
+.cs .live-stageWrap { display: flex; flex-direction: column; align-items: center; gap: var(--gap-group); padding-top: 33px; }
+@media (max-width: 860px) { .cs .live-stageWrap { padding-top: 0; } }
 .cs .live-badge { font-size: 10px; font-weight: 600; letter-spacing: var(--tk-micro); text-transform: uppercase; color: var(--clay); }
 /* An explicit width, because the app sizes itself from ITS CONTAINER: 440px
    puts .am below the 768 breakpoint, so the embedded app deterministically
@@ -227,6 +245,12 @@ body:has(.cs) { background: var(--paper); }
 .cs .row-demo:last-child { padding-bottom: 0; }
 .cs .row-demo .k { font-family: var(--serif); font-size: 16px; color: var(--ink); }
 .cs .row-demo .v { font-size: 12px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey); }
+
+.cs .spec-link {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: var(--gap-section);
+  font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 2px;
+}
 
 /* ——— before / after ——— */
 .cs .cases { display: grid; gap: 1px; background: var(--cs-rule); border: 1px solid var(--cs-rule); }
