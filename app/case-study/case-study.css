@@ -87,7 +87,8 @@ body:has(.cs) { background: var(--paper); }
 .cs .hero-meta b { font-weight: 600; color: var(--ink); }
 
 /* ——— sections ——— */
-.cs .sec { padding: 96px 0; border-top: 1px solid var(--cs-rule); }
+/* the header is fixed, so an anchor jump must stop clear of it */
+.cs .sec { padding: 96px 0; border-top: 1px solid var(--cs-rule); scroll-margin-top: 76px; }
 .cs .sec-eye { font-size: 12px; font-weight: 600; letter-spacing: var(--tk-page); text-transform: uppercase; color: var(--grey-2); }
 .cs .sec h2 {
   font-family: var(--serif); font-weight: 300; font-size: clamp(30px, 4vw, 44px);
