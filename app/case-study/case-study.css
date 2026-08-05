@@ -1,0 +1,248 @@
+/* ALBA — case study page.
+
+   Every colour, face, gap and easing below is a token from app/alba.css. The
+   page has no palette of its own; it is the product's own system at document
+   scale. Two locals only, both structural, neither a design value:
+     --cs-w    the single content width, taken from .pc's desktop max-width
+     --cs-rule the hairline the app already uses (var(--line))
+
+   Selectors are scoped with .cs deliberately: a bare `.lede` (0,1,0) would
+   lose to any element+class reset, so content classes carry the root. */
+
+/* the app paints the page taupe (its device stage); the case study is paper */
+body:has(.cs) { background: var(--paper); }
+
+.cs {
+  --cs-w: 1000px;
+  --cs-rule: var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 450;
+  -webkit-font-smoothing: antialiased;
+}
+.cs *, .cs *::before, .cs *::after { box-sizing: border-box; }
+.cs p, .cs h1, .cs h2, .cs h3, .cs h4, .cs figure, .cs ul, .cs ol { margin: 0; }
+.cs ul, .cs ol { padding: 0; list-style: none; }
+
+/* ——— the one content width ——— */
+.cs .wrap { width: 100%; max-width: var(--cs-w); margin-inline: auto; padding-inline: 28px; }
+
+/* ——— header, painted into the hero until you scroll past it ——— */
+.cs .top {
+  position: fixed; inset: 0 0 auto; z-index: 60;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 18px 0;
+  background: rgba(243, 239, 231, 0); border-bottom: 1px solid rgba(28, 25, 23, 0);
+  transition: background .4s var(--e), border-color .4s var(--e), backdrop-filter .4s var(--e);
+}
+.cs .top.stuck { background: rgba(243, 239, 231, .88); border-bottom-color: var(--line); backdrop-filter: blur(8px); }
+.cs .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.cs .top-id { display: flex; align-items: baseline; gap: 10px; }
+.cs .top-word { font-family: var(--serif); font-weight: 400; font-size: 17px; letter-spacing: .2em; color: var(--ink); }
+.cs .top-desc { font-size: 9px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); }
+.cs .top-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 2px;
+}
+
+/* ——— hero: full viewport, the product's own drawing at scale ——— */
+.cs .hero {
+  height: 100svh; min-height: 560px; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  background: var(--paper);
+}
+.cs .hero-art { position: absolute; inset: 12% 0 auto 0; opacity: .55; pointer-events: none; }
+.cs .hero-art .elev { margin: 0; }
+/* the drawing is behind the words, so the words get clean paper to sit on —
+   built from the token itself (color-mix), never a re-typed hex */
+.cs .hero-scrim {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to top,
+    var(--paper) 0%,
+    var(--paper) 34%,
+    color-mix(in srgb, var(--paper) 0%, transparent) 68%);
+}
+.cs .hero-body { position: relative; z-index: 2; padding-bottom: 56px; }
+.cs .hero-kicker {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; font-weight: 600; letter-spacing: var(--tk-page); text-transform: uppercase; color: var(--grey-2);
+}
+.cs .hero-kicker::after { content: ""; flex: 1; height: 1px; background: var(--cs-rule); }
+.cs .hero h1 {
+  font-family: var(--serif); font-weight: 300; font-size: clamp(44px, 8.5vw, 104px);
+  letter-spacing: -.03em; line-height: .95; margin-top: 24px; color: var(--ink);
+}
+.cs .hero h1 em { font-style: normal; font-weight: 600; }
+.cs .hero-stand {
+  font-family: var(--serif); font-weight: 400; font-size: clamp(17px, 2.1vw, 21px);
+  line-height: 1.5; color: var(--ink-2); max-width: 46ch; margin-top: 28px;
+}
+.cs .hero-meta {
+  display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 32px;
+  padding-top: 20px; border-top: 1px solid var(--cs-rule);
+  font-size: 12px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey);
+}
+.cs .hero-meta b { font-weight: 600; color: var(--ink); }
+
+/* ——— sections ——— */
+.cs .sec { padding: 96px 0; border-top: 1px solid var(--cs-rule); }
+.cs .sec-eye { font-size: 12px; font-weight: 600; letter-spacing: var(--tk-page); text-transform: uppercase; color: var(--grey-2); }
+.cs .sec h2 {
+  font-family: var(--serif); font-weight: 300; font-size: clamp(30px, 4vw, 44px);
+  letter-spacing: -.02em; line-height: 1.05; margin-top: var(--sp-3); color: var(--ink);
+}
+.cs .sec-lede { font-family: var(--serif); font-weight: 400; font-size: 17px; line-height: 1.6; color: var(--ink-2); max-width: 62ch; margin-top: var(--gap-tight); }
+.cs .sec-body { margin-top: var(--gap-section); }
+
+/* ——— at a glance ——— */
+.cs .figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--cs-rule); border: 1px solid var(--cs-rule); }
+.cs .fig { background: var(--paper); padding: 24px 20px; }
+.cs .fig-v { font-family: var(--serif); font-weight: 300; font-size: 44px; letter-spacing: -.02em; line-height: 1; color: var(--ink); }
+.cs .fig-k { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey); margin-top: var(--sp-3); }
+
+/* ——— the running product ——— */
+.cs .live { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 44px; align-items: stretch; }
+.cs .live-list { display: flex; flex-direction: column; min-width: 0; }
+.cs .live-h { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); margin-bottom: var(--gap-tight); }
+.cs .jrow {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  padding: var(--pad-row) 0; border: none; border-top: 1px solid var(--cs-rule); background: none;
+  font-family: inherit; color: inherit; transition: opacity .25s var(--e);
+}
+.cs .jrow:first-of-type { border-top: none; }
+.cs .jrow:hover { opacity: .62; }
+.cs .jrow.on .jrow-t { color: var(--clay); }
+.cs .jrow-t { display: block; font-family: var(--serif); font-weight: 400; font-size: 17px; line-height: 1.2; color: var(--ink); }
+.cs .jrow-l { display: block; font-size: 13px; line-height: 1.5; color: var(--grey); margin-top: 4px; }
+.cs .live-stageWrap { display: flex; flex-direction: column; align-items: center; gap: var(--gap-tight); }
+.cs .live-badge { font-size: 10px; font-weight: 600; letter-spacing: var(--tk-micro); text-transform: uppercase; color: var(--clay); }
+/* An explicit width, because the app sizes itself from ITS CONTAINER: 440px
+   puts .am below the 768 breakpoint, so the embedded app deterministically
+   chooses its phone layout while the page around it stays desktop. */
+.cs .live-stage { position: relative; width: 440px; max-width: 100%; }
+.cs .live-stage .am { width: 440px; }
+.cs .live-note { font-size: 12px; line-height: 1.5; color: var(--grey-2); margin-top: var(--gap-group); max-width: 62ch; }
+
+/* ——— research ——— */
+.cs .finds { display: grid; gap: 1px; background: var(--cs-rule); border: 1px solid var(--cs-rule); }
+.cs .find { background: var(--paper); padding: 28px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
+.cs .find-q { font-family: var(--serif); font-weight: 400; font-style: italic; font-size: 17px; line-height: 1.55; color: var(--ink); }
+.cs .find-src { display: block; margin-top: var(--gap-tight); font-size: 11px; font-weight: 600; letter-spacing: .04em; color: var(--grey); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; width: fit-content; }
+.cs .find-src:hover { color: var(--clay); border-bottom-color: var(--clay); }
+.cs .find-k { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); }
+.cs .find-d { font-size: 15px; line-height: 1.55; color: var(--ink); margin-top: var(--sp-2); }
+
+/* ——— the system: specimens ——— */
+.cs .spec { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--cs-rule); border: 1px solid var(--cs-rule); }
+.cs .card { background: var(--paper); padding: 28px; }
+.cs .card-h { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); }
+.cs .card-b { margin-top: var(--gap-group); }
+.cs .sw { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.cs .sw-c { width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--line); flex: none; }
+.cs .sw-n { font-size: 13px; color: var(--ink); }
+.cs .sw-v { margin-left: auto; font-size: 11px; letter-spacing: .04em; color: var(--grey); font-variant-numeric: tabular-nums; }
+.cs .type-row { padding: 10px 0; border-top: 1px solid var(--line); }
+.cs .type-row:first-child { border-top: none; }
+.cs .type-n { font-size: 10px; font-weight: 600; letter-spacing: var(--tk-micro); text-transform: uppercase; color: var(--grey-2); }
+.cs .type-s { margin-top: 4px; color: var(--ink); }
+.cs .bar-row { display: flex; align-items: center; gap: 12px; padding: 7px 0; }
+.cs .bar { height: 10px; background: var(--clay); opacity: .8; border-radius: 2px; flex: none; }
+.cs .bar-n { font-size: 12px; color: var(--grey); font-variant-numeric: tabular-nums; }
+.cs .rad-row { display: flex; align-items: center; gap: 12px; padding: 7px 0; }
+.cs .rad { width: 46px; height: 30px; border: 1px solid var(--ink); flex: none; }
+.cs .ease { height: 44px; margin-top: var(--sp-2); }
+
+/* ——— before / after ——— */
+.cs .cases { display: grid; gap: 1px; background: var(--cs-rule); border: 1px solid var(--cs-rule); }
+.cs .case { background: var(--paper); padding: 28px; }
+.cs .case-n { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); }
+.cs .case-t { font-family: var(--serif); font-weight: 400; font-size: 22px; letter-spacing: -.01em; line-height: 1.2; margin-top: var(--sp-2); color: var(--ink); }
+.cs .case-ba { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: var(--gap-group); }
+.cs .ba { border: 1px solid var(--line); padding: 16px; background: var(--paper-2); }
+.cs .ba-k { font-size: 10px; font-weight: 600; letter-spacing: var(--tk-micro); text-transform: uppercase; color: var(--grey); margin-bottom: var(--sp-3); }
+.cs .ba.bad .ba-k { color: var(--clay); }
+.cs .ba.good .ba-k { color: var(--sage); }
+.cs .case-read { margin-top: var(--gap-group); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+.cs .case-read h4 { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); margin-bottom: var(--sp-2); }
+.cs .case-read p { font-size: 15px; line-height: 1.55; color: var(--ink); }
+
+/* mini demo pieces, all drawn from tokens */
+.cs .demo-line { height: 1px; background: var(--line); }
+.cs .demo-txt { font-family: var(--serif); font-size: 15px; color: var(--ink); }
+/* --grey, not --grey-2: these labels sit on --paper-2, where the lighter grey
+   measures 4.31:1 and misses AA. The tint is correct; the ink had to darken. */
+.cs .demo-lbl { font-size: 10px; font-weight: 600; letter-spacing: var(--tk-micro); text-transform: uppercase; color: var(--grey); }
+.cs .demo-phone { border: 2px solid var(--ink); border-radius: 10px; background: var(--paper); }
+.cs .demo-clip { height: 74px; overflow: hidden; border: 1px dashed var(--grey-2); padding-top: 4px; background: var(--paper); }
+.cs .demo-node { width: 14px; height: 14px; border-radius: 50%; background: var(--sage); }
+.cs .demo-rail { display: flex; gap: 6px; align-items: center; }
+.cs .demo-frame { border: 1px solid var(--grey-2); height: 62px; display: flex; }
+.cs .demo-rail-l { width: 26%; background: var(--paper-3); border-right: 1px solid var(--grey-2); }
+.cs .demo-fill { flex: 1; background: var(--paper-2); }
+
+/* ——— tests + code ——— */
+.cs .code {
+  margin: 0; overflow-x: auto; background: var(--paper-2); border: 1px solid var(--line);
+  padding: 18px 20px; font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12.5px; line-height: 1.7; color: var(--ink-2); white-space: pre;
+}
+.cs .code:focus-visible { outline: 2px solid var(--clay); outline-offset: 3px; }
+.cs .duo { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.cs .plain h4 { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); margin-bottom: var(--sp-2); }
+.cs .plain p { font-size: 15px; line-height: 1.6; color: var(--ink); }
+.cs .plain p + p { margin-top: var(--gap-tight); }
+.cs .guards { margin-top: var(--gap-section); display: grid; gap: 1px; background: var(--cs-rule); border: 1px solid var(--cs-rule); }
+.cs .guard { background: var(--paper); padding: 18px 24px; display: flex; gap: 16px; align-items: baseline; }
+.cs .guard-f { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 12px; color: var(--grey); flex: none; width: 172px; }
+.cs .guard-d { font-size: 14px; line-height: 1.5; color: var(--ink); }
+
+/* ——— a11y table ——— */
+.cs .tbl { width: 100%; border-collapse: collapse; }
+.cs .tbl th { text-align: left; font-size: 10px; font-weight: 600; letter-spacing: var(--tk-micro); text-transform: uppercase; color: var(--grey-2); padding: 0 12px 10px 0; border-bottom: 1px solid var(--cs-rule); }
+.cs .tbl td { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--ink); vertical-align: middle; }
+.cs .tbl .num { font-variant-numeric: tabular-nums; }
+.cs .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--sage); }
+.cs .dot { width: 18px; height: 18px; border-radius: 4px; border: 1px solid var(--line); display: inline-block; vertical-align: middle; margin-right: 8px; }
+.cs .caveat { margin-top: var(--gap-section); padding-left: var(--sp-4); border-left: 2px solid var(--clay); }
+.cs .caveat h4 { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); margin-bottom: var(--sp-2); }
+.cs .caveat p { font-size: 15px; line-height: 1.6; color: var(--ink); }
+
+/* ——— roadmap ——— */
+.cs .road { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--cs-rule); border: 1px solid var(--cs-rule); }
+.cs .lane { background: var(--paper); padding: 28px; }
+.cs .lane-h { font-family: var(--serif); font-weight: 400; font-size: 21px; letter-spacing: -.01em; color: var(--ink); }
+.cs .lane-w { font-size: 10px; font-weight: 600; letter-spacing: var(--tk-micro); text-transform: uppercase; color: var(--clay); margin-top: var(--sp-2); }
+.cs .lane ul { margin-top: var(--gap-group); }
+.cs .lane li { font-size: 15px; line-height: 1.5; color: var(--ink); padding: var(--sp-3) 0; border-top: 1px solid var(--line); }
+.cs .lane li:first-child { border-top: none; padding-top: 0; }
+
+/* ——— foot ——— */
+.cs .foot { padding: 56px 0 72px; border-top: 1px solid var(--cs-rule); }
+.cs .foot p { font-size: 13px; line-height: 1.6; color: var(--grey); }
+/* underlined, not just recoloured — a link inside running text must be
+   distinguishable without relying on colour (WCAG 1.4.1) */
+.cs .foot a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 860px) {
+  .cs .live { grid-template-columns: minmax(0, 1fr); gap: var(--gap-section); }
+  .cs .live-stageWrap { order: -1; }
+  .cs .find, .cs .case-read, .cs .duo { grid-template-columns: minmax(0, 1fr); gap: var(--gap-group); }
+  .cs .sec { padding: 64px 0; }
+  .cs .case-ba { grid-template-columns: minmax(0, 1fr); }
+  .cs .guard { flex-direction: column; gap: 6px; }
+  .cs .guard-f { width: auto; }
+}
+/* On a phone, the embedded phone is wider than the column holding it (the app's
+   frame is a fixed 402px). Scale the whole mockup down so it fits rather than
+   letting it push the page sideways. zoom keeps it in layout flow, and .am
+   stays well under the 768 breakpoint so the embed still picks phone layout.
+   The zoom goes on .am, not on the column: zooming the column would shrink the
+   box as well as its contents and the app would still overflow it. */
+@media (max-width: 540px) { .cs .live-stage .am { zoom: .76; } }
+@media (max-width: 400px) { .cs .live-stage .am { zoom: .68; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cs .top { transition: none; }
+}
