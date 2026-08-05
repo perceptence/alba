@@ -117,13 +117,23 @@ body:has(.cs) { background: var(--paper); }
 .cs .live { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 44px; align-items: stretch; }
 .cs .live-list { display: flex; flex-direction: column; min-width: 0; }
 .cs .live-h { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); margin-bottom: var(--gap-tight); }
-/* journeys are grouped by who is using the app */
-.cs .jgroup { margin-top: var(--gap-group); }
-.cs .jgroup:first-of-type { margin-top: 0; }
-.cs .jgroup-h { display: flex; align-items: baseline; gap: 10px; padding-bottom: var(--sp-2); }
-.cs .jgroup-n { font-family: var(--serif); font-weight: 400; font-size: 15px; color: var(--ink); }
-.cs .jgroup-c { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-micro); color: var(--grey-2); }
-.cs .jgroup-h::after { content: ""; flex: 1; height: 1px; background: var(--cs-rule); }
+/* journeys as tabs — who is holding the phone. Mirrors the product's own tab
+   rail: labels hugging a hairline, a clay underline on the active one. */
+.cs .jtabs { display: flex; gap: 24px; border-bottom: 1px solid var(--cs-rule); }
+.cs .jtab {
+  position: relative; padding: 0 0 12px; border: none; background: none; cursor: pointer;
+  font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: .01em;
+  color: var(--grey); transition: color .25s var(--e);
+}
+.cs .jtab:hover { color: var(--ink); }
+.cs .jtab.on { color: var(--ink); }
+.cs .jtab::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  background: var(--clay); transform: scaleX(0); transition: transform .28s var(--e);
+}
+.cs .jtab.on::after { transform: scaleX(1); }
+.cs .jtab-n { margin-left: 6px; font-weight: 600; color: var(--grey-2); font-variant-numeric: tabular-nums; }
+.cs .jwho { font-size: 12px; color: var(--grey-2); margin-top: var(--gap-rail); }
 .cs .jrow {
   display: block; width: 100%; text-align: left; cursor: pointer;
   padding: var(--pad-row) 0; border: none; border-top: 1px solid var(--cs-rule); background: none;
@@ -134,13 +144,16 @@ body:has(.cs) { background: var(--paper); }
 .cs .jrow.on .jrow-t { color: var(--clay); }
 .cs .jrow-t { display: block; font-family: var(--serif); font-weight: 400; font-size: 17px; line-height: 1.2; color: var(--ink); }
 .cs .jrow-l { display: block; font-size: 13px; line-height: 1.5; color: var(--grey); margin-top: 4px; }
-.cs .live-stageWrap { display: flex; flex-direction: column; align-items: center; gap: var(--gap-tight); }
+.cs .live-stageWrap { display: flex; flex-direction: column; align-items: center; gap: var(--gap-group); }
 .cs .live-badge { font-size: 10px; font-weight: 600; letter-spacing: var(--tk-micro); text-transform: uppercase; color: var(--clay); }
 /* An explicit width, because the app sizes itself from ITS CONTAINER: 440px
    puts .am below the 768 breakpoint, so the embedded app deterministically
    chooses its phone layout while the page around it stays desktop. */
-.cs .live-stage { position: relative; width: 440px; max-width: 100%; }
-.cs .live-stage .am { width: 440px; }
+/* The app renders at its natural 440 and is scaled to 90% here, so the column
+   is 396 (440 × .9). .am keeps its 440 CSS width, which is what the container
+   queries read — so the embed still resolves to the phone layout. */
+.cs .live-stage { position: relative; width: 396px; max-width: 100%; }
+.cs .live-stage .am { width: 440px; zoom: .9; }
 /* the app paints its own taupe stage behind the device; in the case study the
    device should sit on the page, not on a panel */
 .cs .live-stage .stage { background: none; padding: 0; }
@@ -301,8 +314,8 @@ body:has(.cs) { background: var(--paper); }
    stays well under the 768 breakpoint so the embed still picks phone layout.
    The zoom goes on .am, not on the column: zooming the column would shrink the
    box as well as its contents and the app would still overflow it. */
-@media (max-width: 540px) { .cs .live-stage .am { zoom: .76; } }
-@media (max-width: 400px) { .cs .live-stage .am { zoom: .68; } }
+@media (max-width: 540px) { .cs .live-stage .am { zoom: .68; } }
+@media (max-width: 400px) { .cs .live-stage .am { zoom: .61; } }
 
 @media (prefers-reduced-motion: reduce) {
   .cs .top { transition: none; }

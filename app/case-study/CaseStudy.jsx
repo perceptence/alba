@@ -224,8 +224,12 @@ const GUARDS = [
   ["case-study.test.jsx", "The page renders, mounts the real app inline, and is not sitting on a splash screen."],
 ];
 
+/* the screens belonging to one journey, in registry order */
+const keysFor = (journey) => SCREEN_KEYS.filter((k) => SCREENS[k].journey === journey);
+
 export default function CaseStudy() {
   const [screen, setScreen] = useState("home");
+  const [group, setGroup] = useState(JOURNEY_GROUPS[0].journey);
   const [tok, setTok] = useState(null);
   const [stuck, setStuck] = useState(false);
   const heroRef = useRef(null);
@@ -256,6 +260,10 @@ export default function CaseStudy() {
   }, []);
 
   const active = SCREENS[screen];
+  const activeGroup = JOURNEY_GROUPS.find((g) => g.journey === group);
+  /* switching tab moves the live app too — the tab is a claim about who is
+     holding the phone, so the phone should agree with it */
+  const pickGroup = (j) => { setGroup(j); setScreen(keysFor(j)[0]); };
 
   return (
     <div className="cs">
@@ -321,29 +329,34 @@ export default function CaseStudy() {
           </p>
           <div className="sec-body live">
             <div className="live-list">
-              <div className="live-h">{STATS.screens} screens · pick one</div>
-              {JOURNEY_GROUPS.map((g) => {
-                const keys = SCREEN_KEYS.filter((k) => SCREENS[k].journey === g.journey);
-                return (
-                  <div className="jgroup" key={g.journey}>
-                    <div className="jgroup-h">
-                      <span className="jgroup-n">{g.label}</span>
-                      <span className="jgroup-c">{g.who}</span>
-                    </div>
-                    {keys.map((k) => (
-                      <button
-                        key={k}
-                        className={"jrow" + (k === screen ? " on" : "")}
-                        onClick={() => setScreen(k)}
-                        aria-pressed={k === screen}
-                      >
-                        <span className="jrow-t">{SCREENS[k].label}</span>
-                        <span className="jrow-l">{SCREENS[k].line}</span>
-                      </button>
-                    ))}
-                  </div>
-                );
-              })}
+              <div className="jtabs" role="tablist" aria-label="Who is using the app">
+                {JOURNEY_GROUPS.map((g) => (
+                  <button
+                    key={g.journey}
+                    role="tab"
+                    aria-selected={g.journey === group}
+                    className={"jtab" + (g.journey === group ? " on" : "")}
+                    onClick={() => pickGroup(g.journey)}
+                  >
+                    {g.label}
+                    <span className="jtab-n">{keysFor(g.journey).length}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="jwho">{activeGroup?.who} · {JOURNEYS[group]}</div>
+              <div style={{ marginTop: "var(--gap-rail)" }}>
+                {keysFor(group).map((k) => (
+                  <button
+                    key={k}
+                    className={"jrow" + (k === screen ? " on" : "")}
+                    onClick={() => setScreen(k)}
+                    aria-pressed={k === screen}
+                  >
+                    <span className="jrow-t">{SCREENS[k].label}</span>
+                    <span className="jrow-l">{SCREENS[k].line}</span>
+                  </button>
+                ))}
+              </div>
             </div>
             <div className="live-stageWrap">
               <div className="live-badge">● Live — {active?.label}</div>

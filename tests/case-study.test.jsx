@@ -4,9 +4,9 @@
    sitting on a splash screen on a cold load. */
 
 import { describe, it, expect, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, act } from "@testing-library/react";
 import CaseStudy from "@/app/case-study/CaseStudy";
-import { SCREENS, SCREEN_KEYS } from "@/lib/screens";
+import { SCREENS, SCREEN_KEYS, JOURNEY_GROUPS } from "@/lib/screens";
 import { STATS } from "@/lib/stats";
 
 afterEach(cleanup);
@@ -42,13 +42,45 @@ describe("the case-study page", () => {
     expect(stage.querySelector(".demopanel"), "journey switcher leaked into the embed").toBeNull();
   });
 
-  it("lists every screen in the registry, with its one line", () => {
+  it("opens on the first journey tab and lists exactly that group's screens", () => {
     const { container } = render(<CaseStudy />);
-    const rows = container.querySelectorAll(".jrow");
-    expect(rows.length).toBe(SCREEN_KEYS.length);
-    for (const k of SCREEN_KEYS) {
+    const first = JOURNEY_GROUPS[0];
+    const expected = SCREEN_KEYS.filter((k) => SCREENS[k].journey === first.journey);
+    expect(container.querySelectorAll(".jrow").length).toBe(expected.length);
+    for (const k of expected) {
       expect(screen.getAllByText(SCREENS[k].line).length).toBeGreaterThan(0);
     }
+  });
+
+  it("has one tab per journey group, with its screen count", () => {
+    const { container } = render(<CaseStudy />);
+    const tabs = [...container.querySelectorAll(".jtab")];
+    expect(tabs.length).toBe(JOURNEY_GROUPS.length);
+    tabs.forEach((t, i) => {
+      const g = JOURNEY_GROUPS[i];
+      const n = SCREEN_KEYS.filter((k) => SCREENS[k].journey === g.journey).length;
+      expect(t.textContent).toContain(g.label);
+      expect(t.textContent).toContain(String(n));
+    });
+    expect(tabs[0].getAttribute("aria-selected")).toBe("true");
+  });
+
+  it("switching tab swaps the list and moves the live app with it", async () => {
+    const { container } = render(<CaseStudy />);
+    const last = JOURNEY_GROUPS[JOURNEY_GROUPS.length - 1];
+    const tab = [...container.querySelectorAll(".jtab")].find((t) => t.textContent.includes(last.label));
+    await act(async () => { tab.click(); });
+    const expected = SCREEN_KEYS.filter((k) => SCREENS[k].journey === last.journey);
+    expect(container.querySelectorAll(".jrow").length).toBe(expected.length);
+    expect(tab.getAttribute("aria-selected")).toBe("true");
+    // the embedded app followed the tab to that group's first screen
+    expect(container.querySelector(".live-badge").textContent).toContain(SCREENS[expected[0]].label);
+  });
+
+  it("every screen is reachable across the tabs — none is stranded", () => {
+    const reachable = JOURNEY_GROUPS.flatMap((g) =>
+      SCREEN_KEYS.filter((k) => SCREENS[k].journey === g.journey));
+    expect(new Set(reachable).size).toBe(SCREEN_KEYS.length);
   });
 
   it("prints the figures from the stats module, not literals", () => {
