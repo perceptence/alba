@@ -18,6 +18,8 @@ import { useEffect, useRef, useState } from "react";
 import App from "../alba-maison";
 import { Elevation } from "@/components/Elevation";
 import { I } from "@/components/icons";
+import { Avatar } from "@/components/Avatar";
+import { AV } from "@/lib/data";
 import { SCREENS, SCREEN_KEYS, JOURNEYS, JOURNEY_GROUPS } from "@/lib/screens";
 import { STATS } from "@/lib/stats";
 import { useTokens, SystemSpecimens } from "@/components/SystemSpecimens";
@@ -28,99 +30,109 @@ function Figure({ v, k }) {
   return (<div className="fig"><div className="fig-v">{v}</div><div className="fig-k">{k}</div></div>);
 }
 
-function Case({ n, title, before, after, read, why }) {
+function Decision({ n, title, lk, rk, left, right, what, why }) {
   return (
     <article className="case">
       <div className="case-n">{n}</div>
       <h3 className="case-t">{title}</h3>
       <div className="case-ba">
-        <div className="ba bad"><div className="ba-k">Before</div>{before}</div>
-        <div className="ba good"><div className="ba-k">After</div>{after}</div>
+        <div className="ba bad"><div className="ba-k">{lk}</div>{left}</div>
+        <div className="ba good"><div className="ba-k">{rk}</div>{right}</div>
       </div>
       <div className="case-read">
-        <div><h4>What you are looking at</h4><p>{read}</p></div>
-        <div><h4>The rule it changed</h4><p>{why}</p></div>
+        <div><h4>What you are looking at</h4><p>{what}</p></div>
+        <div><h4>What it makes true</h4><p>{why}</p></div>
       </div>
     </article>
   );
 }
 
-/* before/after demos — all drawn with real tokens */
-const GapDemo = ({ gap }) => (
-  <div>
-    <div className="demo-lbl">Delivery · Acknowledged</div>
-    <div className="demo-line" style={{ marginTop: 8 }} />
-    <div style={{ height: gap }} />
-    <div className="demo-lbl">Amenities</div>
-    <div className="demo-line" style={{ marginTop: 8 }} />
-    <div className="demo-lbl" style={{ marginTop: 10, color: "var(--grey)" }}>{gap}px between</div>
+/* ——— decision visuals, all built from the product's own tokens ——— */
+const AMENITIES = [["Saltwater pool", "West terrace"], ["Olive garden", "Mature"], ["Wine cellar", "Climate-set"]];
+
+const CardsDemo = () => (
+  <div className="d-cards">
+    {AMENITIES.map(([a, b]) => (
+      <div className="d-card" key={a}><span className="d-k">{a}</span><span className="d-v">{b}</span></div>
+    ))}
   </div>
 );
-const LayoutDemo = ({ full, label }) => (
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-    <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-      <div className="demo-frame" style={{ width: full ? "100%" : "62%" }}>
-        <div className="demo-rail-l" /><div className="demo-fill" />
-      </div>
+const RowsDemo = () => (
+  <div>
+    {AMENITIES.map(([a, b]) => (
+      <div className="row-demo" key={a}><span className="k">{a}</span><span className="v">{b}</span></div>
+    ))}
+  </div>
+);
+
+const PhotoDemo = () => (<div className="d-photo"><span className="demo-lbl">stock photograph</span></div>);
+const DrawingDemo = () => (<div className="d-draw"><Elevation h={120} variant="stone" /></div>);
+
+const FlatRowDemo = () => (
+  <div className="d-flat">
+    <span className="d-flat-t">Pool heater</span>
+    <span className="d-flat-s">Open</span>
+  </div>
+);
+const StatusRowDemo = () => (
+  <div>
+    <div className="demo-lbl">Maintenance · Grounds</div>
+    <div className="d-flat-t" style={{ marginTop: 4 }}>Pool heater cycling off</div>
+    <div className="d-sub"><span className="d-sub-a">Rosa replied</span> · Technician on site</div>
+    <div className="d-track"><span className="d-fill" /><span className="d-now" /></div>
+    <div className="demo-lbl" style={{ marginTop: 8 }}>In progress · today, 9:15</div>
+  </div>
+);
+
+const LoudDemo = () => (
+  <div>
+    <div className="d-loud"><span className="d-chip cl">Urgent</span><span className="d-chip sg">Paid</span><span className="d-chip gd">Pending</span><span className="d-chip cl">New</span></div>
+    <div className="d-flat-t" style={{ marginTop: 12, color: "var(--clay)" }}>$19,950</div>
+    <div className="demo-lbl" style={{ marginTop: 6, color: "var(--sage)" }}>Everything asks at once</div>
+  </div>
+);
+const QuietDemo = () => (
+  <div>
+    <div className="demo-lbl">Rent &amp; charges</div>
+    <div className="d-flat-t" style={{ marginTop: 6 }}>$19,950</div>
+    <div className="d-sub" style={{ marginTop: 6 }}>$18,500 rent · <span className="d-sub-a">$1,450 in charges</span></div>
+    <div className="demo-lbl" style={{ marginTop: 10 }}>One clay mark. It is the thing that needs you.</div>
+  </div>
+);
+
+const SansOnlyDemo = () => (
+  <div>
+    <div className="d-sans-l">RESIDENCE</div>
+    <div className="d-sans-t">The Verde Bungalow</div>
+    <div className="d-sans-l" style={{ marginTop: 12 }}>BALANCE DUE</div>
+    <div className="d-sans-t">$19,950</div>
+  </div>
+);
+const PairDemo = () => (
+  <div>
+    <div className="demo-lbl">Residence</div>
+    <div className="d-serif">The Verde Bungalow</div>
+    <div className="demo-lbl" style={{ marginTop: 12 }}>Balance due</div>
+    <div className="d-serif">$19,950</div>
+  </div>
+);
+
+const TicketDemo = () => (
+  <div className="d-ticket">
+    <div>TICKET #4821</div>
+    <div>STATUS: OPEN</div>
+    <div>ASSIGNED: —</div>
+    <div>QUEUE: MAINTENANCE</div>
+  </div>
+);
+const PersonDemo = () => (
+  <div className="d-person">
+    <Avatar cfg={AV.rosa} size={44} />
+    <div>
+      <div className="d-serif" style={{ fontSize: 19 }}>Rosa Ibáñez</div>
+      <div className="d-sub" style={{ marginTop: 2 }}>Your estate manager</div>
+      <div className="demo-lbl" style={{ marginTop: 6 }}>Usually replies within the hour</div>
     </div>
-    <div className="demo-lbl">{label}</div>
-  </div>
-);
-const FontDemo = ({ family, weight, label }) => (
-  <div>
-    <div style={{ fontFamily: family, fontWeight: weight, fontSize: 26, color: "var(--ink)", lineHeight: 1.1 }}>Adrien.</div>
-    <div className="demo-lbl" style={{ marginTop: 10 }}>{label}</div>
-  </div>
-);
-const ContrastDemo = ({ colour, r, label }) => (
-  <div>
-    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-      <span className="sw-c" style={{ background: colour, width: 40, height: 40 }} />
-      <span style={{ fontSize: 20, fontVariantNumeric: "tabular-nums", color: "var(--ink)" }}>{r}:1</span>
-    </div>
-    <div className="demo-lbl" style={{ marginTop: 10 }}>{label}</div>
-  </div>
-);
-/* who decides the layout: the window, or the box you are actually in */
-const ScopeDemo = ({ asksWindow, label }) => (
-  <div>
-    <div style={{ border: "1px solid var(--grey-2)", height: 84, display: "flex", padding: 7, gap: 7, background: "var(--paper)" }}>
-      <div style={{ flex: 1, border: "1px dashed var(--line)" }} />
-      <div style={{ width: 48, border: "1px solid var(--ink)", display: "flex", flexDirection: asksWindow ? "row" : "column" }}>
-        {asksWindow ? (<>
-          <span style={{ width: "38%", background: "var(--paper-3)" }} />
-          <span style={{ flex: 1, background: "var(--paper-2)" }} />
-        </>) : (<>
-          <span style={{ flex: 1, background: "var(--paper-2)" }} />
-          <span style={{ height: 10, background: "var(--paper-3)" }} />
-        </>)}
-      </div>
-    </div>
-    <div className="demo-lbl" style={{ marginTop: 10 }}>{label}</div>
-  </div>
-);
-/* artwork that restarted its own draw-in every render */
-const DrawDemo = ({ broken, label }) => (
-  <div>
-    <svg viewBox="0 0 130 62" width="100%" height="62" fill="none" stroke="var(--ink)" strokeWidth="1.1" strokeLinecap="round">
-      <g strokeDasharray={broken ? "3 8" : undefined} opacity={broken ? 0.4 : 1}>
-        <path d="M14 52 L14 26 L65 11 L116 26 L116 52" />
-        <rect x="52" y="34" width="20" height="18" />
-        <line x1="6" y1="52" x2="124" y2="52" />
-      </g>
-    </svg>
-    <div className="demo-lbl" style={{ marginTop: 10 }}>{label}</div>
-  </div>
-);
-const ClipDemo = ({ pull, label }) => (
-  <div>
-    <div className="demo-clip">
-      <div style={{ marginTop: pull }}>
-        <div className="demo-rail"><span className="demo-node" /><span className="demo-txt">Submitted</span></div>
-        <div className="demo-rail" style={{ marginTop: 14 }}><span className="demo-node" /><span className="demo-txt">Acknowledged</span></div>
-      </div>
-    </div>
-    <div className="demo-lbl" style={{ marginTop: 10 }}>{label}</div>
   </div>
 );
 
@@ -393,63 +405,64 @@ export default function CaseStudy() {
         </div>
       </section>
 
-      {/* ——— where it nearly came apart ——— */}
-      <section className="sec" id="hard">
+      {/* ——— the decisions ——— */}
+      <section className="sec" id="decisions">
         <div className="wrap">
-          <div className="sec-eye">Where it nearly came apart</div>
-          <h2>Six problems that changed a rule</h2>
+          <div className="sec-eye">The decisions</div>
+          <h2>Six choices that make it this</h2>
           <p className="sec-lede">
-            Not a bug list. Each of these forced a standing rule into the system, because
-            fixing the instance would have left the cause in place.
+            The character of the thing comes from a small number of decisions, each one a
+            refusal of what the category does by default. Left is the usual answer. Right
+            is ALBA — rendered here with the product&rsquo;s own components and tokens.
           </p>
           <div className="sec-body cases">
-            <Case
-              n="01 · Architecture"
-              title="The app could only ever be the whole window"
-              before={<ScopeDemo asksWindow label="narrow column, desktop layout" />}
-              after={<ScopeDemo asksWindow={false} label="narrow column, phone layout" />}
-              read="A narrow column inside a wide page. On the left the app inside it draws a desktop sidebar, because it asked the window how much room it had and the window said 1680px. On the right it asks the column, and gets it right."
-              why="A component decides from its container, never the viewport. Every one of the twelve breakpoints was a window query, which meant the app could never be embedded, previewed beside anything, or composed into a larger surface — a limit nobody had noticed because it had always been alone on the page. Converting them to container queries is what makes the live embed further up this page possible at all: it is the real app at phone width inside a desktop document."
+            <Decision
+              n="01 · Surface"
+              title="Hairlines, not cards"
+              lk="The usual" rk="ALBA"
+              left={<CardsDemo />} right={<RowsDemo />}
+              what="The same three amenities. On the left each one is boxed, shadowed and floated apart; on the right they are lines of a single list, separated by a rule."
+              why="Nothing is packaged. A card says here is a component; a rule says here is the next thing. The whole product carries exactly one shadow — the device frame — so the page reads as paper with ink on it rather than an interface stacked in layers."
             />
-            <Case
-              n="02 · React"
-              title="The drawing that erased itself"
-              before={<DrawDemo broken label="strokes never finish" />}
-              after={<DrawDemo label="drawn, and stays drawn" />}
-              read="The estate line-art, which is animated by drawing each stroke in from nothing. On the left the strokes are stuck partway — visible as gaps, or not visible at all."
-              why="Never declare a component inside another component. The drawing's helpers (ground, sun, trees) were defined inside the parent's render, so every parent re-render produced a brand-new component type — React unmounted the old artwork and mounted fresh copies, restarting each stroke's draw-in from zero. It presented as a flaky animation, so it was chased as a timing problem for a while; the cause was identity, not timing. The helpers moved to module scope and the symptom vanished. The same rule protects any ref-based measurement, which silently never runs when its node is swapped underneath it."
+            <Decision
+              n="02 · Image"
+              title="A drawing, never a photograph"
+              lk="The usual" rk="ALBA"
+              left={<PhotoDemo />} right={<DrawingDemo />}
+              what="Where a listing would put a photograph of the house, ALBA puts an architectural elevation, drawn in the same hand for all seven estates. It draws itself in on arrival."
+              why="A photograph flatters, dates, and quietly promises a particular afternoon. A line drawing describes the house without selling it — and because it is drawn rather than shot, every estate can be given the same care, which is the actual promise the product is making."
             />
-            <Case
-              n="03 · System"
-              title="Why tuning the spacing never converged"
-              before={<GapDemo gap={48} />}
-              after={<GapDemo gap={32} />}
-              read="One boundary between two sections. It measured 48px when the system intended 32 — but the important thing is not the number, it is that nobody could say which rule produced it."
-              why="Every gap must have exactly one owner. For weeks each spacing fix moved the problem somewhere else, because a gap was never a value — it was a sum of a row's padding, a section's margin, and the leading of whatever text sat inside. Changing any one of the three fixed the instance and broke a neighbour, so the work never converged. The fix was not a number but a doctrine: one owner per gap, written down as SPACING.md, with the deliberate decision not to preserve any existing hand-tuned total. Re-basing everything on tokens broke things loudly for an afternoon, and then spacing stopped being a topic."
+            <Decision
+              n="03 · Status"
+              title="The status is the row"
+              lk="The usual" rk="ALBA"
+              left={<FlatRowDemo />} right={<StatusRowDemo />}
+              what="One open request in a list. On the left it says only that it exists. On the right it names what it is, who last moved it, where it stands, and when."
+              why="Nobody should open something to find out whether anything happened. The category's own reviews are full of residents who cannot see their own history; here the record is the list, so the answer to 'is anyone doing anything' is visible without a tap."
             />
-            <Case
-              n="04 · Regression"
-              title="A fix for the phone shrank the desktop"
-              before={<LayoutDemo full={false} label="whole app collapsed to 1127px" />}
-              after={<LayoutDemo full label="app fills the window again" />}
-              read="The desktop application at the same window size, before and after. Nothing about the desktop layout was edited between these two states."
-              why="A wrapper introduced for one breakpoint must be inert at the others. A shell was added around the app so the phone mockup could carry hardware buttons — which is invisible at phone size and catastrophic at desktop: the shell shrink-wrapped to its contents inside a centring grid, taking the entire application down to 1127px of a 1680px window. It was found by measuring rather than looking, because it reads as a design choice rather than a bug. It now resolves to display:contents above 900px, so it leaves the layout entirely."
+            <Decision
+              n="04 · Colour"
+              title="One accent, spent once"
+              lk="The usual" rk="ALBA"
+              left={<LoudDemo />} right={<QuietDemo />}
+              what="The same money, twice. On the left every state has a colour and they compete; on the right the page is ink and paper with a single clay mark on the one figure that wants a decision."
+              why="An accent only means something if it is rare. Clay is reserved for what needs you — the unpaid charge, the unread notice, the request that has stalled. Spend it on four things at once and the resident has to work out which one is real."
             />
-            <Case
-              n="05 · Principle"
-              title="When the house style failed the audit"
-              before={<ContrastDemo colour="#9A9184" r="2.71" label="the old muted grey" />}
-              after={<ContrastDemo colour="#736A5C" r="4.64" label="the new muted grey" />}
-              read="The single colour behind every eyebrow, timestamp and count in the product. Both are muted; one of them is 2.71:1 against the page, which is below the 4.5:1 that AA asks of body text."
-              why="Restraint has to be measured, not judged by eye. This was the uncomfortable one: quietness is the whole design language, so the failing colour was not a mistake, it was the point. Darkening the text would have broken the voice; the honest fix was to accept that the swatch itself was wrong and move three brand colours until they measured. The rule that came out of it is that no colour ships on taste alone — a test now recomputes every text-and-surface pair from the tokens on every run, which is how the tinted-panel near-miss on this very page was caught later."
+            <Decision
+              n="05 · Voice"
+              title="Serif for people, sans for the machinery"
+              lk="Sans throughout" rk="ALBA"
+              left={<SansOnlyDemo />} right={<PairDemo />}
+              what="A house name and a balance, set two ways. On the left one typeface does everything. On the right Fraunces carries the names and the figures, while Inter is left to the labels above them."
+              why="Two faces divide the page into what is being said and what is doing the saying. The house, the people and the money are spoken in serif; counts, tags and eyebrows stay in sans and get out of the way. It is what keeps a rent figure from reading like a database field."
             />
-            <Case
-              n="06 · Dependency"
-              title="The product looked different on a slow network"
-              before={<FontDemo family="Georgia, serif" weight={700} label="fallback face" />}
-              after={<FontDemo family="var(--serif)" weight={600} label="Fraunces, self-hosted" />}
-              read="The same word in the fallback face and the intended one. The fallback is heavier and more compact — which is why the app was reported as looking 'bolder and darker' when not one colour had changed."
-              why="Anything that decides how the product looks has to ship with it. The typefaces were requested from a third party at runtime, so the identity of the product depended on someone else's uptime and the user's connection: the same build rendered differently for different people, and the symptom arrived as a colour complaint rather than a font one. Moving them to self-hosted files removed the network from the design entirely — and, incidentally, the tracking request that came with it."
+            <Decision
+              n="06 · Address"
+              title="A person, not a queue"
+              lk="The usual" rk="ALBA"
+              left={<TicketDemo />} right={<PersonDemo />}
+              what="Who receives a request. On the left, a reference number and a queue. On the right, Rosa — named, pictured, with how long she usually takes."
+              why="Service that feels attended to has somebody's name on it. Every request in ALBA goes to a person and comes back in her voice, and the operator side is built as her desk rather than an admin panel — which is why the same design system had to serve both sides of the conversation."
             />
           </div>
         </div>
