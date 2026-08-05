@@ -7,7 +7,7 @@
 import { describe, it, expect } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
-import { SCREENS, SCREEN_KEYS, JOURNEYS, resolveScreen } from "@/lib/screens";
+import { SCREENS, SCREEN_KEYS, JOURNEYS, JOURNEY_GROUPS, resolveScreen } from "@/lib/screens";
 
 const JOURNEY_NAMES = Object.keys(JOURNEYS);
 const CASE_STUDY = fs.readFileSync(
@@ -44,9 +44,20 @@ describe("screen registry", () => {
     }
   });
 
+  it("the journey groups account for every screen — none is orphaned", () => {
+    const grouped = JOURNEY_GROUPS.flatMap((g) =>
+      SCREEN_KEYS.filter((k) => SCREENS[k].journey === g.journey));
+    expect(grouped.length, "a screen belongs to no group").toBe(SCREEN_KEYS.length);
+    expect(new Set(grouped).size, "a screen appears in two groups").toBe(SCREEN_KEYS.length);
+    for (const g of JOURNEY_GROUPS) {
+      expect(JOURNEY_NAMES, `${g.label} points at an unknown journey`).toContain(g.journey);
+      expect(g.label && g.who, `${g.journey} group is missing its labels`).toBeTruthy();
+    }
+  });
+
   it("the case study renders the registry rather than its own copy of the list", () => {
     // If someone hand-writes a journey list on the page, these drift apart.
-    expect(CASE_STUDY).toContain("SCREEN_KEYS.map");
+    expect(CASE_STUDY).toContain("SCREEN_KEYS.filter");
     expect(CASE_STUDY).toContain("SCREENS[k].line");
   });
 });

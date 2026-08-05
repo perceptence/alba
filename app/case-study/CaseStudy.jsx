@@ -17,7 +17,8 @@
 import { useEffect, useRef, useState } from "react";
 import App from "../alba-maison";
 import { Elevation } from "@/components/Elevation";
-import { SCREENS, SCREEN_KEYS, JOURNEYS } from "@/lib/screens";
+import { I } from "@/components/icons";
+import { SCREENS, SCREEN_KEYS, JOURNEYS, JOURNEY_GROUPS } from "@/lib/screens";
 import { STATS, CONTRAST } from "@/lib/stats";
 import "./case-study.css";
 
@@ -55,12 +56,55 @@ const SPACE_SPECS = [
 ];
 
 /* ——— small module-scope pieces ——— */
-function Swatch({ name, value, note }) {
+/* Click a swatch to copy its value — the specimen is the control. */
+function Swatch({ name, value }) {
+  const [done, setDone] = useState(false);
+  const copy = () => {
+    navigator.clipboard?.writeText(value).catch(() => {});
+    setDone(true);
+    setTimeout(() => setDone(false), 1200);
+  };
   return (
-    <div className="sw">
+    <button className="sw" onClick={copy} title={`Copy ${value}`}>
       <span className="sw-c" style={{ background: value }} />
       <span className="sw-n">{name}</span>
-      <span className="sw-v">{note || value}</span>
+      <span className={"sw-v" + (done ? " sw-copied" : "")}>{done ? "Copied" : value}</span>
+    </button>
+  );
+}
+
+/* The seven estates, drawn by the product's own component. */
+const ELEV_VARIANTS = ["verde", "stone", "palisade", "cypress", "canyon", "olive", "laurel"];
+function ElevationPicker() {
+  const [v, setV] = useState("verde");
+  return (
+    <div>
+      <div className="elev-pick">
+        {ELEV_VARIANTS.map((n) => (
+          <button key={n} className={n === v ? "on" : ""} onClick={() => setV(n)} aria-pressed={n === v}>
+            {n}
+          </button>
+        ))}
+      </div>
+      <div className="elev-hold">
+        {/* key remounts so the draw-in animation replays for each house */}
+        <Elevation key={v} h={120} variant={v} />
+      </div>
+    </div>
+  );
+}
+
+/* The one easing curve, replayable. */
+function MotionSpec({ ease }) {
+  const [run, setRun] = useState(0);
+  return (
+    <div>
+      <svg className="ease" viewBox="0 0 120 44" width="100%" height="44" aria-hidden="true">
+        <path d="M2 42 C 50 42, 62 2, 118 2" fill="none" stroke="var(--clay)" strokeWidth="1.5" />
+      </svg>
+      <div className="bar-n" style={{ marginTop: 8 }}>{ease}</div>
+      <div className="mo-track"><span key={run} className={"mo-dot" + (run ? " run" : "")} /></div>
+      <button className="spec-act" onClick={() => setRun((n) => n + 1)}>Play the curve</button>
     </div>
   );
 }
@@ -97,12 +141,6 @@ const GapDemo = ({ gap }) => (
     <div className="demo-lbl" style={{ marginTop: 10, color: "var(--grey)" }}>{gap}px between</div>
   </div>
 );
-const PhoneDemo = ({ w, h, label }) => (
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-    <div className="demo-phone" style={{ width: w, height: h }} />
-    <div className="demo-lbl">{label}</div>
-  </div>
-);
 const LayoutDemo = ({ full, label }) => (
   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
     <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
@@ -125,6 +163,37 @@ const ContrastDemo = ({ colour, r, label }) => (
       <span className="sw-c" style={{ background: colour, width: 40, height: 40 }} />
       <span style={{ fontSize: 20, fontVariantNumeric: "tabular-nums", color: "var(--ink)" }}>{r}:1</span>
     </div>
+    <div className="demo-lbl" style={{ marginTop: 10 }}>{label}</div>
+  </div>
+);
+/* who decides the layout: the window, or the box you are actually in */
+const ScopeDemo = ({ asksWindow, label }) => (
+  <div>
+    <div style={{ border: "1px solid var(--grey-2)", height: 84, display: "flex", padding: 7, gap: 7, background: "var(--paper)" }}>
+      <div style={{ flex: 1, border: "1px dashed var(--line)" }} />
+      <div style={{ width: 48, border: "1px solid var(--ink)", display: "flex", flexDirection: asksWindow ? "row" : "column" }}>
+        {asksWindow ? (<>
+          <span style={{ width: "38%", background: "var(--paper-3)" }} />
+          <span style={{ flex: 1, background: "var(--paper-2)" }} />
+        </>) : (<>
+          <span style={{ flex: 1, background: "var(--paper-2)" }} />
+          <span style={{ height: 10, background: "var(--paper-3)" }} />
+        </>)}
+      </div>
+    </div>
+    <div className="demo-lbl" style={{ marginTop: 10 }}>{label}</div>
+  </div>
+);
+/* artwork that restarted its own draw-in every render */
+const DrawDemo = ({ broken, label }) => (
+  <div>
+    <svg viewBox="0 0 130 62" width="100%" height="62" fill="none" stroke="var(--ink)" strokeWidth="1.1" strokeLinecap="round">
+      <g strokeDasharray={broken ? "3 8" : undefined} opacity={broken ? 0.4 : 1}>
+        <path d="M14 52 L14 26 L65 11 L116 26 L116 52" />
+        <rect x="52" y="34" width="20" height="18" />
+        <line x1="6" y1="52" x2="124" y2="52" />
+      </g>
+    </svg>
     <div className="demo-lbl" style={{ marginTop: 10 }}>{label}</div>
   </div>
 );
@@ -253,17 +322,28 @@ export default function CaseStudy() {
           <div className="sec-body live">
             <div className="live-list">
               <div className="live-h">{STATS.screens} screens · pick one</div>
-              {SCREEN_KEYS.map((k) => (
-                <button
-                  key={k}
-                  className={"jrow" + (k === screen ? " on" : "")}
-                  onClick={() => setScreen(k)}
-                  aria-pressed={k === screen}
-                >
-                  <span className="jrow-t">{SCREENS[k].label}</span>
-                  <span className="jrow-l">{SCREENS[k].line}</span>
-                </button>
-              ))}
+              {JOURNEY_GROUPS.map((g) => {
+                const keys = SCREEN_KEYS.filter((k) => SCREENS[k].journey === g.journey);
+                return (
+                  <div className="jgroup" key={g.journey}>
+                    <div className="jgroup-h">
+                      <span className="jgroup-n">{g.label}</span>
+                      <span className="jgroup-c">{g.who}</span>
+                    </div>
+                    {keys.map((k) => (
+                      <button
+                        key={k}
+                        className={"jrow" + (k === screen ? " on" : "")}
+                        onClick={() => setScreen(k)}
+                        aria-pressed={k === screen}
+                      >
+                        <span className="jrow-t">{SCREENS[k].label}</span>
+                        <span className="jrow-l">{SCREENS[k].line}</span>
+                      </button>
+                    ))}
+                  </div>
+                );
+              })}
             </div>
             <div className="live-stageWrap">
               <div className="live-badge">● Live — {active?.label}</div>
@@ -428,16 +508,43 @@ export default function CaseStudy() {
             </div>
 
             <div className="card">
-              <div className="card-h">Motion · one curve</div>
+              <div className="card-h">Motion · one curve, everywhere</div>
+              <div className="card-b">{tok && <MotionSpec ease={tok.ease} />}</div>
+            </div>
+
+            <div className="card">
+              <div className="card-h">Buttons · three tiers, never two filled</div>
+              {/* .am, because the product scopes its button styles to the app root —
+                  these are the real buttons, not lookalikes */}
+              <div className="card-b btn-demo am">
+                <button className="cta" type="button">Settle the charge</button>
+                <button className="cta ghost" type="button">Not now</button>
+                <button className="a-act" type="button">View details<I.arrow /></button>
+              </div>
+              <div className="bar-n" style={{ marginTop: 12, color: "var(--grey-2)" }}>
+                Filled commits · ghost undoes · text-link goes elsewhere.
+              </div>
+            </div>
+
+            <div className="card">
+              <div className="card-h">Rows · hairlines, not cards</div>
               <div className="card-b">
-                <svg className="ease" viewBox="0 0 120 44" width="100%" height="44" aria-hidden="true">
-                  <path d="M2 42 C 50 42, 62 2, 118 2" fill="none" stroke="var(--clay)" strokeWidth="1.5" />
-                </svg>
-                <div className="bar-n" style={{ marginTop: 8 }}>{tok?.ease}</div>
-                <div className="type-row" style={{ marginTop: 12 }}>
-                  <div className="type-n">Used for</div>
-                  <div className="bar-n" style={{ marginTop: 4 }}>Sheets, draws, fades, tab underlines — everything.</div>
+                <div className="row-demo"><span className="k">Saltwater pool</span><span className="v">West terrace</span></div>
+                <div className="row-demo"><span className="k">Olive garden</span><span className="v">Mature</span></div>
+                <div className="row-demo"><span className="k">Wine cellar</span><span className="v">Climate-set</span></div>
+                <div className="bar-n" style={{ marginTop: 12, color: "var(--grey-2)" }}>
+                  16px padding, one rule above. No card, no shadow.
                 </div>
+              </div>
+            </div>
+
+            <div className="card">
+              <div className="card-h">The drawing · one per estate, {STATS.estates} in all</div>
+              <div className="card-b"><ElevationPicker /></div>
+              <div className="bar-n" style={{ marginTop: 12, color: "var(--grey-2)" }}>
+                The same hand every time: ink line on paper, a thin sun, the ground carried
+                through. Each draws itself in on arrival — this is the product&rsquo;s component,
+                not a picture of it.
               </div>
             </div>
 
@@ -468,52 +575,52 @@ export default function CaseStudy() {
           </p>
           <div className="sec-body cases">
             <Case
-              n="01 · Spacing"
-              title="The gap that had three owners"
+              n="01 · Architecture"
+              title="The app could only ever be the whole window"
+              before={<ScopeDemo asksWindow label="narrow column, desktop layout" />}
+              after={<ScopeDemo asksWindow={false} label="narrow column, phone layout" />}
+              read="A narrow column inside a wide page. On the left the app inside it draws a desktop sidebar, because it asked the window how much room it had and the window said 1680px. On the right it asks the column, and gets it right."
+              why="A component decides from its container, never the viewport. Every one of the twelve breakpoints was a window query, which meant the app could never be embedded, previewed beside anything, or composed into a larger surface — a limit nobody had noticed because it had always been alone on the page. Converting them to container queries is what makes the live embed further up this page possible at all: it is the real app at phone width inside a desktop document."
+            />
+            <Case
+              n="02 · React"
+              title="The drawing that erased itself"
+              before={<DrawDemo broken label="strokes never finish" />}
+              after={<DrawDemo label="drawn, and stays drawn" />}
+              read="The estate line-art, which is animated by drawing each stroke in from nothing. On the left the strokes are stuck partway — visible as gaps, or not visible at all."
+              why="Never declare a component inside another component. The drawing's helpers (ground, sun, trees) were defined inside the parent's render, so every parent re-render produced a brand-new component type — React unmounted the old artwork and mounted fresh copies, restarting each stroke's draw-in from zero. It presented as a flaky animation, so it was chased as a timing problem for a while; the cause was identity, not timing. The helpers moved to module scope and the symptom vanished. The same rule protects any ref-based measurement, which silently never runs when its node is swapped underneath it."
+            />
+            <Case
+              n="03 · System"
+              title="Why tuning the spacing never converged"
               before={<GapDemo gap={48} />}
               after={<GapDemo gap={32} />}
-              read="The same boundary between two sections, before and after. On the left it measures 48px; on the right, 32px — the value the system actually intends."
-              why="A gap may have exactly one owner. The 48 was a row's 16px padding plus a section's 32px margin, each innocent alone. Sections now own their boundary and the last row drops its padding. It became rule one of SPACING.md."
+              read="One boundary between two sections. It measured 48px when the system intended 32 — but the important thing is not the number, it is that nobody could say which rule produced it."
+              why="Every gap must have exactly one owner. For weeks each spacing fix moved the problem somewhere else, because a gap was never a value — it was a sum of a row's padding, a section's margin, and the leading of whatever text sat inside. Changing any one of the three fixed the instance and broke a neighbour, so the work never converged. The fix was not a number but a doctrine: one owner per gap, written down as SPACING.md, with the deliberate decision not to preserve any existing hand-tuned total. Re-basing everything on tokens broke things loudly for an afternoon, and then spacing stopped being a topic."
             />
             <Case
-              n="02 · Device frame"
-              title="The measurement that lied"
-              before={<PhoneDemo w={92} h={174} label="ratio 1.888 — squashed" />}
-              after={<PhoneDemo w={82} h={178} label="ratio 2.174 — true" />}
-              read="Two phone outlines. The left is what the app was rendering; the right is an iPhone's real proportion. The difference is subtle in numbers and obvious on screen."
-              why="Never clamp one axis of a fixed-ratio object. The frame capped its height to fit short windows while its width stayed put, quietly distorting every screenshot taken of it. Ratio is now held and the whole device scales."
+              n="04 · Regression"
+              title="A fix for the phone shrank the desktop"
+              before={<LayoutDemo full={false} label="whole app collapsed to 1127px" />}
+              after={<LayoutDemo full label="app fills the window again" />}
+              read="The desktop application at the same window size, before and after. Nothing about the desktop layout was edited between these two states."
+              why="A wrapper introduced for one breakpoint must be inert at the others. A shell was added around the app so the phone mockup could carry hardware buttons — which is invisible at phone size and catastrophic at desktop: the shell shrink-wrapped to its contents inside a centring grid, taking the entire application down to 1127px of a 1680px window. It was found by measuring rather than looking, because it reads as a design choice rather than a bug. It now resolves to display:contents above 900px, so it leaves the layout entirely."
             />
             <Case
-              n="03 · Layout"
-              title="The fix that broke the other end"
-              before={<LayoutDemo full={false} label="app collapsed to 1127px" />}
-              after={<LayoutDemo full label="app fills 1680px" />}
-              read="The desktop layout at the same window size. Adding a wrapper so the phone mockup could have hardware buttons quietly shrank the entire desktop application inside it."
-              why="A wrapper added for one breakpoint must be inert at the others. The shell shrink-wrapped inside a centring grid; it now resolves to display:contents on desktop, so it disappears from layout entirely."
+              n="05 · Principle"
+              title="When the house style failed the audit"
+              before={<ContrastDemo colour="#9A9184" r="2.71" label="the old muted grey" />}
+              after={<ContrastDemo colour="#736A5C" r="4.64" label="the new muted grey" />}
+              read="The single colour behind every eyebrow, timestamp and count in the product. Both are muted; one of them is 2.71:1 against the page, which is below the 4.5:1 that AA asks of body text."
+              why="Restraint has to be measured, not judged by eye. This was the uncomfortable one: quietness is the whole design language, so the failing colour was not a mistake, it was the point. Darkening the text would have broken the voice; the honest fix was to accept that the swatch itself was wrong and move three brand colours until they measured. The rule that came out of it is that no colour ships on taste alone — a test now recomputes every text-and-surface pair from the tokens on every run, which is how the tinted-panel near-miss on this very page was caught later."
             />
             <Case
-              n="04 · Type"
-              title="Fonts that arrived after the paint"
-              before={<FontDemo family="Georgia, serif" weight={700} label="fallback — heavier, darker" />}
-              after={<FontDemo family="var(--serif)" weight={600} label="Fraunces — self-hosted" />}
-              read="The same word set in the fallback face and the intended one. The fallback is heavier and tighter, which is why the app read as 'bolder and darker' before anything about the colours had changed."
-              why="A typeface is a dependency, not a request. Loading the faces from a third party at runtime meant every slow network produced a different product. They are now self-hosted and served from the app's own origin."
-            />
-            <Case
-              n="05 · Accessibility"
-              title="The quiet that was too quiet"
-              before={<ContrastDemo colour="#9A9184" r="2.71" label="old muted grey — fails AA" />}
-              after={<ContrastDemo colour="#736A5C" r="4.64" label="new muted grey — passes AA" />}
-              read="The colour used for every eyebrow, timestamp and count. Both are muted; only one is legible to a reader who needs contrast. The ratios are computed, not estimated."
-              why="Restraint is not an exemption. Three brand colours were adjusted rather than the text they carried, because the failure was in the swatch. A test now recomputes every pair from the tokens on each run."
-            />
-            <Case
-              n="06 · Overflow"
-              title="A negative margin inside a clipping box"
-              before={<ClipDemo pull={-16} label="top step cut off" />}
-              after={<ClipDemo pull={0} label="whole timeline visible" />}
-              read="The top of a request's timeline inside its panel. On the left the first step is sliced by the panel's edge — the content is there, but the box is cutting it."
-              why="Never pull content past the padding of a box that clips. A −16px nudge sat inside a scroll container with 4px of inset, so 12px of the first step was simply invisible at every screen size."
+              n="06 · Dependency"
+              title="The product looked different on a slow network"
+              before={<FontDemo family="Georgia, serif" weight={700} label="fallback face" />}
+              after={<FontDemo family="var(--serif)" weight={600} label="Fraunces, self-hosted" />}
+              read="The same word in the fallback face and the intended one. The fallback is heavier and more compact — which is why the app was reported as looking 'bolder and darker' when not one colour had changed."
+              why="Anything that decides how the product looks has to ship with it. The typefaces were requested from a third party at runtime, so the identity of the product depended on someone else's uptime and the user's connection: the same build rendered differently for different people, and the symptom arrived as a colour complaint rather than a font one. Moving them to self-hosted files removed the network from the design entirely — and, incidentally, the tracking request that came with it."
             />
           </div>
         </div>
