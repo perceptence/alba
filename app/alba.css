@@ -18,7 +18,10 @@
   --serif:var(--font-fraunces),Georgia,serif; --sans:var(--font-inter),system-ui,sans-serif;
   --e:cubic-bezier(.4,0,.2,1);
 }
-.am{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;font-weight:450}
+/* The app lays out from ITS OWN width, not the window's — every breakpoint
+   below is a @container query on this element. That's what lets the real app
+   be embedded inline at phone width inside a wide page (see /case-study). */
+.am{container-type:inline-size;container-name:alba;font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;font-weight:450}
 .am *{margin:0;padding:0;box-sizing:border-box}
 .am button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;text-align:left;letter-spacing:inherit}
 /* keyboard focus: a branded, consistent ring (only on keyboard nav, not mouse/
@@ -49,7 +52,7 @@ html,body{background:#CFC8BB}
    only at mobile (tablet = iPad frame, desktop = full screen). */
 .device{position:relative}
 .v-btn{display:none}
-@media (max-width:767px){
+@container alba (max-width:767px){
   /* scale the whole device mockup to 0.95 (zoom keeps layout flow, so the
      Preview panel below still tracks the frame) */
   .device{zoom:.95}
@@ -105,16 +108,16 @@ html,body{background:#CFC8BB}
   background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:7px 8px 7px 16px;
   box-shadow:0 12px 32px -10px rgba(38,30,22,.2)}
 /* mobile + tablet: sit centred 40px below the device frame (rendered after .stage) */
-@media (max-width:899px){.demopanel{margin:40px auto 0}}
+@container alba (max-width:899px){.demopanel{margin:40px auto 0}}
 /* desktop: no device frame — float bottom-right */
-@media (min-width:900px){.demopanel{position:fixed;right:20px;bottom:20px;z-index:250}}
+@container alba (min-width:900px){.demopanel{position:fixed;right:20px;bottom:20px;z-index:250}}
 .dp-eye{font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-2);margin-right:2px}
 .am .dp-opt{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:6px 12px;border-radius:100px;transition:background .25s var(--e)}
 .dp-opt.on{background:var(--ink)}
 .dp-l{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink);letter-spacing:.02em}
 .dp-opt.on .dp-l{color:var(--paper)}
 .dp-s{font-size:9.5px;color:var(--grey-2)}
-@media (max-width:479px){.demopanel{padding:6px 6px 6px 13px}.dp-s{display:none}}
+@container alba (max-width:479px){.demopanel{padding:6px 6px 6px 13px}.dp-s{display:none}}
 
 /* ——— Onboarding — first-run flow. Fills the frame in place of .scroll +
    .nav; each step is a quiet full screen: dot progress, back chevron, one
@@ -193,7 +196,7 @@ html,body{background:#CFC8BB}
 .am .ob-orient ~ .cta{animation-delay:.54s}
 
 .ob-step .cta{margin-top:auto}
-@media (min-width:900px){
+@container alba (min-width:900px){
   /* .phone is a 2-column grid (rail | content) on desktop; .ob-step has no
      nav/rail counterpart, so it must explicitly span both columns or grid
      auto-placement drops it into the narrow first column. */
@@ -337,14 +340,14 @@ html,body{background:#CFC8BB}
 /* mobile + tablet only: the panel eases in as a shade, in place of the row
    stagger. Desktop is a rail destination — it keeps the standard stagger-fadeup
    like every other page, so the shade must not reach it. */
-@media (max-width:899px){
+@container alba (max-width:899px){
   .nt-panel{animation:ntShade .32s var(--e) both}
   .nt-panel.stag>*{animation:none}
 }
 .nt-head{position:relative;padding-top:0}
 .am .nt-head .nt-close{position:absolute;top:0;right:0;z-index:2}
 /* on desktop the rail stays visible, so there's nothing to close back to */
-@media (min-width:900px){.nt-head .nt-close{display:none}.nt-head{padding-top:0}}
+@container alba (min-width:900px){.nt-head .nt-close{display:none}.nt-head{padding-top:0}}
 .am .backb{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none}
 .backb svg{width:20px;height:20px;stroke:var(--ink)}
 .backrow .bt{font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--grey)}
@@ -1032,19 +1035,19 @@ html,body{background:#CFC8BB}
 @keyframes slideout{from{transform:none}to{transform:translateX(100%)}}
 
 /* mobile + tablet: full-page sub-views hide the bottom tab bar */
-@media (max-width:899px){
+@container alba (max-width:899px){
   .am.subview .nav{display:none}
 }
 
 /* MOBILE: the device frame fits within the viewport, and the journey switcher
    sits above it (in flow, centred) rather than floating over the app. */
-@media (max-width:767px){
+@container alba (max-width:767px){
   .stage{min-height:0;padding:20px 12px}
 }
 
 /* TABLET: an iPad-style device frame on the taupe stage, scaled nav.
    The frame height tracks the viewport (aspect 3:4) so it always fits. */
-@media (min-width:768px) and (max-width:899px){
+@container alba (min-width:768px) and (max-width:899px){
   .stage{padding:40px 24px}
   /* scale the iPad mockup to 1.08 (zoom keeps layout flow) */
   .device{zoom:1.08}
@@ -1079,7 +1082,7 @@ html,body{background:#CFC8BB}
 }
 
 /* DESKTOP: left sidebar rail + right-slide panels */
-@media (min-width:900px){
+@container alba (min-width:900px){
   .stage{display:block;padding:0;background:var(--paper);min-height:100vh}
   .island,.pbar{display:none}
   .splash-brand{font-size:46px}
@@ -1156,7 +1159,7 @@ html,body{background:#CFC8BB}
 
 /* notices page (tablet + desktop): roomier group spacing. Tabs and the
    count+sort bar stack (Estates pattern) at every width — no shared row. */
-@media (min-width:768px){
+@container alba (min-width:768px){
   .nt-g{margin-top:var(--sp-6)}
 }
 /* pushed pages: back arrow → title */

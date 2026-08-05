@@ -28,8 +28,8 @@ const BACK_LABEL = { requests:"Requests", estates:"Estates", schedule:"Schedule"
 // Adrien's config for any id we don't have art for.
 const av = (id) => AV[id] || AV.adrien;
 
-export function Manager({ push, onSubview }) {
-  const [section, setSection] = useState("requests");
+export function Manager({ push, onSubview, initialSection = "requests" }) {
+  const [section, setSection] = useState(initialSection);
   // An open estate is a pushed page over whatever section it came from —
   // back returns there. On phone/tablet it hides the nav (a subview).
   const [estateId, setEstateId] = useState(null);

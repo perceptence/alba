@@ -18,6 +18,7 @@ import { PhoneBar } from "@/components/PhoneBar";
 import { useToasts, ToastHost } from "@/components/Toasts";
 import { useCx } from "@/lib/conciergeStore";
 import { useNotices } from "@/lib/noticesStore";
+import { resolveScreen } from "@/lib/screens";
 
 import { Home } from "@/screens/Home";
 import { Rent, Payments } from "@/screens/Rent";
@@ -37,35 +38,59 @@ import { Manager } from "@/screens/Manager";
 import { ManagerPresence } from "@/components/ManagerPresence";
 import { DemoPanel } from "@/components/DemoPanel";
 
-export default function App(){
+/* `screen` / `embedded` make the app deterministically reachable from outside:
+   pass a key from lib/screens.js and it mounts on exactly that screen. The
+   case-study page mounts this component inline with those props; the same keys
+   work as ?screen= on the URL. `embedded` drops the prototype chrome (journey
+   switcher, launch splash) so the app is live on arrival rather than mid-intro. */
+export default function App({ embedded=false, screen=null }){
+  const initial=screen?resolveScreen(screen):null;
+  const st=initial?.state||{};
   // Which journey the preview is showing — a prototype-only concern, driven
   // by the DemoPanel outside the device frame. Not part of the real product.
-  const [journey,setJourney]=useState("resident"); // resident | onboarding
-  const [tab,setTab]=useState("home");
-  const [resView,setResView]=useState(false);
+  const [journey,setJourney]=useState(initial?.journey||"resident"); // resident | onboarding | manager
+  const [tab,setTab]=useState(st.tab||"home");
+  const [mgrSection,setMgrSection]=useState(st.section||"requests");
+  const [resView,setResView]=useState(!!st.resView);
   const [compose,setCompose]=useState(null);
   const [detail,setDetail]=useState(null);
-  const [noticesView,setNoticesView]=useState(false);
-  const [guestView,setGuestView]=useState(false);
+  const [noticesView,setNoticesView]=useState(!!st.noticesView);
+  const [guestView,setGuestView]=useState(!!st.guestView);
   // (autopay is now managed by a sheet local to the Payments screen)
-  const [scheduleView,setScheduleView]=useState(false);
-  const [renewalView,setRenewalView]=useState(false);
-  const [chargesView,setChargesView]=useState(false);
-  const [autopayView,setAutopayView]=useState(false);
-  const [payView,setPayView]=useState(false);
-  const [pastView,setPastView]=useState(false);
+  const [scheduleView,setScheduleView]=useState(!!st.scheduleView);
+  const [renewalView,setRenewalView]=useState(!!st.renewalView);
+  const [chargesView,setChargesView]=useState(!!st.chargesView);
+  const [autopayView,setAutopayView]=useState(!!st.autopayView);
+  const [payView,setPayView]=useState(!!st.payView);
+  const [pastView,setPastView]=useState(!!st.pastView);
   const [paySheet,setPaySheet]=useState(null);
   const {toasts,push}=useToasts();
   const cx=useCx();
   const nt=useNotices();
   const cxUnread=cx.unreadCount()>0;
   // Launch splash — shows the brand on load, then fades to reveal the app.
-  const [splash,setSplash]=useState("in"); // in → out → gone
+  // Embedded, there's no intro to sit through: the app is live on arrival.
+  const [splash,setSplash]=useState(embedded?"gone":"in"); // in → out → gone
   useEffect(()=>{
+    if(embedded)return;
     const t1=setTimeout(()=>setSplash("out"),1900);
     const t2=setTimeout(()=>setSplash("gone"),2550);
     return ()=>{clearTimeout(t1);clearTimeout(t2);};
-  },[]);
+  },[embedded]);
+  // Deep links: ?screen=<key from lib/screens.js>. Applied after mount (reading
+  // window during render would break hydration); the splash covers the switch.
+  useEffect(()=>{
+    if(embedded||typeof window==="undefined")return;
+    const key=new URLSearchParams(window.location.search).get("screen");
+    const r=key&&resolveScreen(key);
+    if(!r)return;
+    const s=r.state||{};
+    setJourney(r.journey);setTab(s.tab||"home");setMgrSection(s.section||"requests");
+    setResView(!!s.resView);setNoticesView(!!s.noticesView);setGuestView(!!s.guestView);
+    setScheduleView(!!s.scheduleView);setRenewalView(!!s.renewalView);
+    setChargesView(!!s.chargesView);setAutopayView(!!s.autopayView);
+    setPayView(!!s.payView);setPastView(!!s.pastView);
+  },[embedded]);
   const go=(t)=>{setResView(false);setNoticesView(false);setGuestView(false);setScheduleView(false);setRenewalView(false);setChargesView(false);setAutopayView(false);setTab(t);};
   const route=(to)=>{
     if(to.type==="request")setDetail(to.id);
@@ -106,7 +131,7 @@ export default function App(){
           {onboarding?(
             <Onboarding onComplete={()=>{setJourney("resident");go("home");}}/>
           ):manager?(
-            <Manager push={push} onSubview={setMgrSub}/>
+            <Manager push={push} onSubview={setMgrSub} initialSection={mgrSection}/>
           ):(<>
           <div className="scroll" ref={scrollRef}>
             {payView?<Payments onBack={()=>setPayView(false)} onOpenPayment={(id)=>setPaySheet(id)}/>
@@ -172,7 +197,7 @@ export default function App(){
         </div>
         </div>
       </div>
-      <DemoPanel journey={journey} onChange={(j)=>{setJourney(j);go("home");}}/>
+      {!embedded&&<DemoPanel journey={journey} onChange={(j)=>{setJourney(j);go("home");}}/>}
     </div>
   );
 }
