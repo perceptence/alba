@@ -51,7 +51,7 @@ one-offs outside this file's table.
 | `--gap-rail` | 20 | tab rail / count bar → adjacent content (both sides) |
 | `--gap-group` | 20 | group label rhythm; day blocks; label blocks (flab) |
 | `--gap-tight` | 12 | label → its field/content; title → address lines; **any heading → the hairline/row beneath it** (sect-h, sday-h, nt-g, mgr-grp all share this) |
-| `--gap-micro` | 4/8 | icon↔label (4), title↔subline (4), meta (8) |
+| `--sp-1` / `--sp-2` | 4 / 8 | micro: icon↔label (4), title↔subline (4), meta (8) |
 
 Sheets: header → body content = 24 total (head's 20 pad + 4 body inset).
 
