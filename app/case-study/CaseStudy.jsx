@@ -624,11 +624,6 @@ export default function CaseStudy() {
               </ul>
             </div>
           </div>
-          <p className="road-foot">
-            The prototype runs on fixtures and has no server behind it. That is the
-            starting line, not the apology: everything above needs a back end, and none of
-            it needs a different design.
-          </p>
         </div>
       </section>
 
