@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- ALBA — the doorway arch with the clay sun rising in it, on the product's
+       own paper. Same geometry as the splash mark and the sidebar brand; the
+       stroke is heavier here so it survives at 16px. -->
+  <rect width="64" height="64" fill="#F3EFE7"/>
+  <g transform="translate(-1,-4.3) scale(1.65)" fill="none" stroke="#1C1917"
+     stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 9 34 L 9 19 A 11 9 0 0 1 31 19 L 31 34"/>
+    <path d="M 14 34 A 6 6 0 0 1 26 34 Z" fill="#9E5236" stroke="none"/>
+    <line x1="4" y1="34" x2="36" y2="34"/>
+  </g>
+</svg>
