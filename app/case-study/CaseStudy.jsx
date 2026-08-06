@@ -545,45 +545,90 @@ export default function CaseStudy() {
         </div>
       </section>
 
-      {/* ——— next ——— */}
+      {/* ——— what it could become ——— */}
       <section className="sec" id="next">
         <div className="wrap">
-          <div className="sec-eye">Where this goes next</div>
-          <h2>The parts worth building</h2>
+          <div className="sec-eye">Where this goes</div>
+          <h2>A house that answers before it is asked</h2>
           <p className="sec-lede">
-            ALBA is a working prototype: its data is fixtures held in memory, and there is
-            no server behind it. Those are the starting conditions, and they set up what
-            comes next.
+            The prototype settles the manners: how a house speaks, what it refuses to
+            shout, whose name is on the answer. Those manners are the hard part, and they
+            scale further than a phone. What follows is the argument for what they could
+            carry — none of it in here, all of it the reason to build the next thing.
           </p>
           <div className="sec-body road">
             <div className="lane">
-              <div className="lane-h">Next</div>
-              <div className="lane-w">Nearest to hand</div>
+              <div className="lane-h">The house reports itself</div>
+              <div className="lane-w">Service before the complaint</div>
               <ul>
-                <li>Real persistence, so a request survives a refresh.</li>
-                <li>Operator broadcast: one notice to a whole estate.</li>
-                <li>Rent visibility for the resident inside Account.</li>
+                <li>
+                  <b>The pool heater raises its own request.</b>
+                  <span>Plant that files a fault the week it starts drifting, so the
+                  first anyone hears of it is Rosa saying it is already booked.</span>
+                </li>
+                <li>
+                  <b>The estate has a standing rhythm.</b>
+                  <span>Linens on Thursdays, guests most Fridays, the olive terrace cut
+                  before August. A household has a shape; the desk should keep it without
+                  being reminded.</span>
+                </li>
+                <li>
+                  <b>Every promise is on the record.</b>
+                  <span>An account of what was asked, agreed and done that neither side
+                  can quietly revise — the exact thing residents say goes missing today.</span>
+                </li>
               </ul>
             </div>
+
             <div className="lane">
-              <div className="lane-h">Later</div>
-              <div className="lane-w">Needs a back end</div>
+              <div className="lane-h">The desk becomes a network</div>
+              <div className="lane-w">One picture, many hands</div>
               <ul>
-                <li>Real gate integration for guest passes.</li>
-                <li>Vendor-side scheduling, not just the desk&rsquo;s view.</li>
-                <li>Documents a lease can actually be signed on.</li>
+                <li>
+                  <b>Vendors as participants, not phone numbers.</b>
+                  <span>The gardener confirms Thursday from his own van and the resident&rsquo;s
+                  timeline moves itself. No one retypes anything.</span>
+                </li>
+                <li>
+                  <b>An estate desk that spans houses and firms.</b>
+                  <span>Seven becomes seventy, across managers and trades, without the day
+                  turning into a queue with people in it.</span>
+                </li>
+                <li>
+                  <b>Rosa&rsquo;s judgement scaled, never replaced.</b>
+                  <span>Let the desk settle the routine so the manager spends her attention
+                  on the things that actually need a person.</span>
+                </li>
               </ul>
             </div>
+
             <div className="lane">
-              <div className="lane-h">Exploring</div>
-              <div className="lane-w">Open questions</div>
+              <div className="lane-h">The far edge</div>
+              <div className="lane-w">Worth arguing about</div>
               <ul>
-                <li>How quiet can a notification be and still arrive?</li>
-                <li>What the desk should decide without asking Rosa.</li>
-                <li>A second estate&rsquo;s brand inside the same system.</li>
+                <li>
+                  <b>Ask aloud, anywhere in the house.</b>
+                  <span>&ldquo;Ask for anything&rdquo; taken literally — said in passing on the way
+                  out, understood, routed, and waiting as a request when you look.</span>
+                </li>
+                <li>
+                  <b>Residency as something you carry.</b>
+                  <span>Lease, payments, requests and guests as one continuous record the
+                  resident owns and can take to the next house.</span>
+                </li>
+                <li>
+                  <b>The system as a house style others can wear.</b>
+                  <span>A second estate&rsquo;s name and colour inside the same manners, so
+                  quiet service is something an operator can adopt rather than commission.</span>
+                </li>
               </ul>
             </div>
           </div>
+          <p className="road-foot">
+            The prototype runs on fixtures and has no server behind it. That is the
+            starting line, not the apology: everything above needs a back end, and none of
+            it needs a different design.
+          </p>
         </div>
       </section>
 

@@ -362,8 +362,14 @@ body:has(.cs) { background: var(--paper); }
 .cs .lane-h { font-family: var(--serif); font-weight: 400; font-size: 21px; letter-spacing: -.01em; color: var(--ink); }
 .cs .lane-w { font-size: 10px; font-weight: 600; letter-spacing: var(--tk-micro); text-transform: uppercase; color: var(--clay); margin-top: var(--sp-2); }
 .cs .lane ul { margin-top: var(--gap-group); }
-.cs .lane li { font-size: 15px; line-height: 1.5; color: var(--ink); padding: var(--sp-3) 0; border-top: 1px solid var(--line); }
+.cs .lane li { padding: var(--gap-tight) 0; border-top: 1px solid var(--line); }
 .cs .lane li:first-child { border-top: none; padding-top: 0; }
+.cs .lane li b { display: block; font-family: var(--serif); font-weight: 400; font-size: 16px; line-height: 1.25; color: var(--ink); }
+.cs .lane li span { display: block; font-size: 14px; line-height: 1.55; color: var(--grey); margin-top: 6px; }
+.cs .road-foot {
+  margin-top: var(--gap-section); padding-left: var(--sp-4); border-left: 2px solid var(--clay);
+  font-size: 15px; line-height: 1.6; color: var(--ink); max-width: 62ch;
+}
 
 /* ——— foot ——— */
 .cs .foot { padding: 56px 0 72px; border-top: 1px solid var(--cs-rule); }
