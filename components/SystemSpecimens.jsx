@@ -10,7 +10,7 @@
    Helper components are at module scope on purpose — declared inside a render
    they would be a new type each pass, remounting their subtrees. */
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Elevation } from "@/components/Elevation";
 import { I } from "@/components/icons";
 import { STATS, CONTRAST } from "@/lib/stats";
@@ -106,17 +106,51 @@ function ElevationPicker() {
   );
 }
 
-/* The one easing curve, replayable. */
+/* The one easing curve — raced against linear, because a dot moving on its own
+   tells you nothing. Side by side you can see the curve leave quickly and
+   settle, while linear arrives at a constant, mechanical pace. */
 function MotionSpec({ ease }) {
-  const [run, setRun] = useState(0);
+  const linRef = useRef(null);   // NB: `lin` at module scope is the luminance helper
+  const albaRef = useRef(null);
+  const [played, setPlayed] = useState(false);
+
+  /* Driven from JS rather than a CSS keyframe: the travel is measured from the
+     track at the moment you press play, so it is right at any column width —
+     a percentage in a keyframe was resolving against the 18px dot, not the
+     track, and moved a fixed distance regardless. */
+  const play = () => {
+    const curve = ease || "cubic-bezier(.4,0,.2,1)";
+    for (const [ref, easing] of [[linRef, "linear"], [albaRef, curve]]) {
+      const el = ref.current;
+      if (!el || !el.parentElement) continue;
+      const travel = el.parentElement.clientWidth - el.offsetWidth;
+      if (travel <= 0) continue;
+      el.getAnimations().forEach((a) => a.cancel());
+      el.animate(
+        [{ transform: "translateX(0px)" }, { transform: `translateX(${travel}px)` }],
+        { duration: 1100, easing, fill: "forwards" }
+      );
+    }
+    setPlayed(true);
+  };
+
   return (
     <div>
       <svg className="ease" viewBox="0 0 120 44" width="100%" height="44" aria-hidden="true">
         <path d="M2 42 C 50 42, 62 2, 118 2" fill="none" stroke="var(--clay)" strokeWidth="1.5" />
       </svg>
       <div className="bar-n" style={{ marginTop: 8 }}>{ease}</div>
-      <div className="mo-track"><span key={run} className={"mo-dot" + (run ? " run" : "")} /></div>
-      <button className="spec-act" onClick={() => setRun((n) => n + 1)}>Play the curve</button>
+
+      <div className="mo-row">
+        <span className="mo-lbl">Linear</span>
+        <span className="mo-track"><span ref={linRef} className="mo-dot lin" /></span>
+      </div>
+      <div className="mo-row">
+        <span className="mo-lbl">ALBA</span>
+        <span className="mo-track"><span ref={albaRef} className="mo-dot alba" /></span>
+      </div>
+
+      <button className="spec-act" onClick={play}>{played ? "Play again" : "Play both"}</button>
     </div>
   );
 }
