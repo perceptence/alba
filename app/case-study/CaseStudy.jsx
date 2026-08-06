@@ -521,7 +521,7 @@ export default function CaseStudy() {
               <tbody>
                 {tok?.contrast.map((c) => (
                   <tr key={c.fg + c.bg}>
-                    <td><span className="dot" style={{ background: c.fgv }} />{c.role}</td>
+                    <td><span className="a11y-dot" style={{ background: c.fgv }} />{c.role}</td>
                     <td>{c.bg.replace("--", "")}</td>
                     <td className="num">{c.r.toFixed(2)}:1</td>
                     <td>{c.r >= 4.5 ? <span className="chip">Passes</span> : <span className="chip" style={{ color: "var(--clay)" }}>Large text only</span>}</td>

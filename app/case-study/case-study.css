@@ -351,7 +351,7 @@ body:has(.cs) { background: var(--paper); }
 .cs .tbl td { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--ink); vertical-align: middle; }
 .cs .tbl .num { font-variant-numeric: tabular-nums; }
 .cs .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--sage); }
-.cs .dot { width: 18px; height: 18px; border-radius: 4px; border: 1px solid var(--line); display: inline-block; vertical-align: middle; margin-right: 8px; }
+.cs .a11y-dot { width: 18px; height: 18px; border-radius: 4px; border: 1px solid var(--line); display: inline-block; vertical-align: middle; margin-right: 8px; }
 .cs .caveat { margin-top: var(--gap-section); padding-left: var(--sp-4); border-left: 2px solid var(--clay); }
 .cs .caveat h4 { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); margin-bottom: var(--sp-2); }
 .cs .caveat p { font-size: 15px; line-height: 1.6; color: var(--ink); }
