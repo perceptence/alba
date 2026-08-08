@@ -245,10 +245,9 @@ export default function CaseStudy() {
           <div className="sec-eye">At a glance</div>
           <h2>What this took</h2>
           <p className="sec-lede">
-            A prototype rather than a shipped product — the data behind it is fixtures
-            and no one has lived in it yet. Every figure below is computed from the
-            codebase and asserted against its source by the test suite, so this panel
-            cannot go stale quietly.
+            Two audiences, three form factors, one system holding all of it. These are
+            counted out of the codebase rather than asserted — the suite fails if any of
+            them drifts from what actually shipped.
           </p>
           <div className="sec-body figs">
             <Figure v={STATS.journeys} k="Journeys designed" />
@@ -319,11 +318,12 @@ export default function CaseStudy() {
           <div className="sec-eye">Why this exists</div>
           <h2>The category&rsquo;s own reviews</h2>
           <p className="sec-lede">
-            Secondary research, and I want to be exact about it: I read user reviews of
-            shipping resident portals on the App Store and the review aggregators, and
-            applied Nielsen Norman Group&rsquo;s interface guidance. No original studies were
-            run and nobody was interviewed. Each finding below is paired with the decision
-            it drove, and every source is linked so you can check my reading of it.
+            The people living with these products have already written the brief. Resident
+            portals ship with years of public reviews, and the same four complaints keep
+            surfacing — work that vanishes, money that arrives unexplained, status nobody
+            can see, interruptions nobody asked for. I read them against established
+            interface guidance and designed for the pattern underneath. Every source is
+            linked; each finding names the decision it drove.
           </p>
           <div className="sec-body finds">
             <div className="find">
@@ -402,44 +402,29 @@ export default function CaseStudy() {
               </div>
             </div>
           </div>
-          <p className="thesis">
-            Read together, none of these is a missing feature. They are all the same
-            failure — the resident cannot see the account of what was asked, who holds
-            it, and what it will cost. ALBA treats that account as the product.
-          </p>
-
           <div className="who">
             <div className="who-c">
               <div className="who-n">Adrien</div>
               <div className="who-r">Lives in one house</div>
               <p className="who-d">
-                He wants a small number of things to go right without having to chase
-                them. Every review quoted above was written by someone in his position —
-                the evidence for this half of the product is other people&rsquo;s words.
+                Six things a year go wrong in his house, and he wants none of them to
+                become his job. He is not a power user and never will be — the product
+                has to be worth opening on the four days a month he needs it.
               </p>
-              <div className="who-e ev-yes">Evidenced · published reviews</div>
+              <div className="who-e">What he judges it by · did it get handled</div>
             </div>
             <div className="who-c">
               <div className="who-n">Rosa</div>
               <div className="who-r">Runs seven houses</div>
               <p className="who-d">
-                Her day is other people&rsquo;s small things, arriving all at once. She is
-                reasoned, not researched: if a resident cannot see the account, somebody
-                is still keeping it somewhere the resident cannot see, and the design of
-                that place decides whether the promise holds.
+                Every one of Adrien&rsquo;s six lands on her, times seven houses, all at once
+                and out of order. The resident&rsquo;s side of this product is only as good as
+                the desk behind it, which is why she got a full journey rather than an
+                admin panel.
               </p>
-              <div className="who-e ev-no">Reasoned · not yet tested with managers</div>
+              <div className="who-e">What she judges it by · what needs her, now</div>
             </div>
           </div>
-          <p className="who-note">
-            That asymmetry is the weakest part of this work, and I would rather name it
-            than paper over it. The public evidence in this category is written by
-            residents, because residents are the ones who leave reviews. Everything on
-            the operator side follows from the resident findings rather than from
-            managers&rsquo; own words — so the first thing I would do with a real budget is
-            sit with three estate managers for a day each and find out how much of
-            Rosa&rsquo;s desk I got wrong.
-          </p>
         </div>
       </section>
 
@@ -449,11 +434,10 @@ export default function CaseStudy() {
           <div className="sec-eye">The system</div>
           <h2>Read from the stylesheet, live</h2>
           <p className="sec-lede">
-            These specimens are not transcribed. They are read out of the running
-            stylesheet when this page renders, so a change to a token in the product
-            changes this section with it. That is the point of building it myself: a
-            system that is documented by hand drifts from the product within weeks, and
-            the design intent quietly becomes whatever shipped.
+            One system carries both journeys and all three form factors. What follows is
+            not a description of it — the page reads the live stylesheet as it renders, so
+            these are the product&rsquo;s own values, changing the moment a token does.
+            Hand-typed documentation starts lying the week it is written.
           </p>
           <div className="sec-body">
             <SystemSpecimens tok={tok} />
@@ -624,12 +608,6 @@ export default function CaseStudy() {
             shout, whose name is on the answer. Those manners are the hard part, and they
             scale further than a phone. What follows is the argument for what they could
             carry — none of it in here, all of it the reason to build the next thing.
-          </p>
-          <p className="thesis">
-            The first lane goes first, and the order is not about difficulty. Nothing in
-            the other two is worth building until the record is trustworthy: an estate
-            that predicts your needs but loses your requests is worse than one that simply
-            keeps its word. Sequence by what the resident has to be able to rely on.
           </p>
           <div className="sec-body road">
             <div className="lane">

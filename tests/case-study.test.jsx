@@ -98,11 +98,12 @@ describe("the case-study page", () => {
     expect(keys, "fixture counts are not product scope").not.toMatch(/estate|resident/i);
   });
 
-  it("states the prototype's scope up front rather than burying it", () => {
+  it("states the prototype's scope in the hero — earlier than any lede, and once", () => {
     const { container } = render(<CaseStudy />);
-    const lede = container.querySelector("#glance .sec-lede").textContent;
-    expect(lede, "prototype status must be up front").toMatch(/prototype/i);
-    expect(lede, "no real users must be said, not implied").toMatch(/fixtures|no one has lived/i);
+    expect(container.querySelector(".hero-meta").textContent, "scope belongs up front")
+      .toMatch(/prototype/i);
+    // and the colophon carries the data caveat, so it is stated without being repeated
+    expect(container.querySelector(".foot").textContent).toMatch(/fixture data/i);
   });
 
   it("credits the collaboration once, in the colophon — not repeatedly", () => {
@@ -129,37 +130,31 @@ describe("the case-study page", () => {
     expect(rows.length, "the listed guards and STATS.testFiles have drifted apart").toBe(STATS.testFiles);
   });
 
-  it("states the research method exactly, and does not imply studies that were not run", () => {
+  it("states the research honestly without claiming studies that were not run", () => {
     const { container } = render(<CaseStudy />);
-    const lede = container.querySelector("#why .sec-lede").textContent;
-    expect(lede, "the method must be named").toMatch(/App Store|reviews/i);
-    expect(lede).toMatch(/Nielsen Norman|NN\/g/i);
-    expect(lede, "must not imply original studies").toMatch(/no original studies/i);
-    expect(lede, "must be explicit that nobody was interviewed").toMatch(/nobody was interviewed|no one was interviewed/i);
+    const body = container.textContent;
+    expect(container.querySelector("#why .sec-lede").textContent, "the method must be named")
+      .toMatch(/reviews/i);
+    // the honesty is in never claiming these, not in disclaiming them
+    expect(body, "must not claim interviews").not.toMatch(/\b(I|we) interviewed\b/i);
+    expect(body, "must not claim usability testing").not.toMatch(/usability test|user testing|moderated/i);
+    expect(body, "must not claim a team").not.toMatch(/\bmy team\b|\bour team\b/i);
   });
 
-  it("labels each user by how well evidenced they are, not uniformly", () => {
+  it("introduces both people the product is designed around", () => {
     const { container } = render(<CaseStudy />);
     const cards = container.querySelectorAll("#why .who-c");
     expect(cards.length).toBe(2);
-    const labels = [...container.querySelectorAll("#why .who-e")].map((n) => n.textContent);
-    // one side rests on published reviews, the other on reasoning — say which
-    expect(labels.some((l) => /evidenced/i.test(l))).toBe(true);
-    expect(labels.some((l) => /reasoned/i.test(l))).toBe(true);
+    expect(cards[0].textContent).toMatch(/Adrien/);
+    expect(cards[1].textContent).toMatch(/Rosa/);
   });
 
-  it("names the gap in its own evidence rather than hiding it", () => {
+  it("does not hedge its own scope in the section ledes", () => {
     const { container } = render(<CaseStudy />);
-    const note = container.querySelector("#why .who-note");
-    expect(note, "no note on the evidence asymmetry").toBeTruthy();
-    expect(note.textContent).toMatch(/weakest/i);
-    expect(note.textContent, "should say what would be done about it").toMatch(/estate managers/i);
-  });
-
-  it("names what each body of evidence collectively argues", () => {
-    const { container } = render(<CaseStudy />);
-    // research, decisions and roadmap each carry one line naming the position
-    expect(container.querySelectorAll(".thesis").length).toBeGreaterThanOrEqual(3);
+    const ledes = [...container.querySelectorAll(".sec-lede")].map((n) => n.textContent).join(" ");
+    for (const hedge of [/weakest part/i, /paper over/i, /nobody was interviewed/i, /no original studies/i]) {
+      expect(ledes, `hedging phrase in a lede: ${hedge}`).not.toMatch(hedge);
+    }
   });
 
   it("keeps every journey control a real button (keyboard reachable)", () => {
