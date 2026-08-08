@@ -86,9 +86,46 @@ describe("the case-study page", () => {
   it("prints the figures from the stats module, not literals", () => {
     const { container } = render(<CaseStudy />);
     const figs = [...container.querySelectorAll(".fig-v")].map((n) => n.textContent);
-    expect(figs).toContain(String(STATS.components));
-    expect(figs).toContain(String(STATS.tokens));
-    expect(figs).toContain(String(STATS.screens));
+    for (const v of [STATS.journeys, STATS.screens, STATS.components, STATS.estates, STATS.axeViolations]) {
+      expect(figs).toContain(String(v));
+    }
+  });
+
+  it("leads the figures with the scope of ownership, not a count", () => {
+    const { container } = render(<CaseStudy />);
+    const first = container.querySelector(".fig-v");
+    expect(first.textContent).toBe("Solo");
+  });
+
+  it("states the prototype's scope up front rather than burying it", () => {
+    const { container } = render(<CaseStudy />);
+    const lede = container.querySelector("#glance .sec-lede").textContent;
+    expect(lede).toMatch(/solo/i);
+    expect(lede, "the AI collaboration must be stated, not hidden").toMatch(/Claude/);
+    expect(lede, "prototype status must be up front").toMatch(/prototype/i);
+    expect(lede).toMatch(/no live users/i);
+  });
+
+  it("every stop in the header route points at a section that exists", () => {
+    const { container } = render(<CaseStudy />);
+    const links = [...container.querySelectorAll(".top-nav-a")];
+    expect(links.length, "no route in the header").toBeGreaterThanOrEqual(4);
+    for (const a of links) {
+      const id = a.getAttribute("href").slice(1);
+      expect(container.querySelector(`#${id}`), `route points at #${id}, which is not on the page`).toBeTruthy();
+    }
+  });
+
+  it("the guard list names every test file the page claims to have", () => {
+    const { container } = render(<CaseStudy />);
+    const rows = container.querySelectorAll(".guard");
+    expect(rows.length, "the listed guards and STATS.testFiles have drifted apart").toBe(STATS.testFiles);
+  });
+
+  it("names what each body of evidence collectively argues", () => {
+    const { container } = render(<CaseStudy />);
+    // research, decisions and roadmap each carry one line naming the position
+    expect(container.querySelectorAll(".thesis").length).toBeGreaterThanOrEqual(3);
   });
 
   it("keeps every journey control a real button (keyboard reachable)", () => {

@@ -149,6 +149,16 @@ const GUARDS = [
   ["screens.test.js", "Every deep link resolves, and the journey list on this page is exactly the registry the app navigates by — they cannot drift."],
   ["stats.test.js", "Every number printed on this page, checked against the file it describes. Break one and the suite goes red."],
   ["case-study.test.jsx", "The page renders, mounts the real app inline, and is not sitting on a splash screen."],
+  ["collisions.test.js", "No class name on this page collides with one in the product's stylesheet — the bug that put ten swatches in the corner of the page."],
+];
+
+/* the five stops that trace the argument, in reading order */
+const ROUTE = [
+  ["#why", "The problem"],
+  ["#live", "The product"],
+  ["#decisions", "The decisions"],
+  ["#system", "The system"],
+  ["#next", "What's next"],
 ];
 
 /* the screens belonging to one journey, in registry order */
@@ -192,6 +202,11 @@ export default function CaseStudy() {
               <span className="top-desc">Maison</span>
             </span>
           </span>
+          <nav className="top-nav" aria-label="Sections">
+            {ROUTE.map(([href, label]) => (
+              <a key={href} className="top-nav-a" href={href}>{label}</a>
+            ))}
+          </nav>
           <a
             className="top-link"
             href="/"
@@ -228,18 +243,21 @@ export default function CaseStudy() {
       <section className="sec" id="glance">
         <div className="wrap">
           <div className="sec-eye">At a glance</div>
-          <h2>What is actually in here</h2>
+          <h2>What this took</h2>
           <p className="sec-lede">
-            Counted from the repository, not estimated. Each figure is asserted against
-            its source file by the test suite, so this panel cannot go stale quietly.
+            Designed and built solo — the research framing, the product thinking, the
+            information architecture, the design system and the front-end are all mine,
+            with Claude as the only other pair of hands. It is a prototype, not a shipped
+            product: there are no live users behind it. Every figure below is computed
+            from the codebase and asserted against its source by the test suite.
           </p>
           <div className="sec-body figs">
-            <Figure v={STATS.journeys} k="Journeys" />
-            <Figure v={STATS.screens} k="Deep-linkable screens" />
-            <Figure v={STATS.components} k="React components" />
-            <Figure v={STATS.tokens} k="Design tokens" />
-            <Figure v={STATS.testFiles} k="Test files" />
-            <Figure v={STATS.axeViolations} k="Axe violations" />
+            <Figure v="Solo" k="Research, product, system, build" />
+            <Figure v={STATS.journeys} k="Journeys designed" />
+            <Figure v={STATS.screens} k="Screens, each deep-linkable" />
+            <Figure v={STATS.components} k="Reusable components" />
+            <Figure v={STATS.estates} k="Estates in the operator's care" />
+            <Figure v={STATS.axeViolations} k="Accessibility violations" />
           </div>
         </div>
       </section>
@@ -383,6 +401,11 @@ export default function CaseStudy() {
               </div>
             </div>
           </div>
+          <p className="thesis">
+            Read together, none of these is a missing feature. They are all the same
+            failure — the resident cannot see the account of what was asked, who holds
+            it, and what it will cost. ALBA treats that account as the product.
+          </p>
         </div>
       </section>
 
@@ -394,7 +417,9 @@ export default function CaseStudy() {
           <p className="sec-lede">
             These specimens are not transcribed. They are read out of the running
             stylesheet when this page renders, so a change to a token in the product
-            changes this section with it.
+            changes this section with it. That is the point of building it myself: a
+            system that is documented by hand drifts from the product within weeks, and
+            the design intent quietly becomes whatever shipped.
           </p>
           <div className="sec-body">
             <SystemSpecimens tok={tok} />
@@ -468,6 +493,11 @@ export default function CaseStudy() {
               why="Service that feels attended to has somebody's name on it. Every request in ALBA goes to a person and comes back in her voice, and the operator side is built as her desk rather than an admin panel — which is why the same design system had to serve both sides of the conversation."
             />
           </div>
+          <p className="thesis">
+            Every one of the six spends attention rather than adding it. That is the whole
+            position: in a product about service, the design&rsquo;s job is to decide what the
+            resident should not have to notice.
+          </p>
         </div>
       </section>
 
@@ -478,7 +508,9 @@ export default function CaseStudy() {
           <h2>What the suite refuses to let slip</h2>
           <p className="sec-lede">
             {STATS.testFiles} files. Not coverage for its own sake — each one pins a rule
-            that a real bug in this project broke.
+            that a real bug in this project broke. This is where design intent stops being
+            a preference and starts being enforced: contrast, spacing and the deep-link
+            registry all fail the build before they can quietly regress.
           </p>
           <div className="sec-body duo">
             <pre className="code" tabIndex={0} aria-label="Example test: contrast">{EXAMPLE_TEST}</pre>
@@ -558,6 +590,12 @@ export default function CaseStudy() {
             shout, whose name is on the answer. Those manners are the hard part, and they
             scale further than a phone. What follows is the argument for what they could
             carry — none of it in here, all of it the reason to build the next thing.
+          </p>
+          <p className="thesis">
+            The first lane goes first, and the order is not about difficulty. Nothing in
+            the other two is worth building until the record is trustworthy: an estate
+            that predicts your needs but loses your requests is worse than one that simply
+            keeps its word. Sequence by what the resident has to be able to rely on.
           </p>
           <div className="sec-body road">
             <div className="lane">
