@@ -245,18 +245,17 @@ export default function CaseStudy() {
           <div className="sec-eye">At a glance</div>
           <h2>What this took</h2>
           <p className="sec-lede">
-            Designed and built solo — the research framing, the product thinking, the
-            information architecture, the design system and the front-end are all mine,
-            with Claude as the only other pair of hands. It is a prototype, not a shipped
-            product: there are no live users behind it. Every figure below is computed
-            from the codebase and asserted against its source by the test suite.
+            A prototype rather than a shipped product — the data behind it is fixtures
+            and no one has lived in it yet. Every figure below is computed from the
+            codebase and asserted against its source by the test suite, so this panel
+            cannot go stale quietly.
           </p>
           <div className="sec-body figs">
-            <Figure v="Solo" k="Research, product, system, build" />
             <Figure v={STATS.journeys} k="Journeys designed" />
             <Figure v={STATS.screens} k="Screens, each deep-linkable" />
             <Figure v={STATS.components} k="Reusable components" />
             <Figure v={STATS.estates} k="Estates in the operator's care" />
+            <Figure v={STATS.residents} k="Residents on the books" />
             <Figure v={STATS.axeViolations} k="Accessibility violations" />
           </div>
         </div>
@@ -671,8 +670,8 @@ export default function CaseStudy() {
       <footer className="foot">
         <div className="wrap">
           <p>
-            ALBA — Maison. A prototype by Tanmay Jain. The application on this page is
-            live; the data behind it is fixture data. <a href="/">Open the app →</a>
+            ALBA — Maison. Designed and built by Tanmay Jain, with Claude. The
+            application on this page is live; the data behind it is fixture data. <a href="/">Open the app →</a>
           </p>
         </div>
       </footer>

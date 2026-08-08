@@ -91,19 +91,19 @@ describe("the case-study page", () => {
     }
   });
 
-  it("leads the figures with the scope of ownership, not a count", () => {
-    const { container } = render(<CaseStudy />);
-    const first = container.querySelector(".fig-v");
-    expect(first.textContent).toBe("Solo");
-  });
-
   it("states the prototype's scope up front rather than burying it", () => {
     const { container } = render(<CaseStudy />);
     const lede = container.querySelector("#glance .sec-lede").textContent;
-    expect(lede).toMatch(/solo/i);
-    expect(lede, "the AI collaboration must be stated, not hidden").toMatch(/Claude/);
     expect(lede, "prototype status must be up front").toMatch(/prototype/i);
-    expect(lede).toMatch(/no live users/i);
+    expect(lede, "no real users must be said, not implied").toMatch(/fixtures|no one has lived/i);
+  });
+
+  it("credits the collaboration once, in the colophon — not repeatedly", () => {
+    const { container } = render(<CaseStudy />);
+    expect(container.querySelector(".foot").textContent).toMatch(/with Claude/);
+    // solo authorship is implicit in a portfolio piece; saying it repeatedly is noise
+    const body = container.textContent;
+    expect((body.match(/\bsolo\b/gi) || []).length, "'solo' should not be repeated").toBeLessThanOrEqual(1);
   });
 
   it("every stop in the header route points at a section that exists", () => {
