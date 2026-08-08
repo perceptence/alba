@@ -234,165 +234,13 @@ export default function CaseStudy() {
             its source file by the test suite, so this panel cannot go stale quietly.
           </p>
           <div className="sec-body figs">
-            <div className="fig lead">
-              <div className="fig-v">{STATS.screens}</div>
-              <div className="fig-k">Screens, each with its own link</div>
-            </div>
             <Figure v={STATS.journeys} k="Journeys" />
-            <Figure v={STATS.components} k="Components" />
+            <Figure v={STATS.screens} k="Deep-linkable screens" />
+            <Figure v={STATS.components} k="React components" />
             <Figure v={STATS.tokens} k="Design tokens" />
             <Figure v={STATS.testFiles} k="Test files" />
             <Figure v={STATS.axeViolations} k="Axe violations" />
           </div>
-        </div>
-      </section>
-
-      {/* ——— the running product ——— */}
-      <section className="sec" id="live">
-        <div className="wrap">
-          <div className="sec-eye">The product, running</div>
-          <h2>Have a look around</h2>
-          <p className="sec-lede">
-            This is the app itself, not pictures of it — everything here works. Follow
-            Adrien through an ordinary week at home, arrive as a new resident being
-            invited in, or take Rosa&rsquo;s seat and run seven houses from one desk.
-          </p>
-          <div className="sec-body live">
-            <div className="live-list">
-              <div className="jtabs" role="tablist" aria-label="Who is using the app">
-                {JOURNEY_GROUPS.map((g) => (
-                  <button
-                    key={g.journey}
-                    role="tab"
-                    aria-selected={g.journey === group}
-                    className={"jtab" + (g.journey === group ? " on" : "")}
-                    onClick={() => pickGroup(g.journey)}
-                  >
-                    {g.label}
-                    <span className="jtab-n">{keysFor(g.journey).length}</span>
-                  </button>
-                ))}
-              </div>
-              <div className="jwho">{JOURNEYS[group]}</div>
-              <div style={{ marginTop: "var(--gap-rail)" }}>
-                {keysFor(group).map((k) => (
-                  <button
-                    key={k}
-                    className={"jrow" + (k === screen ? " on" : "")}
-                    onClick={() => setScreen(k)}
-                    aria-pressed={k === screen}
-                  >
-                    <span className="jrow-t">{SCREENS[k].label}</span>
-                    <span className="jrow-l">{SCREENS[k].line}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="live-stageWrap">
-              <div className="live-badge">● Live — {active?.label}</div>
-              <div className="live-stage">
-                {/* key remounts per screen so each one lands deterministically */}
-                <App key={screen} embedded screen={screen} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ——— why this exists ——— */}
-      <section className="sec" id="why">
-        <div className="wrap">
-          <div className="sec-eye">Why this exists</div>
-          <h2>The category&rsquo;s own reviews</h2>
-          <p className="sec-lede">
-            Secondary research: no original studies were run for this prototype. These are
-            published reviews of shipping resident portals and established interface
-            guidance. Each finding is paired with the decision it drove.
-          </p>
-          <div className="sec-body finds">
-            <div className="find">
-              <div>
-                <p className="find-q">
-                  Residents report that managers can delete maintenance requests whether or
-                  not they were addressed, leaving tenants unable to see any past requests
-                  at all.
-                </p>
-                <a className="find-src" href="https://justuseapp.com/en/app/443831139/resident-portal-mobile/reviews" target="_blank" rel="noopener noreferrer">
-                  Resident Portal Mobile — user reviews
-                </a>
-              </div>
-              <div>
-                <div className="find-k">Decision</div>
-                <p className="find-d">
-                  A request is a record, not a ticket. Every request keeps a visible
-                  timeline the resident owns, and resolved requests stay readable rather
-                  than disappearing from the list.
-                </p>
-              </div>
-            </div>
-            <div className="find">
-              <div>
-                <p className="find-q">
-                  Users who are uninformed about the system&rsquo;s current status cannot decide
-                  what to do next, nor figure out whether their actions were effective.
-                </p>
-                <a className="find-src" href="https://www.nngroup.com/articles/visibility-system-status/" target="_blank" rel="noopener noreferrer">
-                  Nielsen Norman Group — Visibility of System Status
-                </a>
-              </div>
-              <div>
-                <div className="find-k">Decision</div>
-                <p className="find-d">
-                  Every open request states where it stands — submitted, acknowledged,
-                  scheduled, in progress — on a track, with the time of the last movement.
-                  Status is the row, not a detail screen.
-                </p>
-              </div>
-            </div>
-            <div className="find">
-              <div>
-                <p className="find-q">
-                  Reviewers describe payment centres that are hard to use, interfaces
-                  unoptimised for mobile, and inconsistencies such as double rent charges.
-                </p>
-                <a className="find-src" href="https://apps.apple.com/us/app/resident-portal-mobile/id443831139" target="_blank" rel="noopener noreferrer">
-                  Resident Portal Mobile — App Store listing &amp; reviews
-                </a>
-              </div>
-              <div>
-                <div className="find-k">Decision</div>
-                <p className="find-d">
-                  Money is stated before it is asked for: what is owed, what the charge is
-                  for, and the date it was raised — then exactly one way to settle it.
-                </p>
-              </div>
-            </div>
-            <div className="find">
-              <div>
-                <p className="find-q">
-                  Reviewers complain of notifications popping in at all hours, and of
-                  promotional interruptions that cannot be opted out of.
-                </p>
-                <a className="find-src" href="https://apps.apple.com/us/app/resident-experience/id1635913940" target="_blank" rel="noopener noreferrer">
-                  Resident Experience — App Store reviews
-                </a>
-              </div>
-              <div>
-                <div className="find-k">Decision</div>
-                <p className="find-d">
-                  Notices are a page the resident visits, sorted by what needs them first —
-                  not a stream that interrupts. The estate speaks once, in one voice.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* a breath between the research and the system */}
-      <section className="quote-sec">
-        <div className="wrap">
-          <p className="pullquote">A house should not need to be chased.</p>
         </div>
       </section>
 
@@ -557,10 +405,6 @@ export default function CaseStudy() {
           </div>
         </div>
       </section>
-
-      {/* the horizon, edge to edge — a direct child of .cs so it is naturally
-          full width without 100vw (which would overflow past a scrollbar) */}
-      <div className="bleed" aria-hidden="true"><Elevation h={200} variant="laurel" /></div>
 
       {/* ——— what it could become ——— */}
       <section className="sec" id="next">
