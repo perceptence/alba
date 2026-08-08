@@ -253,10 +253,10 @@ export default function CaseStudy() {
           <div className="sec-body figs">
             <Figure v={STATS.journeys} k="Journeys designed" />
             <Figure v={STATS.screens} k="Screens, each deep-linkable" />
+            <Figure v={STATS.surfaces} k="Sheets and flyouts beneath them" />
             <Figure v={STATS.components} k="Reusable components" />
-            <Figure v={STATS.estates} k="Estates in the operator's care" />
-            <Figure v={STATS.residents} k="Residents on the books" />
-            <Figure v={STATS.axeViolations} k="Accessibility violations" />
+            <Figure v={STATS.formFactors} k="Form factors, one system" />
+            <Figure v={STATS.tests} k="Tests holding the rules" />
           </div>
         </div>
       </section>

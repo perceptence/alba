@@ -86,9 +86,16 @@ describe("the case-study page", () => {
   it("prints the figures from the stats module, not literals", () => {
     const { container } = render(<CaseStudy />);
     const figs = [...container.querySelectorAll(".fig-v")].map((n) => n.textContent);
-    for (const v of [STATS.journeys, STATS.screens, STATS.components, STATS.estates, STATS.axeViolations]) {
+    for (const v of [STATS.journeys, STATS.screens, STATS.surfaces, STATS.components, STATS.formFactors, STATS.tests]) {
       expect(figs).toContain(String(v));
     }
+  });
+
+  it("the figures describe the product, not the fixture data", () => {
+    const { container } = render(<CaseStudy />);
+    const keys = [...container.querySelectorAll("#glance .fig-k")].map((n) => n.textContent).join(" ");
+    // estates and residents are demo content — they measure the seed data, not the work
+    expect(keys, "fixture counts are not product scope").not.toMatch(/estate|resident/i);
   });
 
   it("states the prototype's scope up front rather than burying it", () => {
