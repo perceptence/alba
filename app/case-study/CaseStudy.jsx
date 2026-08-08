@@ -30,9 +30,9 @@ function Figure({ v, k }) {
   return (<div className="fig"><div className="fig-v">{v}</div><div className="fig-k">{k}</div></div>);
 }
 
-function Decision({ n, title, lk, rk, left, right, what, why }) {
+function Decision({ n, title, lk, rk, left, right, what, why, size }) {
   return (
-    <article className="case">
+    <article className={"case" + (size ? " " + size : "")}>
       <div className="case-n">{n}</div>
       <h3 className="case-t">{title}</h3>
       <div className="case-ba">
@@ -234,9 +234,12 @@ export default function CaseStudy() {
             its source file by the test suite, so this panel cannot go stale quietly.
           </p>
           <div className="sec-body figs">
+            <div className="fig lead">
+              <div className="fig-v">{STATS.screens}</div>
+              <div className="fig-k">Screens, each with its own link</div>
+            </div>
             <Figure v={STATS.journeys} k="Journeys" />
-            <Figure v={STATS.screens} k="Deep-linkable screens" />
-            <Figure v={STATS.components} k="React components" />
+            <Figure v={STATS.components} k="Components" />
             <Figure v={STATS.tokens} k="Design tokens" />
             <Figure v={STATS.testFiles} k="Test files" />
             <Figure v={STATS.axeViolations} k="Axe violations" />
@@ -386,6 +389,13 @@ export default function CaseStudy() {
         </div>
       </section>
 
+      {/* a breath between the research and the system */}
+      <section className="quote-sec">
+        <div className="wrap">
+          <p className="pullquote">A house should not need to be chased.</p>
+        </div>
+      </section>
+
       {/* ——— the system ——— */}
       <section className="sec" id="system">
         <div className="wrap">
@@ -417,6 +427,7 @@ export default function CaseStudy() {
           </p>
           <div className="sec-body cases">
             <Decision
+              size="lead"
               n="01 · Surface"
               title="Hairlines, not cards"
               lk="The usual" rk="ALBA"
@@ -441,6 +452,7 @@ export default function CaseStudy() {
               why="Nobody should open something to find out whether anything happened. The category's own reviews are full of residents who cannot see their own history; here the record is the list, so the answer to 'is anyone doing anything' is visible without a tap."
             />
             <Decision
+              size="tight"
               n="04 · Colour"
               title="One accent, spent once"
               lk="The usual" rk="ALBA"
@@ -449,6 +461,7 @@ export default function CaseStudy() {
               why="An accent only means something if it is rare. Clay is reserved for what needs you — the unpaid charge, the unread notice, the request that has stalled. Spend it on four things at once and the resident has to work out which one is real."
             />
             <Decision
+              size="tight"
               n="05 · Voice"
               title="Serif for people, sans for the machinery"
               lk="Sans throughout" rk="ALBA"
@@ -544,6 +557,10 @@ export default function CaseStudy() {
           </div>
         </div>
       </section>
+
+      {/* the horizon, edge to edge — a direct child of .cs so it is naturally
+          full width without 100vw (which would overflow past a scrollbar) */}
+      <div className="bleed" aria-hidden="true"><Elevation h={200} variant="laurel" /></div>
 
       {/* ——— what it could become ——— */}
       <section className="sec" id="next">
