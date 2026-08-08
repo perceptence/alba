@@ -129,6 +129,33 @@ describe("the case-study page", () => {
     expect(rows.length, "the listed guards and STATS.testFiles have drifted apart").toBe(STATS.testFiles);
   });
 
+  it("states the research method exactly, and does not imply studies that were not run", () => {
+    const { container } = render(<CaseStudy />);
+    const lede = container.querySelector("#why .sec-lede").textContent;
+    expect(lede, "the method must be named").toMatch(/App Store|reviews/i);
+    expect(lede).toMatch(/Nielsen Norman|NN\/g/i);
+    expect(lede, "must not imply original studies").toMatch(/no original studies/i);
+    expect(lede, "must be explicit that nobody was interviewed").toMatch(/nobody was interviewed|no one was interviewed/i);
+  });
+
+  it("labels each user by how well evidenced they are, not uniformly", () => {
+    const { container } = render(<CaseStudy />);
+    const cards = container.querySelectorAll("#why .who-c");
+    expect(cards.length).toBe(2);
+    const labels = [...container.querySelectorAll("#why .who-e")].map((n) => n.textContent);
+    // one side rests on published reviews, the other on reasoning — say which
+    expect(labels.some((l) => /evidenced/i.test(l))).toBe(true);
+    expect(labels.some((l) => /reasoned/i.test(l))).toBe(true);
+  });
+
+  it("names the gap in its own evidence rather than hiding it", () => {
+    const { container } = render(<CaseStudy />);
+    const note = container.querySelector("#why .who-note");
+    expect(note, "no note on the evidence asymmetry").toBeTruthy();
+    expect(note.textContent).toMatch(/weakest/i);
+    expect(note.textContent, "should say what would be done about it").toMatch(/estate managers/i);
+  });
+
   it("names what each body of evidence collectively argues", () => {
     const { container } = render(<CaseStudy />);
     // research, decisions and roadmap each carry one line naming the position

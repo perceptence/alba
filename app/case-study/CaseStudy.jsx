@@ -319,9 +319,11 @@ export default function CaseStudy() {
           <div className="sec-eye">Why this exists</div>
           <h2>The category&rsquo;s own reviews</h2>
           <p className="sec-lede">
-            Secondary research: no original studies were run for this prototype. These are
-            published reviews of shipping resident portals and established interface
-            guidance. Each finding is paired with the decision it drove.
+            Secondary research, and I want to be exact about it: I read user reviews of
+            shipping resident portals on the App Store and the review aggregators, and
+            applied Nielsen Norman Group&rsquo;s interface guidance. No original studies were
+            run and nobody was interviewed. Each finding below is paired with the decision
+            it drove, and every source is linked so you can check my reading of it.
           </p>
           <div className="sec-body finds">
             <div className="find">
@@ -404,6 +406,39 @@ export default function CaseStudy() {
             Read together, none of these is a missing feature. They are all the same
             failure — the resident cannot see the account of what was asked, who holds
             it, and what it will cost. ALBA treats that account as the product.
+          </p>
+
+          <div className="who">
+            <div className="who-c">
+              <div className="who-n">Adrien</div>
+              <div className="who-r">Lives in one house</div>
+              <p className="who-d">
+                He wants a small number of things to go right without having to chase
+                them. Every review quoted above was written by someone in his position —
+                the evidence for this half of the product is other people&rsquo;s words.
+              </p>
+              <div className="who-e ev-yes">Evidenced · published reviews</div>
+            </div>
+            <div className="who-c">
+              <div className="who-n">Rosa</div>
+              <div className="who-r">Runs seven houses</div>
+              <p className="who-d">
+                Her day is other people&rsquo;s small things, arriving all at once. She is
+                reasoned, not researched: if a resident cannot see the account, somebody
+                is still keeping it somewhere the resident cannot see, and the design of
+                that place decides whether the promise holds.
+              </p>
+              <div className="who-e ev-no">Reasoned · not yet tested with managers</div>
+            </div>
+          </div>
+          <p className="who-note">
+            That asymmetry is the weakest part of this work, and I would rather name it
+            than paper over it. The public evidence in this category is written by
+            residents, because residents are the ones who leave reviews. Everything on
+            the operator side follows from the resident findings rather than from
+            managers&rsquo; own words — so the first thing I would do with a real budget is
+            sit with three estate managers for a day each and find out how much of
+            Rosa&rsquo;s desk I got wrong.
           </p>
         </div>
       </section>
