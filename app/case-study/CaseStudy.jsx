@@ -30,7 +30,7 @@ function Figure({ v, k }) {
   return (<div className="fig"><div className="fig-v">{v}</div><div className="fig-k">{k}</div></div>);
 }
 
-function Decision({ n, title, lk, rk, left, right, what, why, size }) {
+function Decision({ n, title, lk, rk, left, right, what, why, cost, size }) {
   return (
     <article className={"case" + (size ? " " + size : "")}>
       <div className="case-n">{n}</div>
@@ -43,6 +43,13 @@ function Decision({ n, title, lk, rk, left, right, what, why, size }) {
         <div><h4>What you are looking at</h4><p>{what}</p></div>
         <div><h4>What it makes true</h4><p>{why}</p></div>
       </div>
+      {/* only the decisions that had a real price carry this — absence means free */}
+      {cost && (
+        <div className="case-cost">
+          <h4>What it cost</h4>
+          <p>{cost}</p>
+        </div>
+      )}
     </article>
   );
 }
@@ -418,12 +425,24 @@ export default function CaseStudy() {
               <div className="who-r">Runs seven houses</div>
               <p className="who-d">
                 Every one of Adrien&rsquo;s six lands on her, times seven houses, all at once
-                and out of order. The resident&rsquo;s side of this product is only as good as
-                the desk behind it, which is why she got a full journey rather than an
-                admin panel.
+                and out of order. Her day is a design problem in its own right — triage
+                across seven ledgers, not record-keeping — and the product gives it the
+                same weight it gives the home.
               </p>
               <div className="who-e">What she judges it by · what needs her, now</div>
             </div>
+          </div>
+          <div className="bet">
+            <div className="bet-k">The call this forced</div>
+            <p className="bet-t">
+              Work vanishes because the desk can delete it. Status goes dark because the
+              desk never has to show it. Money arrives unexplained because the ledger
+              speaks only to the desk. Notices interrupt because broadcast is the only
+              voice it has. Four resident complaints, one address — you cannot fix the
+              resident&rsquo;s week from the resident&rsquo;s screen. So the operator got the
+              second full journey, not an admin panel, and one system holds both sides
+              of the conversation.
+            </p>
           </div>
         </div>
       </section>
@@ -467,6 +486,7 @@ export default function CaseStudy() {
               left={<CardsDemo />} right={<RowsDemo />}
               what="The same three amenities. On the left each one is boxed, shadowed and floated apart; on the right they are lines of a single list, separated by a rule."
               why="Nothing is packaged. A card says here is a component; a rule says here is the next thing. The whole product carries exactly one shadow — the device frame — so the page reads as paper with ink on it rather than an interface stacked in layers."
+              cost="Boxes group things for free; a rule does not. With the cards gone, hierarchy has nowhere to live but in the spacing — which is why the gap scale became law, why every interval sits on a 4px grid, and why a test fails the build the moment the stylesheet and SPACING.md disagree. The look of restraint is paid for in governance."
             />
             <Decision
               n="02 · Image"
@@ -475,6 +495,7 @@ export default function CaseStudy() {
               left={<PhotoDemo />} right={<DrawingDemo />}
               what="Where a listing would put a photograph of the house, ALBA puts an architectural elevation, drawn in the same hand for all seven estates. It draws itself in on arrival."
               why="A photograph flatters, dates, and quietly promises a particular afternoon. A line drawing describes the house without selling it — and because it is drawn rather than shot, every estate can be given the same care, which is the actual promise the product is making."
+              cost="A photograph is free at any scale — someone already took it. Drawings have to be made, in one hand, for every estate that joins: at seven that is a discipline, at seventy it is a commissioning pipeline with a style guide. That bill arrives with growth, and the decision stands because a photograph could never give seventy houses one voice."
             />
             <Decision
               n="03 · Status"
@@ -492,6 +513,7 @@ export default function CaseStudy() {
               left={<LoudDemo />} right={<QuietDemo />}
               what="The same money, twice. On the left every state has a colour and they compete; on the right the page is ink and paper with a single clay mark on the one figure that wants a decision."
               why="An accent only means something if it is rare. Clay is reserved for what needs you — the unpaid charge, the unread notice, the request that has stalled. Spend it on four things at once and the resident has to work out which one is real."
+              cost="One accent means one level of urgency, so the product has to be right about what qualifies. That is not a palette rule; it is a triage policy — every screen has to decide what genuinely needs the resident, and the accent is only as honest as that judgement."
             />
             <Decision
               size="tight"

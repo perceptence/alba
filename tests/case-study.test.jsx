@@ -149,6 +149,27 @@ describe("the case-study page", () => {
     expect(cards[1].textContent).toMatch(/Rosa/);
   });
 
+  it("closes the research on the call it forced — the operator journey", () => {
+    const { container } = render(<CaseStudy />);
+    const bet = container.querySelector("#why .bet");
+    expect(bet, "the research section must end on its decision").toBeTruthy();
+    expect(bet.textContent).toMatch(/not an admin panel/i);
+    // exactly twice on the page: the bet, and decision 06 where it returns as a
+    // design consequence — the persona card no longer pre-fires the punchline
+    expect((container.textContent.match(/admin panel/gi) || []).length).toBe(2);
+  });
+
+  it("the decisions that had a real price name it — and only those", () => {
+    const { container } = render(<CaseStudy />);
+    const costs = [...container.querySelectorAll(".case-cost")];
+    // three carry a cost; the other three were free, and absence must mean free
+    expect(costs.length).toBe(3);
+    for (const c of costs) {
+      expect(c.textContent).toMatch(/What it cost/);
+      expect(c.textContent.length).toBeGreaterThan(120);
+    }
+  });
+
   it("does not hedge its own scope in the section ledes", () => {
     const { container } = render(<CaseStudy />);
     const ledes = [...container.querySelectorAll(".sec-lede")].map((n) => n.textContent).join(" ");

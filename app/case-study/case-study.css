@@ -214,20 +214,19 @@ body:has(.cs) { background: var(--paper); }
 .cs .who-r { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey); margin-top: var(--sp-2); }
 .cs .who-d { font-size: 15px; line-height: 1.6; color: var(--ink); margin-top: var(--gap-tight); }
 .cs .who-e {
-  display: inline-flex; align-items: center; gap: 7px; margin-top: var(--gap-group);
+  display: inline-flex; align-items: center; margin-top: var(--gap-group);
   font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
-}
-.cs .who-e::before { content: ""; width: 7px; height: 7px; border-radius: 50%; flex: none; }
-/* --sage and --clay both clear AA on --paper (5.27 and 4.93) */
-.cs .who-e.ev-yes { color: var(--sage); }
-.cs .who-e.ev-yes::before { background: var(--sage); }
-.cs .who-e.ev-no { color: var(--clay); }
-.cs .who-e.ev-no::before { background: var(--clay); }
-.cs .who-note {
-  margin-top: var(--gap-section); padding-left: var(--sp-4); border-left: 2px solid var(--line);
-  font-size: 15px; line-height: 1.6; color: var(--ink-2); max-width: 62ch;
+  color: var(--grey-2);
 }
 @media (max-width: 860px) { .cs .who { grid-template-columns: minmax(0, 1fr); } }
+
+/* the reading of the findings — where the research becomes a decision */
+.cs .bet { margin-top: var(--gap-section); padding-left: var(--sp-4); border-left: 2px solid var(--clay); max-width: 62ch; }
+.cs .bet-k { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--clay); margin-bottom: var(--sp-2); }
+.cs .bet-t {
+  font-family: var(--serif); font-weight: 400; font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.55; color: var(--ink);
+}
 
 /* ——— the system: specimens ——— */
 /* 9 cards in exactly 3 columns — explicit, so no half-empty last row leaves the
@@ -329,6 +328,10 @@ body:has(.cs) { background: var(--paper); }
 .cs .case-read { margin-top: var(--gap-group); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
 .cs .case-read h4 { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); margin-bottom: var(--sp-2); }
 .cs .case-read p { font-size: 15px; line-height: 1.55; color: var(--ink); }
+/* the third beat, only where a decision had a real price */
+.cs .case-cost { margin-top: var(--gap-tight); padding-top: var(--gap-tight); border-top: 1px dashed var(--cs-rule); }
+.cs .case-cost h4 { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--clay); margin-bottom: var(--sp-2); }
+.cs .case-cost p { font-size: 14px; line-height: 1.55; color: var(--ink-2); max-width: 76ch; }
 
 /* ——— decision visuals ——— */
 /* the boxed treatment ALBA refuses: radius, shadow, gaps between things */
