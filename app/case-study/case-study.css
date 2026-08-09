@@ -416,6 +416,8 @@ body:has(.cs) { background: var(--paper); }
 .cs .caveat { margin-top: var(--gap-section); padding-left: var(--sp-4); border-left: 2px solid var(--clay); }
 .cs .caveat h4 { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); margin-bottom: var(--sp-2); }
 .cs .caveat p { font-size: 15px; line-height: 1.6; color: var(--ink); }
+.cs .caveat a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.cs .caveat a:hover { color: var(--clay); }
 
 /* ——— roadmap ——— */
 .cs .road { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--cs-rule); border: 1px solid var(--cs-rule); }

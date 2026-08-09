@@ -144,12 +144,12 @@ const EXAMPLE_TEST = `it("no text colour drops below AA", () => {
 });`;
 
 const GUARDS = [
-  ["contrast.test.js", "Every text colour the product uses, against every surface it sits on. Reads the real token values out of alba.css."],
-  ["spacing.test.js", "The spacing scale stays on the 4px grid, and the tokens SPACING.md documents are the tokens that exist."],
-  ["screens.test.js", "Every deep link resolves, and the journey list on this page is exactly the registry the app navigates by — they cannot drift."],
-  ["stats.test.js", "Every number printed on this page, checked against the file it describes. Break one and the suite goes red."],
-  ["case-study.test.jsx", "The page renders, mounts the real app inline, and is not sitting on a splash screen."],
-  ["collisions.test.js", "No class name on this page collides with one in the product's stylesheet — the bug that put ten swatches in the corner of the page."],
+  ["contrast.test.js", "Recomputes every audited colour pair from the live token values in alba.css — written after three pairs cleared AA on paper and quietly failed on the tinted surfaces."],
+  ["spacing.test.js", "The spacing scale stays on the 4px grid, and the tokens SPACING.md documents are the tokens that exist — its first run caught the doc naming a token that was never declared."],
+  ["screens.test.js", "Every deep link resolves, and the journey list on this page is exactly the registry the app navigates by — the same object, so they cannot drift."],
+  ["stats.test.js", "Every number printed on this page, checked against the file it describes. It has already corrected this page's own test count more than once."],
+  ["case-study.test.jsx", "The page renders, mounts the real app inline — no iframe, no screenshot — and is never sitting on a splash screen on a cold load."],
+  ["collisions.test.js", "No class name on this page collides with one in the product's stylesheet — written after a shared name flung ten swatches into the corner of the page."],
 ];
 
 /* the five stops that trace the argument, in reading order */
@@ -525,10 +525,11 @@ export default function CaseStudy() {
           <div className="sec-eye">Tests</div>
           <h2>What the suite refuses to let slip</h2>
           <p className="sec-lede">
-            {STATS.testFiles} files. Not coverage for its own sake — each one pins a rule
-            that a real bug in this project broke. This is where design intent stops being
-            a preference and starts being enforced: contrast, spacing and the deep-link
-            registry all fail the build before they can quietly regress.
+            {STATS.testFiles} files, none of them ceremony. Four pin rules that actually
+            broke while this was built — the list below names each bug — and two hold the
+            page to its central claim: the app on it is real, and the journey list is the
+            registry it navigates by. This is where design intent stops being a preference
+            and starts being enforced.
           </p>
           <div className="sec-body duo">
             <pre className="code" tabIndex={0} aria-label="Example test: contrast">{EXAMPLE_TEST}</pre>
@@ -585,13 +586,18 @@ export default function CaseStudy() {
             <div className="caveat">
               <h4>What this number does not mean</h4>
               <p>
-                Zero automated violations is a floor, not a verdict. Automated rules catch
-                roughly a third of real barriers: they can see a missing label, but not a
-                confusing one. This has not been tested with a screen-reader user, and no
-                one who relies on assistive technology has used it yet. What is verified is
-                narrower and stated exactly: every colour pair passes AA, every control is
-                a real button reachable by keyboard with a visible focus ring, and the
-                product respects reduced-motion preferences.
+                Zero automated violations is a floor, not a verdict. When GOV.UK&rsquo;s
+                accessibility team{" "}
+                <a href="https://accessibility.blog.gov.uk/2017/02/24/what-we-found-when-we-tested-tools-on-the-worlds-least-accessible-webpage/" target="_blank" rel="noopener noreferrer">
+                  seeded a page with 143 known barriers
+                </a>
+                , the best of ten automated tools — counted generously — found 41% of
+                them. A machine can see a missing label, never a confusing one. So the
+                verified claim here is narrower and exact: every audited colour pair
+                clears AA, every control is a real button reachable by keyboard with a
+                visible focus ring, and motion honours the reduced-motion preference.
+                The next bar is a session with someone who navigates by screen reader —
+                an audit cannot stand in for them.
               </p>
             </div>
           </div>
