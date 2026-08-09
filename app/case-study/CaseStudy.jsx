@@ -610,20 +610,17 @@ export default function CaseStudy() {
               </tbody>
             </table>
             <div className="caveat">
-              <h4>What this number does not mean</h4>
+              <h4>What this does not prove</h4>
               <p>
-                Zero automated violations is a floor, not a verdict. When GOV.UK&rsquo;s
-                accessibility team{" "}
+                Zero violations is a floor, not a verdict: GOV.UK{" "}
                 <a href="https://accessibility.blog.gov.uk/2017/02/24/what-we-found-when-we-tested-tools-on-the-worlds-least-accessible-webpage/" target="_blank" rel="noopener noreferrer">
-                  seeded a page with 143 known barriers
-                </a>
-                , the best of ten automated tools — counted generously — found 41% of
-                them. A machine can see a missing label, never a confusing one. So the
-                verified claim here is narrower and exact: every audited colour pair
-                clears AA, every control is a real button reachable by keyboard with a
-                visible focus ring, and motion honours the reduced-motion preference.
-                The next bar is a session with someone who navigates by screen reader —
-                an audit cannot stand in for them.
+                  seeded a page with 143 barriers
+                </a>{" "}
+                and the best of ten tools found 41%. A machine sees a missing label,
+                never a confusing one. Past this table, what is proven is small — every
+                control is a real button, keyboard-reachable with a visible focus ring,
+                and motion honours reduced-motion. The next bar is a screen-reader
+                session.
               </p>
             </div>
           </div>

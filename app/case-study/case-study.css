@@ -68,12 +68,27 @@ body:has(.cs) { background: var(--paper); }
 /* the route is a convenience; below this the header keeps only identity + the app */
 @media (max-width: 1000px) { .cs .top-nav { display: none; } }
 
-/* one line naming what a set of evidence collectively argues */
-.cs .thesis {
+/* ——— the argument blocks ———
+   Three places on this page speak in the author's own voice behind a clay rule:
+   the call the research forced (#why), what the six decisions add up to
+   (#decisions), and what the audit does not prove (#a11y). One rule for all
+   three so they cannot drift — the a11y caveat had already slipped to 15px
+   sans while the other two sat at 20-21px serif. */
+.cs .thesis, .cs .bet, .cs .caveat {
   margin-top: var(--gap-section); padding-left: var(--sp-4);
   border-left: 2px solid var(--clay);
-  font-family: var(--serif); font-weight: 400; font-size: clamp(17px, 2vw, 21px);
-  line-height: 1.5; color: var(--ink); max-width: 58ch;
+}
+/* --clay on --paper is 4.93:1 — audited, clears AA at label size */
+.cs .bet-k, .cs .caveat h4 {
+  font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label);
+  text-transform: uppercase; color: var(--clay); margin-bottom: var(--sp-2);
+}
+/* the measure rides on the text, not the container — `ch` resolves against the
+   element's own font-size, so putting it on the wrapper gave .thesis (itself the
+   20px paragraph) a 776px line against .bet's 613px */
+.cs .thesis, .cs .bet-t, .cs .caveat p {
+  font-family: var(--serif); font-weight: 400; font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.55; color: var(--ink); max-width: 48ch;
 }
 
 /* tilted up — it leaves the page rather than continuing along it */
@@ -220,13 +235,7 @@ body:has(.cs) { background: var(--paper); }
 }
 @media (max-width: 860px) { .cs .who { grid-template-columns: minmax(0, 1fr); } }
 
-/* the reading of the findings — where the research becomes a decision */
-.cs .bet { margin-top: var(--gap-section); padding-left: var(--sp-4); border-left: 2px solid var(--clay); max-width: 62ch; }
-.cs .bet-k { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--clay); margin-bottom: var(--sp-2); }
-.cs .bet-t {
-  font-family: var(--serif); font-weight: 400; font-size: clamp(17px, 2vw, 20px);
-  line-height: 1.55; color: var(--ink);
-}
+/* .bet / .bet-k / .bet-t are styled with the argument blocks, above */
 
 /* ——— the system: specimens ——— */
 /* 9 cards in exactly 3 columns — explicit, so no half-empty last row leaves the
@@ -418,9 +427,7 @@ body:has(.cs) { background: var(--paper); }
 .cs .tbl-over { color: var(--grey); }
 .cs .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--sage); }
 .cs .a11y-dot { width: 18px; height: 18px; border-radius: 4px; border: 1px solid var(--line); display: inline-block; vertical-align: middle; margin-right: 8px; }
-.cs .caveat { margin-top: var(--gap-section); padding-left: var(--sp-4); border-left: 2px solid var(--clay); }
-.cs .caveat h4 { font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey-2); margin-bottom: var(--sp-2); }
-.cs .caveat p { font-size: 15px; line-height: 1.6; color: var(--ink); }
+/* .caveat / .caveat h4 / .caveat p are styled with the argument blocks, above */
 .cs .caveat a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .cs .caveat a:hover { color: var(--clay); }
 

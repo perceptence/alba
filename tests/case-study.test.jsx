@@ -170,6 +170,16 @@ describe("the case-study page", () => {
     }
   });
 
+  it("the accessibility caveat cites its evidence rather than estimating", () => {
+    const { container } = render(<CaseStudy />);
+    const caveat = container.querySelector("#a11y .caveat");
+    expect(caveat, "the audit must say what it does not prove").toBeTruthy();
+    // it once read "roughly a third" with nothing behind it — the claim about
+    // automated coverage has to carry a link or it does not belong on this page
+    expect(caveat.querySelector("a[href^='http']"), "the coverage claim is unsourced").toBeTruthy();
+    expect(caveat.textContent).not.toMatch(/roughly|approximately|about a third/i);
+  });
+
   it("does not hedge its own scope in the section ledes", () => {
     const { container } = render(<CaseStudy />);
     const ledes = [...container.querySelectorAll(".sec-lede")].map((n) => n.textContent).join(" ");
