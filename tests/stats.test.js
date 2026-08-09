@@ -80,6 +80,10 @@ describe("every number on the case-study page is real", () => {
     expect(STATS.testFiles).toBe(Object.keys(found).length + 1);
   });
 
+  it("audited contrast pairs — the printed count is the table's own length", () => {
+    expect(STATS.contrastPairs).toBe(CONTRAST.length);
+  });
+
   it("the contrast table covers every colour the product sets text in", () => {
     const fgs = new Set(CONTRAST.map((c) => c.fg));
     for (const c of ["--ink", "--ink-2", "--grey", "--grey-2", "--clay", "--sage", "--gold"]) {

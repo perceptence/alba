@@ -243,18 +243,18 @@ export default function CaseStudy() {
       <section className="sec" id="glance">
         <div className="wrap">
           <div className="sec-eye">At a glance</div>
-          <h2>What this took</h2>
+          <h2>What the system carries</h2>
           <p className="sec-lede">
             Two audiences, three form factors, one system holding all of it. These are
             counted out of the codebase rather than asserted — the suite fails if any of
             them drifts from what actually shipped.
           </p>
           <div className="sec-body figs">
-            <Figure v={STATS.journeys} k="Journeys designed" />
+            <Figure v={STATS.journeys} k="Journeys — the home, the arrival, the desk" />
             <Figure v={STATS.screens} k="Screens, each deep-linkable" />
-            <Figure v={STATS.surfaces} k="Sheets and flyouts beneath them" />
-            <Figure v={STATS.components} k="Reusable components" />
-            <Figure v={STATS.formFactors} k="Form factors, one system" />
+            <Figure v={STATS.formFactors} k="Form factors, one set of rules" />
+            <Figure v={STATS.tokens} k="Tokens the system is written in" />
+            <Figure v={STATS.contrastPairs} k="Colour pairs held above AA" />
             <Figure v={STATS.tests} k="Tests holding the rules" />
           </div>
         </div>

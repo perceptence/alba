@@ -86,7 +86,7 @@ describe("the case-study page", () => {
   it("prints the figures from the stats module, not literals", () => {
     const { container } = render(<CaseStudy />);
     const figs = [...container.querySelectorAll(".fig-v")].map((n) => n.textContent);
-    for (const v of [STATS.journeys, STATS.screens, STATS.surfaces, STATS.components, STATS.formFactors, STATS.tests]) {
+    for (const v of [STATS.journeys, STATS.screens, STATS.formFactors, STATS.tokens, STATS.contrastPairs, STATS.tests]) {
       expect(figs).toContain(String(v));
     }
   });
