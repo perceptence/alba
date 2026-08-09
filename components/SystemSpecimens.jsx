@@ -15,21 +15,36 @@ import { Elevation } from "@/components/Elevation";
 import { I } from "@/components/icons";
 import { STATS, CONTRAST } from "@/lib/stats";
 
-/* ——— colour maths, so contrast is computed and not claimed ——— */
-const toRgb = (v) => {
+/* ——— colour maths, so contrast is computed and not claimed ———
+   Mirrors tests/tokens.js: translucent surfaces are composited over what they
+   sit on before measuring, because a wash is not its opaque source colour. */
+const toRgba = (v) => {
   const s = String(v).trim();
   if (s.startsWith("#")) {
+    /* getComputedStyle normalises rgba() to 8-digit hex, so the alpha arrives
+       as #RRGGBBAA — drop it and every wash reads as fully opaque */
     const h = s.slice(1);
-    const f = h.length === 3 ? h.split("").map((c) => c + c).join("") : h;
-    return [0, 2, 4].map((i) => parseInt(f.slice(i, i + 2), 16));
+    const f = h.length <= 4 ? h.split("").map((c) => c + c).join("") : h;
+    const a = f.length === 8 ? parseInt(f.slice(6, 8), 16) / 255 : 1;
+    return [...[0, 2, 4].map((i) => parseInt(f.slice(i, i + 2), 16)), a];
   }
-  const m = s.match(/-?\d+\.?\d*/g);
-  return m ? m.slice(0, 3).map(Number) : [0, 0, 0];
+  /* `.1` must parse as 0.1 — a digit-first pattern reads it as 1 (opaque) */
+  const m = s.match(/-?(?:\d+\.?\d*|\.\d+)/g);
+  if (!m) return [0, 0, 0, 1];
+  const [r, g, b, a] = m.map(Number);
+  return [r, g, b, a === undefined ? 1 : a];
+};
+const flatten = (v, base) => {
+  const [r, g, b, a] = toRgba(v);
+  if (a >= 1) return [r, g, b];
+  const [br, bg, bb] = toRgba(base);
+  return [r, g, b].map((c, i) => c * a + [br, bg, bb][i] * (1 - a));
 };
 const lin = (c) => { const x = c / 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); };
 const lum = (rgb) => 0.2126 * lin(rgb[0]) + 0.7152 * lin(rgb[1]) + 0.0722 * lin(rgb[2]);
-export const ratio = (fg, bg) => {
-  const a = lum(toRgb(fg)), b = lum(toRgb(bg));
+export const ratio = (fg, bg, base = "#FFFFFF") => {
+  const surface = flatten(bg, base);
+  const a = lum(flatten(fg, surface)), b = lum(surface);
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 };
 
@@ -63,7 +78,13 @@ export function useTokens() {
       space: SPACE_SPECS.map(([n, use]) => [n, g(n), use]),
       ease: g("--e"),
       serif: g("--serif"), sans: g("--sans"),
-      contrast: CONTRAST.map((c) => ({ ...c, fgv: g(c.fg), bgv: g(c.bg), r: ratio(g(c.fg), g(c.bg)) })),
+      /* `over` names the surface a translucent bg is composited onto */
+      contrast: CONTRAST.map((c) => ({
+        ...c,
+        fgv: g(c.fg),
+        bgv: g(c.bg),
+        r: ratio(g(c.fg), g(c.bg), c.over ? g(c.over) : "#FFFFFF"),
+      })),
     });
   }, []);
   return tok;

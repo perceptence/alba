@@ -151,7 +151,7 @@ const EXAMPLE_TEST = `it("no text colour drops below AA", () => {
 });`;
 
 const GUARDS = [
-  ["contrast.test.js", "Recomputes every audited colour pair from the live token values in alba.css — written after three pairs cleared AA on paper and quietly failed on the tinted surfaces."],
+  ["contrast.test.js", "Recomputes every colour pair from the live token values in alba.css, then sweeps the whole stylesheet for any rule setting text on its own background — written after all three status pills shipped under AA on a wash of their own hue."],
   ["spacing.test.js", "The spacing scale stays on the 4px grid, and the tokens SPACING.md documents are the tokens that exist — its first run caught the doc naming a token that was never declared."],
   ["screens.test.js", "Every deep link resolves, and the journey list on this page is exactly the registry the app navigates by — the same object, so they cannot drift."],
   ["stats.test.js", "Every number printed on this page, checked against the file it describes. It has already corrected this page's own test count more than once."],
@@ -598,7 +598,11 @@ export default function CaseStudy() {
                 {tok?.contrast.map((c) => (
                   <tr key={c.fg + c.bg}>
                     <td><span className="a11y-dot" style={{ background: c.fgv }} />{c.role}</td>
-                    <td>{c.bg.replace("--", "")}</td>
+                    <td>
+                      {c.bg.replace("--", "")}
+                      {/* a wash is only a colour once it is over something */}
+                      {c.over && <span className="tbl-over"> on {c.over.replace("--", "")}</span>}
+                    </td>
                     <td className="num">{c.r.toFixed(2)}:1</td>
                     <td>{c.r >= 4.5 ? <span className="chip">Passes</span> : <span className="chip" style={{ color: "var(--clay)" }}>Large text only</span>}</td>
                   </tr>

@@ -14,7 +14,12 @@
   --paper:#F3EFE7; --paper-2:#ECE7DC; --paper-3:#E5DFD2;
   --ink:#1C1917; --ink-2:#3D372F; --grey:#6B6459; --grey-2:#736A5C; /* grey-2 darkened #9A9184→#736A5C for WCAG AA (2.71→4.6:1) */
   --line:rgba(28,25,23,.12); --line-2:rgba(28,25,23,.06);
-  --clay:#9E5236; --clay-soft:rgba(158,82,54,.1); --sage:#4F6A42; --gold:#856420; /* clay #A8583C→#9E5236 (4.4→4.9), gold #9A7526→#856420 (3.7→4.8) for AA */
+  --clay:#9E5236; --clay-soft:rgba(158,82,54,.1); --sage:#4F6A42; --sage-soft:rgba(79,106,66,.13); --gold:#856420; /* clay #A8583C→#9E5236 (4.4→4.9), gold #9A7526→#856420 (3.7→4.8) for AA */
+  /* Text sitting ON a tinted surface, never on paper. A hue on its own wash
+     loses ~0.6 of its ratio, so the plain tokens fail there: clay-on-clay was
+     4.33, sage-on-sage 4.45, grey-2 on paper-3 4.01. These are the deepened
+     variants the status pills use — measured in tests/contrast.test.js. */
+  --clay-deep:#8F4A30; --sage-deep:#48603C; --grey-deep:#5F594E;
   --serif:var(--font-fraunces),Georgia,serif; --sans:var(--font-inter),system-ui,sans-serif;
   --e:cubic-bezier(.4,0,.2,1);
 }
@@ -558,9 +563,10 @@ html,body{background:#CFC8BB}
 .gpass-c{flex:none}
 .gpass-c svg{width:16px;height:16px;stroke:var(--grey-2)}
 .gpill{font-size:10px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;padding:2px 8px;border-radius:100px;white-space:nowrap}
-.gpill-g{background:rgba(79,106,66,.13);color:var(--sage)}
-.gpill-a{background:var(--clay-soft);color:var(--clay)}
-.gpill-n{background:var(--paper-3);color:var(--grey-2)}
+/* each pill sits on a wash of its own hue — text uses the deepened variant */
+.gpill-g{background:var(--sage-soft);color:var(--sage-deep)}
+.gpill-a{background:var(--clay-soft);color:var(--clay-deep)}
+.gpill-n{background:var(--paper-3);color:var(--grey-deep)}
 .am .ga-invite{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:var(--gap-rail);padding:15px;border:1px solid var(--line);border-radius:1000px;font-size:12px;font-weight:600;letter-spacing:var(--tk-label);text-transform:uppercase;color:var(--ink)}
 .ga-invite svg{width:15px;height:15px;stroke:var(--ink)}
 .co-field-line{padding-bottom:10px}
@@ -755,7 +761,7 @@ html,body{background:#CFC8BB}
 .est-avs{display:flex;align-items:center;flex:none}
 .est-av{display:block;flex:none;border-radius:50%;border:2px solid var(--paper);margin-left:-8px;overflow:hidden}
 .est-av:first-child{margin-left:0}
-.est-av-n{width:24px;height:24px;display:grid;place-items:center;background:var(--paper-3);font-size:10px;font-weight:600;color:var(--grey)}
+.est-av-n{width:24px;height:24px;display:grid;place-items:center;background:var(--paper-3);font-size:10px;font-weight:600;color:var(--grey-deep)}
 /* the estate page — elevation art draws in above the name */
 .est-fig{margin-top:var(--gap-rail)}
 .est-phead{padding-top:0;margin-top:var(--gap-group)}
@@ -837,7 +843,7 @@ html,body{background:#CFC8BB}
 /* request detail header uses the request-type tile (like the queue row), a
    little larger to sit against the sheet title */
 .dd-tags{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.dd-urgent{font-size:10px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--clay);background:var(--clay-soft);padding:4px 8px;border-radius:100px}
+.dd-urgent{font-size:10px;font-weight:600;letter-spacing:var(--tk-micro);text-transform:uppercase;color:var(--clay-deep);background:var(--clay-soft);padding:4px 8px;border-radius:100px}
 .dd-status{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .dd-title{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.01em;line-height:1.2;margin-top:var(--gap-tight)}
 .dd-note{font-family:var(--serif);font-weight:400;font-style:italic;font-size:16px;line-height:1.55;color:var(--ink-2);margin-top:12px}

@@ -33,22 +33,45 @@ export const token = (name) => {
   return v;
 };
 
-/* ——— contrast maths (WCAG 2.1 relative luminance) ——— */
-const toRgb = (v) => {
+/* ——— contrast maths (WCAG 2.1 relative luminance) ———
+
+   Alpha matters here. Half the product's tinted surfaces are washes —
+   rgba(158,82,54,.1) and the like — and a wash read as its opaque source is a
+   completely different colour. So parse the alpha and composite over the
+   surface underneath before measuring anything. */
+export const toRgba = (v) => {
   const s = String(v).trim();
   if (s.startsWith("#")) {
+    /* #RGB, #RGBA, #RRGGBB and #RRGGBBAA all reach here — the 8-digit form is
+       what getComputedStyle returns for rgba(), so the alpha must survive */
     const h = s.slice(1);
-    const f = h.length === 3 ? h.split("").map((c) => c + c).join("") : h;
-    return [0, 2, 4].map((i) => parseInt(f.slice(i, i + 2), 16));
+    const f = h.length <= 4 ? h.split("").map((c) => c + c).join("") : h;
+    const a = f.length === 8 ? parseInt(f.slice(6, 8), 16) / 255 : 1;
+    return [...[0, 2, 4].map((i) => parseInt(f.slice(i, i + 2), 16)), a];
   }
-  const m = s.match(/-?\d+\.?\d*/g);
-  return m ? m.slice(0, 3).map(Number) : [0, 0, 0];
+  /* the alternation matters: CSS writes alpha as `.1`, and a pattern that
+     demands a digit before the dot silently reads that as 1 — fully opaque */
+  const m = s.match(/-?(?:\d+\.?\d*|\.\d+)/g);
+  if (!m) return [0, 0, 0, 1];
+  const [r, g, b, a] = m.map(Number);
+  return [r, g, b, a === undefined ? 1 : a];
 };
+
+/** Composite a possibly-translucent colour over an opaque base. */
+export const flatten = (v, base) => {
+  const [r, g, b, a] = toRgba(v);
+  if (a >= 1) return [r, g, b];
+  const [br, bg, bb] = toRgba(base);
+  return [r, g, b].map((c, i) => c * a + [br, bg, bb][i] * (1 - a));
+};
+
 const lin = (c) => { const x = c / 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); };
 const lum = (rgb) => 0.2126 * lin(rgb[0]) + 0.7152 * lin(rgb[1]) + 0.0722 * lin(rgb[2]);
 
-export const ratio = (fg, bg) => {
-  const a = lum(toRgb(fg)), b = lum(toRgb(bg));
+/** Contrast of fg on bg. `base` is what bg sits on when bg is translucent. */
+export const ratio = (fg, bg, base = "#FFFFFF") => {
+  const surface = flatten(bg, base);
+  const a = lum(flatten(fg, surface)), b = lum(surface);
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 };
 
