@@ -14,12 +14,7 @@
    the page component would make them a new type on every render, remounting
    their subtrees and detaching refs. */
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-
-/* Before paint on the client, a no-op on the server — the header's initial
-   state is load-bearing now (see the observer below) and must be measured
-   rather than assumed, without a visible correction afterwards. */
-const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+import { useEffect, useRef, useState } from "react";
 import App from "../alba-maison";
 import { Elevation } from "@/components/Elevation";
 import { I } from "@/components/icons";
@@ -183,18 +178,6 @@ export default function CaseStudy() {
   const heroRef = useRef(null);
 
   const tok = useTokens();
-
-  /* The header crosses two grounds and inverts between them: paper marks over
-     the clay hero, ink once it lands on the page. No single colour clears AA
-     on both (--ink is 3.09:1 on clay), so this state decides legibility, not
-     just polish — and `false` is the unsafe default. A deep link to #tests
-     opens with the bar already over paper, where a paper lockup would be
-     invisible. Measure it before the first paint rather than waiting for the
-     observer's first callback, which is also throttled in background tabs. */
-  useIsoLayoutEffect(() => {
-    const el = heroRef.current;
-    if (el) setStuck(el.getBoundingClientRect().bottom <= 72);
-  }, []);
 
   useEffect(() => {
     const el = heroRef.current;
