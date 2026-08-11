@@ -5,14 +5,10 @@
    — because "quiet" was being judged by eye instead of measured. */
 
 import { describe, it, expect } from "vitest";
-import fs from "node:fs";
-import path from "node:path";
 import { token, ratio, flatten, toRgba, TOKENS, css } from "./tokens.js";
 import { CONTRAST } from "@/lib/stats";
 
 const AA_NORMAL = 4.5;
-const csCss = fs.readFileSync(
-  path.join(process.cwd(), "app", "case-study", "case-study.css"), "utf8");
 
 describe("colour contrast (WCAG 2.1 AA)", () => {
   it("no text colour drops below AA on the surface it is used on", () => {
@@ -112,33 +108,5 @@ describe("colour contrast (WCAG 2.1 AA)", () => {
     }
     expect(checked, "the sweep matched no rules — the pattern has drifted").toBeGreaterThan(5);
     expect(failures, `sub-AA text:\n  ${failures.join("\n  ")}`).toEqual([]);
-  });
-
-  /* The case study's own canvas is --stage, the same taupe the phone and
-     tablet frames stand on — but every label colour on the page (grey-2
-     eyebrows, clay accents) was only ever audited against --paper. The page
-     stays safe only because .sec/.foot re-establish a paper surface under
-     the content; if that surface is ever removed, ~20 already-audited
-     labels would render on raw taupe and silently drop below AA. */
-  describe("the case study's stage canvas never carries text directly", () => {
-    it("the canvas is the product's own --stage token, not a re-typed hex", () => {
-      expect(csCss).toMatch(/body:has\(\.cs\)\s*\{\s*background:\s*var\(--stage\)/);
-      expect(csCss).toMatch(/\.cs\s*\{[^}]*background:\s*var\(--stage\)/);
-      expect(csCss, "a hand-typed colour would drift from app/alba.css's own value")
-        .not.toMatch(/background:\s*#[0-9a-f]{3,8}/i);
-    });
-
-    it("content sections re-establish paper, so their audited labels stay safe", () => {
-      expect(csCss).toMatch(/\.cs \.sec\s*\{[^}]*background:\s*var\(--paper\)/);
-      expect(csCss).toMatch(/\.cs \.foot\s*\{[^}]*background:\s*var\(--paper\)/);
-    });
-
-    it("the fixed nav's blurred backdrop clears AA once it composites over stage", () => {
-      const m = csCss.match(/\.cs \.top\.stuck\s*\{[^}]*background:\s*(rgba\([^)]+\))/);
-      expect(m, "the stuck-nav background rule was not found").toBeTruthy();
-      const overStage = ratio(token("--grey-2"), m[1], token("--stage"));
-      expect(overStage, `grey-2 on the stuck nav is ${overStage.toFixed(2)}:1 over --stage`)
-        .toBeGreaterThanOrEqual(AA_NORMAL);
-    });
   });
 });

@@ -9,17 +9,14 @@
    Selectors are scoped with .cs deliberately: a bare `.lede` (0,1,0) would
    lose to any element+class reset, so content classes carry the root. */
 
-/* the case study sits on the product's own stage — the same --stage the phone
-   and tablet frames stand on. The content column below (.sec / .foot) is the
-   paper, exactly like a screen inside a device frame; the stage shows only in
-   the gutters beyond it. Nothing here reads a raw hex twice. */
-body:has(.cs) { background: var(--stage); }
+/* the app paints the page taupe (its device stage); the case study is paper */
+body:has(.cs) { background: var(--paper); }
 
 .cs {
   /* the app's own content column (1000) plus 40 either side */
   --cs-w: 1080px;
   --cs-rule: var(--line);
-  background: var(--stage);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
   font-weight: 450;
@@ -40,10 +37,7 @@ body:has(.cs) { background: var(--stage); }
   background: rgba(243, 239, 231, 0); border-bottom: 1px solid rgba(28, 25, 23, 0);
   transition: background .4s var(--e), border-color .4s var(--e), backdrop-filter .4s var(--e);
 }
-/* stuck backdrop composites over --stage now, not --paper — .88 alpha put
-   grey-2 at 4.45:1 (fails AA); .96 keeps every label the sub-panels already
-   carry above 4.5 while still reading as glass under the blur */
-.cs .top.stuck { background: rgba(243, 239, 231, .96); border-bottom-color: var(--line); backdrop-filter: blur(8px); }
+.cs .top.stuck { background: rgba(243, 239, 231, .88); border-bottom-color: var(--line); backdrop-filter: blur(8px); }
 .cs .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 /* The mark centres against the whole lockup; ALBA and MAISON share a baseline
    inside it. Aligning all three on one axis puts the small caps out of true. */
@@ -147,15 +141,8 @@ body:has(.cs) { background: var(--stage); }
 .cs .hero-meta b { font-weight: 600; color: var(--ink); }
 
 /* ——— sections ——— */
-/* Every text colour below (grey-2 eyebrows, clay accents) was only ever
-   audited against --paper. Rather than re-derive AA-safe variants for taupe,
-   .sec carries the same paper the sub-panels already sit on — capped to the
-   content width, so the stage shows only in the gutters and nothing renders
-   directly on it. Continuous top-to-bottom with .foot, same as before. */
-.cs .sec {
-  max-width: var(--cs-w); margin-inline: auto; background: var(--paper);
-  padding: 96px 0; border-top: 1px solid var(--cs-rule); scroll-margin-top: 76px;
-}
+/* the header is fixed, so an anchor jump must stop clear of it */
+.cs .sec { padding: 96px 0; border-top: 1px solid var(--cs-rule); scroll-margin-top: 76px; }
 .cs .sec-eye { font-size: 12px; font-weight: 600; letter-spacing: var(--tk-page); text-transform: uppercase; color: var(--grey-2); }
 .cs .sec h2 {
   font-family: var(--serif); font-weight: 300; font-size: clamp(30px, 4vw, 44px);
@@ -456,7 +443,7 @@ body:has(.cs) { background: var(--stage); }
 .cs .lane li span { display: block; font-size: 14px; line-height: 1.55; color: var(--grey); margin-top: 6px; }
 
 /* ——— foot ——— */
-.cs .foot { max-width: var(--cs-w); margin-inline: auto; background: var(--paper); padding: 56px 0 72px; border-top: 1px solid var(--cs-rule); }
+.cs .foot { padding: 56px 0 72px; border-top: 1px solid var(--cs-rule); }
 .cs .foot p { font-size: 13px; line-height: 1.6; color: var(--grey); }
 /* underlined, not just recoloured — a link inside running text must be
    distinguishable without relying on colour (WCAG 1.4.1) */
