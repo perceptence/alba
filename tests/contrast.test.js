@@ -114,31 +114,46 @@ describe("colour contrast (WCAG 2.1 AA)", () => {
     expect(failures, `sub-AA text:\n  ${failures.join("\n  ")}`).toEqual([]);
   });
 
-  /* The case study's own canvas is --stage, the same taupe the phone and
-     tablet frames stand on — but every label colour on the page (grey-2
-     eyebrows, clay accents) was only ever audited against --paper. The page
-     stays safe only because .sec/.foot re-establish a paper surface under
-     the content; if that surface is ever removed, ~20 already-audited
-     labels would render on raw taupe and silently drop below AA. */
-  describe("the case study's stage canvas never carries text directly", () => {
-    it("the canvas is the product's own --stage token, not a re-typed hex", () => {
-      expect(csCss).toMatch(/body:has\(\.cs\)\s*\{\s*background:\s*var\(--stage\)/);
-      expect(csCss).toMatch(/\.cs\s*\{[^}]*background:\s*var\(--stage\)/);
+  /* The page is paper throughout except its hero, which inverts onto --clay.
+     Clay is dark enough that every grey and every ink in the system fails on
+     it — the light end of the scale has to carry the words instead. These pin
+     that inversion, including for the header, which crosses both grounds. */
+  describe("the case study's clay hero", () => {
+    it("the page itself stays paper, rails and all", () => {
+      expect(csCss).toMatch(/body:has\(\.cs\)\s*\{\s*background:\s*var\(--paper\)/);
+      expect(csCss).toMatch(/\.cs\s*\{[^}]*background:\s*var\(--paper\)/);
       expect(csCss, "a hand-typed colour would drift from app/alba.css's own value")
         .not.toMatch(/background:\s*#[0-9a-f]{3,8}/i);
     });
 
-    it("content sections re-establish paper, so their audited labels stay safe", () => {
-      expect(csCss).toMatch(/\.cs \.sec\s*\{[^}]*background:\s*var\(--paper\)/);
-      expect(csCss).toMatch(/\.cs \.foot\s*\{[^}]*background:\s*var\(--paper\)/);
+    it("carries its words in paper, because nothing darker survives on clay", () => {
+      const clay = token("--clay");
+      expect(ratio(token("--paper"), clay), "hero words").toBeGreaterThanOrEqual(AA_NORMAL);
+      expect(ratio(token("--paper-2"), clay), "hero labels").toBeGreaterThanOrEqual(AA_NORMAL);
+      // the whole dark end of the system is unusable here — this is why the
+      // hero cannot simply inherit the page's colours
+      for (const g of ["--grey", "--grey-2", "--grey-deep", "--ink", "--ink-2"]) {
+        expect(ratio(token(g), clay), `${g} must not be used on the clay hero`).toBeLessThan(AA_NORMAL);
+      }
+      expect(csCss).toMatch(/\.cs \.hero\s*\{[^}]*background:\s*var\(--clay\)/);
     });
 
-    it("the fixed nav's blurred backdrop clears AA once it composites over stage", () => {
+    it("turns the drawing's hard-coded ink stroke over to paper", () => {
+      // Elevation ships stroke="#2A241E", which is invisible on clay; a CSS
+      // stroke beats the SVG presentation attribute without touching the component
+      expect(csCss).toMatch(/\.cs \.hero-art svg[^{]*\{\s*stroke:\s*var\(--paper\)/);
+    });
+
+    it("the fixed header is legible on both grounds it crosses", () => {
+      // at rest it floats over the clay hero
+      expect(csCss).toMatch(/\.cs \.top \.top-nav-a\s*\{\s*color:\s*var\(--paper-2\)/);
+      expect(ratio(token("--paper-2"), token("--clay"))).toBeGreaterThanOrEqual(AA_NORMAL);
+      // stuck, it is the paper page lightly veiled
+      expect(csCss).toMatch(/\.cs \.top\.stuck \.top-nav-a\s*\{\s*color:\s*var\(--grey\)/);
       const m = csCss.match(/\.cs \.top\.stuck\s*\{[^}]*background:\s*(rgba\([^)]+\))/);
       expect(m, "the stuck-nav background rule was not found").toBeTruthy();
-      const overStage = ratio(token("--grey-2"), m[1], token("--stage"));
-      expect(overStage, `grey-2 on the stuck nav is ${overStage.toFixed(2)}:1 over --stage`)
-        .toBeGreaterThanOrEqual(AA_NORMAL);
+      const stuck = ratio(token("--grey"), m[1], token("--paper"));
+      expect(stuck, `grey on the stuck nav is ${stuck.toFixed(2)}:1`).toBeGreaterThanOrEqual(AA_NORMAL);
     });
   });
 });

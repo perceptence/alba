@@ -9,17 +9,15 @@
    Selectors are scoped with .cs deliberately: a bare `.lede` (0,1,0) would
    lose to any element+class reset, so content classes carry the root. */
 
-/* the case study sits on the product's own stage — the same --stage the phone
-   and tablet frames stand on. The content column below (.sec / .foot) is the
-   paper, exactly like a screen inside a device frame; the stage shows only in
-   the gutters beyond it. Nothing here reads a raw hex twice. */
-body:has(.cs) { background: var(--stage); }
+/* the app paints the page taupe (its device stage); the case study is paper,
+   rails and all — the one exception is the hero, which inverts onto clay */
+body:has(.cs) { background: var(--paper); }
 
 .cs {
   /* the app's own content column (1000) plus 40 either side */
   --cs-w: 1080px;
   --cs-rule: var(--line);
-  background: var(--stage);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
   font-weight: 450;
@@ -40,10 +38,25 @@ body:has(.cs) { background: var(--stage); }
   background: rgba(243, 239, 231, 0); border-bottom: 1px solid rgba(28, 25, 23, 0);
   transition: background .4s var(--e), border-color .4s var(--e), backdrop-filter .4s var(--e);
 }
-/* stuck backdrop composites over --stage now, not --paper — .88 alpha put
-   grey-2 at 4.45:1 (fails AA); .96 keeps every label the sub-panels already
-   carry above 4.5 while still reading as glass under the blur */
+/* The header crosses two grounds: it floats over the clay hero, then becomes a
+   bar over the paper page. Every grey in the system fails on clay (the best is
+   3.52:1), so at rest the lockup is paper and it turns back over on .stuck. */
+.cs .top .top-mark path, .cs .top .top-mark line { stroke: var(--paper); }
+.cs .top .top-mark .top-sun { fill: var(--paper); }
+.cs .top .top-word { color: var(--paper); }
+.cs .top .top-desc { color: var(--paper-2); }
+.cs .top .top-nav-a { color: var(--paper-2); }
+.cs .top .top-nav-a:hover { color: var(--paper); border-bottom-color: var(--paper); }
+.cs .top .top-link { color: var(--paper); border-bottom-color: var(--paper); }
+/* past the hero the bar is the page itself, lightly veiled */
 .cs .top.stuck { background: rgba(243, 239, 231, .96); border-bottom-color: var(--line); backdrop-filter: blur(8px); }
+.cs .top.stuck .top-mark path, .cs .top.stuck .top-mark line { stroke: var(--ink); }
+.cs .top.stuck .top-mark .top-sun { fill: var(--clay); }
+.cs .top.stuck .top-word { color: var(--ink); }
+.cs .top.stuck .top-desc { color: var(--grey-2); }
+.cs .top.stuck .top-nav-a { color: var(--grey); }
+.cs .top.stuck .top-nav-a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.cs .top.stuck .top-link { color: var(--ink); border-bottom-color: var(--ink); }
 .cs .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 /* The mark centres against the whole lockup; ALBA and MAISON share a baseline
    inside it. Aligning all three on one axis puts the small caps out of true. */
@@ -61,9 +74,10 @@ body:has(.cs) { background: var(--stage); }
   font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
   color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 2px;
 }
-/* Five stops tracing the argument, not a table of contents. --grey (5.1:1 on
-   paper) rather than --grey-2 (4.64) because the header sits over a blurred
-   .88-alpha surface where whatever scrolls beneath it lifts the background. */
+/* Five stops tracing the argument, not a table of contents. Colour is set by
+   the two .top blocks above: paper over the clay hero, --grey once the bar
+   lands on the page. --grey (5.1:1) rather than --grey-2 (4.64) because the
+   bar is a blurred alpha surface that whatever scrolls beneath it lifts. */
 .cs .top-nav { display: flex; align-items: center; gap: 22px; margin-left: auto; margin-right: 28px; }
 .cs .top-nav-a {
   font-size: 11px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase;
@@ -102,60 +116,62 @@ body:has(.cs) { background: var(--stage); }
 .cs .top-link:hover .top-arrow { transform: rotate(-45deg) translateX(2px); }
 @media (prefers-reduced-motion: reduce) { .cs .top-arrow { transition: none; } }
 
-/* ——— hero: full viewport, the product's own drawing at scale ——— */
+/* ——— hero: full viewport, the product's own drawing at scale ———
+   The hero is the one surface that inverts: clay ground, the drawing and the
+   words in paper. Everything below it is the paper page. */
 .cs .hero {
   height: 100svh; min-height: 560px; position: relative; overflow: hidden;
   display: flex; flex-direction: column; justify-content: flex-end;
-  background: var(--paper);
+  background: var(--clay);
 }
 .cs .hero-art { position: absolute; inset: 12% 0 auto 0; opacity: .55; pointer-events: none; }
 .cs .hero-art .elev { margin: 0; }
+/* Elevation draws with a hard-coded ink stroke (#2A241E) — invisible on clay.
+   A CSS `stroke` beats the SVG presentation attribute, so the drawing turns
+   over to paper here without the component knowing about this page. The
+   per-group opacities survive, so the line still has its depth. */
+.cs .hero-art svg, .cs .hero-art svg * { stroke: var(--paper); }
 /* At hero scale the drawing's heaviest line reads too dark behind the words.
    The svg's own stroke-width (.914) is the thickest — take it to 70%. Children
    carrying their own stroke-width attribute keep it, so only the heavy line
    thins. Hero only; the product's drawing is untouched. */
 .cs .hero-art svg { stroke-width: .64; }
-/* the drawing is behind the words, so the words get clean paper to sit on —
+/* the drawing is behind the words, so the words get clean clay to sit on —
    built from the token itself (color-mix), never a re-typed hex */
 .cs .hero-scrim {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: linear-gradient(to top,
-    var(--paper) 0%,
-    var(--paper) 34%,
-    color-mix(in srgb, var(--paper) 0%, transparent) 68%);
+    var(--clay) 0%,
+    var(--clay) 34%,
+    color-mix(in srgb, var(--clay) 0%, transparent) 68%);
 }
 .cs .hero-body { position: relative; z-index: 2; padding-bottom: 56px; }
+/* On clay the quiet end of the scale is paper-2 (4.59:1), not a grey — every
+   grey in the system fails against it. Paper carries the words themselves. */
 .cs .hero-kicker {
   display: flex; align-items: center; gap: 12px;
-  font-size: 12px; font-weight: 600; letter-spacing: var(--tk-page); text-transform: uppercase; color: var(--grey-2);
+  font-size: 12px; font-weight: 600; letter-spacing: var(--tk-page); text-transform: uppercase; color: var(--paper-2);
 }
-.cs .hero-kicker::after { content: ""; flex: 1; height: 1px; background: var(--cs-rule); }
+.cs .hero-kicker::after { content: ""; flex: 1; height: 1px; background: rgba(243, 239, 231, .3); }
 .cs .hero h1 {
   font-family: var(--serif); font-weight: 300; font-size: clamp(44px, 8.5vw, 104px);
-  letter-spacing: -.03em; line-height: .95; margin-top: 24px; color: var(--ink);
+  letter-spacing: -.03em; line-height: .95; margin-top: 24px; color: var(--paper);
 }
 .cs .hero h1 em { font-style: normal; font-weight: 600; }
 .cs .hero-stand {
   font-family: var(--serif); font-weight: 400; font-size: clamp(17px, 2.1vw, 21px);
-  line-height: 1.5; color: var(--ink-2); max-width: 46ch; margin-top: 28px;
+  line-height: 1.5; color: var(--paper); max-width: 46ch; margin-top: 28px;
 }
 .cs .hero-meta {
   display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 32px;
-  padding-top: 20px; border-top: 1px solid var(--cs-rule);
-  font-size: 12px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--grey);
+  padding-top: 20px; border-top: 1px solid rgba(243, 239, 231, .25);
+  font-size: 12px; font-weight: 600; letter-spacing: var(--tk-label); text-transform: uppercase; color: var(--paper-2);
 }
-.cs .hero-meta b { font-weight: 600; color: var(--ink); }
+.cs .hero-meta b { font-weight: 600; color: var(--paper); }
 
 /* ——— sections ——— */
-/* Every text colour below (grey-2 eyebrows, clay accents) was only ever
-   audited against --paper. Rather than re-derive AA-safe variants for taupe,
-   .sec carries the same paper the sub-panels already sit on — capped to the
-   content width, so the stage shows only in the gutters and nothing renders
-   directly on it. Continuous top-to-bottom with .foot, same as before. */
-.cs .sec {
-  max-width: var(--cs-w); margin-inline: auto; background: var(--paper);
-  padding: 96px 0; border-top: 1px solid var(--cs-rule); scroll-margin-top: 76px;
-}
+/* the header is fixed, so an anchor jump must stop clear of it */
+.cs .sec { padding: 96px 0; border-top: 1px solid var(--cs-rule); scroll-margin-top: 76px; }
 .cs .sec-eye { font-size: 12px; font-weight: 600; letter-spacing: var(--tk-page); text-transform: uppercase; color: var(--grey-2); }
 .cs .sec h2 {
   font-family: var(--serif); font-weight: 300; font-size: clamp(30px, 4vw, 44px);
@@ -456,7 +472,7 @@ body:has(.cs) { background: var(--stage); }
 .cs .lane li span { display: block; font-size: 14px; line-height: 1.55; color: var(--grey); margin-top: 6px; }
 
 /* ——— foot ——— */
-.cs .foot { max-width: var(--cs-w); margin-inline: auto; background: var(--paper); padding: 56px 0 72px; border-top: 1px solid var(--cs-rule); }
+.cs .foot { padding: 56px 0 72px; border-top: 1px solid var(--cs-rule); }
 .cs .foot p { font-size: 13px; line-height: 1.6; color: var(--grey); }
 /* underlined, not just recoloured — a link inside running text must be
    distinguishable without relying on colour (WCAG 1.4.1) */
