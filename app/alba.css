@@ -11,7 +11,7 @@
   --gap-rail:20px;  /* tab rail / count bar → adjacent content */
   --gap-group:20px; /* group labels, day blocks, field labels */
   --gap-tight:12px; /* label → its field/content */
-  --paper:#F3EFE7; --paper-2:#ECE7DC; --paper-3:#E5DFD2;
+  --paper:#F3EFE7; --paper-2:#ECE7DC; --paper-3:#E5DFD2; --stage:#CFC8BB;
   --ink:#1C1917; --ink-2:#3D372F; --grey:#6B6459; --grey-2:#736A5C; /* grey-2 darkened #9A9184→#736A5C for WCAG AA (2.71→4.6:1) */
   --line:rgba(28,25,23,.12); --line-2:rgba(28,25,23,.06);
   --clay:#9E5236; --clay-soft:rgba(158,82,54,.1); --sage:#4F6A42; --sage-soft:rgba(79,106,66,.13); --gold:#856420; /* clay #A8583C→#9E5236 (4.4→4.9), gold #9A7526→#856420 (3.7→4.8) for AA */
@@ -40,8 +40,8 @@
 
 /* ALBA is a fixed light theme — the page behind the device frame must be the
    taupe stage colour, never the globals.css dark-mode body background. */
-html,body{background:#CFC8BB}
-.stage{min-height:100vh;background:#CFC8BB;display:grid;place-items:center;padding:48px 24px}
+html,body{background:var(--stage)}
+.stage{min-height:100vh;background:var(--stage);display:grid;place-items:center;padding:48px 24px}
 /* iPhone 17 Pro screen — 402×874 logical pt, 6.3". Just the screen here: thin
    black bezel + rounded corners. The metallic body, rail and side buttons live
    on the .device wrapper (mobile mockup only), below. */
