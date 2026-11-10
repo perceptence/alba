@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ALBA
 
-## Getting Started
+**A resident app for residences where "submit a ticket" would be an insult.**
 
-First, run the development server:
+Rent in the $10k–$18k+/month range buys a named estate manager, not a helpdesk
+queue. ALBA is the resident side of that relationship — concierge requests to
+Rosa Ibáñez, who replies personally, with rent, notices and the residence
+itself presented at private-client register.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm test        # 57 tests across 6 files
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Route | What it is |
+|---|---|
+| `/` | The resident app — Home, Rent, Concierge, Notices, Residence, Account |
+| `/case-study` | How it was designed, including the direction that got killed |
+| `/design-system` | Tokens and components, rendered |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## What it is not
 
-## Learn More
+The brief spends as much room on exclusions as on features, because this is a
+category where the defaults are all wrong:
 
-To learn more about Next.js, take a look at the following resources:
+- **Not a property-management tool.** No Buildium / Yardi / AppFolio dashboard
+  energy, no Bootstrap or Material conventions. If it reads as an admin panel
+  it has failed — *"no one will install it."*
+- **Not ticket or helpdesk language.** A resident does not "report an issue."
+  They make a request, to a person, who answers.
+- **Not a coloured wireframe.** Flat and static counts as failure. It has to
+  feel alive.
+- **Not the vendor or field-tech side.** Deliberately dropped; the property
+  company handles that off-app.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How it is built
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**One owner per gap.** Vertical rhythm is a standard, not a habit — see
+[SPACING.md](SPACING.md). No gap is ever the accidental sum of one element's
+padding, another's margin and a line-height. Hand-tuned legacy totals were not
+preserved with compensating margins; everything re-bases onto the tokens.
 
-## Deploy on Vercel
+**Motion is a deliverable, not a garnish** — but the register is restrained,
+not cinematic. Staggered entrances, card-to-detail morphs, skeleton-to-reveal,
+spring toasts, all expressed quietly. Every one of them gates on
+`prefers-reduced-motion`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/           routes
+screens/       the resident surfaces
+components/    shared UI
+lib/           data model and helpers
+tests/         vitest
+docs/          the brief the UI is answerable to
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Docs
+
+- [docs/ALBA-brief.md](docs/ALBA-brief.md) — what ALBA is, what it is not, and
+  the locked visual direction
+- [SPACING.md](SPACING.md) — the vertical spacing standard
+- [AGENTS.md](AGENTS.md) — working standards
+
+## Stack
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · Vitest
